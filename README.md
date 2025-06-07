@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 Minzifa Travel Website
 
-## Getting Started
+Welcome to the official **Minzifa Travel** website — a modern, high-performance travel platform
+built with [Next.js](https://nextjs.org/). This project aims to deliver an engaging and responsive
+user experience, support international travelers, and maintain consistency and scalability through a
+clean and maintainable codebase.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- ⚡ **Server-side Rendering (SSR)** for better performance and SEO
+- 🧭 **Routing** with Next.js file-based structure
+- 🎨 **Design System** with consistent layout and styling
+- 📱 **Responsive** — optimized for mobile, tablet, and desktop
+- 🌐 **Multilingual Support** — internationalized user experience
+- 🧩 **Modular Architecture** — reusable components and clean separation of concerns
+
+---
+
+## 🛠 Tech Stack
+
+- **Framework**: Next.js (React + TypeScript)
+- **Styling**: Tailwind CSS / CSS Modules
+- **Internationalization**: Next-i18next (or other i18n lib)
+- **State Management**: React Context / Zustand (optional)
+- **Linting & Formatting**: ESLint + Prettier
+- **Version Control**: Git + Husky (hooks)
+- **Commit Convention**: Conventional Commits with commitlint
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+
+---
+
+## 🧺 Commit Message Convention (`commit-msg` hook)
+
+This project uses a `commit-msg` hook via **Husky** to enforce proper commit formatting with
+**commitlint**. All commit messages **must** follow the
+[Conventional Commits](https://www.conventionalcommits.org/) standard and include a JIRA task
+reference.
+
+### ✅ Required format:
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<type>(CODE-<task number>): <commit message>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+````
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `type` — type of change (must be from the list below)
+- `CODE-123` — JIRA task ID
+- `commit message` — short, imperative description starting with a lowercase letter
 
-## Learn More
+#### ✅ Valid Examples:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+feat(CODE-110): add login button
+fix(CODE-220): correct navbar layout issue
+chore(CODE-300): update husky and lint rules
+docs(CODE-145): add readme section for commit rules
+````
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### ❌ Invalid Examples:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+fix: broken feature              # ❌ missing JIRA ticket
+feat(CODE123): add button        # ❌ missing dash in ticket
+fix(CODE-001): Fix bug           # ❌ message starts with uppercase
+feature(CODE-999): new feature   # ❌ invalid type "feature"
+```
 
-## Deploy on Vercel
+### 📜 Allowed `type` values
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `feat` – new feature
+- `fix` – bug fix
+- `docs` – documentation only changes
+- `style` – code formatting, white-space, etc
+- `refactor` – code changes that neither fix a bug nor add a feature
+- `test` – adding missing tests or correcting existing tests
+- `chore` – changes to the build process or auxiliary tools
+- `perf` – performance improvements
+- `poc` – proof of concept
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### ⚠️ Rules:
+
+- Max 100 characters in the commit header
+- Always lowercase `type` and `scope`
+- No period `.` at the end of the message
