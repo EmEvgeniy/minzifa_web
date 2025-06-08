@@ -5,3 +5,5 @@ export * from './SliderBtns';
 export * from './SocialMedia';
 export * from './BestSellersPackagesCard';
 export * from './Loader';
+export * from './AdventureCard';
+export * from './ArticleCard';

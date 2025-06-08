@@ -52,13 +52,15 @@ export const Wrapper = () => {
               renderCard={(slide: DestinationBlockProps) => (
                 <Link href={`/${locale}/${slide.slug}`}>
                   <div className="w-full h-full max-w-[275px] min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold">
-                    <Image
-                      src={slide.icon.file || ''}
-                      alt={slide.icon.alt_text}
-                      width={150}
-                      height={150}
-                      className="w-[150px] h-[150px] object-cover"
-                    />
+                    {slide.icon.file && (
+                      <Image
+                        src={slide.icon.file ? slide.icon.file : ''}
+                        alt={slide.icon.alt_text ? slide.icon.alt_text : 'image'}
+                        width={150}
+                        height={150}
+                        className="w-[150px] h-[150px] object-cover"
+                      />
+                    )}
                     <h2 className="text-2xl font-normal">{slide?.name}</h2>
                     <div className="text-base font-normal">{slide?.tours_count} tours</div>
                   </div>

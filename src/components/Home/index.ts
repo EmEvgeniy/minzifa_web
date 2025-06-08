@@ -2,3 +2,8 @@ export * from './Hero';
 export * from './Info';
 export * from './BestSellers';
 export * from './Destinations';
+export * from './HowToBook';
+export * from './Adventure';
+export * from './CreateYourTrip';
+export * from './ContactUs';
+export * from './Articles';
