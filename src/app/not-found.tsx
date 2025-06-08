@@ -1,7 +1,6 @@
 import { nf, person } from '@/assets/img';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
-import './[locale]/globals.css';
 import Link from 'next/link';
 
 export default function NotFound() {
