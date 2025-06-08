@@ -1,4 +1,24 @@
 {
+  "navigation": {
+    "nav": [
+      {
+        "link": "/tours",
+        "title": "All tours"
+      },
+      {
+        "link": "/destination",
+        "title": "Destination",
+        "inner": "true"
+      },
+      {
+        "link": "/activities",
+        "title": "Activities"
+      },
+      { "link": "/about", "title": "About us" },
+      { "link": "/contact", "title": "Contact us" }
+    ]
+  },
+  "lang": ["en", "ru"],
   "Home": {
     "title": "NextJS i18n Tutorial",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"

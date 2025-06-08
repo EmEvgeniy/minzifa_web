@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600&display=swap');
 @import 'tailwindcss';
-@import '../../../public/styles/fonts.css';
+@import '../../assets/styles/fonts.css';
 
 :root {
   --background: #cfdfd9;
@@ -27,4 +27,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'SF Pro';
+}
+
+.container {
+  @apply max-w-[1200px] px-[15px]  w-full mx-auto;
 }
