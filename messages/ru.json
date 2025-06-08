@@ -22,5 +22,55 @@
   "Home": {
     "title": "NextJS i18n Tutorial222",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
+  },
+  "footer": {
+    "title": "Контакты",
+    "text": "Minzifa Travel — сайт с турами по Узбекистану и Средней Азии от экспертов в сфере туризма с 20-летним опытом.",
+    "text2": "Мы тепло и радостно приветствуем вас и приглашаем в удивительные, красочные и запоминающиеся путешествия по великому Шелковому пути.",
+    "text3": "Хотите обсудить подробно? Свяжитесь с нами.",
+    "Menu_title": "Меню",
+    "Menu": [
+      {
+        "title": "Туры",
+        "link": "tours"
+      },
+      {
+        "title": "О нас",
+        "link": "about-us"
+      },
+      {
+        "title": "Контакты",
+        "link": "contact"
+      }
+    ],
+    "Useful_information_title": "Полезная информация",
+    "Useful_information": [
+      {
+        "title": "Новости",
+        "link": "adventures"
+      },
+      {
+        "title": "Правила бронирования туров",
+        "link": "term-and-conditions-of-booking-tours"
+      },
+      {
+        "title": "Правила бронирования отелей",
+        "link": "hotel-booking-rules"
+      },
+      {
+        "title": "Эко-путешествие",
+        "link": "eco-travel"
+      },
+      {
+        "title": "Политика устойчивого развития компании",
+        "link": "company's-sustainable-development-policy"
+      }
+    ],
+    "form_title": "Подпишитесь на нашу рассылку,",
+    "form_text": "узнавать первыми о новых туристических событиях и получать самые выгодные условия",
+    "form_b_text": "Отправляя форму, вы принимаете условия передачи данных и соглашаетесь с политикой конфиденциальности.",
+    "form_pl": "Электронная почта",
+    "form_btn": "Подписаться",
+    "pl": { "link": "privacy_policy", "title": "Политика конфиденциальности" }
   }
 }

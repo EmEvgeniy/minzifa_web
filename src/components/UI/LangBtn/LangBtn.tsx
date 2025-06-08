@@ -31,12 +31,12 @@ export const LangBtn: FC<LangBtnType> = ({ langs }) => {
   }, []);
 
   return (
-    <div ref={ref} className="relative max-w-fit">
+    <div ref={ref} className="relative max-w-fit cursor-pointer">
       <button
         onClick={() => setActive((prev) => !prev)}
-        className="flex items-center gap-1 text-[16px] text-white focus:outline-none"
+        className="flex items-center gap-1 text-[16px] text-white focus:outline-none cursor-pointer"
       >
-        <span>{currentLocale.toUpperCase()}</span>
+        <span className="[@media(max-width:1024px)]:text-sm">{currentLocale.toUpperCase()}</span>
         <motion.span animate={{ rotate: active ? 180 : 0 }} transition={{ duration: 0.3 }}>
           <FaChevronDown size={14} />
         </motion.span>
@@ -58,7 +58,7 @@ export const LangBtn: FC<LangBtnType> = ({ langs }) => {
                   handleChange(el);
                   setActive(false);
                 }}
-                className={`text-center ${
+                className={`text-center cursor-pointer ${
                   el === currentLocale
                     ? 'text-white font-semibold [@media(max-width:950px)]:text-gray-900'
                     : 'text-gray-900'

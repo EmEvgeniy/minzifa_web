@@ -1,9 +1,22 @@
+import { logo } from '@/assets/icons';
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
+import { LangBtn } from '../UI';
+import { useTranslations } from 'next-intl';
 
 export const Mobile = () => {
+  const t = useTranslations();
+  const lang = t.raw('lang') as string[];
+
   return (
-    <div className="bg-[#16372D] fixed top-0 w-full hidden [@media(max-width:1024px)]:block">
-      Mobile
-    </div>
+    <header className="bg-[#16372D] fixed top-0 w-full hidden [@media(max-width:1024px)]:flex py-2 container  items-center justify-between">
+      <Link href={'/'}>
+        <Image src={logo} alt="logo" width={130} height={30} />
+      </Link>
+      <div>
+        <LangBtn langs={lang} />
+      </div>
+    </header>
   );
 };

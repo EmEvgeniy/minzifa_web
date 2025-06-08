@@ -22,5 +22,55 @@
   "Home": {
     "title": "NextJS i18n Tutorial",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
+  },
+  "footer": {
+    "title": "Contacts",
+    "text": "Minzifa Travel is a website with tours in Uzbekistan and Central Asia from travel experts with 20 years of experience.",
+    "text2": "We welcome you warmly and joyfully and invite you to amazing, colorful and memorable journeys along the great Silk Road.",
+    "text3": "Want to discuss in detail? contact us.",
+    "Menu_title": "Menu",
+    "Menu": [
+      {
+        "title": "Tours",
+        "link": "tours"
+      },
+      {
+        "title": "About us",
+        "link": "about-us"
+      },
+      {
+        "title": "Contacts",
+        "link": "contact"
+      }
+    ],
+    "Useful_information_title": "Useful information",
+    "Useful_information": [
+      {
+        "title": "News",
+        "link": "adventures"
+      },
+      {
+        "title": "Tour Booking Rules",
+        "link": "term-and-conditions-of-booking-tours"
+      },
+      {
+        "title": "Hotel Booking Rules",
+        "link": "hotel-booking-rules"
+      },
+      {
+        "title": "Eco Travel",
+        "link": "eco-travel"
+      },
+      {
+        "title": "Company's sustainable development policy",
+        "link": "company's-sustainable-development-policy"
+      }
+    ],
+    "form_title": "Sign up for our newsletter,",
+    "form_text": "to be the first to know about new travel events and get the most favorable conditions",
+    "form_b_text": "By submitting the form you accept the terms of data transfer and agree to the privacy policy.",
+    "form_pl": "Email",
+    "form_btn": "subscribe",
+    "pl": { "link": "privacy_policy", "title": "Privacy Policy" }
   }
 }

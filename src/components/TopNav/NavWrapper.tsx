@@ -27,7 +27,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
       <AnimatePresence>
-        {index !== null && (
+        {index !== null && data?.length && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

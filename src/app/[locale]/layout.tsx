@@ -4,6 +4,7 @@ import { useLocale } from 'next-intl';
 import { TopNav } from '@/components';
 import { NextIntlClientProvider } from 'next-intl';
 import { QueryProvider } from '@/providers/QueryProvider';
+import { Footer } from '@/components/Footer';
 
 const fonts = localFont({
   src: [
@@ -42,8 +43,11 @@ export default function RootLayout({
       <body className={fonts.className}>
         <NextIntlClientProvider>
           <QueryProvider>
-            <TopNav />
-            <main>{children}</main>
+            <div className="flex flex-col h-full min-h-[100vh]">
+              <TopNav />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
           </QueryProvider>
         </NextIntlClientProvider>
       </body>
