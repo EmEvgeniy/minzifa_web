@@ -1,4 +1,49 @@
 {
+  "home": {
+    "title": "Silk Road Private Tours in Central Asia",
+    "subTitle": "We organize at any time of the year. Certified guides, own hotels, comfort and premium class transportation, proven routes, on call 24/7",
+    "info_title": "Minzifa Travel: № 1 International Travel Agent of Central Asia",
+    "info_text": "At Minzifa Travel, we believe that travel can be a transformative experience that not only broadens our horizons but also creates meaningful connections between people from different cultures. We are committed to sustainable tourism practices that benefit both the local communities and the environment. Our expertise in Central Asia allows us to curate unique itineraries that showcase the region's rich history and cultural diversity while also supporting local businesses and promoting responsible tourism. We strive to challenge perceptions and dispel stereotypes by offering immersive experiences that foster empathy and understanding. Join us on a journey of discovery and connection with Minzifa Travel.",
+    "best_title": "Best Sellers Packages",
+    "invite_title": "Get 5% off for a friend",
+    "invite_text": "Earn Rewards for Referring Friends and Recommendations",
+    "destination_title": "Popular Destination",
+    "book_title": "How to book a spot in a group?",
+    "book_text": "Become part of the big Minzifa Travel family in just 5 easy steps:",
+    "book_block": [
+      {
+        "title": "You leave a request",
+        "text": "Fill out the contact form on the destination page, selecting your preferred travel dates in advance."
+      },
+      {
+        "title": "Truthfulness",
+        "text": "At Minzifa Travel, we place great importance on the reliability of information. We ensure that all our offers, descriptions and advice are based on real experience and accurate data so that our clients can make informed decisions."
+      },
+      {
+        "title": "Respect",
+        "text": "At the heart of our work is a deep respect for the cultures and traditions of all countries. We strive to ensure that our travelers not only learn new things, but also make a positive contribution to the places they visit."
+      },
+      {
+        "title": "Responsibility",
+        "text": "Minzifa Travel takes responsible tourism seriously. We work to ensure that our tours have minimal impact on the environment and contribute to the sustainable development of local communities."
+      },
+      {
+        "title": "Quality",
+        "text": "We are committed to providing high quality services, carefully crafting every detail of the trip to achieve complete satisfaction of our clients."
+      }
+    ],
+    "adventure_title": "Adventure time",
+    "contactUs_title": "Contact Us",
+    "contactUs_text": " Contact us - we will help you find a tour, clarify the details and book everything for you.",
+    "contactUs_icon": "Shop with us online",
+    "contactUs_icon2": "Get in touch on E-mail",
+    "contactUs_icon3": "Get in touch on WhatsApp",
+    "contactUs_icon4": "Call us",
+    "rating_title": "Ratings & Reviews",
+    "rating_sub": "reviews",
+    "articles_title": "Latest Articles"
+  },
+  "View_itinerary": "View itinerary",
   "navigation": {
     "nav": [
       {
@@ -17,6 +62,11 @@
       { "link": "/about", "title": "About us" },
       { "link": "/contact", "title": "Contact us" }
     ]
+  },
+  "best_sellers_btns": "See all trips",
+  "tourCard": {
+    "days": "days",
+    "from": "from"
   },
   "lang": ["en", "ru"],
   "Home": {

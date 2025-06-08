@@ -1,11 +1,12 @@
-import { useTranslations } from 'next-intl';
+import { BestSellers, Destinations, Hero, Info } from '@/components';
 
 export default function Home() {
-  const t = useTranslations('Home');
-
   return (
-    <div className="w-full ">
-      <p className="text-5xl">{t('title')}g</p>
+    <div className="w-full  min-h-[200vh]">
+      <Hero />
+      <Info />
+      <BestSellers />
+      <Destinations />
     </div>
   );
 }

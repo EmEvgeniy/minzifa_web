@@ -1,7 +1,6 @@
 import React from 'react';
-import { Logo } from '../UI';
+import { Logo, SocialMedia } from '../UI';
 import { useTranslations } from 'next-intl';
-import { SocialMedia } from '../UI/SocialMedia';
 
 export const FooterLeft = () => {
   const t = useTranslations('footer');

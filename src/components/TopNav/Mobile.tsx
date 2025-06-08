@@ -10,7 +10,7 @@ export const Mobile = () => {
   const lang = t.raw('lang') as string[];
 
   return (
-    <header className="bg-[#16372D] fixed top-0 w-full hidden [@media(max-width:1024px)]:flex py-2 container  items-center justify-between">
+    <header className="bg-[#16372D] fixed top-0 w-full hidden [@media(max-width:1024px)]:flex py-2 container  items-center justify-between z-50">
       <Link href={'/'}>
         <Image src={logo} alt="logo" width={130} height={30} />
       </Link>

@@ -1,2 +1,7 @@
 export * from './Logo';
 export * from './LangBtn';
+export * from './Slider';
+export * from './SliderBtns';
+export * from './SocialMedia';
+export * from './BestSellersPackagesCard';
+export * from './Loader';
