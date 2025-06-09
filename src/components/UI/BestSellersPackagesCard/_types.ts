@@ -2,6 +2,10 @@ export type BestSellersPackagesCardType = {
   id: number;
   name: string;
   days: number;
+  destination: {
+    name: string;
+    slug: string;
+  };
   destinations: string;
   full_slug: string;
   photo: {

@@ -11,7 +11,7 @@ type Props = {
 export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
   const t = useTranslations();
   const locale = useLocale();
-
+  
   return (
     <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white shadow-2xs [@media(max-width:450px)]:min-h-[350px] w-full h-full">
       <div className="relative min-h-[372px] h-full w-full [@media(max-width:450px)]:min-h-[270px]">
@@ -42,7 +42,7 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
         </div>
         <Link
           className="bg-[#27A430] px-[20px] py-[18px] text-white rounded-[16px] text-base"
-          href={`/${locale}/${slide?.destinations}/${slide?.slug}`}
+          href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}
         >
           {t('View_itinerary')}
         </Link>
