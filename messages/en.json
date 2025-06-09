@@ -162,6 +162,7 @@
   },
   "breadcrumbs": {
     "home": "Home",
-    "all_tours": "All tours"
+    "all_tours": "All tours",
+    "destination": "Destination"
   }
 }

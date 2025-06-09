@@ -162,6 +162,7 @@
   },
   "breadcrumbs": {
     "home": "Главная",
-    "all_tours": "Все туры"
+    "all_tours": "Все туры",
+    "destination": "Направления"
   }
 }
