@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600&display=swap');
 @import 'tailwindcss';
-@import '../assets/styles/fonts.css';
+@import '../../assets/styles/fonts.css';
 
 :root {
   --background: #cfdfd9;

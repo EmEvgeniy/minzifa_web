@@ -126,5 +126,42 @@
     "form_pl": "Email",
     "form_btn": "subscribe",
     "pl": { "link": "privacy_policy", "title": "Privacy Policy" }
+  },
+  "all_tours": {
+    "title": "All tours",
+    "f_top_btn": "Reset all filters",
+    "pl": "Price",
+    "pl2": "Duration",
+    "pl3": "Seasons:",
+    "pl4": "Hotel",
+    "pl5": "Type Tour",
+    "from": "From",
+    "before": "Before",
+    "seasons": [
+      { "title": "Winter", "value": "Winter" },
+      { "title": "Spring", "value": "Spring" },
+      { "title": "Summer", "value": "Summer" },
+      { "title": "Autumn", "value": "Autumn" }
+    ],
+    "hotels": [
+      { "title": "Boutique hotels", "value": "Boutique hotels" },
+      { "title": "3 stars", "value": "3 stars" },
+      { "title": "4 stars", "value": "4 stars" },
+      { "title": "5 stars", "value": "5 stars" }
+    ],
+    "sort": [
+      { "title": "Newest", "value": "newest" },
+      { "title": "Oldest", "value": "oldest" },
+      { "title": "Min price", "value": "min_price" },
+      { "title": "Max price", "value": "max_price" }
+    ],
+    "showing": "Showing",
+    "out": "out of",
+    "days": "Days",
+    "location": "Location"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "all_tours": "All tours"
   }
 }

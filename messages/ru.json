@@ -126,5 +126,42 @@
     "form_pl": "Электронная почта",
     "form_btn": "Подписаться",
     "pl": { "link": "privacy_policy", "title": "Политика конфиденциальности" }
+  },
+  "all_tours": {
+    "title": "Все туры",
+    "f_top_btn": "Сбросить все фильтры",
+    "pl": "Цена",
+    "pl2": "Длительность",
+    "pl3": "Времена года:",
+    "pl4": "Отель",
+    "pl5": "Тип Тура",
+    "from": "От",
+    "before": "До",
+    "seasons": [
+      { "title": "Зима", "value": "Winter" },
+      { "title": "Весна", "value": "Spring" },
+      { "title": "Лето", "value": "Summer" },
+      { "title": "Осень", "value": "Autumn" }
+    ],
+    "hotels": [
+      { "title": "Boutique hotels", "value": "Boutique hotels" },
+      { "title": "3 stars", "value": "3 stars" },
+      { "title": "4 stars", "value": "4 stars" },
+      { "title": "5 stars", "value": "5 stars" }
+    ],
+    "sort": [
+      { "title": "Новейший", "value": "newest" },
+      { "title": "Самый старый", "value": "oldest" },
+      { "title": "Мин цена", "value": "min_price" },
+      { "title": "Макс цена", "value": "max_price" }
+    ],
+    "showing": "Показано",
+    "out": "из",
+    "days": "Дней",
+    "location": "Локация"
+  },
+  "breadcrumbs": {
+    "home": "Главная",
+    "all_tours": "Все туры"
   }
 }

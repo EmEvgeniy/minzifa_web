@@ -8,5 +8,6 @@ import cyt from './cyt.jpg';
 import contact from './contact.png';
 import nf from './nf.svg';
 import person from './person.svg';
+import allTours from './allTours.webp';
 
-export { hero, info, lr, destinations, lr2, ticket, cyt, contact, nf, person };
+export { hero, info, lr, destinations, lr2, ticket, cyt, contact, nf, person, allTours };
