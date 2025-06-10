@@ -13,7 +13,7 @@ export const Articles = () => {
         <h5 className="text-[42px]">{t('articles_title')}</h5>
         <Wrapper />
         <Link
-          href={`/${locale}/articles`}
+          href={`/${locale}/adventures`}
           className="bg-[#16372D] py-[18px] px-[40px] mx-auto text-white rounded-[16px] hover:bg-[#194D3D] transition-all"
         >
           {t('article_btn')}

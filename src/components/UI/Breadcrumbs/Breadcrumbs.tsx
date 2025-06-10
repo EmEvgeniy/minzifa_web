@@ -3,10 +3,14 @@ import React, { FC } from 'react';
 import { BreadcrumbsType } from './_types';
 import { useTranslations } from 'next-intl';
 
-export const Breadcrumbs: FC<BreadcrumbsType> = ({ link, link2 }) => {
+export const Breadcrumbs: FC<BreadcrumbsType> = ({ link, link2, color }) => {
   const t = useTranslations('breadcrumbs');
   return (
-    <div className="flex items-center justify-start gap-2 text-[18px] text-[#16372D] font-semibold">
+    <div
+      className={`flex items-center justify-start gap-2 text-[18px] ${
+        color ? 'text-white' : 'text-[#16372D]'
+      } font-semibold`}
+    >
       <Link href={'/'}>{t('home')}</Link>
       <span>/</span>
       {link.title && !link2 ? <p>{link.title}</p> : <Link href={link.link}>{link.title}</Link>}

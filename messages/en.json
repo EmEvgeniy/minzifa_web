@@ -60,8 +60,8 @@
         "inner": "true"
       },
       {
-        "link": "/activities",
-        "title": "Activities"
+        "link": "/eco-travel",
+        "title": "Eco Travel"
       },
       { "link": "/about", "title": "About us" },
       { "link": "/contact", "title": "Contact us" }
@@ -163,6 +163,288 @@
   "breadcrumbs": {
     "home": "Home",
     "all_tours": "All tours",
-    "destination": "Destination"
+    "destination": "Destination",
+    "all_news": "All news"
+  },
+  "about": {
+    "title": "About Us",
+    "text": "We organize at any time of the year. Certified guides, own hotels, comfort and premium className transportation, proven routes, on call 24/7",
+    "title_2": " Everything we do is rooted in understanding the needs of our travelers.",
+    "text_2": " At Minzifa Travel, we believe travel transforms lives, connecting cultures and broadening perspectives. Committed to sustainable tourism, we support local communities and the environment.",
+    "text_3": "With expertise in Central Asia, we craft unique itineraries that celebrate the region's rich history and diversity while promoting responsible travel. Experience authentic connections and deeper understanding with Minzifa Travel.",
+    "block": "13 years",
+    "block_t": "years in tourism",
+    "block1": "425+",
+    "block_t1": "Reviews on Trip Advisor, 7 Traveller's Choice awards",
+    "block2": "1.100+",
+    "block_t2": "Organized tours",
+    "block3": "12.000+",
+    "block_t3": "Customers who have entrusted us with their vacations",
+    "vision_title": "Our vision",
+    "vision_text": "To become the leading Number #1 International Travel Company in Central Asia for the next 5 years (until 2029), which is rightly recognized for its innovative approach to travel, for its attention to detail and for its ability to provide high quality services, making every trip truly special.",
+    "vision_text2": " We aspire to be more than just a travel company - to be global ambassadors, opening doors to the undiscovered corners of the world and the hearts of people.",
+    "vision_btn": "View tours",
+    "mission_title": "Mission of Minzifa Travel",
+    "mission_text": "Minzifa Travel's mission is to create unforgettable journeys, that reveal the beauty and uniqueness of Central Asia to people from all over the world.",
+    "mission_text2": "We strive to provide our clients not just travel services, but deep and enriching experiences that broaden horizons, foster cross-cultural understanding and inspire new discoveries.",
+    "mission_text3": " ⇨ Through a personalized approach, attention to detail and a deep respect for the region's cultural heritage, we strive to make every trip unique. Our goal is not only to showcase famous landmarks, but also to uncover hidden gems and share the stories and traditions that make Central Asia truly unique.",
+    "mission_text4": "We believe that traveling changes people for the better, promotes peace and friendship between nations. In this spirit, Minzifa Travel is dedicated to creating journeys that enrich the lives of our clients, bring positive change to the communities we work with, and help preserve natural and cultural heritage for future generations.",
+    "values_title": "Our values",
+    "values_text": "Every traveler is unique to us. We value individual preferences and",
+    "values_text2": "strive to create a trip that meets each client's personal expectations.",
+    "request_title": "You leave a request",
+    "request_text": " Fill out the contact form on the destination page, selecting your preferred travel dates in advance.",
+    "statistic": [
+      { "title": "13 years", "text": "years in tourism" },
+      { "title": "425+", "text": "Reviews on Trip Advisor, 7 Traveller's Choice awards" },
+      { "title": "1,100+", "text": "Organized tours" },
+      { "title": "12,000+", "text": "Customers who have entrusted us with their vacations" }
+    ],
+    "values": [
+      {
+        "title": "Honesty",
+        "text": "We are committed to openness and honesty in all our interactions. Our policy of transparency ensures our clients' trust and confidence in every aspect of their journey.",
+        "img": "false",
+        "circle": "false",
+        "circle2": "false"
+      },
+      {
+        "title": "Truthfulness",
+        "text": "At Minzifa Travel, we place great importance on the reliability of information. We ensure that all our offers, descriptions and advice are based on real experience and accurate data so that our clients can make informed decisions.",
+        "img": "false",
+        "circle": "false",
+        "circle2": "false"
+      },
+      {
+        "title": "",
+        "text": "",
+        "img": "true",
+        "circle": "true",
+        "circle2": "false"
+      },
+      {
+        "title": "Respect",
+        "text": "At the heart of our work is a deep respect for the cultures and traditions of all countries. We strive to ensure that our travelers not only learn new things, but also make a positive contribution to the places they visit.",
+        "img": "false",
+        "circle": "false",
+        "circle2": "false"
+      },
+      {
+        "title": "",
+        "text": "",
+        "img": "true",
+        "circle": "false",
+        "circle2": "true"
+      },
+      {
+        "title": "Responsibility",
+        "text": "Minzifa Travel takes responsible tourism seriously. We work to ensure that our tours have minimal impact on the environment and contribute to the sustainable development of local communities.",
+        "img": "false",
+        "circle": "false",
+        "circle2": "false"
+      },
+      {
+        "title": "Quality",
+        "text": "We are committed to providing high quality services, carefully crafting every detail of the trip to achieve complete satisfaction of our clients.",
+        "img": "false",
+        "circle": "false",
+        "circle2": "false"
+      },
+      {
+        "title": "Innovations",
+        "text": "We are constantly looking for new ideas and approaches to create exclusive journeys that offer out-of-the-box solutions and unique experiences.",
+        "img": "false",
+        "circle": "false",
+        "circle2": "false"
+      }
+    ]
+  },
+  "articles": {
+    "main_title": "Central Asia Travel Blog",
+    "main_sub_title": "Read useful articles about traveling in Central Asia: itinerary ideas, travel tips, sights, culture and traditions of the countries of the region.",
+    "title": "All articles",
+    "input": "Search articles",
+    "all": "All articles",
+    "reset_f": "Reset all filters",
+    "filter_title": "Filtered by",
+    "filter": {
+      "popular_asc": "Popular Ascending",
+      "popular_desc": "Popular Descending",
+      "newest": "Newest",
+      "oldest": "Oldest"
+    },
+    "sort": [
+      { "title": "Newest", "value": "newest" },
+      { "title": "Oldest", "value": "oldest" },
+      { "title": "Min price", "value": "min_price" },
+      { "title": "Max price", "value": "max_price" }
+    ],
+    "showing": "Showing {{currentPage}} of {{totalPages}} articles",
+    "no_articles": "No articles found",
+    "show_more": "Show more",
+    "read_more": "Read more",
+    "btns": [
+      { "title": "All", "value": "all" },
+      { "title": "Category1", "value": "category1" },
+      { "title": "Category2", "value": "category2" }
+    ]
+  },
+  "consultation": {
+    "title": "FREE Consultation",
+    "pl": "Name",
+    "pl2": "Your e-mail",
+    "pl3": "type your message...",
+    "btn": "Send",
+    "pl4": "By submitting a request, you agree to the"
+  },
+  "privacy_policy": "Privacy Policy",
+  "contact_us": {
+    "title": "Contact Us",
+    "find": "Find us on socials",
+    "form_title": "Get in touch",
+    "pl": "Your Name",
+    "pl2": "Your Email",
+    "pl3": "Your phone number",
+    "pl4": "Leave a message",
+    "btn": "Send request",
+    "pl5": "By submitting a request, you agree to the",
+    "pr": "Privacy Policy"
+  },
+  "eco": {
+    "title": "RESPONSIBLE",
+    "title2": "CONSCIOUS TRAVEL",
+    "team": {
+      "title": "We are Minzifa Travel team",
+      "text": "We think it’s all about the experience. And we want you to see things you’ve never seen before. We want you to experience feelings you’ve never had before. And it could be something world-famous; it could be something only a few locals know about; or it could be something known only to a handful of locals We create experiences that will surprise and delight you at every turn.",
+      "text2": "We believe that time is precious. From the moment you start planning to the moment you return, we’re there to help you every second of your vacation. Our travel experts have the knowledge that comes through archaic literature and fruitless internet searches. This means you can spend your time enjoying the experiences we create for you instead of searching for them yourself.",
+      "text3": "We believe in freedom. No matter what kind of vacation you’re on, it’s your space and your time to feel free That’s our job, we make your travel dreams come true",
+      "text4": "And we believe that every person is unique. No two people are alike, so no two vacations are alike. We are very happy about it – you are interesting to us, so we create for you a unique, one-of-a-kind vacation that won’t be like any other.",
+      "text5": "We sincerely believe that responsible travel is the only way to the future of travel. Together we can make this world a better place.",
+      "text6": "For us, it’s not just a job, but a job we love, which gives us great pleasure. We are very happy to live in this country with such a rich culture and amazing nature. We think that travel can have a positive impact on both the destination and the traveler."
+    },
+    "mission": {
+      "title": "OUR MISSION.",
+      "text": "The mission of Minzifa Travel is to create unforgettable and responsible journeys that reveal the beauty of Central Asia. We offer enriching experiences that foster cultural understanding and support local communities.",
+      "text2": "We are committed to sustainable tourism by preserving the region’s natural and cultural heritage, minimizing our environmental footprint, and educating our clients on responsible behavior. Minzifa Travel believes that responsible travel promotes peace and well-being for future generations."
+    },
+    "env": {
+      "title": "RESPECTING THE DIRECTIONS OF AND LOCAL CULTURES",
+      "sub_title": "We foster a positive and meaningful exchange between our company, our travelers and the local places we visit.",
+      "text": "We strive to work closely with local communities to create an authentic, diverse and respectful Central Asian experience for your travelers.Our activities and tours are conducted with respect for artistic, archaeological and cultural heritage.",
+      "text2": "Our goal is to highlight the diversity and richness of culture and heritage in destinations. There is genuine and respectful interaction between travelers and the local community.",
+      "text3": "We portray destinations fairly and respectfully in our messaging and marketing materials. Our cultural experiences are developed in direct collaboration with the community"
+    },
+    "environment": {
+      "title": "WE CARE ABOUT THE ENVIRONMENT",
+      "title2": "Our goal is to preserve nature in everything we do.",
+      "sub_title": "We are committed to protecting the environment. We focus on selecting environmentally friendly services and practices:",
+      "block": [
+        {
+          "title": "OUR TRANSPORT",
+          "text": "We are committed to on our trips with the goal of reducing them. We prioritize public transportation, shuttles, and fuel-efficient vehicles. We promote walking and biking tours to explore our wonderful cities in a fun and safe way."
+        },
+        {
+          "title": "OUR LIVING",
+          "text": "We prefer small boutique hotels that represent the culture of their country. We look for personalized service and “heart” with a preference for responsible accommodations.We help our preferred partners optimize their sustainability best practices by offering training and suggestions."
+        },
+        {
+          "title": "OUR GUIDES",
+          "text": "Guides play a big role in solving sustainable tourism problems. They are at the forefront of educating both travelers and communities. We choose guides who are inspirational examples of sustainable travel behavior to protect our destinations and communities."
+        },
+        {
+          "title": "OUR EXCURSES",
+          "text": "All of our suppliers understand our sustainability goals and enable them to think and act in accordance with sustainability principles. We continue to improve the overall sustainability of our excursions and ensure that our best practices are applied"
+        }
+      ]
+    },
+    "children": {
+      "title": "PROTECTION OF CHILDREN",
+      "sub_title": "We are absolutely certain that no child has ever been hurt as a result of tourism.",
+      "block": [
+        {
+          "title": "Children’s Rights First",
+          "text": "All children are human beings who are subjects and recipients of human rights that Minzifa Travel will always respect.",
+          "img": "false"
+        },
+        {
+          "title": "Equal Protection",
+          "text": "All children have equal rights to protection from all forms of abuse and exploitation, regardless of their gender, race, health status, religion, age, disability, sexual orientation, social background or culture.",
+          "img": "false"
+        },
+        { "title": "", "text": "", "img": "true" },
+        {
+          "title": "Child abuse will not be tolerated.",
+          "text": "We have a zero-tolerance policy for all forms of abuse and will take immediate action if any case is suspected or identified.",
+          "img": "false"
+        },
+        {
+          "title": "Support & Equality",
+          "text": "All children should be encouraged to reach their potential, and inequalities should be combated.",
+          "img": "false"
+        },
+        {
+          "title": "Shared Responsibility",
+          "text": "Everyone has a responsibility to support the care and protection of children.",
+          "img": "false"
+        },
+        {
+          "title": "Staff Trained",
+          "text": "We train and support our employees in combating the sexual exploitation of children.",
+          "img": "false"
+        },
+        {
+          "title": "Partners Committed",
+          "text": "Our providers and the projects we support have a responsibility to uphold minimum standards of child protection in their programs and activities and to understand procedures if a child is at risk or a victim of sexual exploitation.",
+          "img": "false"
+        }
+      ]
+    },
+    "animal": {
+      "title": "ANIMAL WELFARE",
+      "sub_title": "We believe that wild animals should be kept in the wild, not kept in cages or used for tourism purposes, which can have a negative impact on the animals themselves.",
+      "text": "We are devoted to animals. We keep them close to our hearts and in the wild. Our staff and local tour operators are carefully screened for ethical standards.",
+      "text2": "We guarantee that any animals participating in any of our trips are entitled to five animal freedoms: Freedom from hunger or thirst Freedom from discomfort Freedom from pain, injury or illness Freedom to express normal behavior Freedom from fear and distress"
+    },
+    "economy": {
+      "title": "SUPPORTING THE LOCAL ECONOMY AND COMMUNITIES",
+      "sub_title": "We work to maximize the benefits of tourism to the local economy and local communities.",
+      "block": [
+        {
+          "title": "Supporting Local Employment",
+          "text": "We have a predominantly local workforce We choose locals and suppliers who are invested in their community and who, for their part, help the local economy.",
+          "img": "false"
+        },
+        {
+          "title": "Tours That Fight Poverty",
+          "text": "We design our tours and experiences to include elements that help reduce poverty in the destination.",
+          "img": "false"
+        },
+        {
+          "title": "",
+          "text": "",
+          "img": "true"
+        },
+        {
+          "title": "Choosing Sustainable Local Products",
+          "text": "We buy locally sourced, sustainable products",
+          "img": "false"
+        },
+        {
+          "title": "",
+          "text": "",
+          "img": "true"
+        },
+        {
+          "title": "Eco-Friendly Shopping for Travelers",
+          "text": "We promote eco-friendly shopping for souvenirs, crafts and art with our travelers.",
+          "img": "false"
+        },
+        {
+          "title": "Co-Creating with Local Communities",
+          "text": "We involve the local community in designing experiences for our travelers.",
+          "img": "false"
+        }
+      ]
+    }
   }
 }
