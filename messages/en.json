@@ -117,7 +117,7 @@
       },
       {
         "title": "Company's sustainable development policy",
-        "link": "company's-sustainable-development-policy"
+        "link": "company-sustainable-development-policy"
       }
     ],
     "form_title": "Sign up for our newsletter,",
@@ -167,7 +167,9 @@
     "all_news": "All news",
     "articles": "Articles",
     "privacy": "Privacy policy",
-    "terms_and_conditions_of_booking": "Terms and Conditions of Booking Tours and Holidays in Uzbekistan"
+    "terms_and_conditions_of_booking": "Terms and Conditions of Booking Tours and Holidays in Uzbekistan",
+    "hotel-booking-rules": "Hotel Booking Terms and Conditions",
+    "company's-sustainable-development-policy": "Minzifa Travel Sustainable Development Policy"
   },
   "about": {
     "title": "About Us",
@@ -511,5 +513,167 @@
   "terms_and_conditions_of_booking": {
     "title": "Terms and Conditions of Booking Tours and Holidays in Uzbekistan",
     "text": "Public Offer <br/> Cancellation Policy / Terms and Conditions <br/> Please read the following Terms and Conditions carefully. <br/> <br/>By booking a tour with MinizfaTravel by FE `Unique Travel`, licensed under T-0087 by the national company `Uzbektourism`, after reviewing the offered services and confirming the availability of the selected tour package (services), you will be provided with a PDF file containing detailed information about the tour (services) and booking terms in the form of a booking form. This information will also be available for download in the traveler's personal account. The agreement for the provision of services and its confirmation is based on a non-refundable deposit for the booked services (tour package, travel services) and confirmation of receipt by the Company. In this case, it is considered that you agree to the booking conditions, and your order will be accepted. If you have any questions or special requests regarding these terms, you must discuss and resolve them with MINZIFATRAVEL before receiving these documents. <br/><br/>Booking <br/>The customer must provide a deposit of at least 30% of the total tour cost. A completed booking form and a signed declaration are required to confirm the reservation.<br/> The balance of the tour cost must be paid to MINZIFATRAVEL at least 40 days before the start of the tour. If you book within 40 days of the tour start date, full payment for the services or tour package must be made. Full details of your travel insurance policy must be provided at the time of final payment.<br/><br/>Cancellation <br/>According to our booking policy, our cancellation fees are as follows: <br/>30 days or more before departure – 30% of the tour cost, deposit forfeited <br/>29 to 15 days before departure – 50% of the tour cost * <br/>14 to 7 days before departure – 70% of the tour cost * <br/>6 days or less before departure – 100% of the tour cost * <br/>Tickets not included in the MINZIFATRAVEL tour itinerary are not included in the package price. Any airline cancellation terms should be clarified with your flight booking agent. <br/>MINZIFATRAVEL strives to monitor developments in Central Asia closely. If a tour is canceled due to natural disasters, political instability, or similar reasons for safety concerns, MINZIFATRAVEL will refund all payments made to MINZIFATRAVEL minus an administrative fee of $250 per person. Other possible costs such as flight cancellations, penalties, expenses, etc., as well as passport registration and visa fees, are non-refundable through MINZIFATRAVEL. <br/>Escorted Tours<br/>Any additional services not specified in the itinerary, such as laundry, tips, visas and passport registration, extra entrance tickets not included in the tour, meals, additional excursions, etc., are to be paid by the client. If you are traveling alone and have indicated that you would like to share a room, MINZIFATRAVEL will make efforts to accommodate your request. However, if a room share cannot be arranged, you must pay the single room supplement according to the applicable rates."
+  },
+  "hotel-booking-rules": {
+    "title": "Hotel Booking Terms and Conditions",
+    "sub_title": "Hotel Booking Conditions",
+    "text": "Hotel bookings are made through an official request to the Minzifa Travel travel agency. Completed booking forms are required to confirm the reservation. Client information must be provided at least 72 hours prior to the start of the booking process. Minzifa Travel is not responsible for any inconvenience resulting from delayed submission of information.A 20% deposit of the total room cost must be paid upon confirmation of the booking. The remaining balance must be paid no later than 3 days before check-in. If the booking is made within 3 days of check-in, full payment is required. Please note that Minzifa Travel reserves the right to unilaterally decline a booking request without explanation and refund the deposit.",
+    "sub_title2": "Most Hotels",
+    "text2": "Check-in time is from 14:00 (2:00 PM). Minzifa Travel cannot guarantee room availability before this time. For early check-in, prior booking is required. Without prior notice, Minzifa Travel cannot guarantee room readiness.In case of early arrival between 07:00 AM and 2:00 PM, an additional charge of 50% of the room rate applies.For check-in before 07:00 AM, an additional charge of 100% of the room rate applies.Check-out time is before 12:00 PM (noon). For late check-out until 6:00 PM, an additional charge of 50% of the room rate applies.Check-out after 6:00 PM is subject to an additional 100% charge of the room rate.",
+    "sub_title3": "Hotel Cancellation Policies",
+    "text3": "If the client cancels the reserved services less than 3 days before the check-in date, the client shall pay MINZIFATRAVEL 50% of the reserved room rate.For Groups: The total number of rooms may be canceled without penalty up to 21 days before arrival. From 21 to 4 days before arrival, up to 10% of the reserved rooms may be canceled without penalty.In case of cancellation or no-show, the client shall pay 100% of the room rate as stated in the contract for the specified period. If a guest arrives later than scheduled, they are still required to pay for the missed night.",
+    "sub_title4": "Obligations",
+    "text4": "If the services provided do not meet the standards described in the hotel offer, the client has the right to demand corrections free of charge.The client must comply with all hotel regulations. In case of property damage by the client or if unauthorized guests are invited to the hotel, the hotel staff, guests, or residents shall bear responsibility in accordance with the laws of the host country.Minzifa Travel has contracts with hotels to assist in accommodation and hotel bookings in Uzbekistan and acts as an agent for third parties. Minzifa Travel is not responsible for the actions or inactions of these third parties."
+  },
+  "company's-sustainable-development-policy": {
+    "title": "Minzifa Travel Sustainable Development Policy",
+    "sub_title": "Introduction",
+    "text": "Minzifa Travel recognizes its responsibility towards society, the environment, and future generations. In the face of global changes and increasing attention to sustainability issues, we strive to integrate sustainability principles into all aspects of our operations. <br/> Our sustainable development policy aims to minimize the negative impacts of tourism and maximize its positive effects on local communities and the nature of Central Asia.",
+    "sub_title2": "Environment",
+    "text2": "In our office:",
+    "list": [
+      {
+        "li": "We have implemented a 'paperless' policy, reducing the volume of printed materials. Necessary documents are printed double-sided or using paper-saving modes."
+      },
+      {
+        "li": "We have eliminated single-use plastics (we use water filters and avoid disposable utensils)."
+      },
+      {
+        "li": "We separate recyclable materials and ensure proper disposal of paper and plastic."
+      },
+      {
+        "li": "We properly dispose of batteries and do not throw them in general waste."
+      },
+      {
+        "li": "We replaced all lighting with energy-saving alternatives."
+      },
+      {
+        "li": "We turn off lights and equipment when not in use and enable energy-saving modes."
+      },
+      {
+        "li": "We purchase equipment with high energy efficiency (Class A)."
+      },
+      {
+        "li": "We are transparent and regularly report on our sustainability achievements."
+      }
+    ],
+    "sub_title3": "Social Policy and Human Rights",
+    "list2": [
+      {
+        "li": "We guarantee fair working conditions and follow international human rights standards."
+      },
+      {
+        "li": "We promote equal opportunities and do not tolerate any form of discrimination. We oppose child labor."
+      },
+      {
+        "li": "We provide information and training to our staff on sustainability."
+      },
+      {
+        "li": "We share best practices and raise awareness among our team and partners."
+      }
+    ],
+    "sub_title4": "Tourist Accommodation",
+    "list3": [
+      {
+        "li": "We prefer accommodations that reflect local culture and protect heritage."
+      },
+      {
+        "li": "We work with partners that respect labor rights and prohibit child labor."
+      }
+    ],
+    "sub_title5": "Tours and Other Activities",
+    "list4": [
+      {
+        "li": "We prioritize hiring local guides, drivers, and service providers."
+      },
+      {
+        "li": "We work exclusively with licensed guides."
+      },
+      {
+        "li": "Our routes ensure tourist comfort and respect for local traditions."
+      },
+      {
+        "li": "We support small and medium-sized tourist destinations to boost local economies."
+      },
+      {
+        "li": "We engage local communities, include visits to craft workshops, and promote cultural heritage."
+      },
+      {
+        "li": "We do not include visits to schools or kindergartens."
+      },
+      {
+        "li": "We educate guests on minimizing environmental impact during travel."
+      },
+      {
+        "li": "We prohibit the purchase of items made from endangered species, illegal artifacts, and banned substances."
+      },
+      {
+        "li": "We do not offer tours involving wild animals in captivity, unless fully regulated and legal."
+      },
+      {
+        "li": "We do not sell, consume, or display wildlife products unless it aligns with sustainable practices under the law."
+      }
+    ],
+    "sub_title6": "Client Communication and Consumer Protection",
+    "list5": [
+      {
+        "li": "Clients receive high-quality service and protection from booking to post-trip."
+      },
+      {
+        "li": "We maintain confidentiality."
+      },
+      {
+        "li": "We offer eco-friendly accommodation, tour, and transport options when available."
+      },
+      {
+        "li": "Our marketing is transparent, with full product details and a clear sustainability statement."
+      }
+    ],
+    "sub_title7": "Our Commitment",
+    "text3": "Minzifa Travel’s sustainable development policy reflects our dedication to building a responsible business that benefits clients and society. We believe this approach contributes to environmental conservation and community development while maintaining high service quality.",
+    "text4": "We invite employees, partners, and clients to join our journey toward sustainable tourism. Together, we can create a better future for Central Asia and the world.",
+    "text5": "Year: 2024",
+    "sub_title8": "Contact Information",
+    "sub_title9": "Sustainability Coordinator:",
+    "text6": "Name: Kurbanov Botir",
+    "text7": "Email: asistent01@minzifatravel.com",
+    "text8": "Phone: +99890-299-23-33",
+    "sub_title10": "Minzifa Travel’s Achievements in 2024",
+    "text9": "Minzifa Travel is proud to share the progress made in promoting sustainable tourism.",
+    "text10": "Our Internal Initiatives",
+    "list6": [
+      {
+        "li": "Responsibility Starts with Us: We appointed a Sustainable Tourism Coordinator certified in the Travelife program."
+      },
+      {
+        "li": "Employee Education: We trained staff on their role in sustainability, making it part of our culture."
+      },
+      {
+        "li": "Eco-Friendly Office: All lighting was replaced with LEDs, reducing energy use."
+      },
+      {
+        "li": "Waste Minimization: We reduced single-use packaging and installed recycling containers."
+      },
+      {
+        "li": "Support for Vulnerable Groups: We provide financial support to people with disabilities and low-income citizens."
+      }
+    ],
+    "text11": "Responsible Tourism Practices",
+    "list7": [
+      {
+        "li": "Tourist Awareness: We added responsible travel advice to our guides."
+      },
+      {
+        "li": "Guide Training: Guides are trained to involve tourists in sustainability."
+      },
+      {
+        "li": "Plastic Waste Reduction: We provide reusable water bottles and work with partners to reduce plastic usage."
+      },
+      {
+        "li": "Support for Local Producers: Tourist gifts are sourced from local vendors to support the economy and local culture."
+      }
+    ],
+    "sub_title11": "Future Outlook",
+    "text12": "Minzifa Travel will continue promoting ecological and social practices. We believe that sustainability is key to a thriving future, and we aim to involve staff, partners, and tourists in building a responsible travel experience. <br/>Minzifa Travel is not just about travel — it's about traveling with awareness and responsibility for our planet!"
   }
 }

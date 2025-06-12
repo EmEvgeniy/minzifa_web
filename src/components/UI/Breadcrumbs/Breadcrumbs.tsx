@@ -3,13 +3,13 @@ import React, { FC } from 'react';
 import { BreadcrumbsType } from './_types';
 import { useTranslations } from 'next-intl';
 
-export const Breadcrumbs: FC<BreadcrumbsType> = ({ link, link2, color }) => {
+export const Breadcrumbs: FC<BreadcrumbsType> = ({ link, link2, color, className = '' }) => {
   const t = useTranslations('breadcrumbs');
   return (
     <div
       className={`flex items-center justify-start gap-2 text-[18px] ${
         color ? 'text-white' : 'text-[#16372D]'
-      } font-semibold`}
+      } font-semibold ${className !== '' && className}`}
     >
       <Link href={'/'} className=" text-[16px]">
         {t('home')}

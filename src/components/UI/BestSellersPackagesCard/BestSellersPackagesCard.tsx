@@ -23,25 +23,25 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
           loading="lazy"
           className="absolute w-full h-full object-cover"
         />
-        <p className="z-2 text-white absolute bottom-0 left-0 p-5 text-ellipsis text-[28px] font-bold max-w-full [@media(max-width:450px)]:max-w-full [@media(max-width:450px)]:text-[22px]">
+        <p className="z-2 text-white absolute bottom-0 left-0 p-5 text-ellipsis text-[24px] font-bold max-w-full [@media(max-width:450px)]:max-w-full [@media(max-width:450px)]:text-[22px]">
           {slide?.name}
         </p>
       </div>
-      <div className="p-[20px] flex items-center justify-between">
+      <div className="p-[10px] flex items-center justify-between">
         <div className=" flex flex-col gap-2">
-          <p className="flex items-center justify-start gap-1.5 text-xl">
+          <p className="flex items-center justify-start gap-1.5 text-[18px]">
             <span>{slide?.days}</span>
             <span>{t('tourCard.days')}</span>
           </p>
-          <p className="flex items-center justify-start gap-1.5 text-lg">
+          <p className="flex items-center justify-start gap-1.5 text-[18px]">
             <span className="text-[#464646]">{t('tourCard.from')}</span>
-            <span className="font-semibold text-2xl">
+            <span className="font-semibold text-[18px] font-semibold">
               {slide?.valute ?? '$'} {slide?.price}
             </span>
           </p>
         </div>
         <Link
-          className="bg-[#27A430] px-[20px] py-[18px] text-white rounded-[16px] text-base"
+          className="bg-[#27A430] px-[20px] py-[12px] text-white rounded-[16px] text-base"
           href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}
         >
           {t('View_itinerary')}

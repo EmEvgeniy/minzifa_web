@@ -29,7 +29,7 @@ export const Slider = <T,>({
             320: { slidesPerView: 1.1, spaceBetween: 16 },
             550: { slidesPerView: 1.5 },
             768: { slidesPerView: 2.2 },
-            1024: { slidesPerView: 3.3 },
+            1200: { slidesPerView: 3.3 },
           }
         }
       >
