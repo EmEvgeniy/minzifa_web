@@ -81,7 +81,7 @@ export const ToursView = () => {
             data.slice((page - 1) * perPage, page * perPage).map((el: AllToursCardType) => (
               <div
                 key={el.id}
-                className="grid grid-cols-2 w-full bg-white rounded-[16px] shadow-2xl overflow-hidden max-h-[300px]"
+                className="grid grid-cols-2 w-full bg-white rounded-[16px] shadow-2xl overflow-hidden max-h-[350px] h-full"
               >
                 <div className="bg-[#16372D] w-full h-full">
                   {el.photo.file && (
@@ -94,7 +94,7 @@ export const ToursView = () => {
                     />
                   )}
                 </div>
-                <div className="w-full p-[10px] grid grid-cols-1 grid-rows-3 gap-5 items-center">
+                <div className="w-full p-[10px] grid grid-cols-1 grid-rows-3 gap-0 items-center h-full">
                   <div className="flex flex-row justify-between">
                     <p className="mt-[-6rem] w-1/2 text-[18px] font-semibold  text-white sm:mt-0 sm:text-inherit">
                       {el.name}
