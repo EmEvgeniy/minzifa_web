@@ -26,7 +26,7 @@ export const Main = () => {
       {!isLoading && isSuccess ? (
         <div className="w-full grid grid-cols-4 gap-5">
           {data.map((el: DestinationBlockProps) => (
-            <Link href={`/${locale}/${el.slug}`} key={el.slug}>
+            <Link href={`/${locale}/destination/${el.slug}`} key={el.slug}>
               <div className="w-full h-full max-w-[275px] min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold">
                 {el.icon.file && (
                   <Image

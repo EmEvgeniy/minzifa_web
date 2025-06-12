@@ -6,10 +6,12 @@ import { useGetQuery } from '@/api/get.api';
 import Link from 'next/link';
 import { DestinationProps } from './_types';
 import Image from 'next/image';
+import { useLocale } from 'next-intl';
 
 export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
   const index = useNavStore((state) => state.index);
   const setActiveIndex = useNavStore((state) => state.setIndex);
+  const locale = useLocale();
   const { data, isSuccess } = useGetQuery({
     key: ['destinations_top'],
     page: '',
@@ -48,7 +50,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
               {isSuccess &&
                 data.slice(0, 5).map((el: DestinationProps) => (
                   <Link
-                    href={el.slug}
+                    href={`/${locale}/destination/${el.slug}`}
                     key={el.id}
                     className="flex items-center justify-start px-2 w-full gap-3 hover:bg-gray-300 rounded-2xl py-2 "
                   >

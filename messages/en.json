@@ -164,7 +164,8 @@
     "home": "Home",
     "all_tours": "All tours",
     "destination": "Destination",
-    "all_news": "All news"
+    "all_news": "All news",
+    "articles": "Articles"
   },
   "about": {
     "title": "About Us",
@@ -446,5 +447,59 @@
         }
       ]
     }
+  },
+  "create-your-trip": {
+    "title": "Create your Trip",
+    "sub_title": "What's your ideal trip?",
+    "form": {
+      "hotel": {
+        "title": "Hotel Style:*",
+        "pl": "Boutique Hotel",
+        "pl2": "Self-Booking",
+        "pl3": "Days",
+        "pl4": "Date"
+      },
+      "destination": {
+        "title": "Destinations (optional):",
+        "text": "The following destinations are our top recommendations and can be visited during this winter and spring. We will update the available travel options according to the latest news. Please contact us if the destination you are looking for is not here.",
+        "pl": "What can our travel experts help you with? (optional):",
+        "pl2": "Optional placeholder text"
+      }
+    },
+    "form2": {
+      "title": "Tell us about you",
+      "btns": {
+        "pl": "Solo",
+        "pl2": "Couple",
+        "pl3": "Family",
+        "pl4": "Group"
+      },
+      "pl": "Person",
+      "pl2": "Child",
+      "pl3": "Age 5-12",
+      "check": [{ "title": "Mr." }, { "title": "Ms." }, { "title": "Mrs." }, { "title": "Miss." }],
+      "pl4": "First Name*",
+      "pl5": "Last Name*",
+      "pl6": "E-mail",
+      "pl7": "Phone number*",
+      "pl8": "National | Region:",
+      "pl9": "I accept Minzifa Travel Terms & Conditions and Privacy Policy; and Trafalgar’s payment, cancellation and conditions.",
+      "btn": "Send My Enquiry"
+    }
+  },
+  "article": {
+    "cyt": {
+      "title": "Ready for Your Dream Trip?",
+      "text": "Let Us Customize Your Perfect Tour - Fill Out Our Form Now!",
+      "btn": "CREATE MY TRIP"
+    },
+    "form": {
+      "title": "Commentary",
+      "pl": "Your commentary...",
+      "btn": "Send comment"
+    }
+  },
+  "destination": {
+    "sub_title": "We organize at any time of the year. Certified guides, own hotels, comfort and premium class transportation, proven routes, on call 24/7"
   }
 }

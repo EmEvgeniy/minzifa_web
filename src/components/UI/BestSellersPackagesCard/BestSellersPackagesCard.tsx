@@ -11,10 +11,10 @@ type Props = {
 export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
   const t = useTranslations();
   const locale = useLocale();
-  
+
   return (
     <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white shadow-2xs [@media(max-width:450px)]:min-h-[350px] w-full h-full">
-      <div className="relative min-h-[372px] h-full w-full [@media(max-width:450px)]:min-h-[270px]">
+      <div className="relative min-h-[372px] max-h-[372px] h-full w-full [@media(max-width:450px)]:min-h-[270px]">
         <div className="absolute inset-0 bg-black opacity-15 z-1 h-full" />
         <Image
           src={slide?.photo?.file || ''}

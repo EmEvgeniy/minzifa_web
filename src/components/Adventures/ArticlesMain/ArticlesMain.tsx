@@ -39,7 +39,6 @@ export const ArticlesMain = () => {
     searchItem: '',
     additionalParam: `&sort=${value}`,
   });
-  console.log(data);
 
   return (
     <section className="container py-[70px] min-h-[50svh] flex flex-col gap-5">

@@ -11,11 +11,19 @@ export const Breadcrumbs: FC<BreadcrumbsType> = ({ link, link2, color }) => {
         color ? 'text-white' : 'text-[#16372D]'
       } font-semibold`}
     >
-      <Link href={'/'}>{t('home')}</Link>
-      <span>/</span>
-      {link.title && !link2 ? <p>{link.title}</p> : <Link href={link.link}>{link.title}</Link>}
-      {link2 && <span>/</span>}
-      {link2 && <Link href={link2.link}>{link2.title}</Link>}
+      <Link href={'/'} className=" text-[16px]">
+        {t('home')}
+      </Link>
+      <span className=" text-[16px]">/</span>
+      {link.title && !link2 ? (
+        <p className=" text-[16px]">{link.title}</p>
+      ) : (
+        <Link href={link.link} className=" text-[16px]">
+          {link.title}
+        </Link>
+      )}
+      {link2 && <span className=" text-[16px]">/</span>}
+      {link2 && <p className=" text-[16px] ">{link2.title}</p>}
     </div>
   );
 };

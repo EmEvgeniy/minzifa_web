@@ -25,8 +25,12 @@ import animal from './animal.jpg';
 import economy from './economy.webp';
 import economy_1 from './economy_1.png';
 import economy_2 from './economy_2.webp';
+import create from './create.webp';
+import cr2 from './cr2.jpg';
 
 export {
+  cr2,
+  create,
   economy,
   economy_1,
   economy_2,
