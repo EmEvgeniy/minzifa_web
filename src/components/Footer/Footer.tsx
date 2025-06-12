@@ -20,7 +20,7 @@ export const Footer = () => {
         <p className="text-[14px] text-center">
           © 2014-2025 Minzifa Travel. All rights reserved. `Unique Travel` FE by Minzifa Travel.{' '}
           <br /> 70 Eshoni Pir Street, Bukhara 200118, Bukhara, Uzbekistan. |{' '}
-          <Link href={`/${locale}/${pl.title}`}>{pl.title}</Link>
+          <Link href={`/${locale}/privacy-policy`}>{pl.title}</Link>
         </p>
       </div>
     </footer>
