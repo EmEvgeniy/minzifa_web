@@ -96,12 +96,12 @@ export const ToursView = () => {
                 </div>
                 <div className="w-full p-[10px] grid grid-cols-1 grid-rows-3 gap-0 items-center h-full">
                   <div className="flex flex-row justify-between">
-                    <p className="mt-[-6rem] w-1/2 text-[18px] font-semibold  text-white sm:mt-0 sm:text-inherit">
+                    <p className="mt-[-6rem] w-1/2 text-[16px] font-semibold  text-white sm:mt-0 sm:text-inherit">
                       {el.name}
                     </p>
                     <div className="price flex flex-row items-start gap-5">
                       <div className="flex flex-col justify-between gap-2 h-full">
-                        <span className="price-begin text-custom-gray-500 text-md">
+                        <span className="price-begin text-custom-gray-500 text-md text-center">
                           {t('all_tours.days')}
                         </span>
                         <span className="price-value text-custom-green-900 text-[16px] font-bold">
