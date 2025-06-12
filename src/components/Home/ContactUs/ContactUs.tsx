@@ -31,7 +31,7 @@ export const ContactUs = () => {
   ];
   return (
     <section className="container py-[70px]">
-      <div className="bg-white rounded-[16px] shadow-2xl  flex items-center justify-between overflow-hidden [@media(max-width:768px)]:flex-col-reverse">
+      <div className="bg-white rounded-[16px] shadow-2xl  flex items-center justify-between overflow-hidden [@media(max-width:1024px)]:flex-col-reverse">
         <div className="p-10 flex flex-col gap-8 [@media(max-width:768px)]:gap-5 [@media(max-width:768px)]:p-5">
           <p className="text-[42px] text-black [@media(max-width:768px)]:text-[24px] [@media(max-width:768px)]:text-center">
             Contact us
@@ -70,7 +70,7 @@ export const ContactUs = () => {
           alt="contact-us"
           width={600}
           height={500}
-          className=" object-cover md:mask-l-from-50% md:mask-l-to-90%"
+          className=" object-cover md:mask-l-from-50% md:mask-l-to-90% h-full [@media(max-width:1024px)]:w-full "
         />
       </div>
     </section>
