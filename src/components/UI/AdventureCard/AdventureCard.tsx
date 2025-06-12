@@ -1,14 +1,21 @@
 import React from 'react';
 import type { AdventureCardType } from './_types';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
 
 type Props = {
   type: AdventureCardType;
 };
 
 export const AdventureCard: React.FC<Props> = ({ type }) => {
+  const locale = useLocale();
+
   return (
-    <div className="rounded-[16px] bg-cover bg-center w-full aspect-square bg-white shadow-sm flex flex-col justify-center items-center relative overflow-hidden cursor-pointer">
+    <Link
+      href={`/${locale}/tours`}
+      className="rounded-[16px] bg-cover bg-center w-full aspect-square bg-white shadow-sm flex flex-col justify-center items-center relative overflow-hidden cursor-pointer"
+    >
       {type?.media?.file && (
         <Image
           src={type?.media?.file}
@@ -27,6 +34,6 @@ export const AdventureCard: React.FC<Props> = ({ type }) => {
           {type.tours_count} tours
         </span>
       </div>
-    </div>
+    </Link>
   );
 };

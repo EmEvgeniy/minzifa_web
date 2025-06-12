@@ -23,13 +23,13 @@ export const Slider = <T,>({
         onSlideChange={handleSlideChange}
         pagination={false}
         centeredSlides={false}
-        spaceBetween={30}
+        spaceBetween={20}
         breakpoints={
           breakpoints || {
-            320: { slidesPerView: 1.1, spaceBetween: 16 },
-            550: { slidesPerView: 1.5 },
-            768: { slidesPerView: 2.2 },
-            1200: { slidesPerView: 3.3 },
+            320: { slidesPerView: 1.2, spaceBetween: 16 },
+            550: { slidesPerView: 2 },
+            920: { slidesPerView: 3 },
+            1200: { slidesPerView: 4 },
           }
         }
       >

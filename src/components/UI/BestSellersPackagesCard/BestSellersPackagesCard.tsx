@@ -13,7 +13,7 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
   const locale = useLocale();
 
   return (
-    <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white shadow-2xs [@media(max-width:450px)]:min-h-[350px] w-full h-full">
+    <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white  [@media(max-width:450px)]:min-h-[350px] w-full h-full">
       <div className="relative min-h-[372px] max-h-[372px] h-full w-full [@media(max-width:450px)]:min-h-[270px]">
         <div className="absolute inset-0 bg-black opacity-15 z-1 h-full" />
         <Image
@@ -23,7 +23,7 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
           loading="lazy"
           className="absolute w-full h-full object-cover"
         />
-        <p className="z-2 text-white absolute bottom-0 left-0 p-5 text-ellipsis text-[24px] font-bold max-w-full [@media(max-width:450px)]:max-w-full [@media(max-width:450px)]:text-[22px]">
+        <p className="z-2 text-white absolute bottom-0 left-0 p-5 text-ellipsis text-[20px] font-bold max-w-full [@media(max-width:450px)]:max-w-full ">
           {slide?.name}
         </p>
       </div>
@@ -41,7 +41,7 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
           </p>
         </div>
         <Link
-          className="bg-[#27A430] px-[20px] py-[12px] text-white rounded-[16px] text-base"
+          className="bg-[#27A430] px-[15px] py-[12px] text-white text-[14px] rounded-[16px] shadow-3xl text-base"
           href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}
         >
           {t('View_itinerary')}

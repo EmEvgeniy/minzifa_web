@@ -6,7 +6,7 @@ export const BestSellers = () => {
   const t = useTranslations('home');
   return (
     <section className="container flex flex-col gap-5">
-      <h3 className="text-[42px]">{t('best_title')}</h3>
+      <h3 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('best_title')}</h3>
       <Wrapper />
     </section>
   );

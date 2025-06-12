@@ -31,10 +31,12 @@ export const ContactUs = () => {
   ];
   return (
     <section className="container py-[70px]">
-      <div className="bg-white rounded-[16px] shadow-2xl  flex items-center justify-between overflow-hidden">
-        <div className="p-10 flex flex-col gap-8">
-          <p className="text-[42px] text-black">Contact us</p>
-          <p className="text-[18px]">
+      <div className="bg-white rounded-[16px] shadow-2xl  flex items-center justify-between overflow-hidden [@media(max-width:768px)]:flex-col-reverse">
+        <div className="p-10 flex flex-col gap-8 [@media(max-width:768px)]:gap-5 [@media(max-width:768px)]:p-5">
+          <p className="text-[42px] text-black [@media(max-width:768px)]:text-[24px] [@media(max-width:768px)]:text-center">
+            Contact us
+          </p>
+          <p className="text-[18px] [@media(max-width:768px)]:text-[16px] [@media(max-width:768px)]:text-center">
             Contact us - we will help you find a tour, clarify the details and book everything for
             you.
           </p>
@@ -46,12 +48,19 @@ export const ContactUs = () => {
               >
                 <button
                   className={clsx(
-                    'bg-[#66B93E] hover:scale-105 aspect-square size-20 flex items-center justify-center cursor-pointer rounded-full p-0 text-white transition',
+                    'bg-[#66B93E] hover:scale-105 aspect-square size-20 flex items-center justify-center cursor-pointer rounded-full p-0 text-white transition [@media(max-width:768px)]:size-15',
                   )}
                 >
-                  <Image src={icon} alt="" width={30} className="w-[30px]" />
+                  <Image
+                    src={icon}
+                    alt=""
+                    width={30}
+                    className="w-[30px] [@media(max-width:768px)]:w-[25px]"
+                  />
                 </button>
-                <span className="text-[14px] text-center">{label}</span>
+                <span className="text-[14px] text-center [@media(max-width:768px)]:text-[12px]">
+                  {label}
+                </span>
               </div>
             ))}
           </div>

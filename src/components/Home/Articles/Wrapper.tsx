@@ -14,7 +14,7 @@ export const Wrapper = () => {
     additionalParam: '',
   });
   return (
-    <div className="flex items-center justify-between gap-5">
+    <div className="grid grid-cols-3 w-full gap-5 [@media(max-width:768px)]:hidden">
       {isSuccess &&
         data?.data.map((el: ArticleCardType) => <ArticleCard key={el.id} article={el} />)}
     </div>

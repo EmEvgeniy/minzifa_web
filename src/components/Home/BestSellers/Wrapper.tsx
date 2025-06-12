@@ -28,7 +28,7 @@ export const Wrapper = () => {
   });
   return (
     <>
-      <div className="min-h-[520px]">
+      <div className="min-h-[520px] [@media(max-width:1024px)]:min-h-[450px] [@media(max-width:450px)]:min-h-[350px]">
         {isSuccess && (
           <Slider
             slides={data}
@@ -47,7 +47,7 @@ export const Wrapper = () => {
       <div className="w-full flex items-center justify-between">
         <Link
           href="/tours"
-          className="w-full max-w-[209px] text-center bg-[#16372D] text-white py-[15px] rounded-[16px] text-[16px] shadow-2xl hover:bg-[#194D3D] transition-all active:bg-[#16372D] [@media(max-width:1024px)]:max-w-[150px] [@media(max-width:550px)]:py-[10px]"
+          className="w-full max-w-[209px] text-center bg-[#16372D] text-white py-[15px] rounded-[16px] text-[16px] shadow-2xl hover:bg-[#194D3D] transition-all active:bg-[#16372D] [@media(max-width:1024px)]:max-w-[150px] [@media(max-width:550px)]:py-[8px]"
         >
           {t('best_sellers_btns')}
         </Link>

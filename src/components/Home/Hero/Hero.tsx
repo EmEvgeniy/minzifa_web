@@ -7,7 +7,7 @@ import { HeroSearch } from './HeroSearch';
 export const Hero = () => {
   const t = useTranslations('home');
   return (
-    <section className="w-full h-[90svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[50vh]">
+    <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-[60vh] ">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
       <Image
         src={hero}
@@ -16,9 +16,13 @@ export const Hero = () => {
         fill
         className="w-full h-full absolute top-0 object-cover z-10"
       />
-      <div className="container relative z-30 text-white flex flex-col items-center justify-center gap-5">
-        <h1 className="text-[56px] text-center">{t('title')}</h1>
-        <p className="max-w-[50%] text-center text-[24px] font-light">{t('subTitle')}</p>
+      <div className="container relative z-30 text-white flex flex-col items-center justify-center gap-5 [@media(max-width:1024px)]:items-start">
+        <h1 className="text-[56px] font-semibold text-center [@media(max-width:1024px)]:text-[34px] [@media(max-width:1024px)]:text-left">
+          {t('title')}
+        </h1>
+        <p className="max-w-[50%] text-center text-[24px] font-light [@media(max-width:1024px)]:text-[15px] [@media(max-width:1024px)]:max-w-full [@media(max-width:1024px)]:text-left">
+          {t('subTitle')}
+        </p>
         <HeroSearch />
       </div>
     </section>

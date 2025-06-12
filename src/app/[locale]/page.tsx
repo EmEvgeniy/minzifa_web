@@ -12,7 +12,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="w-full">
+    <>
       <Hero />
       <Info />
       <BestSellers />
@@ -22,6 +22,6 @@ export default function Home() {
       <CreateYourTrip />
       <ContactUs />
       <Articles />
-    </div>
+    </>
   );
 }

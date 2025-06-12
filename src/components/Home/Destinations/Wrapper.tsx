@@ -44,25 +44,29 @@ export const Wrapper = () => {
               setIsEnd={setIsEnd}
               handleSlideChange={handleSlideChange}
               breakpoints={{
-                320: { slidesPerView: 2.2, spaceBetween: 16 },
+                320: { slidesPerView: 1.2, spaceBetween: 16 },
                 550: { slidesPerView: 2.2 },
-                768: { slidesPerView: 2.2 },
+                768: { slidesPerView: 3.2 },
                 1024: { slidesPerView: 4.4 },
               }}
               renderCard={(slide: DestinationBlockProps) => (
                 <Link href={`/${locale}/${slide.slug}`}>
-                  <div className="w-full h-full max-w-[275px] min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold">
+                  <div className="w-full h-full max-w-full min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold p-5 [@media(max-width:768px)]:min-h-[200px]">
                     {slide.icon.file && (
                       <Image
                         src={slide.icon.file ? slide.icon.file : ''}
                         alt={slide.icon.alt_text ? slide.icon.alt_text : 'image'}
                         width={150}
                         height={150}
-                        className="w-[150px] h-[150px] object-cover"
+                        className="w-[150px] h-[150px] object-cover [@media(max-width:768px)]:w-[90px] [@media(max-width:768px)]:h-[90px]"
                       />
                     )}
-                    <h2 className="text-2xl font-normal">{slide?.name}</h2>
-                    <div className="text-base font-normal">{slide?.tours_count} tours</div>
+                    <h2 className="text-2xl font-normal [@media(max-width:768px)]:text-[18px]">
+                      {slide?.name}
+                    </h2>
+                    <div className="text-base font-normal [@media(max-width:768px)]:text-[14px]">
+                      {slide?.tours_count} tours
+                    </div>
                   </div>
                 </Link>
               )}
