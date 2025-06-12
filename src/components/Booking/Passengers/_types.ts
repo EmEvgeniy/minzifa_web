@@ -1,0 +1,15 @@
+export type PassengerFieldPath =
+    | 'salutation'
+    | 'first_name'
+    | 'last_name'
+    | 'email'
+    | 'phone'
+    | 'gender'
+    | 'birth_date.day'
+    | 'birth_date.month'
+    | 'birth_date.year'
+    | 'main_address.address'
+    | 'main_address.address2'
+    | 'main_address.state'
+    | 'main_address.province'
+    | 'main_address.postal_code';

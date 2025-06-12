@@ -63,8 +63,14 @@
         "link": "/activities",
         "title": "Activities"
       },
-      { "link": "/about", "title": "About us" },
-      { "link": "/contact", "title": "Contact us" }
+      {
+        "link": "/about",
+        "title": "About us"
+      },
+      {
+        "link": "/contact",
+        "title": "Contact us"
+      }
     ]
   },
   "best_sellers_btns": "See all trips",
@@ -72,7 +78,10 @@
     "days": "days",
     "from": "from"
   },
-  "lang": ["en", "ru"],
+  "lang": [
+    "en",
+    "ru"
+  ],
   "Home": {
     "title": "NextJS i18n Tutorial",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
@@ -125,6 +134,151 @@
     "form_b_text": "By submitting the form you accept the terms of data transfer and agree to the privacy policy.",
     "form_pl": "Email",
     "form_btn": "subscribe",
-    "pl": { "link": "privacy_policy", "title": "Privacy Policy" }
+    "pl": {
+      "link": "privacy_policy",
+      "title": "Privacy Policy"
+    }
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "tours": "All Tours",
+    "about": "About us",
+    "contact": "Contact us",
+    "destination": "Destination"
+  },
+  "Tour": {
+    "gallery": {
+      "button": "View {count} photos"
+    },
+    "itinerary": {
+      "title": "Itinerary",
+      "expanded": "Expand all",
+      "closed": "Close all",
+      "accomodation": "Accomodation",
+      "meals": "Meals"
+    },
+    "includes": {
+      "title": "Included in the price",
+      "include": "Included",
+      "exclude": "Optional activities",
+      "categories": {
+        "accommodation": "Accomodation",
+        "meals": "Meals",
+        "transfer": "Transfers",
+        "tickets": "Tickets",
+        "guide": "Guide",
+        "additional_service": "Additional Service",
+        "airway_tickets": "Airway Tickets",
+        "off-plan meals": "Off-plan Meals",
+        "visa": "Visa",
+        "insurance": "Insurance",
+        "personal_expenses": "Personal Expenses"
+      },
+      "hint": "Please note that we use a local supplier for your arrival airport transfer, your driver may not speak English."
+    },
+    "hotel": {
+      "title": "Accomodation",
+      "card": {
+        "day": "Day {from} to {to}",
+        "location": "Location",
+        "category": "Category",
+        "nights": "Nights",
+        "facilities": "Facilities",
+        "rating": "Exceptional",
+        "reviews": "{count} real reviews"
+      }
+    },
+    "booking": {
+      "from": "from",
+      "per_tourist": "per tourist per {days} days",
+      "travellers": "Travellers",
+      "button": "Book {count} space"
+    },
+    "prices": {
+      "title": "Dates & availability",
+      "info": "Prices can change anytime",
+      "best_price": "Best price",
+      "dates": "Dates",
+      "number": "Seats",
+      "pp": "Price per person",
+      "seats": "{count} seats",
+      "no_results": "No results",
+      "show_all_dates": "View all dates",
+      "hide_all_dates": "Hide all dates"
+    }
+  },
+  "FreeForm": {
+    "title": "Free Consultation",
+    "name": "Name",
+    "email": "Email",
+    "wishes": "Optional placeholder text",
+    "button": "Send request",
+    "checkbox": [
+      "By submitting a request, you agree to the",
+      "Privacy Policy"
+    ]
+  },
+  "reviews": {
+    "title": "Ratings & Reviews",
+    "count": "{count}+ reviews"
+  },
+  "Booking": {
+    "travellers": {
+      "title": "How many travellers?",
+      "person": "Person",
+      "child": "Child",
+      "child_hint": "Age 5-12"
+    },
+    "roomTypes": {
+      "title": "Select room type",
+      "included": "Included",
+      "twin": "Twin room (2 double bed)",
+      "double": "Double room (1 double bed)",
+      "single": "Single room"
+    },
+    "passenger": {
+      "title": "Passenger information",
+      "passenger": "Passenger {count}",
+      "passenger_hint": "<strong>Please note:</strong> Traveller details should match information on passport",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "date_of_birth": "Date of Birth",
+      "month": "Month",
+      "day": "Day",
+      "year": "Year",
+      "gender": [
+        "Male",
+        "Female"
+      ],
+      "adress": "Address",
+      "adress_line": "Address line {number}",
+      "province": "Suburb / Town",
+      "state": "State / Province",
+      "zip": "Postal code / Zip"
+    },
+    "booking_info": {
+      "guarantee": "Best price Guarantee",
+      "days": "{days} days",
+      "countries": "{countries} countries",
+      "price_details": "Price details",
+      "start_trip": "Start trip",
+      "end_trip": "End trip",
+      "travellers": "Travellers",
+      "deposit": "Deposit 20%",
+      "total": "Total (USD)",
+      "accept": "I accept Minzifa Travel <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>"
+    },
+    "payment_method": {
+      "title": "Select a payment method:",
+      "credit_card": "Payment by credit card",
+      "bank_transfer": "Bank transfer",
+      "accept_terms": [
+        "I accept Minzifa Travel",
+        "and"
+      ]
+    },
+    "button": "Book {count} space"
   }
 }

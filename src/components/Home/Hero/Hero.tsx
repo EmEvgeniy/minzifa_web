@@ -17,8 +17,8 @@ export const Hero = () => {
         className="w-full h-full absolute top-0 object-cover z-10"
       />
       <div className="container relative z-30 text-white flex flex-col items-center justify-center gap-5">
-        <h1 className="text-[56px] text-center">{t('title')}</h1>
-        <p className="max-w-[50%] text-center text-[24px] font-light">{t('subTitle')}</p>
+        <h1 className="font-title text-[56px] text-center max-w-4xl">{t('title')}</h1>
+        <p className="max-w-[50%] text-center text-[24px] font-normal">{t('subTitle')}</p>
         <HeroSearch />
       </div>
     </section>

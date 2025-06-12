@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
         hostname: 'api.minzifatravel.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+      }
     ],
   },
 };
