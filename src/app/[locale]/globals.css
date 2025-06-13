@@ -1,15 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600&display=swap');
 @import 'tailwindcss';
-@import '../../assets/styles/fonts.css';
 
 :root {
   --background: #cfdfd9;
   --foreground: #16372d;
 }
 
-@theme inline {
+@theme {
   --font-title: 'Unbounded';
-  --font-text: 'SF Pro';
+  --font-text: 'Inter';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 }
@@ -17,18 +15,16 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --font-title: 'Unbounded';
-    --font-text: 'SF Pro';
+    --font-text: 'Inter';
     --background: #cfdfd9;
     --foreground: #16372d;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'SF Pro';
+  @apply bg-background text-foreground font-text;
 }
 
 .container {
-  @apply max-w-[1200px] px-[15px]  w-full mx-auto;
+  @apply max-w-[1200px] px-[15px] w-full mx-auto;
 }

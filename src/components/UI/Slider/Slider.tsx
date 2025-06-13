@@ -13,7 +13,7 @@ export const Slider = <T,>({
   breakpoints,
 }: SliderType<T>) => {
   return (
-    <div className="relative w-full overflow-visible pb-[30px]">
+    <div className="w-full overflow-visible mb-5">
       <Swiper
         onSwiper={(swiper) => {
           swiperRef.current = swiper;

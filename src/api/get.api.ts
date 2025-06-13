@@ -11,7 +11,7 @@ type GetQueryType = {
   additionalParam: string;
 };
 
-export const useGetQuery = ({
+export const useGetQuery = <T>({
   key,
   page,
   perPage,
@@ -21,7 +21,7 @@ export const useGetQuery = ({
 }: GetQueryType) => {
   const lang = useLocale();
 
-  return useQuery({
+  return useQuery<T>({
     queryKey: [...key, page, perPage, searchItem, lang],
     queryFn: async () => {
       const params = new URLSearchParams({ locale: lang });
@@ -31,8 +31,7 @@ export const useGetQuery = ({
         params.append('perPage', perPage);
       }
       const response = await axios.get(
-        `https://api.minzifatravel.com/api/v1/${url}?${params.toString()}${
-          additionalParam ? additionalParam : ''
+        `https://api.minzifatravel.com/api/v1/${url}?${params.toString()}${additionalParam ? additionalParam : ''
         }`,
       );
       return response.data;
