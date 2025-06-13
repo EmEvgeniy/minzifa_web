@@ -7,6 +7,22 @@ import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 
+// type ArticleDetail = {
+//   id: number;
+//   name: string;
+//   published: string;
+//   description: string;
+//   media: {
+//     file: string;
+//     alt?: string;
+//   };
+// };
+
+type ArticleListResponse = {
+  data: ArticleCardType[];
+  meta: { total: number };
+};
+
 export const ArticlesMain = () => {
   const t = useTranslations('articles');
   const btns = t.raw('btns') as { title: string; value: string }[];
@@ -31,7 +47,7 @@ export const ArticlesMain = () => {
     setAlignment(newAlignment);
   };
 
-  const { data, isFetching, isLoading, isRefetching } = useGetQuery({
+  const { data, isFetching, isLoading, isRefetching } = useGetQuery<ArticleListResponse>({
     key: ['articles_main', `${size}`, `${value}`, `${alignment}`],
     page: '1',
     perPage: `${size}`,

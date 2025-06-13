@@ -7,6 +7,10 @@ import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
+interface DataResponse {
+  data: ArticleCardType[];
+}
+
 export const WrapperMobile = () => {
   const locale = useLocale();
   const t = useTranslations('home');
@@ -18,7 +22,7 @@ export const WrapperMobile = () => {
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
   };
-  const { data, isSuccess } = useGetQuery({
+  const { data, isSuccess } = useGetQuery<DataResponse>({
     key: ['articles-mobile'],
     page: '1',
     perPage: '3',

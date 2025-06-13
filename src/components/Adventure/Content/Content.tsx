@@ -11,12 +11,27 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React from 'react';
 
-export const Content = () => {
-  const t = useTranslations();
-  const { slug } = useParams();
+type ArticleDetail = {
+  id: number;
+  name: string;
+  published: string;
+  description: string;
+  media: {
+    file: string;
+    alt?: string;
+  };
+};
 
-  const { data } = useGetQuery({
-    key: ['article', `${slug}`],
+type ArticleListResponse = {
+  data: ArticleCardType[];
+};
+
+export const Content: React.FC = () => {
+  const t = useTranslations();
+  const { slug } = useParams() as { slug: string };
+
+  const { data: articleDetail } = useGetQuery<ArticleDetail>({
+    key: ['article', slug],
     page: '',
     perPage: '',
     url: `articles/${slug}`,
@@ -24,32 +39,29 @@ export const Content = () => {
     additionalParam: '',
   });
 
-  const { data: article, isSuccess } = useGetQuery({
+  const { data: articleList, isSuccess: isArticleListSuccess } = useGetQuery<ArticleListResponse>({
     key: ['articles_main'],
     page: '1',
-    perPage: `2`,
+    perPage: '2',
     url: 'articles',
     searchItem: '',
-    additionalParam: ``,
+    additionalParam: '',
   });
 
   return (
     <div className="w-full flex flex-col items-start gap-5">
-      <Breadcrumbs
-        link={{ link: '/adventures', title: t('breadcrumbs.articles') }}
-        link2={{ link: '', title: data?.name }}
-      />
+      <Breadcrumbs />
       <div className="flex flex-col gap-3 pt-[40px]">
-        <h1 className="text-[56px] max-w-[70%]">{data?.name}</h1>
-        <p className="text-[18px] text-gray-500">{data?.published}</p>
+        <h1 className="text-[56px] max-w-[70%]">{articleDetail?.name}</h1>
+        <p className="text-[18px] text-gray-500">{articleDetail?.published}</p>
       </div>
       <div className="w-full bg-[#16372D] h-[650px] rounded-[16px] shadow-2xl relative overflow-hidden">
-        {data?.media.file && (
+        {articleDetail?.media?.file && (
           <Image
-            src={data?.media.file}
-            alt={data?.media.alt || 'image'}
+            src={articleDetail.media.file}
+            alt={articleDetail.media.alt || 'image'}
             fill
-            className=" object-cover absolute top-0"
+            className="object-cover absolute top-0"
           />
         )}
       </div>
@@ -57,7 +69,7 @@ export const Content = () => {
         <div className="flex items-start justify-between gap-5 h-full pt-[40px]">
           <div className="flex-1 w-full ">
             <div
-              dangerouslySetInnerHTML={{ __html: data?.description || '' }}
+              dangerouslySetInnerHTML={{ __html: articleDetail?.description || '' }}
               className="text-[18px] w-full flex-1 min-h-[60svh] h-full"
             />
             <Divider orientation="horizontal" className="py-[30px] w-full" />
@@ -72,7 +84,7 @@ export const Content = () => {
               </Button>
             </div>
           </div>
-          <div className="w-full max-w-[350px] h-full  flex flex-col items-end justify-start gap-[50px] sticky top-[150px]">
+          <div className="w-full max-w-[350px] h-full flex flex-col items-end justify-start gap-[50px] sticky top-[150px]">
             <SocialMedia
               linkClassName="p-2 box-content"
               iconSize={24}
@@ -82,13 +94,13 @@ export const Content = () => {
             />
 
             <div className="flex flex-col gap-5">
-              {isSuccess &&
-                article?.data?.map((el: ArticleCardType) => (
+              {isArticleListSuccess &&
+                articleList?.data?.map((el: ArticleCardType) => (
                   <ArticleCard key={el.id} article={el} />
                 ))}
               <div className="h-[450px] w-full bg-[#16372D] relative rounded-[16px] overflow-hidden flex items-center justify-center">
                 <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-                <Image src={cr2} alt="cyt" fill className=" object-cover absolute top-0" />
+                <Image src={cr2} alt="cyt" fill className="object-cover absolute top-0" />
                 <div className="relative z-30 text-white p-5 flex flex-col items-center gap-5 text-center">
                   <p className="text-[28px]">{t('article.cyt.title')}</p>
                   <p className="text-[16px]">{t('article.cyt.text')}</p>

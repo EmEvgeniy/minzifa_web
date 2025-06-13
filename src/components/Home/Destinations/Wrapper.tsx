@@ -19,7 +19,7 @@ export const Wrapper = () => {
     setIsEnd(swiper.isEnd);
   };
 
-  const { data, isLoading } = useGetQuery({
+  const { data, isLoading, isSuccess } = useGetQuery<DestinationBlockProps[]>({
     key: ['destinations'],
     page: '',
     perPage: '',
@@ -33,10 +33,10 @@ export const Wrapper = () => {
       {isLoading ? (
         <div className="min-h-[420px] h-full"></div>
       ) : (
-        data?.length > 0 && (
+        isSuccess && (
           <div className="container-right">
             <Slider
-              slides={data}
+              slides={data || []}
               swiperRef={swiperRef}
               isBeginning={isBeginning}
               isEnd={isEnd}

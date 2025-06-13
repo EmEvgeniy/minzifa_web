@@ -32,7 +32,7 @@ export const FormTop = () => {
   const [date, setDate] = useState<Dayjs | null>(null);
   const [travellers_type, setTravellers_type] = useState<string>('Solo');
 
-  const { data, isSuccess } = useGetQuery({
+  const { data, isSuccess } = useGetQuery<DestinationBlockProps[]>({
     key: ['destinations_form_create'],
     page: '',
     perPage: '',

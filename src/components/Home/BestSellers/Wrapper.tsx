@@ -18,7 +18,7 @@ export const Wrapper = () => {
     setIsEnd(swiper.isEnd);
   };
 
-  const { data, isSuccess } = useGetQuery({
+  const { data, isSuccess } = useGetQuery<BestSellersPackagesCardType[]>({
     key: ['tours'],
     page: '',
     perPage: '',

@@ -7,7 +7,7 @@ export const Main = () => {
 
   return (
     <section className="container pt-[12%] h-full">
-      <Breadcrumbs link={{ link: '', title: t('breadcrumbs.hotel-booking-rules') }} />
+      <Breadcrumbs />
       <div className="w-full h-full flex flex-col items-start gap-5 pt-[30px]">
         <h1 className="text-[56px] font-semibold">{t('hotel-booking-rules.title')}</h1>
         <p className="text-[24px] font-semibold">{t('hotel-booking-rules.sub_title')}</p>

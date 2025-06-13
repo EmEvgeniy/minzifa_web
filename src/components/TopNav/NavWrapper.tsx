@@ -12,7 +12,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
   const index = useNavStore((state) => state.index);
   const setActiveIndex = useNavStore((state) => state.setIndex);
   const locale = useLocale();
-  const { data, isSuccess } = useGetQuery({
+  const { data, isSuccess } = useGetQuery<DestinationProps[]>({
     key: ['destinations_top'],
     page: '',
     perPage: '',

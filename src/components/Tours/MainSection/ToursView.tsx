@@ -2,7 +2,7 @@
 import { useGetQuery } from '@/api/get.api';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 import { AllToursCardType } from './_types';
@@ -22,6 +22,7 @@ export const ToursView = () => {
   const open = Boolean(anchorEl);
   const t = useTranslations('');
   const menu = t.raw('all_tours.sort') as { title: string; value: string }[];
+  const locale = useLocale();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -32,13 +33,13 @@ export const ToursView = () => {
     setAnchorEl(null);
   };
 
-  const { data, isSuccess, isLoading } = useGetQuery({
+  const { data, isSuccess, isLoading } = useGetQuery<AllToursCardType[]>({
     key: ['all_tours', value, `${page}`],
     page: String(page),
     perPage: String(perPage),
     url: 'tours',
     searchItem: '',
-    additionalParam: `&all=true&main_page=0&sort=${value}&page=${page}&perPage=${perPage}`,
+    additionalParam: `&all=true&main_page=1&sort=${value}&page=${page}&perPage=${perPage}`,
   });
   const totalPages = Math.ceil((data?.length || 0) / perPage);
 
@@ -132,7 +133,7 @@ export const ToursView = () => {
                   </div>
                   <Link
                     className="bg-[#27A430] w-full text-center rounded-[16px] py-[10px] shadow-2xl text-white transition-all hover:bg-[#66B93E] active:bg-[#27A430] max-h-[50px]"
-                    href={'/'}
+                    href={`/${locale}/${el.destination.slug}/${el.slug}`}
                   >
                     {t('View_itinerary')}
                   </Link>

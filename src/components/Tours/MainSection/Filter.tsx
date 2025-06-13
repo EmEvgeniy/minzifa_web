@@ -37,6 +37,11 @@ const defaultTheme = createTheme({
   },
 });
 
+interface DataResponse {
+  name: string;
+  id: number;
+}
+
 export const Filter = () => {
   const t = useTranslations('all_tours');
   const [price, setPrice] = useState<number[]>([0, 3200]);
@@ -72,7 +77,7 @@ export const Filter = () => {
     setDuration(newValue);
   };
 
-  const { data, isSuccess } = useGetQuery({
+  const { data, isSuccess } = useGetQuery<DataResponse[]>({
     key: ['all_tours_types'],
     page: '',
     perPage: '',

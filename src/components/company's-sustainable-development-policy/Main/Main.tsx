@@ -7,10 +7,7 @@ export const Main = () => {
 
   return (
     <section className="container py-[12%]">
-      <Breadcrumbs
-        className="[@media(max-width:768px)]:hidden"
-        link={{ link: '', title: t("breadcrumbs.company's-sustainable-development-policy") }}
-      />
+      <Breadcrumbs />
       <div className="flex flex-col w-full gap-5 pt-[30px]">
         <h1 className="text-[56px] font-semibold [@media(max-width:768px)]:text-[30px]">
           {t("company's-sustainable-development-policy.title")}

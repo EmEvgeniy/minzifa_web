@@ -17,7 +17,7 @@ export const Hero = () => {
         className=" object-cover absolute top-0 z-10"
       />
       <div className="relative w-full z-30 text-white container flex flex-col items-start justify-start h-full py-[150px] gap-5">
-        <Breadcrumbs link={{ link: '', title: t('breadcrumbs.all_news') }} color="white" />
+        <Breadcrumbs />
         <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-center">
           <h1 className="text-[56px]">{t('articles.main_title')}</h1>
           <p className="text-[24px] max-w-[50%]">{t('articles.main_sub_title')}</p>

@@ -5,7 +5,7 @@ import { AdventureCardType } from '@/components/UI/AdventureCard/_types';
 import React from 'react';
 
 export const Wrapper = () => {
-  const { data, isSuccess } = useGetQuery({
+  const { data, isSuccess } = useGetQuery<AdventureCardType[]>({
     key: ['types'],
     page: '',
     perPage: '',

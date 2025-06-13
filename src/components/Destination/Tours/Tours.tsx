@@ -11,7 +11,7 @@ export const Tours = () => {
   const [page, setPage] = useState<number>(1);
   const perPage = 9;
 
-  const { data, isSuccess, isLoading } = useGetQuery({
+  const { data, isSuccess, isLoading } = useGetQuery<AllToursCardType[]>({
     key: ['all_tours', `${page}`, `${slug}`],
     page: String(page),
     perPage: String(perPage),

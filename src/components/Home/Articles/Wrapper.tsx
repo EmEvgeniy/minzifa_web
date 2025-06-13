@@ -4,8 +4,12 @@ import { ArticleCard } from '@/components/UI';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import React from 'react';
 
+interface DataResponse {
+  data: ArticleCardType[];
+}
+
 export const Wrapper = () => {
-  const { data, isSuccess } = useGetQuery({
+  const { data, isSuccess } = useGetQuery<DataResponse>({
     key: ['articles'],
     page: '1',
     perPage: '3',
