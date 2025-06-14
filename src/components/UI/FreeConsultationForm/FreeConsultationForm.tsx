@@ -17,7 +17,7 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
         'bg-[#16372D] w-full h-full rounded-2xl overflow-hidden my-[70px] max-[768px]:my-[40px]',
       )}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
         <div className="relative w-full h-full block max-[768px]:hidden">
           <div
             className="absolute inset-0 z-10 pointer-events-none bg-[#16372D]"
@@ -39,7 +39,7 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="flex flex-col gap-5 w-full max-w-[434px] mx-auto my-8 p-5 max-[768px]:max-w-full max-[768px]:gap-8">
+        <div className="flex flex-col gap-5 w-full max-w-[434px] p-5 mx-auto my-8  max-[768px]:max-w-full max-[768px]:gap-8">
           <h2 className="text-4xl font-semibold text-white max-[768px]:text-[35px] max-[550px]:text-[24px] max-[550px]:text-center">
             {t('title')}
           </h2>
@@ -64,7 +64,7 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
           </button>
           <div className="flex flex-row gap-2 mx-auto  max-[768px]:text-[16px]">
             <input type="checkbox" id="checkbox" />
-            <label htmlFor={'checkbox'} className="text-white text-base font-normal">
+            <label htmlFor={'checkbox'} className="text-white text-base font-normal text-[13px]">
               {t('checkbox.0')}{' '}
               <Link href={`/${locale}/privacy-policy`} className="text-[#27A430]">
                 {t('checkbox.1')}

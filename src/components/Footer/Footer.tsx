@@ -12,12 +12,12 @@ export const Footer = () => {
   return (
     <footer className="bg-[#16372D] w-full">
       <div className="max-w-[1650px] w-full px-[15px] py-[30px] text-white flex flex-col gap-10 mx-auto">
-        <div className="grid grid-cols-3 w-full gap-10 [@media(max-width:1024px)]:grid-cols-2 [@media(max-width:550px)]:grid-cols-1">
+        <div className="grid grid-cols-3 w-full gap-10 max-[1200px]:grid-cols-2 max-[768px]:grid-cols-1">
           <FooterLeft />
           <FooterMiddle />
           <FooterRight />
         </div>
-        <p className="text-[14px] text-center">
+        <p className="text-[14px] text-center max-[550px]:text-[11px]">
           © 2014-2025 Minzifa Travel. All rights reserved. `Unique Travel` FE by Minzifa Travel.{' '}
           <br /> 70 Eshoni Pir Street, Bukhara 200118, Bukhara, Uzbekistan. |{' '}
           <Link href={`/${locale}/privacy-policy`}>{pl.title}</Link>

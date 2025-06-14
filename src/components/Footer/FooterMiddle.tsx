@@ -9,7 +9,7 @@ export const FooterMiddle = () => {
   const menu2 = t.raw('Useful_information') as { title: string; link: string }[];
 
   return (
-    <div className="flex items-start justify-between gap-5">
+    <div className="flex items-start justify-between gap-5 max-[550px]:flex-col">
       <div className="flex flex-col gap-5">
         <p className="text-[20px] font-semibold">{t('Menu_title')}</p>
         <nav className="flex flex-col gap-3 text-[16px] font-light">

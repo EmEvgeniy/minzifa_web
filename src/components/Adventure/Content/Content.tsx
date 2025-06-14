@@ -1,7 +1,6 @@
 'use client';
 import { useGetQuery } from '@/api/get.api';
 import { cr2 } from '@/assets/img';
-import { Articles } from '@/components/Home';
 import { ArticleCard, SocialMedia } from '@/components/UI';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
@@ -51,40 +50,46 @@ export const Content: React.FC = () => {
   return (
     <div className="w-full flex flex-col items-start gap-5">
       <Breadcrumbs />
-      <div className="flex flex-col gap-3 pt-[40px]">
-        <h1 className="text-[56px] max-w-[70%]">{articleDetail?.name}</h1>
-        <p className="text-[18px] text-gray-500">{articleDetail?.published}</p>
+      <div className="flex flex-col gap-3 pt-[40px] max-[1024px]:pt-[20px] max-[768px]:gap-2">
+        <h1 className="text-[56px] max-w-[70%] max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[550px]:text-[24px] max-[550px]:font-semibold">
+          {articleDetail?.name}
+        </h1>
+        <p className="text-[18px] text-gray-500 max-[1024px]:text-[16px]">
+          {articleDetail?.published}
+        </p>
       </div>
-      <div className="w-full bg-[#16372D] h-[650px] rounded-[16px] shadow-2xl relative overflow-hidden">
+      <div className="w-full bg-[#16372D] h-[650px] rounded-[16px] shadow-2xl relative overflow-hidden max-[1024px]:h-[450px] max-[550px]:h-[300px]">
         {articleDetail?.media?.file && (
           <Image
             src={articleDetail.media.file}
             alt={articleDetail.media.alt || 'image'}
             fill
-            className="object-cover absolute top-0"
+            className="object-cover absolute top-0 "
           />
         )}
       </div>
-      <div className="relative w-full min-h-screen">
-        <div className="flex items-start justify-between gap-5 h-full pt-[40px]">
-          <div className="flex-1 w-full ">
+      <div className="relative w-full min-h-screen max-[550px]:min-h-full max-[550px]:pb-[30px]">
+        <div className="flex items-start justify-between gap-5 h-full pt-[40px] max-[1024px]:flex-col">
+          <div className="flex-1 w-full h-full">
             <div
               dangerouslySetInnerHTML={{ __html: articleDetail?.description || '' }}
-              className="text-[18px] w-full flex-1 min-h-[60svh] h-full"
+              className="text-[18px] w-full flex-1 min-h-[60svh] h-full max-[1024px]:min-h-full max-[550px]:text-[14px]"
             />
-            <Divider orientation="horizontal" className="py-[30px] w-full" />
-            <div className="w-full flex flex-col items-start gap-5 pt-[40px]">
-              <p className="text-[42px] text-[#16372D]">{t('article.form.title')}</p>
+            <Divider orientation="horizontal" className="py-[30px] w-full max-[1024px]:py-[10px]" />
+            <div className="w-full flex flex-col items-start gap-5 pt-[40px] max-[550px]:gap-3">
+              <p className="text-[42px] text-[#16372D] max-[1024px]:text-[28px] max-[550px]:text-[24px] max-[550px]:font-semibold ">
+                {t('article.form.title')}
+              </p>
               <textarea
                 placeholder={t('article.form.pl')}
-                className="bg-white min-h-[250px] rounded-[16px] w-full p-5"
+                className="bg-white min-h-[250px] rounded-[16px] w-full p-5 max-[550px]:min-h-[180px] "
               />
               <Button variant="contained" color="secondary" sx={{ borderRadius: 2, minHeight: 45 }}>
                 {t('article.form.btn')}
               </Button>
             </div>
           </div>
-          <div className="w-full max-w-[350px] h-full flex flex-col items-end justify-start gap-[50px] sticky top-[150px]">
+          <div className="w-full max-w-[350px] h-full flex flex-col items-end justify-start gap-[50px] sticky top-[150px] max-[1024px]:hidden p-5">
             <SocialMedia
               linkClassName="p-2 box-content"
               iconSize={24}
@@ -93,7 +98,7 @@ export const Content: React.FC = () => {
               iconColor="#000"
             />
 
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 max-[1024px]:hidden">
               {isArticleListSuccess &&
                 articleList?.data?.map((el: ArticleCardType) => (
                   <ArticleCard key={el.id} article={el} />
@@ -117,7 +122,6 @@ export const Content: React.FC = () => {
           </div>
         </div>
       </div>
-      <Articles />
     </div>
   );
 };

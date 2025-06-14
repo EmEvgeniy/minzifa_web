@@ -41,11 +41,15 @@ export const Form = () => {
     [formData, isPending, mutate],
   );
   return (
-    <div className="mx-auto w-full ">
-      <h2 className="font-bold mb-4 text-[42px] tracking-tight text-white">
+    <div className="mx-auto w-full max-[768px]:max-w-full h-full">
+      <h2 className="font-bold mb-4 text-[42px] tracking-tight text-white max-[768px]:text-[30px] max-[768px]:text-center">
         {t('contact_us.form_title')}
       </h2>
-      <form action="#" className="space-y-8" onSubmit={handleSubmit}>
+      <form
+        action="#"
+        className="space-y-8 max-[768px]:max-w-full max-[768px]:space-y-5"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           id="name"

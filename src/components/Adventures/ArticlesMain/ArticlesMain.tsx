@@ -59,8 +59,12 @@ export const ArticlesMain = () => {
   return (
     <section className="container py-[70px] min-h-[50svh] flex flex-col gap-5">
       <div className="flex items-center justify-between w-full">
-        <h2 className="text-[42px]">{t('title')}</h2>
-        <p className="text-[42px]">{data?.meta?.total}</p>
+        <h2 className="text-[42px] max-[768px]:text-[24px] max-[768px]:font-semibold">
+          {t('title')}
+        </h2>
+        <p className="text-[42px] max-[768px]:text-[20px] max-[768px]:font-semibold">
+          {data?.meta?.total}
+        </p>
       </div>
       <div className="flex items-center justify-between">
         <ToggleButtonGroup
@@ -100,7 +104,7 @@ export const ArticlesMain = () => {
         </Menu>
       </div>
       <div className="flex items-center justify-center flex-col gap-5">
-        <div className="grid grid-cols-3 gap-5 min-h-[50svh] w-full">
+        <div className="grid grid-cols-3 gap-5 min-h-[50svh] w-full max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
           {!isLoading && !isRefetching && !isFetching
             ? data?.data.map((el: ArticleCardType) => <ArticleCard key={el.id} article={el} />)
             : size > 0 &&

@@ -26,12 +26,14 @@ export const ArticleCard: FC<Props> = ({ article }) => {
             />
           )}
         </div>
-        <div className="p-[10px] flex flex-col gap-4 text-[#16372D] mb-[20px] h-full  w-full">
-          <p className="text-[24px] truncate overflow-hidden whitespace-nowrap max-w-[300px]">
+        <div className="p-[10px] flex flex-col gap-4 text-[#16372D] mb-[20px] h-full  w-full ">
+          <p className="text-[24px] truncate overflow-hidden whitespace-nowrap max-w-[300px] max-[768px]:max-w-full max-[768px]:text-[18px] max-[768px]:font-semibold">
             {article?.name}
           </p>
 
-          <p className="line-clamp-3 text-base text-[#717171]">{article?.description}</p>
+          <p className="max-[768px]:text-[13px] line-clamp-3 text-base text-[#717171]">
+            {article?.description}
+          </p>
         </div>
       </div>
     </Link>

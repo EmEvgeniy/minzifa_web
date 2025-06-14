@@ -30,7 +30,7 @@ export const Main = () => {
         >
           {data.map((el: DestinationBlockProps) => (
             <Link href={`/${locale}/destination/${el.slug}`} key={el.slug}>
-              <div className="w-full h-full max-w-[275px] min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold">
+              <div className="w-full h-full  min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold max-w-full">
                 {el.icon.file && (
                   <Image
                     src={el.icon.file ? el.icon.file : ''}
