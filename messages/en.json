@@ -47,6 +47,7 @@
     "create_your_trip_btn": "Create your trip",
     "article_btn": "View all news"
   },
+  "Filters": "Filters",
   "search": "Where do you want to go?",
   "View_itinerary": "View itinerary",
   "navigation": {
@@ -334,6 +335,18 @@
       "text5": "We sincerely believe that responsible travel is the only way to the future of travel. Together we can make this world a better place.",
       "text6": "For us, it’s not just a job, but a job we love, which gives us great pleasure. We are very happy to live in this country with such a rich culture and amazing nature. We think that travel can have a positive impact on both the destination and the traveler."
     },
+    "block": [
+      { "title": "KEEP THE ENVIRONMENT", "text": "We take care of the environment" },
+      {
+        "title": "RESPECT CULTURES AND DESTINATIONS",
+        "text": "We strive to preserve different cultures and customs"
+      },
+      { "title": "Protecting Animals", "text": "We are committed to preserving animal rights" },
+      {
+        "title": "SUPPORT THE ECONOMY AND COMMUNITIES",
+        "text": "We are committed to supporting local communities."
+      }
+    ],
     "mission": {
       "title": "OUR MISSION.",
       "text": "The mission of Minzifa Travel is to create unforgettable and responsible journeys that reveal the beauty of Central Asia. We offer enriching experiences that foster cultural understanding and support local communities.",

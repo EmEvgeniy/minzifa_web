@@ -10,7 +10,9 @@ export const MainSection = () => {
       <div className="w-full flex flex-col gap-5 py-[30px]">
         <Breadcrumbs />
         <div className="w-full flex items-start justify-between gap-5">
-          <Filter />
+          <div className="block [@media(max-width:1024px)]:hidden">
+            <Filter />
+          </div>
           <ToursView />
         </div>
       </div>

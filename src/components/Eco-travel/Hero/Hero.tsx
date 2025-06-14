@@ -7,12 +7,18 @@ import React from 'react';
 export const Hero = () => {
   const t = useTranslations('eco');
   return (
-    <section className="min-h-[90svh] w-full relative bg-[#16372D] flex items-center justify-center">
+    <section className="min-h-[90svh] w-full relative bg-[#16372D] flex items-center justify-center max-[768px]:min-h-[70svh]">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
       <Image src={eco_bg} alt="eco_bg" fill className=" object-cover absolute top-0 z-10" />
       <div className="container relative z-30 flex flex-col items-center justify-center gap-5">
-        <Image src={eco_icon} alt="eco-icon" width={65} height={65} />
-        <h1 className="text-white text-[56px] flex flex-col text-center">
+        <Image
+          src={eco_icon}
+          alt="eco-icon"
+          width={65}
+          height={65}
+          className="max-[768px]:w-[40px] max-[500px]:w-[30px]"
+        />
+        <h1 className="text-white text-[56px] flex flex-col text-center max-[768px]:text-[35px] max-[500px]:text-[24px]">
           <span>{t('title')}</span>
           <span>{t('title2')}</span>
         </h1>

@@ -21,11 +21,13 @@ export const Mission = () => {
         alt="lr"
         width={700}
         height={300}
-        className=" object-cover absolute rotate-180 top-[-15%] right-[-20%] z-10"
+        className=" object-cover absolute rotate-180 top-[-15%] right-[-20%] z-10 max-[768px]:hidden"
       />
-      <div className="container relative z-30 text-white py-[70px] flex flex-col items-center justify-center gap-10">
-        <h2 className="text-[42px] text-center">{t('mission.title')}</h2>
-        <p className="text-[18px] text-center flex flex-col gap-5">
+      <div className="container relative z-30 text-white py-[70px] flex flex-col items-center justify-center gap-10 max-[1024px]:gap-5">
+        <h2 className="text-[42px] text-center max-[1024px]:text-[35px] max-[500px]:text-[24px]">
+          {t('mission.title')}
+        </h2>
+        <p className="text-[18px] text-center flex flex-col gap-5 max-[500px]:text-[16px]">
           <span>{t('mission.text')}</span>
           <span>{t('mission.text2')}</span>
         </p>

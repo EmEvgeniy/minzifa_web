@@ -20,97 +20,99 @@ const EnvironmentCircle = () => {
   };
 
   return (
-    <div className="bg-[#16372D] py-[40px] my-[70px] container rounded-[18px] shadow-2xl">
-      <svg
-        width="100%"
-        height="100%"
-        preserveAspectRatio="xMidYMid meet"
-        viewBox="-585 -275 1170 550"
-        fill="#16372D"
-      >
-        <defs>
-          <pattern id="image" x="0%" y="0%" height="90%" width="90%">
-            <image
-              x="0"
-              y="0"
-              width="90%"
-              height="90%"
-              preserveAspectRatio="xMidYMid slice"
-              href={items.find((item) => item.key === activeLabel)?.img}
-            ></image>
-          </pattern>
-        </defs>
-
-        <circle
-          cx="0"
-          cy="0"
-          r={radius}
-          stroke={activeColor}
-          strokeWidth="2"
-          // fill="url(#image)"
-        />
-        <rect x="-201" y="-201" width="402" height="402" rx="201.5" fill="url(#image)" />
-        <rect
-          x="-201"
-          y="-201"
-          width="402"
-          height="402"
-          rx="201.5"
+    <div className="my-[70px] container max-[768px]:hidden">
+      <div className="bg-[#16372D] py-[40px]  rounded-[18px] shadow-2xl max-[1024px]:py-[30px]">
+        <svg
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="-585 -275 1170 550"
           fill="#16372D"
-          fillOpacity="0.35"
-        />
+        >
+          <defs>
+            <pattern id="image" x="0%" y="0%" height="90%" width="90%">
+              <image
+                x="0"
+                y="0"
+                width="90%"
+                height="90%"
+                preserveAspectRatio="xMidYMid slice"
+                href={items.find((item) => item.key === activeLabel)?.img}
+              ></image>
+            </pattern>
+          </defs>
 
-        <text x="0" y="-10" textAnchor="middle" fontSize="20" fill="#ffffff" fontWeight="bold">
-          We take care of
-        </text>
-        <text x="0" y="20" textAnchor="middle" fontSize="20" fill="#ffffff" fontWeight="bold">
-          the environment
-        </text>
+          <circle
+            cx="0"
+            cy="0"
+            r={radius}
+            stroke={activeColor}
+            strokeWidth="2"
+            // fill="url(#image)"
+          />
+          <rect x="-201" y="-201" width="402" height="402" rx="201.5" fill="url(#image)" />
+          <rect
+            x="-201"
+            y="-201"
+            width="402"
+            height="402"
+            rx="201.5"
+            fill="#16372D"
+            fillOpacity="0.35"
+          />
 
-        {/* Точки и текстовые блоки */}
-        {items.map((item, i) => {
-          const { x, y } = polarToCartesian(item.angle, radius);
-          const labelX = x + (x > 0 ? 30 : -210); // смещение блока от точки
-          const labelY = y - 25;
+          <text x="0" y="-10" textAnchor="middle" fontSize="20" fill="#ffffff" fontWeight="bold">
+            We take care of
+          </text>
+          <text x="0" y="20" textAnchor="middle" fontSize="20" fill="#ffffff" fontWeight="bold">
+            the environment
+          </text>
 
-          return (
-            <g key={i}>
-              <circle
-                onClick={() => setLabel(item.key as typeof activeLabel)}
-                cx={x}
-                cy={y}
-                r={12}
-                fill={activeLabel === item.key ? activeColor : inactiveForegroundColor}
-                stroke="#27A430"
-              />
-              {/* Блок с текстом */}
-              <foreignObject
-                x={labelX}
-                y={labelY}
-                width="180"
-                height="50"
-                style={{ overflow: 'visible' }}
-              >
-                <div
+          {/* Точки и текстовые блоки */}
+          {items.map((item, i) => {
+            const { x, y } = polarToCartesian(item.angle, radius);
+            const labelX = x + (x > 0 ? 30 : -210); // смещение блока от точки
+            const labelY = y - 25;
+
+            return (
+              <g key={i}>
+                <circle
                   onClick={() => setLabel(item.key as typeof activeLabel)}
-                  // xmlns="http://www.w3.org/1999/xhtml"
-                  style={{
-                    backgroundColor: activeLabel === item.key ? activeColor : inactiveColor,
-                    color: activeLabel === item.key ? activeForeground : inactiveForegroundColor,
-                    borderRadius: '12px',
-                    padding: '10px',
-                    fontSize: '12px',
-                    fontFamily: 'Arial, sans-serif',
-                    textAlign: 'center',
-                  }}
+                  cx={x}
+                  cy={y}
+                  r={12}
+                  fill={activeLabel === item.key ? activeColor : inactiveForegroundColor}
+                  stroke="#27A430"
+                />
+                {/* Блок с текстом */}
+                <foreignObject
+                  x={labelX}
+                  y={labelY}
+                  width="180"
+                  height="50"
+                  style={{ overflow: 'visible' }}
                 >
-                  <span>{item.label}</span>
-                </div>
-              </foreignObject>
-            </g>
-          );
-        })}
-      </svg>
+                  <div
+                    onClick={() => setLabel(item.key as typeof activeLabel)}
+                    // xmlns="http://www.w3.org/1999/xhtml"
+                    style={{
+                      backgroundColor: activeLabel === item.key ? activeColor : inactiveColor,
+                      color: activeLabel === item.key ? activeForeground : inactiveForegroundColor,
+                      borderRadius: '12px',
+                      padding: '10px',
+                      fontSize: '12px',
+                      fontFamily: 'Arial, sans-serif',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <span>{item.label}</span>
+                  </div>
+                </foreignObject>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
     </div>
   );
 };

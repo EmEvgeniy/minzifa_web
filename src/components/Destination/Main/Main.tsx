@@ -23,7 +23,11 @@ export const Main = () => {
     <div className="w-full h-full flex flex-col gap-8">
       <Breadcrumbs />
       {!isLoading && isSuccess ? (
-        <div className="w-full grid grid-cols-4 gap-5">
+        <div
+          className="w-full grid grid-cols-4 gap-5 max-[1024px]:grid-cols-3 
+  max-[768px]:grid-cols-2 
+  max-[550px]:grid-cols-1"
+        >
           {data.map((el: DestinationBlockProps) => (
             <Link href={`/${locale}/destination/${el.slug}`} key={el.slug}>
               <div className="w-full h-full max-w-[275px] min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold">
@@ -43,49 +47,22 @@ export const Main = () => {
           ))}
         </div>
       ) : (
-        <div className="w-full grid grid-cols-4 gap-5">
-          <Skeleton
-            sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-            variant="rectangular"
-            width={'100%'}
-            height={275}
-          />
-          <Skeleton
-            sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-            variant="rectangular"
-            width={'100%'}
-            height={275}
-          />
-          <Skeleton
-            sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-            variant="rectangular"
-            width={'100%'}
-            height={275}
-          />
-          <Skeleton
-            sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-            variant="rectangular"
-            width={'100%'}
-            height={275}
-          />
-          <Skeleton
-            sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-            variant="rectangular"
-            width={'100%'}
-            height={275}
-          />
-          <Skeleton
-            sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-            variant="rectangular"
-            width={'100%'}
-            height={275}
-          />
-          <Skeleton
-            sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-            variant="rectangular"
-            width={'100%'}
-            height={275}
-          />
+        <div
+          className="w-full grid grid-cols-4 gap-5   max-[1024px]:grid-cols-3 
+  max-[768px]:grid-cols-2 
+  max-[550px]:grid-cols-1"
+        >
+          {Array.from({ length: 7 })
+            .fill(1)
+            .map((_, i) => (
+              <Skeleton
+                sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
+                variant="rectangular"
+                width={'100%'}
+                height={275}
+                key={i}
+              />
+            ))}
         </div>
       )}
     </div>

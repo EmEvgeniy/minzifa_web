@@ -27,6 +27,10 @@ import economy_1 from './economy_1.png';
 import economy_2 from './economy_2.webp';
 import create from './create.webp';
 import cr2 from './cr2.jpg';
+import circle1 from './circle1.png';
+import circle3 from './circle2.2.png';
+import circle4 from './circle3.png';
+import circle5 from './circle4.png';
 
 export {
   cr2,
@@ -58,4 +62,8 @@ export {
   respect,
   child,
   animal,
+  circle1,
+  circle3,
+  circle4,
+  circle5,
 };

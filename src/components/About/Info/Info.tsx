@@ -9,12 +9,12 @@ export const Info = () => {
 
   return (
     <section className="container py-[48px] flex flex-col gap-10">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 ">
+      <div className="grid grid-cols-2 gap-4 max-[1024px]:grid-cols-1 ">
         <div className="md:col-span-1 text-[#16372D]">
-          <h1 className="text-custom-green-900 mb-8 text-2xl leading-tight tracking-tight md:text-[42px]">
+          <h1 className="text-custom-green-900 mb-8 text-[52px] leading-tight tracking-tight  max-[1024px]:text-[35px] max-[768px]:text-[24px] max-[768px]:font-semibold">
             {t('about.title_2')}
           </h1>
-          <p className="text-custom-green-900 mb-6 text-lg flex flex-col gap-2">
+          <p className="text-custom-green-900 mb-6 text-lg flex flex-col gap-2 max-[768px]:text-[18px]">
             <span>{t('about.text_2')}</span>
             <span className="w-full h-[0.5px] bg-black" />
             <span>{t('about.text_3')}</span>
@@ -28,16 +28,16 @@ export const Info = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-8">
+      <div className="grid grid-cols-4 gap-8 max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
         {statistic.map((el, i) => (
           <div
             key={i}
             className={`${
-              i <= 2 && 'border-r-[1px] border-gray-400 pr-[20px]'
+              i <= 2 && 'border-r-[1px] border-gray-400 pr-[20px] max-[768px]:border-none'
             } flex flex-col items-start justify-start`}
           >
-            <p className="text-[35px] font-semibold">{el.title}</p>
-            <p className="text-[18px]">{el.text}</p>
+            <p className="text-[35px] font-semibold max-[550px]:text-[24px]">{el.title}</p>
+            <p className="text-[18px] max-[550px]:text-[16px]">{el.text}</p>
           </div>
         ))}
       </div>

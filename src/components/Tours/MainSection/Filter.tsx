@@ -88,12 +88,12 @@ export const Filter = () => {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <div className="max-w-[350px] w-full min-h-[700px] flex flex-col gap-5 items-start justify-start">
-        <button className="bg-white flex items-center justify-center gap-2 px-[20px] py-[13.5px] rounded-[30px]  hover:bg-gray-300 cursor-pointer transition-all active:bg-white">
+      <div className="max-w-[350px] w-full min-h-[700px] flex flex-col gap-5 items-start justify-start [@media(max-width:1024px)]:max-w-full">
+        <button className="bg-white flex items-center justify-center gap-2 px-[20px] py-[13.5px] rounded-[30px]  hover:bg-gray-300 cursor-pointer transition-all active:bg-white [@media(max-width:1024px)]:hidden ">
           <span className="text-[18px]">{t('f_top_btn')}</span>
           <IoCloseCircle size={30} className="text-green-600" />
         </button>
-        <div className="bg-white rounded-[20px] w-full p-[15px] shadow-xl">
+        <div className="bg-white rounded-[20px] w-full p-[15px] shadow-xl [@media(max-width:1024px)]:bg-transparent [@media(max-width:1024px)]:shadow-none [@media(max-width:1024px)]:p-0">
           <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}

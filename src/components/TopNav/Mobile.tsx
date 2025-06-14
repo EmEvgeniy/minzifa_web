@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { LangBtn } from '../UI';
 import { useTranslations } from 'next-intl';
+import { MobileHeader } from './MobileHeader';
 
 export const Mobile = () => {
   const t = useTranslations();
@@ -14,8 +15,9 @@ export const Mobile = () => {
       <Link href={'/'}>
         <Image src={logo} alt="logo" width={130} height={30} />
       </Link>
-      <div>
+      <div className="flex items-center justify-end gap-1">
         <LangBtn langs={lang} />
+        <MobileHeader />
       </div>
     </header>
   );

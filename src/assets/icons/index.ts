@@ -10,6 +10,7 @@ import eco_icon4 from './eco_icon4.svg';
 import eco_icon5 from './eco_icon5.svg';
 import economy_icon from './economy_icon.svg';
 import tripadvisor_mobile from './tripadvisor.mobile.svg';
+import Filter_alt from './Filter_alt.svg';
 
 export {
   economy_icon,
@@ -23,5 +24,6 @@ export {
   location,
   eco_icon4,
   eco_icon5,
+  Filter_alt,
   tripadvisor_mobile,
 };

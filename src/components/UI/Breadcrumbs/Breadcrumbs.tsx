@@ -36,7 +36,7 @@ export const Breadcrumbs = ({
   const baseLocale = locales.includes(rawPathNames[0]) ? `/${rawPathNames[0]}` : '';
 
   return (
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb" className="block [@media(max-width:768px)]:hidden">
       <ul className={cn(containerClasses, 'list-none flex items-center')}>
         <li className={cn(listClasses)}>
           <Link href={baseLocale ?? '/'}>{homeElement ?? t('home')}</Link>

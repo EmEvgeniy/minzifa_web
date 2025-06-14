@@ -6,3 +6,4 @@ export * from './Environment';
 export * from './Children';
 export * from './Animal';
 export * from './Economy';
+export * from './MobileSlider';
