@@ -41,12 +41,12 @@ export const HeroSearch = () => {
           <RiSearch2Line className="w-[28px] h-[28px] [@media(max-width:1024px)]:w-[20px] [@media(max-width:1024px)]:h-[20px]" />
         </Link>
         {value && filtered.length > 0 && (
-          <div className="bg-white p-5 rounded-[15px] absolute top-[110%] left-0 max-w-[315px] w-full text-black z-50 shadow-md space-y-2 max-h-[300px] overflow-y-scroll max-[1024px]:max-w-full">
+          <div className="bg-white p-5 rounded-[15px] absolute top-[110%] left-1/2 -translate-x-1/2 max-w-[320px] w-full text-black z-50 shadow-md max-[1024px]:max-w-full max-h-[300px] overflow-y-scroll ">
             {filtered.map((item, i) => (
               <Link
                 key={i}
                 href={`/${locale}/tours?destination=${encodeURIComponent(item.name)}`}
-                className="block hover:underline hover:text-[#27A430] text-sm truncate"
+                className="block hover:underline hover:text-[#27A430] text-[16px] truncate"
               >
                 {item.name}
               </Link>
@@ -54,7 +54,7 @@ export const HeroSearch = () => {
           </div>
         )}
         {value && filtered.length === 0 && (
-          <div className="bg-white p-5 rounded-[15px] left-0 absolute top-[110%] max-w-[315px] w-full text-black z-50 shadow-md max-[1024px]:max-w-full">
+          <div className="bg-white p-5 rounded-[15px] absolute top-[110%] left-1/2 -translate-x-1/2 max-w-[320px] w-full text-black z-50 shadow-md max-[1024px]:max-w-full">
             <p className="text-sm text-gray-500">
               {locale === 'en' ? 'Nothing found' : 'Ничего не найдено'}
             </p>
