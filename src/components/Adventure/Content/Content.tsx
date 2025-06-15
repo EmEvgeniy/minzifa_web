@@ -51,7 +51,7 @@ export const Content: React.FC = () => {
     <div className="w-full flex flex-col items-start gap-5">
       <Breadcrumbs />
       <div className="flex flex-col gap-3 pt-[40px] max-[1024px]:pt-[20px] max-[768px]:gap-2">
-        <h1 className="text-[56px] max-w-[70%] max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[550px]:text-[24px] max-[550px]:font-semibold">
+        <h1 className="text-[56px] max-w-[70%] max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[550px]:text-[24px] max-[550px]:font-semibold font-title">
           {articleDetail?.name}
         </h1>
         <p className="text-[18px] text-gray-500 max-[1024px]:text-[16px]">

@@ -35,8 +35,12 @@ export const Hero = () => {
             <Image src={data?.icon?.file} alt="icon" width={65} height={65} />
           )}
         </div>
-        <h1 className="text-[56px]">{data?.name}</h1>
-        <p className="text-[24px] max-w-[70%] text-center">{t('destination.sub_title')}</p>
+        <h1 className="text-[56px] font-title max-[1024px]:text-[35px] max-[550px]:text-[30px]">
+          {data?.name}
+        </h1>
+        <p className="text-[24px] max-w-[70%] text-center max-[1024px]:max-w-full max-[1024px]:text-[20]">
+          {t('destination.sub_title')}
+        </p>
       </div>
     </section>
   );

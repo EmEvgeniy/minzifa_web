@@ -11,7 +11,9 @@ export const Hero = () => {
       <Image src={allTours} alt="all_tours" fill className="absolute top-0 z-10 object-cover" />
       <div className="container relative z-30 h-full">
         <div className="text-white flex items-center justify-center w-full h-full">
-          <h1 className="text-[56px] [@media(max-width:1024px)]:text-[32px]">{t('title')}</h1>
+          <h1 className="text-[56px] [@media(max-width:1024px)]:text-[32px] font-title">
+            {t('title')}
+          </h1>
         </div>
       </div>
     </section>

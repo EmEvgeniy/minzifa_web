@@ -18,7 +18,7 @@ export const Hero = () => {
           height={65}
           className="max-[768px]:w-[40px] max-[500px]:w-[30px]"
         />
-        <h1 className="text-white text-[56px] flex flex-col text-center max-[768px]:text-[35px] max-[500px]:text-[24px]">
+        <h1 className="text-white text-[56px] flex flex-col text-center max-[768px]:text-[35px] max-[500px]:text-[24px] font-title">
           <span>{t('title')}</span>
           <span>{t('title2')}</span>
         </h1>

@@ -9,7 +9,7 @@ export const Main = () => {
     <section className="container py-[150px] max-[550px]:py-[100px]">
       <Breadcrumbs />
       <div className="flex flex-col w-full gap-5 pt-[30px]">
-        <h1 className="text-[56px] font-semibold max-[1024px]:text-[35px] max-[550px]:text-[24px]">
+        <h1 className="text-[56px] font-semibold max-[1024px]:text-[35px] max-[550px]:text-[24px] font-title">
           {t("company's-sustainable-development-policy.title")}
         </h1>
         <p className="text-[20px] font-semibold max-[768px]:text-[18px]  ">

@@ -19,7 +19,7 @@ export const Hero = () => {
       <div className="relative w-full z-30 text-white container flex flex-col items-start justify-start h-full py-[150px] gap-5">
         <Breadcrumbs />
         <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-center">
-          <h1 className="text-[56px] max-[1024px]:text-[42px] max-[768px]:text-[35px] max-[768px]:font-semibold">
+          <h1 className="text-[56px] max-[1024px]:text-[42px] max-[768px]:text-[35px] max-[768px]:font-semibold font-title">
             {t('articles.main_title')}
           </h1>
           <p className="text-[24px] max-w-[50%] max-[768px]:text-[20px] max-[768px]:max-w-full">

@@ -9,7 +9,7 @@ export const Main = () => {
     <section className="container pt-[150px] h-full max-[768px]:py-[100px]">
       <Breadcrumbs />
       <div className="w-full h-full flex flex-col items-start gap-5 pt-[30px]">
-        <h1 className="text-[56px] font-semibold max-[1024px]:text-[35px] max-[768px]:text-[28px] max-[768px]:font-semibold">
+        <h1 className="text-[56px] font-semibold max-[1024px]:text-[35px] max-[768px]:text-[28px] max-[768px]:font-semibold font-title">
           {t('hotel-booking-rules.title')}
         </h1>
         <p className="text-[24px] font-semibold max-[768px]:text-[18px] max-[768px]:font-semibold">
