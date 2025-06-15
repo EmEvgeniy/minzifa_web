@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation';
 export const Reviews = () => {
   const t = useTranslations('reviews');
   const pathname = usePathname();
+
   const rating = 4.9;
   const fullStars = Math.floor(rating);
   const starsArray = Array.from({ length: 5 }, (_, i) => (
@@ -25,14 +26,23 @@ export const Reviews = () => {
   const widgetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!document.querySelector('script[data-trustindex]')) {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.trustindex.io/loader.js?9148d5a459d5117735065c57433';
-      script.async = true;
-      script.defer = true;
-      script.setAttribute('data-trustindex', 'true');
-      widgetRef.current?.appendChild(script);
+    const scriptId = 'trustindex-script';
+    const oldScript = document.getElementById(scriptId);
+    if (oldScript) {
+      oldScript.remove();
     }
+    if (widgetRef.current) {
+      widgetRef.current.innerHTML = '';
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://cdn.trustindex.io/loader.js?9148d5a459d5117735065c57433';
+    script.async = true;
+    script.defer = true;
+    script.setAttribute('data-trustindex', 'true');
+    script.id = scriptId;
+
+    widgetRef.current?.appendChild(script);
   }, [pathname]);
 
   return (
@@ -50,7 +60,7 @@ export const Reviews = () => {
               4.9
             </p>
             <div>
-              <div className="flex flex-row gap-3 ">{starsArray}</div>
+              <div className="flex flex-row gap-3">{starsArray}</div>
               <div className="text-2xl text-[#666666] font-normal max-[1024px]:text-[20px]">
                 {t('count', { count: 400 })}
               </div>
@@ -59,6 +69,7 @@ export const Reviews = () => {
         </div>
         <Image src={info} alt="info_img" width={611} height={97} className="object-cover" />
       </div>
+
       <div ref={widgetRef} className="mt-10 w-full" />
     </section>
   );
