@@ -21,8 +21,8 @@ export const Breadcrumbs = ({
   homeElement = <span>Home</span>,
   separator = <span className="mx-2">/</span>,
   containerClasses = 'flex items-center',
-  listClasses = 'text-gray-900 hover:underline',
-  activeClasses = 'text-gray-900',
+  listClasses = 'text-[#16372D] hover:underline',
+  activeClasses = 'text-[#16372D]',
   capitalizeLinks = true,
 }: TBreadCrumbProps) => {
   const t = useTranslations('breadcrumbs');
