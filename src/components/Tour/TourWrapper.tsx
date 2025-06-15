@@ -19,53 +19,73 @@ import { TourPrices } from './TourPrices/TourPrices';
 import { Reviews } from '../UI/Reviews/Reviews';
 import { useBookingStore } from '@/store/bookingStore';
 import Loader from '../UI/Loader/Loader';
+import { MobileBtn } from './MobileBtn';
 
 export const TourWrapper = () => {
-    const locale = useLocale();
-    const params = useParams();
+  const locale = useLocale();
+  const params = useParams();
 
-    const { tour, setTour } = useBookingStore((state) => state);
+  const { tour, setTour } = useBookingStore((state) => state);
 
-    const { data, isLoading, isSuccess, error } = useGetQuery<Tour>({
-        key: [`tour_${params.tour}`],
-        page: '',
-        perPage: '',
-        url: `tours/${params.tour}`,
-        searchItem: '',
-        additionalParam: '',
-    });
+  const { data, isLoading, isSuccess, error } = useGetQuery<Tour>({
+    key: [`tour_${params.tour}`],
+    page: '',
+    perPage: '',
+    url: `tours/${params.tour}`,
+    searchItem: '',
+    additionalParam: '',
+  });
 
-    useEffect(() => {
-        if (isSuccess) {
-            setTour(data);
-        }
-    }, [data, isSuccess, setTour]);
+  useEffect(() => {
+    if (isSuccess) {
+      setTour(data);
+    }
+  }, [data, isSuccess, setTour]);
 
-    if (!tour && error) redirect(`/${locale}/not-found`);
+  if (!tour && error) redirect(`/${locale}/not-found`);
 
-    if (isLoading) return <div className='container mt-[150px] min-h-[200px] flex items-center justify-center'><Loader /></div>;
-
+  if (isLoading)
     return (
-        <div className="w-full min-h-[200vh]">
-            <div className="container pt-[150px] flex flex-col gap-10">
-                <Breadcrumbs />
-                <TourTitle title={tour?.name} />
-                <TourGallery images={tour?.gallery} tourName={tour?.name} />
-                <div className='grid grid-flow-row-dense grid-cols-1 md:grid-cols-[1fr_445px] gap-5'>
-                    <div className='flex flex-col gap-5'>
-                        {tour?.facts && <TourFacts facts={tour?.facts} />}
-                        {tour?.description && <TourDescription subtitle={tour?.subtitle} description={tour?.description} className="col-start-1" />}
-                    </div>
-                    {tour?.hightlights && <TourHighlights highlights={tour?.hightlights} />}
-                    <TourItinerary itineraries={tour?.itineraries} />
-                    <FreeConsultationForm className='col-span-2 z-40' />
-                    <TourIncludes includes={tour?.includes} />
-                    <TourBooking prices={tour?.prices} className="z-30" />
-                </div>
-                <TourAccomodation hotels={tour?.hotels} />
-                <TourPrices />
-                <Reviews />
-            </div>
-        </div>
+      <div className="container mt-[150px] min-h-[200px] flex items-center justify-center">
+        <Loader />
+      </div>
     );
-}
+
+  return (
+    <div className="w-full min-h-[200vh]">
+      <div className="container pt-[150px] flex flex-col gap-10 max-[920px]:pt-[100px]">
+        <Breadcrumbs />
+        <div className="w-full block max-[920px]:hidden">
+          <TourTitle title={tour?.name} />
+        </div>
+        <TourGallery images={tour?.gallery} tourName={tour?.name} />
+        <div className="w-full hidden max-[920px]:block">
+          <TourTitle title={tour?.name} />
+        </div>
+        <div className="grid grid-flow-row-dense  grid-cols-[1fr_445px] max-[920px]:grid-cols-1 gap-5 max-[920px]:gap-0">
+          <div className="flex flex-col gap-5 w-full">
+            {tour?.facts && <TourFacts facts={tour?.facts} />}
+            {tour?.description && (
+              <TourDescription
+                subtitle={tour?.subtitle}
+                description={tour?.description}
+                className="col-start-1 max-[920px]:gap-5 max-[920px]:py-5"
+              />
+            )}
+          </div>
+          {tour?.hightlights && <TourHighlights highlights={tour?.hightlights} />}
+          <TourItinerary itineraries={tour?.itineraries} />
+          <div className="col-span-2 z-40 h-fit">
+            <FreeConsultationForm />
+          </div>
+          <TourIncludes includes={tour?.includes} />
+          <TourBooking prices={tour?.prices} className="z-30 max-[920px]:hidden" />
+        </div>
+        <TourAccomodation hotels={tour?.hotels} />
+        <TourPrices />
+        <Reviews />
+      </div>
+      <MobileBtn />
+    </div>
+  );
+};

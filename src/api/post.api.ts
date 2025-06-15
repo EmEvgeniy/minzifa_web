@@ -19,7 +19,9 @@ export function usePostMutation<
   return useMutation<TData, TError, MutationParams<TVariables>>({
     mutationKey: [...key],
     mutationFn: async ({ obj, http }) => {
-      const response = await axios.post<TData>(`https://api.minzifatravel.com/api/v1/${http}`, obj);
+      const response = await axios.post<TData>(`https://api.minzifatravel.com/api/v1/${http}`, {
+        ...obj,
+      });
       return response.data;
     },
     onSuccess: (data) => {

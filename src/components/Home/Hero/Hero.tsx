@@ -17,7 +17,7 @@ export const Hero = () => {
         className="w-full h-full absolute top-0 object-cover z-10"
       />
       <div className="container relative z-30 text-white flex flex-col items-center justify-center gap-5 [@media(max-width:1024px)]:items-start">
-        <h1 className="text-[56px] font-semibold text-center [@media(max-width:1024px)]:text-[34px] [@media(max-width:1024px)]:text-left">
+        <h1 className="text-[56px] font-semibold text-center [@media(max-width:1024px)]:text-[34px] [@media(max-width:1024px)]:text-left font-title">
           {t('title')}
         </h1>
         <p className="max-w-[50%] text-center text-[24px] font-light [@media(max-width:1024px)]:text-[15px] [@media(max-width:1024px)]:max-w-full [@media(max-width:1024px)]:text-left">

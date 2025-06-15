@@ -5,10 +5,58 @@ import Banner from '../../../assets/img/FreeConBanner.jpg';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { cn } from '@/utils/utils';
+import { useSnackStore } from '../CustomSnackBar/store';
+import { usePostMutation } from '@/api/post.api';
+import { FormEvent, useCallback, useState } from 'react';
+
+interface SubscribeFormRequest {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
 
 export const FreeConsultationForm = ({ className }: { className?: string }) => {
   const t = useTranslations('FreeForm');
   const locale = useLocale();
+  const [formData, setFormData] = useState<SubscribeFormRequest>({
+    name: '',
+    email: '',
+    phone: '+99890',
+    message: '',
+  });
+
+  const { setMessage, setError } = useSnackStore((state) => state);
+
+  const { mutate, isPending } = usePostMutation<SubscribeFormRequest, SubscribeFormRequest>(
+    ['subscribe-form'],
+    () => {
+      setMessage(locale == 'en' ? 'Your request was submitted!' : 'Ваш запрос был отправлен!');
+      setFormData({
+        name: '',
+        email: '',
+        phone: '+99890',
+        message: '',
+      });
+    },
+    () => {
+      setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
+      setMessage('');
+    },
+  );
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      if (!isPending) {
+        mutate({
+          obj: formData,
+          http: 'forms/free-consultation',
+        });
+      }
+    },
+    [formData, isPending, mutate],
+  );
 
   return (
     <form
@@ -17,7 +65,7 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
         'bg-[#16372D] w-full h-full rounded-2xl overflow-hidden my-[70px] max-[768px]:my-[40px]',
       )}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-[550px]:justify-items-center max-[550px]:items-center max-[550px]:gap-0">
         <div className="relative w-full h-full block max-[768px]:hidden">
           <div
             className="absolute inset-0 z-10 pointer-events-none bg-[#16372D]"
@@ -39,32 +87,41 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="flex flex-col gap-5 w-full max-w-[434px] p-5 mx-auto my-8  max-[768px]:max-w-full max-[768px]:gap-8">
+        <div className="flex flex-col gap-5 w-full max-w-[434px] p-5 mx-auto my-8  max-[768px]:max-w-full max-[768px]:gap-8 max-[550px]:p-3">
           <h2 className="text-4xl font-semibold text-white max-[768px]:text-[35px] max-[550px]:text-[24px] max-[550px]:text-center">
             {t('title')}
           </h2>
           <input
             type="text"
+            value={formData.name}
+            onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
             className="bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
             placeholder={t('name')}
           />
           <input
             type="text"
+            value={formData.email}
+            onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
             className="bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
             placeholder={t('email')}
           />
           <textarea
             name=""
             id=""
+            value={formData.message}
+            onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
             className="bg-white w-full min-h-[145px] text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
             placeholder={t('wishes')}
           ></textarea>
-          <button className="bg-[#27A430] text-white font-semibold text-base rounded-2xl py-4 max-[768px]:py-2 max-[768px]:text-[16px]">
+          <button
+            className="bg-[#27A430] text-white font-semibold text-base rounded-2xl py-4 max-[768px]:py-2 max-[768px]:text-[16px]"
+            onClick={(e) => handleSubmit(e)}
+          >
             {t('button')}
           </button>
-          <div className="flex flex-row gap-2 mx-auto  max-[768px]:text-[16px]">
+          <div className="flex flex-row gap-2 mx-auto  max-[768px]:text-[10px]">
             <input type="checkbox" id="checkbox" />
-            <label htmlFor={'checkbox'} className="text-white text-base font-normal text-[13px]">
+            <label htmlFor={'checkbox'} className="text-white text-base font-normal text-[12px]">
               {t('checkbox.0')}{' '}
               <Link href={`/${locale}/privacy-policy`} className="text-[#27A430]">
                 {t('checkbox.1')}

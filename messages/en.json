@@ -776,7 +776,7 @@
   "Booking": {
     "travellers": {
       "title": "How many travellers?",
-      "person": "Person",
+      "person": "Adult",
       "child": "Child",
       "child_hint": "Age 5-12"
     },

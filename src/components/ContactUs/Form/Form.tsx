@@ -3,7 +3,8 @@ import { usePostMutation } from '@/api/post.api';
 import React, { useCallback, useState } from 'react';
 import { ContactUsRequest, ContactUsResponse } from './_types';
 import { Button, Checkbox } from '@mui/material';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 
 export const Form = () => {
   const t = useTranslations();
@@ -13,19 +14,21 @@ export const Form = () => {
     phone: '',
     message: '',
   });
+  const { setMessage, setError } = useSnackStore((state) => state);
+  const lang = useLocale();
 
   const { mutate, isPending } = usePostMutation<ContactUsResponse, ContactUsRequest>(
     ['contact-us'],
     () => {
-      // toast(
-      //   getLanguage() === "en"
-      //     ? "Your request has been successfully sent."
-      //     : "Ваша заявка была успешно отправлена",
-      // );
+      setMessage(
+        lang == 'en'
+          ? 'Your request has been successfully sent.'
+          : 'Ваша заявка была успешно отправлена',
+      );
       setFormData({ name: '', email: '', phone: '', message: '' });
     },
-    (error) => {
-      console.error('Error:', error);
+    () => {
+      setError(lang == 'en' ? 'Some error was happened' : 'Произошла ошибка');
     },
   );
   const handleSubmit = useCallback(

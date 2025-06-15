@@ -54,12 +54,14 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
                     key={el.id}
                     className="flex items-center justify-start px-2 w-full gap-3 hover:bg-gray-300 rounded-2xl py-2 "
                   >
-                    <Image
-                      src={el.icon?.file || ''}
-                      alt={el.icon?.alt_text || ''}
-                      width={43}
-                      height={43}
-                    />
+                    {el.icon?.file && (
+                      <Image
+                        src={el.icon?.file || ''}
+                        alt={el.icon?.alt_text || 'img'}
+                        width={43}
+                        height={43}
+                      />
+                    )}
                     <span className="text-xl">{el.name}</span>
                   </Link>
                 ))}

@@ -73,7 +73,7 @@ export const Content: React.FC = () => {
           <div className="flex-1 w-full h-full">
             <div
               dangerouslySetInnerHTML={{ __html: articleDetail?.description || '' }}
-              className="text-[18px] w-full flex-1 min-h-[60svh] h-full max-[1024px]:min-h-full max-[550px]:text-[14px]"
+              className="text-[18px] w-full flex-1  h-full max-[1024px]:min-h-full max-[550px]:text-[14px]"
             />
             <Divider orientation="horizontal" className="py-[30px] w-full max-[1024px]:py-[10px]" />
             <div className="w-full flex flex-col items-start gap-5 pt-[40px] max-[550px]:gap-3">

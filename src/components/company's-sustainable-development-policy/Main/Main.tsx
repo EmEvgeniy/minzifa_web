@@ -6,7 +6,7 @@ export const Main = () => {
   const t = useTranslations();
 
   return (
-    <section className="container py-[12%] max-[550px]:py-[14%]">
+    <section className="container py-[150px] max-[550px]:py-[100px]">
       <Breadcrumbs />
       <div className="flex flex-col w-full gap-5 pt-[30px]">
         <h1 className="text-[56px] font-semibold max-[1024px]:text-[35px] max-[550px]:text-[24px]">

@@ -9,6 +9,7 @@ import {
   HowToBook,
   Info,
 } from '@/components';
+import { Reviews } from '@/components/UI/Reviews/Reviews';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <Adventure />
       <CreateYourTrip />
       <ContactUs />
+      <Reviews />
       <Articles />
     </>
   );

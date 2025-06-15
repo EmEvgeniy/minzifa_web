@@ -776,8 +776,8 @@
   "Booking": {
     "travellers": {
       "title": "Сколько путешественников?",
-      "person": "person",
-      "child": "ребенок",
+      "person": "Взрослый",
+      "child": "Ребенок",
       "child_hint": "Возраст 5-12"
     },
     "roomTypes": {

@@ -11,8 +11,10 @@ import eco_icon5 from './eco_icon5.svg';
 import economy_icon from './economy_icon.svg';
 import tripadvisor_mobile from './tripadvisor.mobile.svg';
 import Filter_alt from './Filter_alt.svg';
+import airplane from './airplane.svg';
 
 export {
+  airplane,
   economy_icon,
   logo,
   eco_icon,
