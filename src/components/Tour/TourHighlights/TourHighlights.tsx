@@ -1,7 +1,7 @@
 import { Highlights } from '../_types';
 
 export const TourHighlights = ({ highlights }: { highlights: Highlights }) => {
-  if (!highlights || highlights.content.length === 0) return null;
+  if (!highlights || highlights?.content?.length === 0) return null;
 
   return (
     <div className="my-6 col-start-1 ">
@@ -9,7 +9,7 @@ export const TourHighlights = ({ highlights }: { highlights: Highlights }) => {
         {highlights.title}
       </h2>
       <ul className="list-outside pl-5 bg-white p-5 rounded-lg shadow-md flex flex-col gap-2.5 max-[920px]:text-[16px] max-[550px]:text-[14px]">
-        {highlights.content.map((highlight, index) => (
+        {highlights?.content?.map((highlight, index) => (
           <li key={index} className="flex items-center gap-2">
             <svg
               width="15"

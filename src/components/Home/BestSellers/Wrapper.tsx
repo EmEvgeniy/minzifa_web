@@ -2,13 +2,14 @@
 import { useGetQuery } from '@/api/get.api';
 import { BestSellersPackagesCard, Slider, SliderBtns } from '@/components/UI';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
 export const Wrapper = () => {
   const t = useTranslations();
+  const locale = useLocale();
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -24,7 +25,7 @@ export const Wrapper = () => {
     perPage: '',
     url: 'tours',
     searchItem: '',
-    additionalParam: '&main_page=1',
+    additionalParam: `&main_page=1&locale=${locale}`,
   });
   return (
     <>
@@ -46,7 +47,7 @@ export const Wrapper = () => {
       </div>
       <div className="w-full flex items-center justify-between">
         <Link
-          href="/tours"
+          href={`/${locale}/tours`}
           className="w-full max-w-[209px] text-center bg-[#16372D] text-white py-[15px] rounded-[16px] text-[16px] shadow-2xl hover:bg-[#194D3D] transition-all active:bg-[#16372D] [@media(max-width:1024px)]:max-w-[150px] [@media(max-width:550px)]:py-[8px]"
         >
           {t('best_sellers_btns')}

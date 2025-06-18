@@ -6,7 +6,7 @@ export const TourFacts = ({ facts }: { facts: Facts }) => {
     <div className="flex flex-col items-start justify-start col-start-1">
       {/* {facts?.title && <h2 className="text-4xl font-semibold mb-4">{facts?.title}</h2>} */}
       <div className="grid grid-cols-4 gap-4 w-full max-[1150px]:grid-cols-3 max-[920px]:grid-cols-2">
-        {facts.content.length > 0 &&
+        {facts?.content?.length > 0 &&
           facts.content.map((fact, index) => (
             <div
               key={index}

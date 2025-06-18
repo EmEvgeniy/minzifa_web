@@ -16,7 +16,7 @@ export const HeroSearch = () => {
     perPage: '',
     url: 'destinations',
     searchItem: '',
-    additionalParam: '&main_page=0',
+    additionalParam: `&all=1`,
   });
 
   const filtered = useMemo(() => {
@@ -26,13 +26,12 @@ export const HeroSearch = () => {
 
   return (
     <div className="relative w-full flex items-center justify-center">
-      <div className="bg-white max-w-[320px] px-[5px] py-[11px] w-full flex items-center justify-between gap-1 rounded-[16px] mt-[1px] [@media(max-width:1024px)]:py-[5px] [@media(max-width:1024px)]:max-w-full ">
-        <RiSearch2Line className="text-[#16372DCC] h-[30px] w-[30px] [@media(max-width:1024px)]:w-[24px]" />
+      <div className="bg-white max-w-[320px] px-[15px] py-[11px] w-full flex items-center justify-between gap-1 rounded-[16px] mt-[1px] [@media(max-width:1024px)]:py-[5px] [@media(max-width:1024px)]:max-w-full ">
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={t('search')}
-          className="text-[#16372DCC] w-full focus:outline-none text-[18px] [@media(max-width:1024px)]:text-[14px]"
+          className="text-[#16372DCC] w-full focus:outline-none text-base [@media(max-width:1024px)]:text-[14px]"
         />
         <Link
           href={`/${locale}/tours`}

@@ -45,11 +45,19 @@
     "create_your_trip_title": "Создайте свое идеальное путешествие",
     "create_your_trip_sub_title": "Запланируйте идеальное приключение в Центральной Азии — расскажите нам о своих мечтах, и мы превратим их в реальное путешествие.",
     "create_your_trip_btn": "Создайте свое путешествие",
-    "article_btn": "Посмотреть все новости"
+    "article_btn": "Посмотреть все новости",
+    "contacts": {
+      "title": "Свяжитесь с нами",
+      "subtitle": "Свяжитесь с нами — мы поможем вам подобрать тур, уточним детали и забронируем все для вас.",
+      "message": "Делайте покупки у нас онлайн",
+      "envelope": "Свяжитесь по электронной почте",
+      "whatsapp": "Свяжитесь с нами по WhatsApp",
+      "phone": "Позвоните нам"
+    }
   },
-  "search": "Куда вы хотите пойти?",
+  "search": "Поиск направлений",
   "Filters": "Фильтры",
-  "View_internary": "Посмотреть маршрут",
+  "View_itinerary": "Посмотреть маршрут",
   "tourCard": {
     "days": "дней",
     "from": "от"
@@ -58,29 +66,32 @@
   "navigation": {
     "nav": [
       {
-        "link": "/tours",
+        "link": "tours",
         "title": "Все туры"
       },
       {
-        "link": "/destination",
+        "link": "destination",
         "title": "Направления",
         "inner": "true"
       },
       {
-        "link": "/eco-travel",
+        "link": "eco-travel",
         "title": "Eco Travel"
       },
       {
-        "link": "/about",
+        "link": "about",
         "title": "О нас"
       },
       {
-        "link": "/contact",
+        "link": "contact",
         "title": "Контакты"
       }
     ]
   },
-  "lang": ["en", "ru"],
+  "lang": [
+    "en",
+    "ru"
+  ],
   "Home": {
     "title": "NextJS i18n Tutorial222",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
@@ -133,7 +144,10 @@
     "form_b_text": "Отправляя форму, вы принимаете условия передачи данных и соглашаетесь с политикой конфиденциальности.",
     "form_pl": "Электронная почта",
     "form_btn": "Подписаться",
-    "pl": { "link": "privacy_policy", "title": "Политика конфиденциальности" }
+    "pl": {
+      "link": "privacy_policy",
+      "title": "Политика конфиденциальности"
+    }
   },
   "all_tours": {
     "title": "Все туры",
@@ -146,22 +160,58 @@
     "from": "От",
     "before": "До",
     "seasons": [
-      { "title": "Зима", "value": "Winter" },
-      { "title": "Весна", "value": "Spring" },
-      { "title": "Лето", "value": "Summer" },
-      { "title": "Осень", "value": "Autumn" }
+      {
+        "title": "Зима",
+        "value": "Winter"
+      },
+      {
+        "title": "Весна",
+        "value": "Spring"
+      },
+      {
+        "title": "Лето",
+        "value": "Summer"
+      },
+      {
+        "title": "Осень",
+        "value": "Autumn"
+      }
     ],
     "hotels": [
-      { "title": "Boutique hotels", "value": "Boutique hotels" },
-      { "title": "3 stars", "value": "3 stars" },
-      { "title": "4 stars", "value": "4 stars" },
-      { "title": "5 stars", "value": "5 stars" }
+      {
+        "title": "Boutique hotels",
+        "value": "Boutique hotels"
+      },
+      {
+        "title": "3 stars",
+        "value": "3 stars"
+      },
+      {
+        "title": "4 stars",
+        "value": "4 stars"
+      },
+      {
+        "title": "5 stars",
+        "value": "5 stars"
+      }
     ],
     "sort": [
-      { "title": "Новейший", "value": "newest" },
-      { "title": "Самый старый", "value": "oldest" },
-      { "title": "Мин цена", "value": "min_price" },
-      { "title": "Макс цена", "value": "max_price" }
+      {
+        "title": "Новейший",
+        "value": "newest"
+      },
+      {
+        "title": "Самый старый",
+        "value": "oldest"
+      },
+      {
+        "title": "Мин цена",
+        "value": "min_price"
+      },
+      {
+        "title": "Макс цена",
+        "value": "max_price"
+      }
     ],
     "showing": "Показано",
     "out": "из",
@@ -208,10 +258,22 @@
     "request_title": "Вы оставляете заявку",
     "request_text": "Заполните контактную форму на странице пункта назначения, заранее указав предпочтительные даты поездки.",
     "statistic": [
-      { "title": "13 лет", "text": "лет в туризме" },
-      { "title": "425+", "text": "Отзывы на Trip Advisor, 7 наград Traveller's Choice" },
-      { "title": "1,100+", "text": "Организованные туры" },
-      { "title": "12,000+", "text": "Клиенты, доверившие нам свой отпуск" }
+      {
+        "title": "13 лет",
+        "text": "лет в туризме"
+      },
+      {
+        "title": "425+",
+        "text": "Отзывы на Trip Advisor, 7 наград Traveller's Choice"
+      },
+      {
+        "title": "1,100+",
+        "text": "Организованные туры"
+      },
+      {
+        "title": "12,000+",
+        "text": "Клиенты, доверившие нам свой отпуск"
+      }
     ],
     "values": [
       {
@@ -287,19 +349,40 @@
       "oldest": "Oldest"
     },
     "sort": [
-      { "title": "Новейший", "value": "newest" },
-      { "title": "Самый старый", "value": "oldest" },
-      { "title": "Мин цена", "value": "min_price" },
-      { "title": "Макс цена", "value": "max_price" }
+      {
+        "title": "Новейший",
+        "value": "newest"
+      },
+      {
+        "title": "Самый старый",
+        "value": "oldest"
+      },
+      {
+        "title": "Мин цена",
+        "value": "min_price"
+      },
+      {
+        "title": "Макс цена",
+        "value": "max_price"
+      }
     ],
     "showing": "Показано {{currentPage}} из {{totalPages}} статей",
     "no_articles": "Статьи не найдены",
     "show_more": "Показать больше",
     "read_more": "Читать дальше",
     "btns": [
-      { "title": "Все", "value": "all" },
-      { "title": "Категория 1", "value": "category1" },
-      { "title": "Категория 2", "value": "category2" }
+      {
+        "title": "Все",
+        "value": "all"
+      },
+      {
+        "title": "Категория 1",
+        "value": "category1"
+      },
+      {
+        "title": "Категория 2",
+        "value": "category2"
+      }
     ]
   },
   "consultation": {
@@ -336,12 +419,18 @@
       "text6": "Для нас это не просто работа, а любимая работа, которая приносит нам огромное удовольствие. Мы очень рады жить в этой стране с такой богатой культурой и удивительной природой. Мы считаем, что путешествия могут оказывать положительное влияние как на пункт назначения, так и на путешественника."
     },
     "block": [
-      { "title": "СОХРАНЯЙТЕ ОКРУЖАЮЩУЮ СРЕДУ", "text": "Мы заботимся об окружающей среде" },
+      {
+        "title": "СОХРАНЯЙТЕ ОКРУЖАЮЩУЮ СРЕДУ",
+        "text": "Мы заботимся об окружающей среде"
+      },
       {
         "title": "RESPECT CULTURES AND DESTINATIONS",
         "text": "Мы стремимся сохранить различные культуры и обычаи"
       },
-      { "title": "Защита животных", "text": "Мы стремимся защищать права животных" },
+      {
+        "title": "Защита животных",
+        "text": "Мы стремимся защищать права животных"
+      },
       {
         "title": "SUPPORT THE ECONOMY AND COMMUNITIES",
         "text": "Мы стремимся оказывать поддержку местным сообществам."
@@ -396,7 +485,11 @@
           "text": "Все дети имеют равные права на защиту от всех форм насилия и эксплуатации, независимо от пола, расы, состояния здоровья, религии, возраста, инвалидности, сексуальной ориентации, социального происхождения или культуры.",
           "img": "false"
         },
-        { "title": "", "text": "", "img": "true" },
+        {
+          "title": "",
+          "text": "",
+          "img": "true"
+        },
         {
           "title": "Жестокое обращение с детьми недопустимо.",
           "text": "Мы придерживаемся политики нулевой терпимости ко всем формам злоупотреблений и немедленно примем меры в случае подозрения или выявления любого случая.",
@@ -501,7 +594,20 @@
       "pl": "Взрослый",
       "pl2": "Ребенок",
       "pl3": "Возраст 5-12 лет",
-      "check": [{ "title": "Mr." }, { "title": "Ms." }, { "title": "Mrs." }, { "title": "Miss." }],
+      "check": [
+        {
+          "title": "Mr."
+        },
+        {
+          "title": "Ms."
+        },
+        {
+          "title": "Mrs."
+        },
+        {
+          "title": "Miss."
+        }
+      ],
       "pl4": "Имя*",
       "pl5": "Фамилия*",
       "pl6": "Электронная почта",
@@ -767,7 +873,10 @@
     "email": "Электронная почта",
     "wishes": "Необязательное поле для комментариев",
     "button": "Отправить запрос",
-    "checkbox": ["Отправляя запрос, вы соглашаетесь с", "Политикой конфиденциальности"]
+    "checkbox": [
+      "Отправляя запрос, вы соглашаетесь с",
+      "Политикой конфиденциальности"
+    ]
   },
   "reviews": {
     "title": "Отзывы и рейтинг",
@@ -802,7 +911,10 @@
       "month": "месяц",
       "day": "День",
       "year": "Год",
-      "gender": ["Мужчина", "Женщина"],
+      "gender": [
+        "Мужчина",
+        "Женщина"
+      ],
       "adress": "Адрес",
       "adress_line": "Адресная строка {{номер}}",
       "province": "Пригород / Город",
@@ -825,7 +937,10 @@
       "title": "Выберите способ оплаты:",
       "credit_card": "Оплата кредитной картой",
       "bank_transfer": "Банковский перевод",
-      "accept_terms": ["Я принимаю Minzifa Travel", "и"]
+      "accept_terms": [
+        "Я принимаю Minzifa Travel",
+        "и"
+      ]
     },
     "button": "Забронировать {count} мест"
   }

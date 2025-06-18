@@ -35,7 +35,7 @@ export const TourGallery = ({ images, tourName }: TourGalleryProps) => {
             quality={100}
             className="object-cover"
             src={images[0]?.file}
-            alt={images[0]?.alt_text}
+            alt={images[0]?.alt_text || ''}
           />
         </div>
         {images[1] && (
@@ -47,7 +47,7 @@ export const TourGallery = ({ images, tourName }: TourGalleryProps) => {
               quality={100}
               className="h-full w-full object-cover"
               src={images[1]?.file}
-              alt={images[1]?.alt_text}
+              alt={images[1]?.alt_text || ''}
             />
           </div>
         )}
@@ -60,7 +60,7 @@ export const TourGallery = ({ images, tourName }: TourGalleryProps) => {
               quality={100}
               className="h-full w-full object-cover"
               src={images[2]?.file}
-              alt={images[2]?.alt_text}
+              alt={images[2]?.alt_text || ''}
             />
           </div>
         )}

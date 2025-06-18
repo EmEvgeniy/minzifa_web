@@ -1,5 +1,5 @@
 import { contact } from '@/assets/img';
-import { useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
 import IconBubbleMessage from '@/assets/icons/message.svg';
@@ -9,36 +9,36 @@ import IconEnvelope from '@/assets/icons/question.svg';
 import clsx from 'clsx';
 
 export const ContactUs = () => {
-  const lang = useLocale();
+  const t = useTranslations('home');
 
   const contactItems = [
     {
       icon: IconBubbleMessage,
-      label: lang == 'en' ? 'Shop with us online' : 'Делайте покупки у нас онлайн',
+      label: t(`contacts.message`),
     },
     {
       icon: IconEnvelope,
-      label: lang == 'en' ? 'Get in touch on E-mail' : 'Свяжитесь по электронной почте',
+      label: t(`contacts.envelope`),
     },
     {
       icon: IconWhatsapp,
-      label: lang == 'en' ? 'Get in touch on WhatsApp' : 'Свяжитесь с нами по WhatsApp',
+      label: t(`contacts.whatsapp`),
     },
     {
       icon: IconPhone,
-      label: lang == 'en' ? 'Call us' : 'Позвоните нам',
+      label: t(`contacts.phone`),
     },
   ];
+
   return (
     <section className="container py-[70px]">
-      <div className="bg-white rounded-[16px] shadow-2xl  flex items-center justify-between overflow-hidden [@media(max-width:1024px)]:flex-col-reverse">
+      <div className="bg-white rounded-[16px] shadow-2xl flex items-center justify-between overflow-hidden [@media(max-width:1024px)]:flex-col-reverse">
         <div className="p-10 flex flex-col gap-8 [@media(max-width:768px)]:gap-5 [@media(max-width:768px)]:p-5">
           <p className="text-[42px] text-black [@media(max-width:768px)]:text-[24px] [@media(max-width:768px)]:text-center">
-            Contact us
+            {t('contacts.title')}
           </p>
           <p className="text-[18px] [@media(max-width:768px)]:text-[16px] [@media(max-width:768px)]:text-center">
-            Contact us - we will help you find a tour, clarify the details and book everything for
-            you.
+            {t('contacts.subtitle')}
           </p>
           <div className="grid grid-cols-2 gap-12 md:grid-cols-4 items-start">
             {contactItems.map(({ icon, label }, index) => (
@@ -65,13 +65,16 @@ export const ContactUs = () => {
             ))}
           </div>
         </div>
-        <Image
-          src={contact}
-          alt="contact-us"
-          width={600}
-          height={500}
-          className=" object-cover md:mask-l-from-50% md:mask-l-to-90% h-full [@media(max-width:1024px)]:w-full "
-        />
+        <div className="relative w-[50%] h-[420px] [@media(max-width:1024px)]:w-full [@media(max-width:1024px)]:h-[300px]">
+          <Image
+            src={contact}
+            alt="contact-us"
+            fill
+            className="object-cover md:mask-l-from-50% md:mask-l-to-90%"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            priority
+          />
+        </div>
       </div>
     </section>
   );

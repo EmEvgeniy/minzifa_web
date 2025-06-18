@@ -17,7 +17,7 @@ export const HowToBook = () => {
           {list.map((el, id) => (
             <div
               key={id}
-              className="bg-[rgba(216,218,220,0.8)] min-h-[239px] min-w-[200px] w-full backdrop-blur-[30px] rounded-[16px] px-4 py-5 [@media(max-width:550px)]:min-h-[200px]"
+              className="bg-white/80 text-[#16372D] min-h-[239px] min-w-[200px] w-full backdrop-blur-[30px] rounded-[16px] px-4 py-5 [@media(max-width:550px)]:min-h-[200px]"
             >
               <div className="flex items-center gap-4">
                 <span className="rounded-[10px] bg-[#16372D] flex aspect-square w-[50px] h-[50px] items-center justify-center text-2xl font-bold text-white [@media(max-width:768px)]:w-[35px] [@media(max-width:768px)]:h-[35px] [@media(max-width:768px)]:text-[20px]">
@@ -27,7 +27,7 @@ export const HowToBook = () => {
                   {el.title}
                 </span>
               </div>
-              <span className="text-custom-green-900 mt-4 flex text-lg [@media(max-width:1024px)]:text-md [@media(max-width:768px)]:text-[16px]">
+              <span className="text-custom-green-900 mt-4 flex text-sm [@media(max-width:1024px)]:text-md [@media(max-width:768px)]:text-[16px]">
                 {el.text}
               </span>
             </div>

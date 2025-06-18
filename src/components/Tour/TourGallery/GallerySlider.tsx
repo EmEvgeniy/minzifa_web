@@ -46,8 +46,8 @@ export const GallerySlider = ({ images, showGallery, setShowGallery }: GallerySl
                     height={460}
                     loading="lazy"
                     quality={100}
-                    src={image.file}
-                    alt={image.alt_text}
+                    src={image?.file}
+                    alt={image?.alt_text || ''}
                     className="w-full h-full object-cover rounded-lg"
                   />
                 </div>

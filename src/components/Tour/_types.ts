@@ -69,6 +69,10 @@ export type Hotel = {
     hotel_type: string;
     facilities: string[];
     gallery: TourImage[];
+    country: string;
+    city: string;
+    nights: number;
+    rating: number;
 };
 
 export type Include = {

@@ -35,7 +35,7 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
           </p>
           <p className="flex items-center justify-start gap-1.5 text-[18px]">
             <span className="text-[#464646]">{t('tourCard.from')}</span>
-            <span className="font-semibold text-[18px]">
+            <span className="font-semibold text-[24px]">
               {slide?.valute ?? '$'} {slide?.price}
             </span>
           </p>

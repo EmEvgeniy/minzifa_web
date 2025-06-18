@@ -45,32 +45,40 @@
     "create_your_trip_title": "Create your perfect trip",
     "create_your_trip_sub_title": "Plan your perfect Central Asia adventure - tell us your dreams and we'll turn them into a real trip.",
     "create_your_trip_btn": "Create your trip",
-    "article_btn": "View all news"
+    "article_btn": "View all news",
+    "contacts": {
+      "title": "Contact us",
+      "subtitle": "Contact us - we will help you find a tour, clarify the details and book everything for you.",
+      "message": "Shop with us online",
+      "envelope": "Get in touch on E-mail",
+      "whatsapp": "Get in touch on WhatsApp",
+      "phone": "Call us"
+    }
   },
   "Filters": "Filters",
-  "search": "Where do you want to go?",
+  "search": "Search destinations",
   "View_itinerary": "View itinerary",
   "navigation": {
     "nav": [
       {
-        "link": "/tours",
+        "link": "tours",
         "title": "All tours"
       },
       {
-        "link": "/destination",
+        "link": "destination",
         "title": "Destination",
         "inner": "true"
       },
       {
-        "link": "/eco-travel",
+        "link": "eco-travel",
         "title": "Eco Travel"
       },
       {
-        "link": "/about",
+        "link": "about",
         "title": "About us"
       },
       {
-        "link": "/contact",
+        "link": "contact",
         "title": "Contact us"
       }
     ]
@@ -80,7 +88,10 @@
     "days": "days",
     "from": "from"
   },
-  "lang": ["en", "ru"],
+  "lang": [
+    "en",
+    "ru"
+  ],
   "Home": {
     "title": "NextJS i18n Tutorial",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
@@ -133,7 +144,10 @@
     "form_b_text": "By submitting the form you accept the terms of data transfer and agree to the privacy policy.",
     "form_pl": "Email",
     "form_btn": "subscribe",
-    "pl": { "link": "privacy_policy", "title": "Privacy Policy" }
+    "pl": {
+      "link": "privacy_policy",
+      "title": "Privacy Policy"
+    }
   },
   "all_tours": {
     "title": "All tours",
@@ -146,22 +160,58 @@
     "from": "From",
     "before": "Before",
     "seasons": [
-      { "title": "Winter", "value": "Winter" },
-      { "title": "Spring", "value": "Spring" },
-      { "title": "Summer", "value": "Summer" },
-      { "title": "Autumn", "value": "Autumn" }
+      {
+        "title": "Winter",
+        "value": "Winter"
+      },
+      {
+        "title": "Spring",
+        "value": "Spring"
+      },
+      {
+        "title": "Summer",
+        "value": "Summer"
+      },
+      {
+        "title": "Autumn",
+        "value": "Autumn"
+      }
     ],
     "hotels": [
-      { "title": "Boutique hotels", "value": "Boutique hotels" },
-      { "title": "3 stars", "value": "3 stars" },
-      { "title": "4 stars", "value": "4 stars" },
-      { "title": "5 stars", "value": "5 stars" }
+      {
+        "title": "Boutique hotels",
+        "value": "Boutique hotels"
+      },
+      {
+        "title": "3 stars",
+        "value": "3 stars"
+      },
+      {
+        "title": "4 stars",
+        "value": "4 stars"
+      },
+      {
+        "title": "5 stars",
+        "value": "5 stars"
+      }
     ],
     "sort": [
-      { "title": "Newest", "value": "newest" },
-      { "title": "Oldest", "value": "oldest" },
-      { "title": "Min price", "value": "min_price" },
-      { "title": "Max price", "value": "max_price" }
+      {
+        "title": "Newest",
+        "value": "newest"
+      },
+      {
+        "title": "Oldest",
+        "value": "oldest"
+      },
+      {
+        "title": "Min price",
+        "value": "min_price"
+      },
+      {
+        "title": "Max price",
+        "value": "max_price"
+      }
     ],
     "showing": "Showing",
     "out": "out of",
@@ -208,10 +258,22 @@
     "request_title": "You leave a request",
     "request_text": " Fill out the contact form on the destination page, selecting your preferred travel dates in advance.",
     "statistic": [
-      { "title": "13 years", "text": "years in tourism" },
-      { "title": "425+", "text": "Reviews on Trip Advisor, 7 Traveller's Choice awards" },
-      { "title": "1,100+", "text": "Organized tours" },
-      { "title": "12,000+", "text": "Customers who have entrusted us with their vacations" }
+      {
+        "title": "13 years",
+        "text": "years in tourism"
+      },
+      {
+        "title": "425+",
+        "text": "Reviews on Trip Advisor, 7 Traveller's Choice awards"
+      },
+      {
+        "title": "1,100+",
+        "text": "Organized tours"
+      },
+      {
+        "title": "12,000+",
+        "text": "Customers who have entrusted us with their vacations"
+      }
     ],
     "values": [
       {
@@ -287,19 +349,40 @@
       "oldest": "Oldest"
     },
     "sort": [
-      { "title": "Newest", "value": "newest" },
-      { "title": "Oldest", "value": "oldest" },
-      { "title": "Min price", "value": "min_price" },
-      { "title": "Max price", "value": "max_price" }
+      {
+        "title": "Newest",
+        "value": "newest"
+      },
+      {
+        "title": "Oldest",
+        "value": "oldest"
+      },
+      {
+        "title": "Min price",
+        "value": "min_price"
+      },
+      {
+        "title": "Max price",
+        "value": "max_price"
+      }
     ],
     "showing": "Showing {{currentPage}} of {{totalPages}} articles",
     "no_articles": "No articles found",
     "show_more": "Show more",
     "read_more": "Read more",
     "btns": [
-      { "title": "All", "value": "all" },
-      { "title": "Category1", "value": "category1" },
-      { "title": "Category2", "value": "category2" }
+      {
+        "title": "All",
+        "value": "all"
+      },
+      {
+        "title": "Category1",
+        "value": "category1"
+      },
+      {
+        "title": "Category2",
+        "value": "category2"
+      }
     ]
   },
   "consultation": {
@@ -336,12 +419,18 @@
       "text6": "For us, it’s not just a job, but a job we love, which gives us great pleasure. We are very happy to live in this country with such a rich culture and amazing nature. We think that travel can have a positive impact on both the destination and the traveler."
     },
     "block": [
-      { "title": "KEEP THE ENVIRONMENT", "text": "We take care of the environment" },
+      {
+        "title": "KEEP THE ENVIRONMENT",
+        "text": "We take care of the environment"
+      },
       {
         "title": "RESPECT CULTURES AND DESTINATIONS",
         "text": "We strive to preserve different cultures and customs"
       },
-      { "title": "Protecting Animals", "text": "We are committed to preserving animal rights" },
+      {
+        "title": "Protecting Animals",
+        "text": "We are committed to preserving animal rights"
+      },
       {
         "title": "SUPPORT THE ECONOMY AND COMMUNITIES",
         "text": "We are committed to supporting local communities."
@@ -396,7 +485,11 @@
           "text": "All children have equal rights to protection from all forms of abuse and exploitation, regardless of their gender, race, health status, religion, age, disability, sexual orientation, social background or culture.",
           "img": "false"
         },
-        { "title": "", "text": "", "img": "true" },
+        {
+          "title": "",
+          "text": "",
+          "img": "true"
+        },
         {
           "title": "Child abuse will not be tolerated.",
           "text": "We have a zero-tolerance policy for all forms of abuse and will take immediate action if any case is suspected or identified.",
@@ -501,7 +594,20 @@
       "pl": "Person",
       "pl2": "Child",
       "pl3": "Age 5-12",
-      "check": [{ "title": "Mr." }, { "title": "Ms." }, { "title": "Mrs." }, { "title": "Miss." }],
+      "check": [
+        {
+          "title": "Mr."
+        },
+        {
+          "title": "Ms."
+        },
+        {
+          "title": "Mrs."
+        },
+        {
+          "title": "Miss."
+        }
+      ],
       "pl4": "First Name*",
       "pl5": "Last Name*",
       "pl6": "E-mail",
@@ -767,7 +873,10 @@
     "email": "Email",
     "wishes": "Optional placeholder text",
     "button": "Send request",
-    "checkbox": ["By submitting a request, you agree to the", "Privacy Policy"]
+    "checkbox": [
+      "By submitting a request, you agree to the",
+      "Privacy Policy"
+    ]
   },
   "reviews": {
     "title": "Ratings & Reviews",
@@ -799,7 +908,10 @@
       "month": "Month",
       "day": "Day",
       "year": "Year",
-      "gender": ["Male", "Female"],
+      "gender": [
+        "Male",
+        "Female"
+      ],
       "adress": "Address",
       "adress_line": "Address line {number}",
       "province": "Suburb / Town",
@@ -822,7 +934,10 @@
       "title": "Select a payment method:",
       "credit_card": "Payment by credit card",
       "bank_transfer": "Bank transfer",
-      "accept_terms": ["I accept Minzifa Travel", "and"]
+      "accept_terms": [
+        "I accept Minzifa Travel",
+        "and"
+      ]
     },
     "button": "Book {count} space"
   }
