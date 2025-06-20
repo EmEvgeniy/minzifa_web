@@ -25,7 +25,7 @@ export const Wrapper = () => {
     perPage: '',
     url: 'tours',
     searchItem: '',
-    additionalParam: `&main_page=1&locale=${locale}`,
+    additionalParam: `&main_page=1`,
   });
   return (
     <>

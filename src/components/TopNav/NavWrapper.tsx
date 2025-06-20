@@ -18,7 +18,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
     perPage: '',
     url: 'destinations',
     searchItem: '',
-    additionalParam: '&main_page=1',
+    additionalParam: '&show_in_menu=1',
   });
 
   return (

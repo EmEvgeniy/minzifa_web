@@ -23,4 +23,5 @@ export type DestinationProps = {
   name: string;
   slug: string;
   tours_count: number;
+  show_in_menu: boolean;
 };

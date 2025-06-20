@@ -20,7 +20,7 @@ export const Wrapper = () => {
   };
 
   const { data, isLoading, isSuccess } = useGetQuery<DestinationBlockProps[]>({
-    key: ['destinations'],
+    key: ['populat_destinations'],
     page: '',
     perPage: '',
     url: 'destinations',
@@ -51,7 +51,7 @@ export const Wrapper = () => {
               }}
               renderCard={(slide: DestinationBlockProps) => (
                 <Link href={`/${locale}/destination/${slide.slug}`}>
-                  <div className="w-full h-full max-w-full min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold p-5 [@media(max-width:768px)]:min-h-[200px]">
+                  <div className="w-full h-full max-w-full min-h-[275px] rounded-[16px] bg-white opacity-80 text-center flex flex-col items-center justify-center text-xl font-semibold p-5 [@media(max-width:768px)]:min-h-[200px]">
                     {slide.icon.file && (
                       <Image
                         src={slide.icon.file ? slide.icon.file : ''}
