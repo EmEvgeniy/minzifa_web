@@ -1,50 +1,11 @@
-import {
-  FaInstagram,
-  FaFacebookF,
-  FaPinterest,
-  FaWhatsapp,
-  FaTelegram,
-  FaEnvelope,
-} from 'react-icons/fa6';
 import React from 'react';
 import { cn } from '@/utils/utils';
-import { SocialMediaIcon, SocialMediaProps } from './_types';
-
-const defaults: SocialMediaIcon[] = [
-  {
-    name: 'Facebook',
-    url: 'https://www.facebook.com',
-    Icon: FaFacebookF,
-  },
-  {
-    name: 'Instagram',
-    url: 'https://www.instagram.com',
-    Icon: FaInstagram,
-  },
-  {
-    name: 'Pinterest',
-    url: 'https://www.twitter.com',
-    Icon: FaPinterest,
-  },
-  {
-    name: 'Telegram',
-    url: 'https://www.linkedin.com',
-    Icon: FaTelegram,
-  },
-  {
-    name: 'WhatsApp',
-    url: 'https://www.youtube.com',
-    Icon: FaWhatsapp,
-  },
-  {
-    name: 'Mail',
-    url: 'https://www.pinterest.com',
-    Icon: FaEnvelope,
-  },
-];
+import { SocialMediaProps } from './_types';
+import { useLocale } from 'next-intl';
+import { contacts } from '@/store/contacts';
 
 export const SocialMedia: React.FC<SocialMediaProps> = ({
-  socials = defaults,
+  socials = contacts.social_media,
   direction = 'horizontal',
   iconSize = 24,
   withBackground = false,
@@ -54,6 +15,7 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({
   linkClassName,
   className,
 }) => {
+  const locale = useLocale();
   return (
     <div
       className={cn(className)}
@@ -63,11 +25,11 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({
         gap: `${gap}px`,
       }}
     >
-      {socials.map(({ Icon, url }, index) => (
+      {socials.map(({ Icon, url }, index) => url[locale] && (
         <a
           className={cn(linkClassName)}
           key={index}
-          href={url}
+          href={url[locale]}
           target="_blank"
           rel="noopener noreferrer"
           style={{

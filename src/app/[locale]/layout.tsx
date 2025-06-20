@@ -16,7 +16,7 @@ export default function RootLayout({
       <QueryProvider>
         <ThemeProviderWrap>
           <div className="flex flex-col h-full min-h-[100vh] w-full relative font-text">
-            <div className="fixed right-0 z-50 bg-[rgba(22,55,45,0.7)] backdrop-blur-[6px] top-[300px] p-5 rounded-tl-[16px] rounded-bl-[16px] max-[1024px]:p-2.5 ">
+            <div className="fixed right-0 z-50 bg-[rgba(22,55,45,0.7)] backdrop-blur-[6px] top-[150px] p-5 rounded-tl-[16px] rounded-bl-[16px] max-[1024px]:p-2.5 ">
               <SocialMedia direction="vertical" gap={20} />
             </div>
             <TopNav />

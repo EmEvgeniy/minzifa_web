@@ -3,7 +3,9 @@ import { FaEnvelope } from 'react-icons/fa6';
 
 export type SocialMediaIcon = {
   name: string;
-  url: string;
+  url: {
+    [key: string]: string;
+  };
   Icon: typeof FaEnvelope | React.FC;
 };
 

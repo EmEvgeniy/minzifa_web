@@ -1,24 +1,28 @@
 import { SocialMedia } from '@/components/UI';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import React from 'react';
 import { Form } from '../Form';
+import { contacts } from '@/store/contacts';
+import Link from 'next/link';
 
 export const LeftInfo = () => {
   const t = useTranslations();
+  const locale = useLocale();
+
   return (
     <div className="w-full flex flex-col h-full items-start justify-start gap-20 min-h-[45svh] max-[768px]:items-center max-[768px]:min-h-full">
-      <div className="w-full h-full">
+      <div className="w-full h-full flex flex-col gap-3">
         <h2 className="mb-4 w-full text-[56px] leading-tight font-bold tracking-tight text-white/70 max-[1024px]:text-[35px] max-[768px]:text-center font-title">
           {t('contact_us.title')}
         </h2>
-        <p className="mt-8 w-full text-[24px] font-bold text-white max-[1024px]:text-[18px] max-[768px]:text-center">
-          +998 91 244 47 20
-        </p>
-        <p className="text-[24px] font-bold text-white  max-[1024px]:text-[18px] py-[10px] max-[768px]:text-center">
-          booking@minzifatravel.com
-        </p>
+        <Link href={`tel:${contacts.phone[locale]}`} className="mt-8 w-full text-[24px] font-bold text-white max-[1024px]:text-[18px] max-[768px]:text-center">
+          {contacts.phone[locale]}
+        </Link>
+        <Link href={`mailto:${contacts.email[locale]}`} className="text-[24px] font-bold text-white max-[1024px]:text-[18px] py-[10px] max-[768px]:text-center">
+          {contacts.email[locale]}
+        </Link>
         <p className="w-full text-[24px] text-white max-[1024px]:text-[18px] max-[768px]:text-center">
-          63, Eshoni Pir Str., Bukhara, Uzbekistan
+          {contacts.address[locale]}
         </p>
       </div>
       <div className="hidden max-[768px]:block mx-auto">
