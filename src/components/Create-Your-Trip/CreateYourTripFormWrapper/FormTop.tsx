@@ -115,7 +115,7 @@ export const FormTop = () => {
     if (!isPending) {
       mutate({
         obj: formData,
-        http: 'forms/subscribes',
+        http: 'forms/create-my-trip',
       });
     }
   }, [isPending, mutate, formData]);
