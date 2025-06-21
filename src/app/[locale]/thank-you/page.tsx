@@ -19,6 +19,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-export const ThankYou = () => {
+export default function page() {
     return <div>Thank you</div>;
 };
