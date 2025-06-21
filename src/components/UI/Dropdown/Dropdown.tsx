@@ -9,27 +9,40 @@ import React, {
     ReactNode,
     useMemo,
 } from "react";
-import { DropdownContextType, DropdownDetailsProps, DropdownSummaryProps } from "./_types";
-import { cn } from "@/utils/utils"; // ✅ твоя функция объединения классов
+import { DropdownContextType, DropdownDetailsProps, DropdownProps, DropdownSummaryProps } from "./_types";
+import { cn } from "@/utils/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
 
 const DropdownContext = createContext<DropdownContextType | undefined>(undefined);
 
-interface DropdownProps {
-    children: ReactNode;
-    className?: string;
-}
-
-export const Dropdown = ({ children, className }: DropdownProps) => {
+export const Dropdown = ({
+    children,
+    className,
+    value,
+    onChange,
+    options,
+    placeholder = "Выберите...",
+}: DropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [internalValue, setInternalValue] = useState<string | number | undefined>(value);
     const ref = useRef<HTMLDivElement>(null);
 
-    const toggle = (value?: boolean) =>
-        setIsOpen(prev => (typeof value === "boolean" ? value : !prev));
+    const toggle = (val?: boolean) =>
+        setIsOpen(prev => (typeof val === "boolean" ? val : !prev));
+
+    const handleChange = (val: string | number) => {
+        setInternalValue(val);
+        onChange?.(val);
+        setIsOpen(false);
+    };
 
     useEffect(() => {
-        if (typeof window === 'undefined') return;
+        setInternalValue(value);
+    }, [value]);
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
 
         const handleClickOutside = (event: MouseEvent) => {
             if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -43,10 +56,42 @@ export const Dropdown = ({ children, className }: DropdownProps) => {
         };
     }, []);
 
+    const contextValue: DropdownContextType = {
+        isOpen,
+        toggle,
+        value: internalValue,
+        onChange: handleChange,
+    };
+
     return (
-        <DropdownContext.Provider value={{ isOpen, toggle }}>
+        <DropdownContext.Provider value={contextValue}>
             <div ref={ref} className={cn("relative inline-block w-full", className)}>
-                {children}
+                {children ? (
+                    children
+                ) : (
+                    <>
+                        <DropdownSummary>
+                            {(ctx) => (
+                                <div className="flex justify-between items-center">
+                                    <span>
+                                        {options?.find(opt => opt?.value === internalValue)?.label || placeholder}
+                                    </span>
+                                    {ctx.isOpen ? <FaChevronUp /> : <FaChevronDown />}
+                                </div>
+                            )}
+                        </DropdownSummary>
+                        <DropdownDetails>
+                            {options?.map((opt) => (
+                                <DropdownItem
+                                    key={opt?.value}
+                                    onClick={() => handleChange(opt.value)}
+                                >
+                                    {opt?.label}
+                                </DropdownItem>
+                            ))}
+                        </DropdownDetails>
+                    </>
+                )}
             </div>
         </DropdownContext.Provider>
     );
@@ -64,7 +109,10 @@ export const DropdownSummary = ({ children, className }: DropdownSummaryProps) =
 
     return (
         <div
-            onClick={() => context.toggle()}
+            onClick={(e) => {
+                e.stopPropagation();
+                context.toggle();
+            }}
             onKeyDown={(e) => e.key === "Enter" && context.toggle()}
             tabIndex={0}
             role="button"
@@ -72,10 +120,10 @@ export const DropdownSummary = ({ children, className }: DropdownSummaryProps) =
             className={cn("cursor-pointer select-none outline-none", className)}
         >
             {content}
-            {context.isOpen ? <FaChevronUp /> : <FaChevronDown />}
         </div>
     );
 };
+
 
 export const DropdownDetails = ({ children, className }: DropdownDetailsProps) => {
     const context = useContext(DropdownContext);
@@ -105,12 +153,28 @@ export const DropdownDetails = ({ children, className }: DropdownDetailsProps) =
     ) : null;
 };
 
-export const DropdownItem = ({ children, onClick, className = '' }: { children: ReactNode, onClick: () => void, className?: string }) => (
-    <div
-        onClick={onClick}
-        role="menuitem"
-        className={cn(className, "cursor-pointer px-4 py-2 hover:bg-gray-100")}
-    >
-        {children}
-    </div>
-);
+export const DropdownItem = ({
+    children,
+    onClick,
+    className = '',
+}: {
+    children: ReactNode;
+    onClick: () => void;
+    className?: string;
+}) => {
+    const context = useContext(DropdownContext);
+
+    return (
+        <div
+            onClick={(e) => {
+                e.stopPropagation(); // важно
+                onClick();
+                context?.toggle(false); // закрытие после выбора
+            }}
+            role="menuitem"
+            className={cn(className, "cursor-pointer px-4 py-2 hover:bg-gray-100")}
+        >
+            {children}
+        </div>
+    );
+};

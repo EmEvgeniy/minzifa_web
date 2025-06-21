@@ -1,4 +1,3 @@
-import BookingFormPage from "@/components/Booking/BookingFormPage";
 import { Metadata } from 'next';
 
 type Props = {
@@ -6,7 +5,7 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const slug = 'booking-tour';
+    const slug = 'thank-you';
     const locale = (await params).locale;
 
     const data = await fetch(`https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`, {
@@ -20,6 +19,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-export default function Booking() {
-    return <BookingFormPage />;
-}
+export const ThankYou = () => {
+    return <div>Thank you</div>;
+};

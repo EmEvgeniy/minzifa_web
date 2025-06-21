@@ -3,6 +3,7 @@ import { cn } from '@/utils/utils';
 import { SocialMediaProps } from './_types';
 import { useLocale } from 'next-intl';
 import { contacts } from '@/store/contacts';
+import Link from 'next/link';
 
 export const SocialMedia: React.FC<SocialMediaProps> = ({
   socials = contacts.social_media,
@@ -25,8 +26,8 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({
         gap: `${gap}px`,
       }}
     >
-      {socials.map(({ Icon, url }, index) => url[locale] && (
-        <a
+      {socials.map(({ Icon, url }, index) => url && url[locale] && (
+        <Link
           className={cn(linkClassName)}
           key={index}
           href={url[locale]}
@@ -43,8 +44,8 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({
             textDecoration: 'none',
           }}
         >
-          <Icon size={iconSize} color={iconColor} />
-        </a>
+          {Icon && <Icon size={iconSize} color={iconColor} />}
+        </Link>
       ))}
     </div>
   );

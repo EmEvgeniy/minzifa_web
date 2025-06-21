@@ -2,11 +2,11 @@ import { ClassValue } from 'clsx';
 import { FaEnvelope } from 'react-icons/fa6';
 
 export type SocialMediaIcon = {
-  name: string;
-  url: {
+  name?: string;
+  url?: {
     [key: string]: string;
   };
-  Icon: typeof FaEnvelope | React.FC;
+  Icon?: typeof FaEnvelope | React.FC;
 };
 
 export type SocialMediaProps = {

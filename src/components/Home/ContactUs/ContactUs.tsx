@@ -7,6 +7,8 @@ import IconPhone from '@/assets/icons/phone.svg';
 import IconWhatsapp from '@/assets/icons/Vector (5).svg';
 import IconEnvelope from '@/assets/icons/question.svg';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { contacts } from '@/store/contacts';
 
 export const ContactUs = () => {
   const t = useTranslations('home');
@@ -15,18 +17,22 @@ export const ContactUs = () => {
     {
       icon: IconBubbleMessage,
       label: t(`contacts.message`),
+      slug: '#',
     },
     {
       icon: IconEnvelope,
       label: t(`contacts.envelope`),
+      slug: contacts.email,
     },
     {
       icon: IconWhatsapp,
       label: t(`contacts.whatsapp`),
+      slug: contacts.social_media.find((item) => item.name === 'WhatsApp')?.url,
     },
     {
       icon: IconPhone,
       label: t(`contacts.phone`),
+      slug: contacts.phone,
     },
   ];
 
@@ -41,8 +47,9 @@ export const ContactUs = () => {
             {t('contacts.subtitle')}
           </p>
           <div className="grid grid-cols-2 gap-12 md:grid-cols-4 items-start">
-            {contactItems.map(({ icon, label }, index) => (
-              <div
+            {contactItems.map(({ icon, label, slug }, index) => (
+              <Link
+                href={slug || '#'}
                 key={index}
                 className="flex flex-col items-center justify-center gap-4 text-center"
               >
@@ -61,7 +68,7 @@ export const ContactUs = () => {
                 <span className="text-[14px] text-center [@media(max-width:768px)]:text-[12px]">
                   {label}
                 </span>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

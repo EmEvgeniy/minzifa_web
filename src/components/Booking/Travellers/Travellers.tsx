@@ -14,20 +14,9 @@ export const Travellers = () => {
     setBookingData({
       ...bookingData,
       room_types: {},
-      adults: value,
-      deposit: tour_price * 0.15 * Number(bookingData.travellers_count),
-      total_price: tour_price * Number(bookingData.travellers_count),
-    });
-  };
-  const handleCount2 = (value: number) => {
-    const tour_price = bookingData?.tour_price as number;
-
-    setBookingData({
-      ...bookingData,
-      room_types: {},
-      childrens: value,
-      deposit: tour_price * 0.15 * Number(bookingData.travellers_count),
-      total_price: tour_price * Number(bookingData.travellers_count),
+      travellers_count: value,
+      deposit: tour_price * 0.15 * Number(value),
+      total_price: tour_price * Number(value),
     });
   };
 
@@ -40,18 +29,10 @@ export const Travellers = () => {
         <div className="rounded-2xl flex items-center justify-between bg-white p-5">
           <span className="text-lg font-normal">{t('travellers.person')}</span>
           <Counter
-            value={bookingData?.adults as number}
+            value={bookingData?.travellers_count as number}
             onChange={handleCount}
             label=""
-            max={bookingData?.total_seats}
-          />
-        </div>
-        <div className="rounded-2xl flex items-center justify-between bg-white p-5">
-          <span className="text-lg font-normal">{t('travellers.child')}</span>
-          <Counter
-            value={bookingData?.childrens as number}
-            onChange={handleCount2}
-            label=""
+            min={1}
             max={bookingData?.total_seats}
           />
         </div>

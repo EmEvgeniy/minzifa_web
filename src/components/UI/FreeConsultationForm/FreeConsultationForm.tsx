@@ -35,7 +35,7 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
       setFormData({
         name: '',
         email: '',
-        phone: '+99890',
+        phone: '',
         message: '',
       });
     },
@@ -104,6 +104,13 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
             onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
             className="bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
             placeholder={t('email')}
+          />
+          <input
+            type="text"
+            value={formData.phone}
+            onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+            className="bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
+            placeholder={t('phone')}
           />
           <textarea
             name=""

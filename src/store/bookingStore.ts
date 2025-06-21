@@ -25,15 +25,15 @@ export type Passenger = {
 };
 
 export type BookingTourData = {
-  adults: number;
-  childrens: number;
+  adults?: number;
+  childrens?: number;
   tour_name?: string;
   tour_start?: string;
   tour_end?: string;
-  travellers_count?: string;
-  tour_price?: number;
-  deposit?: number;
-  total_price?: number;
+  travellers_count?: number | string;
+  tour_price?: number | string;
+  deposit?: number | string;
+  total_price?: number | string;
   payment_type?: string;
   payment_status?: string;
   passengers?: Passenger[];
@@ -42,7 +42,7 @@ export type BookingTourData = {
     double: number;
     single: number;
   }>;
-  single_price?: number;
+  single_price?: number | string;
   currency?: string;
   total_seats?: number;
 };
@@ -59,21 +59,14 @@ export const useBookingStore = create<BookingStoreData>()(
     (set) => ({
       tour: undefined,
       bookingData: {
-        adults: 1,
-        childrens: 1,
-        travellers_count: String(2),
+        travellers_count: 1,
         passengers: [],
         room_types: {},
       },
       selectedPrice: undefined,
       setTour: (tour: Tour | undefined) => set({ tour: tour }),
       setBookingData: (bookingData: BookingTourData) =>
-        set({
-          bookingData: {
-            ...bookingData,
-            travellers_count: (bookingData.adults + bookingData?.childrens).toString(),
-          },
-        }),
+        set(bookingData ? { bookingData: bookingData } : { bookingData: {} }),
     }),
     {
       name: 'booking-storage',

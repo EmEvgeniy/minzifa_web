@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import Counter from '@/components/UI/Counter/Counter';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
 import { useBookingStore } from '@/store/bookingStore';
 import { cn } from '@/utils/utils';
 import IconCheck from '../../../assets/icons/booking/Line 1.svg';
 import Image from 'next/image';
+import { Dropdown } from '@/components/UI/Dropdown/Dropdown';
 
 const roomTypes = ['double', 'twin', 'single'] as const;
 type RoomType = (typeof roomTypes)[number];
@@ -165,56 +165,67 @@ export const RoomTypes = () => {
         const isSelected = roomCount > 0;
 
         return (
-          <div key={roomType} className="md:flex flex-col gap-5 rounded-2xl ">
+          <div key={roomType} className="md:flex flex-col gap-5 rounded-2xl">
             <div
               onClick={() => handleRoomTypeClick(roomType)}
               className={cn(
-                'relative rounded-2xl grid grid-cols-1 items-center bg-white hover:bg-gray-100 transition-all duration-300 p-5 pl-8 overflow-hidden cursor-pointer max-[550px]:grid-cols-1 max-[550px]:justify-items-center max-[550px]:gap-2',
+                'relative rounded-2xl grid grid-cols-1 items-center bg-white hover:bg-gray-100 transition-all duration-300 p-5 pl-8 cursor-pointer max-[550px]:grid-cols-1 max-[550px]:justify-items-center max-[550px]:gap-2',
                 isSelected ? 'border-2 border-[#16372D]' : 'border border-gray-300',
                 Number(travellersCount) > 1 ? 'grid-cols-3' : 'grid-cols-2',
               )}
             >
-              <span className="text-lg font-normal">{t(`roomTypes.${roomType}`)}</span>
-
-              {Number(travellersCount) > 1 && (
-                <Counter
-                  value={roomCount}
-                  onChange={(value) => handleChangeCount(value, roomType)}
-                  label=""
-                  min={0}
-                  max={
-                    (bookingData?.room_types?.[roomType] || 0) +
-                    (Number(travellersCount) - selectedRoomsTotal)
-                  }
-                  className="z-20"
-                />
-              )}
+              <span className="text-base font-normal">{t(`roomTypes.${roomType}`)}</span>
 
               {isSelected ? (
                 <>
-                  <span className="text-lg font-semibold justify-self-end">
+                  <span className={cn(Number(travellersCount) > 1 ? "text-center" : "text-right md:justify-self-end", "text-base font-semibold")}>
                     {t('roomTypes.included')}
                   </span>
-                  <span className="absolute top-0 left-0 w-[15px] h-[15px]">
-                    <div className="absolute w-[50px] h-[50px] bg-[#16372D]/80 rotate-45 z-[1] -top-[25.5px] -left-[25.5px]" />
-                    <Image
-                      src={IconCheck}
-                      width={8}
-                      height={10}
-                      alt=""
-                      className="z-[2] absolute top-[3px] left-[3px] w-full h-full"
-                    />
+                  <span className='absolute top-0 right-0 overflow-hidden w-full h-full rounded-t-xl'>
+                    <span className="absolute top-0 left-0 w-[15px] h-[15px]">
+                      <div className="absolute w-[50px] h-[50px] bg-[#16372D]/80 rotate-45 z-[1] -top-[25.5px] -left-[25.5px]" />
+                      <Image
+                        src={IconCheck}
+                        width={8}
+                        height={10}
+                        alt=""
+                        className="z-[2] absolute top-[3px] left-[3px] w-full h-full"
+                      />
+                    </span>
                   </span>
                 </>
               ) : (
-                <span className="text-lg font-semibold justify-self-end max-[550px]:justify-self-center">
+                <span className={cn(Number(travellersCount) > 1 ? "text-center" : "text-right md:justify-self-end", "text-base font-semibold")}>
                   +{' '}
                   <FormattedPrice
                     price={roomType === 'single' ? bookingData?.single_price || 0 : 0}
                   />
                 </span>
               )}
+
+              {Number(travellersCount) > 1 && (
+                <Dropdown
+                  value={roomCount}
+                  onChange={(val) => handleChangeCount(Number(val), roomType)}
+                  className="border rounded-md px-2 py-1"
+                  options={Array.from({
+                    length:
+                      (bookingData?.room_types?.[roomType] || 0) +
+                      (Number(travellersCount) - selectedRoomsTotal) +
+                      1,
+                  }).map((_, i) => {
+                    return {
+                      label: String(i),
+                      value: String(i),
+                    };
+                  })}
+                  placeholder="0"
+                >
+                </Dropdown>
+              )}
+
             </div>
+
           </div>
         );
       })}

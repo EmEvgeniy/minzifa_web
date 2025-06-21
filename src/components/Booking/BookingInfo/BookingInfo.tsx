@@ -36,9 +36,16 @@ export const BookingInfo = () => {
   );
 
   const handleSubmit = useCallback(() => {
-    if (!isPending && isChecked) {
+    if (!isPending && isChecked && bookingData) {
       mutate({
-        obj: bookingData,
+        obj: {
+          ...bookingData,
+          travellers_count: (bookingData.travellers_count ?? 0).toString(),
+          tour_price: (bookingData.tour_price ?? 0).toString(),
+          single_price: (bookingData.single_price ?? 0).toString(),
+          deposit: (bookingData.deposit ?? 0).toString(),
+          total_price: (bookingData.total_price ?? 0).toString(),
+        },
         http: 'forms/booking',
       });
     }
@@ -71,7 +78,7 @@ export const BookingInfo = () => {
               <span>
                 <Image src={IconCalendar} alt="" />
               </span>
-              <span>{t('booking_info.days', { days: tour?.days || 1 })}</span>
+              <span>{t('booking_info.days', { days: tour?.days || tour?.itineraries.length || 1 })}</span>
             </div>
             <div className="flex items-center gap-1">
               <span>

@@ -32,7 +32,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
   const handleBookingData = (
     selectedPrice: Price | undefined,
     totalPrice: number,
-    travellers: string,
+    travellers: number,
   ) => {
     if (!tour || !selectedPrice) return;
     setBookingData({
@@ -41,8 +41,8 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
       childrens: 1,
       tour_name: tour.name,
       tour_start: selectedPrice.date_start,
-      tour_end: date_end(selectedPrice.date_start, locale, tour.days),
-      travellers_count: String(travellers),
+      tour_end: date_end(selectedPrice.date_start, locale, tour.days || tour?.itineraries.length),
+      travellers_count: travellers,
       tour_price: selectedPrice.price_for_double,
       deposit: totalPrice * 0.15,
       total_price: totalPrice,
@@ -123,7 +123,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
         />
 
         <button
-          onClick={() => handleBookingData(selectedPrice, totalPrice, String(travellers))}
+          onClick={() => handleBookingData(selectedPrice, totalPrice, travellers)}
           className="text-center w-full rounded-4xl bg-[#27A430] text-white p-4 cursor-pointer transition-all duration-300 hover:bg-[#208B28]"
         >
           {t('booking.button', { count: travellers })}

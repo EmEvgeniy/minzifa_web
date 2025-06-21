@@ -1,7 +1,6 @@
 import React from 'react';
 import { FooterLeft } from './FooterLeft';
 import { FooterMiddle } from './FooterMiddle';
-import { FooterRight } from './FooterRight';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 
@@ -11,14 +10,14 @@ export const Footer = () => {
   const locale = useLocale();
   return (
     <footer className="bg-[#16372D] w-full">
-      <div className="max-w-[1650px] w-full px-[15px] py-[30px] text-white flex flex-col gap-10 mx-auto">
-        <div className="grid grid-cols-3 w-full gap-10 max-[1200px]:grid-cols-2 max-[768px]:grid-cols-1">
+      <div className="max-w-[1300px] w-full px-[20px] py-[30px] text-white flex flex-col gap-10 mx-auto">
+        <div className="grid grid-cols-2 w-full gap-10 max-[1200px]:grid-cols-2 max-[768px]:grid-cols-1">
           <FooterLeft />
           <FooterMiddle />
-          <FooterRight />
+          {/* <FooterRight /> */}
         </div>
         <p className="text-[14px] text-center max-[550px]:text-[11px]">
-          © 2014-2025 Minzifa Travel. All rights reserved. `Unique Travel` FE by Minzifa Travel.{' '}
+          © 2014-{new Date().getFullYear()} Minzifa Travel. All rights reserved. `Unique Travel` FE by Minzifa Travel.{' '}
           <br /> 70 Eshoni Pir Street, Bukhara 200118, Bukhara, Uzbekistan. |{' '}
           <Link href={`/${locale}/privacy-policy`}>{pl.title}</Link>
         </p>

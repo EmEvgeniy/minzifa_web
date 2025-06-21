@@ -83,7 +83,7 @@ export const TourDescription = ({
   return (
     <div className={cn(className)}>
       {subtitle && (
-        <h2 className="text-4xl font-semibold mb-4 max-[920px]:text-[30px] max-[550px]:text-[24px]">
+        <h2 className="text-2xl font-semibold mb-4 max-[920px]:text-[30px] max-[550px]:text-[24px]">
           {subtitle}
         </h2>
       )}

@@ -15,11 +15,11 @@ export const LeftInfo = () => {
         <h2 className="mb-4 w-full text-[56px] leading-tight font-bold tracking-tight text-white/70 max-[1024px]:text-[35px] max-[768px]:text-center font-title">
           {t('contact_us.title')}
         </h2>
-        <Link href={`tel:${contacts.phone[locale]}`} className="mt-8 w-full text-[24px] font-bold text-white max-[1024px]:text-[18px] max-[768px]:text-center">
-          {contacts.phone[locale]}
+        <Link href={`tel:${contacts.phone[locale].url}`} className="mt-8 w-full text-[24px] font-bold text-white max-[1024px]:text-[18px] max-[768px]:text-center">
+          {contacts.phone[locale].name}
         </Link>
-        <Link href={`mailto:${contacts.email[locale]}`} className="text-[24px] font-bold text-white max-[1024px]:text-[18px] py-[10px] max-[768px]:text-center">
-          {contacts.email[locale]}
+        <Link href={`mailto:${contacts.email[locale].url}`} className="text-[24px] font-bold text-white max-[1024px]:text-[18px] py-[10px] max-[768px]:text-center">
+          {contacts.email[locale].name}
         </Link>
         <p className="w-full text-[24px] text-white max-[1024px]:text-[18px] max-[768px]:text-center">
           {contacts.address[locale]}

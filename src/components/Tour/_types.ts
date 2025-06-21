@@ -20,6 +20,7 @@ export type Facts = {
 export type SeoMetadata = {
     title: string;
     description: string;
+    keywords: string;
 };
 
 export type Season = {

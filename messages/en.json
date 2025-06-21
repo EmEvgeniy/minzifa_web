@@ -871,6 +871,7 @@
     "title": "Free Consultation",
     "name": "Name",
     "email": "Email",
+    "phone": "Номер телефона",
     "wishes": "Optional placeholder text",
     "button": "Send request",
     "checkbox": [

@@ -24,5 +24,6 @@ export type ArticleCardType = {
   seo_metadata: {
     title: string;
     description: string;
+    keywords: string;
   };
 };

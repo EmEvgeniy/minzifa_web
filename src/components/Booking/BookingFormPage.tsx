@@ -21,12 +21,12 @@ export default function BookingFormPage() {
     );
 
   return (
-    <section className=" relative pb-[0px]">
+    <section className="relative pb-[0px]">
       <div className="container mt-[150px] flex flex-col gap-5 min-h-[200px] mb-10 max-[1024px]:mt-[90px]">
         <Breadcrumbs />
         <BookingHeader />
 
-        <div className="flex items-start justify-between gap-5  relative max-[1024px]:flex-col-reverse ">
+        <div className="flex items-start justify-between gap-5 relative max-[1024px]:flex-col-reverse">
           <div className="flex flex-col gap-10 h-full w-2/2">
             <Travellers />
             <RoomTypes />

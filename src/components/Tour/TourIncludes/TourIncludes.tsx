@@ -52,43 +52,53 @@ export const TourIncludes = ({ includes }: { includes: Include[] | undefined }) 
     return null;
   }
 
+
+
   return (
-    <div className="flex flex-col gap-5 col-start-1  ">
+    <div className="flex flex-col gap-5 col-start-1">
       <h2 className="text-4xl font-semibold text-black max-[920px]:text-[30px] max-[550px]:text-[24px]">
         {t('includes.title')}
       </h2>
-      {[includeItems, excludeItems].map((item, index) => (
-        <div className="bg-white rounded-2xl" key={index}>
-          <h2 className="text-2xl font-semibold text-black p-5 max-[920px]:text-[30px] max-[550px]:text-[20px]">
-            {index === 0 ? t('includes.include') : t('includes.exclude')}
-          </h2>
-          <CustomAccordion
-            expandedIndexes={index === 0 ? includeAccordionIndexes : excludeAccordionIndexes}
-            onExpandedIndexesChange={
-              index === 0 ? setIncludeAccordionIndexes : setExcludeAccordionIndexes
-            }
-          >
-            {item?.map((include) => (
-              <div key={include.id}>
-                <CustomAccordionSummary className="rounded-none">
-                  <div className="flex flex-row gap-3 items-center text-base font-semibold">
-                    <Image
-                      width={28}
-                      height={28}
-                      alt={include.service}
-                      src={index === 0 ? icons[include.category] : icons.exclude}
-                    />
-                    {t(`includes.categories.${include.category}`)}
+      {[includeItems, excludeItems].map((items, index) => {
+        if (!items || items.length === 0) return null;
+        return (
+          <div className="bg-white rounded-2xl" key={index}>
+            <h2 className="text-2xl font-semibold text-black p-5 max-[920px]:text-[30px] max-[550px]:text-[20px]">
+              {index === 0 ? t('includes.include') : t('includes.exclude')}
+            </h2>
+            <CustomAccordion
+              expandedIndexes={index === 0 ? includeAccordionIndexes : excludeAccordionIndexes}
+              onExpandedIndexesChange={
+                index === 0 ? setIncludeAccordionIndexes : setExcludeAccordionIndexes
+              }
+            >
+              {items?.map((include) => {
+                return (
+                  <div key={include.id}>
+                    <CustomAccordionSummary className="rounded-none">
+                      <div className="flex flex-row gap-3 items-center text-base font-semibold">
+                        <Image
+                          width={28}
+                          height={28}
+                          alt={include.category}
+                          src={index === 0 ? icons[include.category] : icons.exclude}
+                        />
+                        {t(`includes.categories.${include.category}`)}
+                      </div>
+                    </CustomAccordionSummary>
+                    <CustomAccordionDetails className='max-w-[600px]'>
+                      <ul className="pl-10 text-base list-disc list-inside">
+                        {include.service.split('\r\n').map((item, index) => <li key={index}>{item}</li>)}
+                      </ul>
+                    </CustomAccordionDetails>
                   </div>
-                </CustomAccordionSummary>
-                <CustomAccordionDetails>
-                  <div className="pl-10 text-base">{include.service}</div>
-                </CustomAccordionDetails>
-              </div>
-            ))}
-          </CustomAccordion>
-        </div>
-      ))}
+                )
+              })}
+            </CustomAccordion>
+          </div>
+        );
+      })}
+
       <div className="bg-[#E2FFF4] p-5 rounded-2xl flex flex-row gap-2.5 items-center text-lg max-[920px]:text-[12px] max-[550px]:p-2.5 max-[550px]:text-[12px]">
         <svg
           width="30"

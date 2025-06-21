@@ -58,13 +58,13 @@ const RadioButton = ({
   </label>
 );
 
-export const Passenger = ({ index }: { index: number }) => {
+export const Passenger = ({ index }: { index: number, errors?: Partial<Record<keyof PassengerType, string[]>>; }) => {
   const locale = useLocale();
   const t = useTranslations('Booking');
 
   const { bookingData, setBookingData } = useBookingStore((state) => state);
 
-  const salutations = ['Mr.', 'Ms.', 'Mrs.', 'Miss'];
+  const salutations: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Miss'];
 
   const genders: { [key: string]: string[] } = {
     en: ['Male', 'Female'],
@@ -164,7 +164,7 @@ export const Passenger = ({ index }: { index: number }) => {
         {/* Salutation */}
         <div>
           <div className="flex flex-wrap gap-x-4 gap-y-2">
-            {locale &&
+            {locale === 'en' &&
               salutations?.map((s) => (
                 <RadioButton
                   key={s}

@@ -17,10 +17,16 @@ import {
 
 type ContactProps = {
     email: {
-        [key: string]: string;
+        [key: string]: {
+            name: string;
+            url: string;
+        };
     };
     phone: {
-        [key: string]: string;
+        [key: string]: {
+            name: string;
+            url: string;
+        };
     };
     address: {
         [key: string]: string;
@@ -30,12 +36,24 @@ type ContactProps = {
 
 export const contacts: ContactProps = {
     email: {
-        en: 'booking@minzifatravel.com',
-        ru: 'booking@minzifatravel.com',
+        en: {
+            name: 'booking@minzifatravel.com',
+            url: 'mailto:booking@minzifatravel.com',
+        },
+        ru: {
+            name: 'booking@minzifatravel.com',
+            url: 'mailto:booking@minzifatravel.com',
+        }
     },
     phone: {
-        en: '+1 646 883 33 99',
-        ru: '+7 931 107 38 01',
+        en: {
+            name: '+998 91 244 47 20',
+            url: 'tel:+99891444720',
+        },
+        ru: {
+            name: '+7 931 107 38 01',
+            url: 'tel:+79311073801',
+        },
     },
     address: {
         en: '63, Eshoni Pir Str., Bukhara, Uzbekistan',
@@ -85,8 +103,8 @@ export const contacts: ContactProps = {
         {
             name: 'Mail',
             url: {
-                en: 'booking@minzifatravel.com',
-                ru: 'booking@minzifatravel.com',
+                en: 'mailto:booking@minzifatravel.com',
+                ru: 'mailto:booking@minzifatravel.com',
             },
             Icon: FaEnvelope,
         },
