@@ -19,6 +19,7 @@ interface SubscribeFormRequest {
 export const FreeConsultationForm = ({ className }: { className?: string }) => {
   const t = useTranslations('FreeForm');
   const locale = useLocale();
+  const [valid, setValid] = useState<boolean>(false);
   const [formData, setFormData] = useState<SubscribeFormRequest>({
     name: '',
     email: '',
@@ -38,15 +39,17 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
         phone: '',
         message: '',
       });
+      setValid(false);
     },
     () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
       setMessage('');
+      setValid(true);
     },
   );
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLButtonElement>) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (!isPending) {
         mutate({
@@ -64,6 +67,14 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
         className,
         'bg-[#16372D] w-full h-full rounded-2xl overflow-hidden my-[70px] max-[768px]:my-[40px]',
       )}
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (formData.email && formData.name && formData.phone) {
+          handleSubmit(e);
+        } else {
+          setValid(true);
+        }
+      }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-[550px]:justify-items-center max-[550px]:items-center max-[550px]:gap-0">
         <div className="relative w-full h-full block max-[768px]:hidden">
@@ -95,21 +106,30 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
             type="text"
             value={formData.name}
             onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-            className="bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
+            className={cn(
+              'bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]',
+              valid && 'bg-red-400 text-white',
+            )}
             placeholder={t('name')}
           />
           <input
             type="text"
             value={formData.email}
             onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-            className="bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
+            className={cn(
+              'bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]',
+              valid && 'bg-red-400 text-white',
+            )}
             placeholder={t('email')}
           />
           <input
             type="text"
             value={formData.phone}
             onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-            className="bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
+            className={cn(
+              'bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]',
+              valid && 'bg-red-400 text-white',
+            )}
             placeholder={t('phone')}
           />
           <textarea
@@ -117,12 +137,19 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
             id=""
             value={formData.message}
             onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
-            className="bg-white w-full min-h-[145px] text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]"
+            className={cn(
+              'bg-white w-full min-h-[145px] text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]',
+              valid && 'bg-red-400 text-white',
+            )}
             placeholder={t('wishes')}
           ></textarea>
           <button
-            className="bg-[#27A430] text-white font-semibold text-base rounded-2xl py-4 max-[768px]:py-2 max-[768px]:text-[16px]"
-            onClick={(e) => handleSubmit(e)}
+            disabled={!(formData.email && formData.phone && formData.name)}
+            className={cn(
+              'bg-[#27A430] text-white font-semibold text-base rounded-2xl py-4 max-[768px]:py-2 max-[768px]:text-[16px]',
+              !(formData.email && formData.phone && formData.name) && 'bg-gray-300 touch-none',
+              valid && 'bg-red-400',
+            )}
           >
             {t('button')}
           </button>
