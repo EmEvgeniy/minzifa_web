@@ -7,7 +7,7 @@ import { HeroSearch } from './HeroSearch';
 export const Hero = () => {
   const t = useTranslations('home');
   return (
-    <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-[60vh] ">
+    <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-screen">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
       <Image
         src={hero}
