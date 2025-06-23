@@ -2,9 +2,9 @@ import './globals.css';
 import { SocialMedia, TopNav } from '@/components';
 import { NextIntlClientProvider } from 'next-intl';
 import { QueryProvider } from '@/providers/QueryProvider';
-import { Footer } from '@/components/Footer';
 import { ThemeProviderWrap } from '@/providers/ThemeProviderWrap';
 import { CustomSnackBar } from '@/components/UI/CustomSnackBar';
+import { MainLayout } from '@/layouts';
 
 export default function RootLayout({
   children,
@@ -20,8 +20,7 @@ export default function RootLayout({
               <SocialMedia direction="vertical" gap={20} />
             </div>
             <TopNav />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <MainLayout>{children}</MainLayout>
             <CustomSnackBar />
           </div>
         </ThemeProviderWrap>

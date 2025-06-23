@@ -5,22 +5,38 @@ import React from 'react';
 import { Metadata } from 'next';
 
 type Props = {
-    params: Promise<{ locale: string; }>
-}
+  params: Promise<{ locale: string }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const slug = 'contact-us';
-    const locale = (await params).locale;
+  const slug = 'contact-us';
+  const locale = (await params).locale;
 
-    const data = await fetch(`https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`, {
-        next: { revalidate: 60 },
-    }).then((res) => res.json());
+  try {
+    const res = await fetch(`https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch metadata: ${res.status}`);
+    }
+
+    const data = await res.json();
 
     return {
-        title: data?.seo_metadata?.title,
-        description: data?.seo_metadata?.description,
-        keywords: data?.seo_metadata?.keywords,
-    }
+      title: data?.seo_metadata?.title || 'Default title',
+      description: data?.seo_metadata?.description || 'Default description',
+      keywords: data?.seo_metadata?.keywords || '',
+    };
+  } catch (error) {
+    console.error('Metadata fetch error:', error);
+
+    return {
+      title: 'Default title',
+      description: 'Default description',
+      keywords: '',
+    };
+  }
 }
 
 export default function page() {

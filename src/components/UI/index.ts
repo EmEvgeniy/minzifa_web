@@ -7,3 +7,4 @@ export * from './BestSellersPackagesCard';
 export * from './Loader';
 export * from './AdventureCard';
 export * from './ArticleCard';
+export * from './Popup';
