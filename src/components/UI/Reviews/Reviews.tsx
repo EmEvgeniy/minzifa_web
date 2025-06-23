@@ -11,7 +11,7 @@ export const Reviews = () => {
   const t = useTranslations('reviews');
   const pathname = usePathname();
 
-  const rating = 4.9;
+  const rating = 5.0;
   const fullStars = Math.floor(rating);
   const starsArray = Array.from({ length: 5 }, (_, i) => (
     <FaStar
@@ -57,12 +57,12 @@ export const Reviews = () => {
           </h2>
           <div className="flex flex-row items-center gap-5">
             <p className="font-title text-[56px] max-[1024px]:text-[35px] max-[768px]:text-[30px]">
-              4.9
+              {rating.toFixed(1)}
             </p>
             <div>
               <div className="flex flex-row gap-3">{starsArray}</div>
               <div className="text-2xl text-[#666666] font-normal max-[1024px]:text-[20px]">
-                {t('count', { count: 400 })}
+                {t('count', { count: 456 })}
               </div>
             </div>
           </div>

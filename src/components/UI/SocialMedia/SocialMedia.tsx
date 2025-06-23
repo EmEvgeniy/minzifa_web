@@ -24,6 +24,7 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({
         display: 'flex',
         flexDirection: direction === 'horizontal' ? 'row' : 'column',
         gap: `${gap}px`,
+        flexWrap: 'wrap',
       }}
     >
       {socials.map(({ Icon, url }, index) => url && url[locale] && (

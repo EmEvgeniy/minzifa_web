@@ -20,6 +20,8 @@ import { Reviews } from '../UI/Reviews/Reviews';
 import { useBookingStore } from '@/store/bookingStore';
 import Loader from '../UI/Loader/Loader';
 import { MobileBtn } from './MobileBtn';
+import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
+import { ConsultationQuiz } from '../UI/ConsultationQuiz/ConsultationQuiz';
 
 export const TourWrapper = () => {
   const locale = useLocale();
@@ -84,6 +86,8 @@ export const TourWrapper = () => {
         <TourAccomodation hotels={tour?.hotels} />
         <TourPrices />
         <Reviews />
+        <CreateYourTripForm />
+        {locale === 'ru' && <ConsultationQuiz />}
       </div>
       <MobileBtn />
     </div>

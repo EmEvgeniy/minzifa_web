@@ -941,5 +941,86 @@
       ]
     },
     "button": "Book {count} space"
+  },
+  "CreateYourTripForm": {
+    "card": {
+      "title": "Anna Smirnova",
+      "subtitle": "Product manager",
+      "description": "Just one last step — leave your contact info, and we’ll send you a personalized selection of tours within 24 hours. No spam, just value",
+      "hint": "Answer a few quick questions — and get a custom travel plan crafted just for you. Hand-picked routes, real experts, no spam."
+    },
+    "questions": {
+      "slide_1": {
+        "title": "Where do you want to go?",
+        "answers": [
+          "Central Asia (Uzbekistan, Kazakhstan, Kyrgyzstan, Tajikistan, Turkmenistan)",
+          "Morocco",
+          "Jordan",
+          "China & Tibet",
+          "Caucasus (Geogria, Armenia, Azerbaijan)",
+          "Not sure - help me decide"
+        ],
+        "hint": "*Select one or more options"
+      },
+      "slide_2": {
+        "title": "Who are you traveling with?",
+        "answers": [
+          "Solo",
+          "With family",
+          "With friends",
+          "As a couple",
+          "I`m open to a group tour"
+        ]
+      },
+      "slide_3": {
+        "title": "How many days are you planning on traveling for?",
+        "answers": [
+          "Up to 10 days",
+          "11-15 days",
+          "16-23 days",
+          "24+ days"
+        ]
+      },
+      "slide_4": {
+        "title": "What level of accommodation do you feel comfortable with?",
+        "answers": [
+          "3★ — Cozy & affordable",
+          "4★ — Comfortable & stylish",
+          "5★ / Boutique — Luxury experience",
+          "No hotel needed, just tours & guide"
+        ]
+      },
+      "slide_5": {
+        "title": "What would you love to experience?",
+        "answers": [
+          "Historical sites & sightseeing",
+          "Cultural workshops & artisan crafts",
+          "Local markets & bazaars",
+          "Traditional shows & folklore",
+          "Culinary tastings & food tours",
+          "Nature trips & outdoor escapes",
+          "Iconic Instagram spots",
+          "All-inclusive — I just want to relax"
+        ]
+      },
+      "slide_6": {
+        "title": "Let’s send you the best options",
+        "name": "Your name",
+        "email": "Your email",
+        "phone": "Whatsapp number"
+      }
+    },
+    "errors": {
+      "required": "Please select at least one option",
+      "name_required": "Please enter your name",
+      "invalid_email": "Please enter a valid email",
+      "invalid_phone": "Please enter a valid phone number."
+    },
+    "step": "Step {step} of {total}",
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "submit": "Submit"
+    }
   }
 }
