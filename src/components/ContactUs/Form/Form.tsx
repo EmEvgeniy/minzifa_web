@@ -5,6 +5,7 @@ import { ContactUsRequest, ContactUsResponse } from './_types';
 import { Button, Checkbox } from '@mui/material';
 import { useLocale, useTranslations } from 'next-intl';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
+import { useRouter } from 'next/router';
 
 export const Form = () => {
   const t = useTranslations();
@@ -16,6 +17,7 @@ export const Form = () => {
   });
   const { setMessage, setError } = useSnackStore((state) => state);
   const lang = useLocale();
+  const router = useRouter();
 
   const { mutate, isPending } = usePostMutation<ContactUsResponse, ContactUsRequest>(
     ['contact-us'],
@@ -26,6 +28,7 @@ export const Form = () => {
           : 'Ваша заявка была успешно отправлена',
       );
       setFormData({ name: '', email: '', phone: '', message: '' });
+      router.push(`/${lang}/thank-you`);
     },
     () => {
       setError(lang == 'en' ? 'Some error was happened' : 'Произошла ошибка');

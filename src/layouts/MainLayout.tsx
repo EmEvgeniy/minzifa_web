@@ -52,7 +52,15 @@ export const MainLayout: FC<MainLayoutType> = ({ children }) => {
       <Popup
         open={open}
         handleClose={() => setOpen(false)}
-        content={locale === 'en' ? <CreateYourTripForm /> : <ConsultationQuiz />}
+        content={(
+          <>
+            {locale === 'en'
+              ? <CreateYourTripForm popupClose={() => setOpen(false)} />
+              : <ConsultationQuiz popupClose={() => setOpen(false)} />
+            }
+          </>
+        )}
+        maxWidth="md"
       />
       <Footer ref={footerRef} />
     </>

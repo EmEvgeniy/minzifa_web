@@ -15,10 +15,13 @@ import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
 import { useCallback, useState } from 'react';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { usePostMutation } from '@/api/post.api';
+import { useRouter } from 'next/navigation';
 
 export const BookingInfo = () => {
   const t = useTranslations('Booking');
   const locale = useLocale();
+
+  const router = useRouter();
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -29,6 +32,7 @@ export const BookingInfo = () => {
     ['subscribe-booking'],
     () => {
       setMessage(locale == 'en' ? 'Your tour was booked!' : 'Ваш тур был забронирован!');
+      router.push(`/${locale}/thank-you`);
     },
     () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');

@@ -1,3 +1,4 @@
+import { Wrapper } from '@/components/ThankYou/ThankYou';
 import { Metadata } from 'next';
 
 type Props = {
@@ -20,5 +21,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default function page() {
-    return <div>Thank you</div>;
+    return <Wrapper />;
 };

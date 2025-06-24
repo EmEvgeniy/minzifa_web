@@ -8,6 +8,7 @@ import { cn } from '@/utils/utils';
 import { useSnackStore } from '../CustomSnackBar/store';
 import { usePostMutation } from '@/api/post.api';
 import { FormEvent, useCallback, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface SubscribeFormRequest {
   name: string;
@@ -19,6 +20,7 @@ interface SubscribeFormRequest {
 export const FreeConsultationForm = ({ className }: { className?: string }) => {
   const t = useTranslations('FreeForm');
   const locale = useLocale();
+  const router = useRouter();
   const [valid, setValid] = useState<boolean>(false);
   const [formData, setFormData] = useState<SubscribeFormRequest>({
     name: '',
@@ -40,6 +42,7 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
         message: '',
       });
       setValid(false);
+      router.push(`/${locale}/thank-you`);
     },
     () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');

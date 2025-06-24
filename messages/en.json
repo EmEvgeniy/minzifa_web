@@ -1022,5 +1022,10 @@
       "back": "Back",
       "submit": "Submit"
     }
+  },
+  "ThankYou": {
+    "title": "Thank You for Your Inquiry!",
+    "subtitle": "We have received your request and have already started processing it.",
+    "text": "One of our travel experts will contact you within 24 hours via your preferred method — phone or email — to discuss the details of your trip and offer the best options tailored to your wishes."
   }
 }

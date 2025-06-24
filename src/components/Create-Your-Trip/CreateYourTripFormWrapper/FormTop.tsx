@@ -25,6 +25,7 @@ import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { useRouter } from 'next/router';
 
 interface SubscribeFormRequest {
   hotel_type: string;
@@ -83,6 +84,9 @@ export const FormTop = () => {
     additionalParam: '&main_page=1',
   });
 
+  const router = useRouter();
+
+
   const { mutate, isPending } = usePostMutation<FormResponse, SubscribeFormRequest>(
     ['subscribe-form'],
     () => {
@@ -105,6 +109,7 @@ export const FormTop = () => {
         phone: '',
         nationality: '',
       });
+      router.push(`/${lang}/thank-you`);
     },
     () => {
       setError(lang == 'en' ? 'Some error was happened' : 'Произошла ошибка');

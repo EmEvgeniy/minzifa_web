@@ -21,7 +21,6 @@ import { useBookingStore } from '@/store/bookingStore';
 import Loader from '../UI/Loader/Loader';
 import { MobileBtn } from './MobileBtn';
 import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
-import { ConsultationQuiz } from '../UI/ConsultationQuiz/ConsultationQuiz';
 
 export const TourWrapper = () => {
   const locale = useLocale();
@@ -48,7 +47,7 @@ export const TourWrapper = () => {
 
   if (isLoading)
     return (
-      <div className="container mt-[150px] min-h-[200px] flex items-center justify-center">
+      <div className="container mt-[150px] min-h-[200px] h-screen flex items-center justify-center">
         <Loader />
       </div>
     );
@@ -86,8 +85,7 @@ export const TourWrapper = () => {
         <TourAccomodation hotels={tour?.hotels} />
         <TourPrices />
         <Reviews />
-        <CreateYourTripForm />
-        {locale === 'ru' && <ConsultationQuiz />}
+        <CreateYourTripForm className='mb-5' />
       </div>
       <MobileBtn />
     </div>
