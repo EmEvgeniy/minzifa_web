@@ -5,9 +5,6 @@ import Head from 'next/head';
 export default function Metrics() {
     const locale = useLocale();
     const isRussian = locale === 'ru';
-    const isProd = process.env.NODE_ENV === 'production';
-
-    if (!isProd) return null;
 
     return (
         <>
