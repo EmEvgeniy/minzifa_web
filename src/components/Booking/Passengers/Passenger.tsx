@@ -13,6 +13,7 @@ import {
 import { useMemo } from 'react';
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 import Image from 'next/image';
+import { PhoneInputComp } from '@/components/UI';
 
 const InputField = ({
   value,
@@ -58,7 +59,12 @@ const RadioButton = ({
   </label>
 );
 
-export const Passenger = ({ index }: { index: number, errors?: Partial<Record<keyof PassengerType, string[]>>; }) => {
+export const Passenger = ({
+  index,
+}: {
+  index: number;
+  errors?: Partial<Record<keyof PassengerType, string[]>>;
+}) => {
   const locale = useLocale();
   const t = useTranslations('Booking');
 
@@ -209,10 +215,9 @@ export const Passenger = ({ index }: { index: number, errors?: Partial<Record<ke
           {/* Phone Number */}
           <div>
             <div className="flex flex-row">
-              <InputField
+              <PhoneInputComp
                 value={bookingData?.passengers?.[index]?.phone || ''}
-                onChange={(e) => updatePassengerField(index, 'phone', e.target.value)}
-                placeholder={t('passenger.phone')}
+                onChange={(e) => updatePassengerField(index, 'phone', e)}
               />
             </div>
           </div>

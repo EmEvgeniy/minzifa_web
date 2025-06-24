@@ -26,6 +26,7 @@ import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { useRouter } from 'next/router';
+import { PhoneInputComp } from '@/components/UI';
 
 interface SubscribeFormRequest {
   hotel_type: string;
@@ -85,7 +86,6 @@ export const FormTop = () => {
   });
 
   const router = useRouter();
-
 
   const { mutate, isPending } = usePostMutation<FormResponse, SubscribeFormRequest>(
     ['subscribe-form'],
@@ -528,12 +528,9 @@ export const FormTop = () => {
             className="bg-white py-[15px] rounded-[16px] px-[10px] w-full outline-none active:outline-none"
             placeholder={t('form2.pl6')}
           />
-          <input
-            type="text"
+          <PhoneInputComp
             value={formData.phone}
-            onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-            className="bg-white py-[15px] rounded-[16px] px-[10px] w-full outline-none active:outline-none"
-            placeholder={t('form2.pl7')}
+            onChange={(e) => setFormData((prev) => ({ ...prev, phone: e }))}
           />
         </div>
         <input

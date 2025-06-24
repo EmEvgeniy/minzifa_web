@@ -9,6 +9,7 @@ import { useSnackStore } from '../CustomSnackBar/store';
 import { usePostMutation } from '@/api/post.api';
 import { FormEvent, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { PhoneInputComp } from '../PhoneInput';
 
 interface SubscribeFormRequest {
   name: string;
@@ -125,15 +126,9 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
             )}
             placeholder={t('email')}
           />
-          <input
-            type="text"
+          <PhoneInputComp
             value={formData.phone}
-            onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-            className={cn(
-              'bg-white w-full text-black rounded-2xl py-[18px] px-2.5 max-[768px]:py-2 max-[768px]:text-[16px]',
-              valid && 'bg-red-400 text-white',
-            )}
-            placeholder={t('phone')}
+            onChange={(value) => setFormData((prev) => ({ ...prev, phone: value }))}
           />
           <textarea
             name=""

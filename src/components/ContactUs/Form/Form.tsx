@@ -6,6 +6,7 @@ import { Button, Checkbox } from '@mui/material';
 import { useLocale, useTranslations } from 'next-intl';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { useRouter } from 'next/router';
+import { PhoneInputComp } from '@/components/UI';
 
 export const Form = () => {
   const t = useTranslations();
@@ -74,14 +75,9 @@ export const Form = () => {
           placeholder={t('contact_us.pl2')}
           required
         />
-        <input
-          type="phone"
-          id="text"
+        <PhoneInputComp
           value={formData.phone}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-          className="focus:ring-primary-500 focus:border-primary-500 block w-full rounded-[18px] border border-gray-300 bg-gray-50 p-3 text-sm text-gray-900 shadow-sm"
-          placeholder={t('contact_us.pl3')}
-          required
+          onChange={(value) => setFormData({ ...formData, phone: value })}
         />
         <textarea
           id="message"

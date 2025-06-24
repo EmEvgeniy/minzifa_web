@@ -8,3 +8,4 @@ export * from './Loader';
 export * from './AdventureCard';
 export * from './ArticleCard';
 export * from './Popup';
+export * from './PhoneInput';
