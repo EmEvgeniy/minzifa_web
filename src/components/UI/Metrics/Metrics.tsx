@@ -1,5 +1,3 @@
-'use client';
-
 import { useLocale } from 'next-intl';
 import Script from 'next/script';
 import Head from 'next/head';
