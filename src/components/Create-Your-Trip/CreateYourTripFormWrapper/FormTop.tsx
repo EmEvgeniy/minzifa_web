@@ -25,7 +25,7 @@ import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '@/components/UI';
 
 interface SubscribeFormRequest {

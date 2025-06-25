@@ -1,8 +1,7 @@
 import { contact } from '@/assets/img';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
-import IconBubbleMessage from '@/assets/icons/message.svg';
 import IconPhone from '@/assets/icons/phone.svg';
 import IconWhatsapp from '@/assets/icons/Vector (5).svg';
 import IconEnvelope from '@/assets/icons/question.svg';
@@ -12,27 +11,23 @@ import { contacts } from '@/store/contacts';
 
 export const ContactUs = () => {
   const t = useTranslations('home');
-
+  const locale = useLocale()
+  ;
   const contactItems = [
-    {
-      icon: IconBubbleMessage,
-      label: t(`contacts.message`),
-      slug: '#',
-    },
     {
       icon: IconEnvelope,
       label: t(`contacts.envelope`),
-      slug: contacts.email,
+      slug: contacts.email?.[locale].url,
     },
     {
       icon: IconWhatsapp,
       label: t(`contacts.whatsapp`),
-      slug: contacts.social_media.find((item) => item.name === 'WhatsApp')?.url,
+      slug: contacts.social_media.find((item) => item.name === 'WhatsApp')?.url?.[locale],
     },
     {
       icon: IconPhone,
       label: t(`contacts.phone`),
-      slug: contacts.phone,
+      slug: contacts.phone?.[locale].url,
     },
   ];
 
