@@ -1,11 +1,8 @@
 'use client';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 import { IoCloseCircle } from 'react-icons/io5';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import Divider from '@mui/material/Divider';
 import Slider from '@mui/material/Slider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -13,9 +10,42 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useGetQuery } from '@/api/get.api';
 
+import { styled } from '@mui/material/styles';
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
+import MuiAccordionSummary, {
+  AccordionSummaryProps,
+  accordionSummaryClasses,
+} from '@mui/material/AccordionSummary';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
+
 function valuetext(value: number) {
   return `${value}$`;
 }
+
+const Accordion = styled((props: AccordionProps) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+))(({ }) => ({
+}));
+
+const AccordionSummary = styled((props: AccordionSummaryProps) => (
+  <MuiAccordionSummary
+    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
+    {...props}
+  />
+))(() => ({
+  [`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]:
+  {
+    transform: 'rotate(180deg)',
+  },
+  [`& .${accordionSummaryClasses.content}`]: {
+
+  }
+}));
+
+const AccordionDetails = styled(MuiAccordionDetails)(() => ({
+
+}));
 
 const defaultTheme = createTheme({
   typography: {
@@ -83,17 +113,17 @@ export const Filter = () => {
     perPage: '',
     url: 'types',
     searchItem: '',
-    additionalParam: '&all=true&main_page=0',
+    additionalParam: '&all=true',
   });
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <div className="max-w-[350px] w-full min-h-[700px] flex flex-col gap-5 items-start justify-start [@media(max-width:1024px)]:max-w-full">
-        <button className="bg-white flex items-center justify-center gap-2 px-[20px] py-[13.5px] rounded-[30px]  hover:bg-gray-300 cursor-pointer transition-all active:bg-white [@media(max-width:1024px)]:hidden ">
+        <button className="bg-white flex items-center justify-center gap-2 px-[20px] py-[13.5px] rounded-[30px] hover:bg-gray-300 cursor-pointer transition-all active:bg-white [@media(max-width:1024px)]:hidden ">
           <span className="text-[18px]">{t('f_top_btn')}</span>
           <IoCloseCircle size={30} className="text-green-600" />
         </button>
-        <div className="bg-white rounded-[20px] w-full p-[15px] shadow-xl [@media(max-width:1024px)]:bg-transparent [@media(max-width:1024px)]:shadow-none [@media(max-width:1024px)]:p-0">
+        <div className="bg-white rounded-2xl w-full p-3 shadow-xl [@media(max-width:1024px)]:bg-transparent [@media(max-width:1024px)]:shadow-none [@media(max-width:1024px)]:p-0">
           <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -103,7 +133,7 @@ export const Filter = () => {
               <p className="text-[18px] font-semibold">{t('pl')}</p>
             </AccordionSummary>
             <AccordionDetails>
-              <div className="grid-row-1 rounded-[16px]  grid grid-cols-2 border-2 border-gray-300 p-0">
+              <div className="grid-row-1 rounded-2xl grid grid-cols-2 border-2 border-gray-300 p-0">
                 <div className="rounded-input flex flex-col rounded-r-none border-r border-inherit">
                   <span className="mt-1 px-3 text-[18px] text-gray-300 ">{t('from')}</span>
                   <div className="flex flex-row">
@@ -159,7 +189,7 @@ export const Filter = () => {
               <p className="text-[18px] font-semibold">{t('pl2')}</p>
             </AccordionSummary>
             <AccordionDetails>
-              <div className="grid-row-1 rounded-[16px]  grid grid-cols-2 border-2 border-gray-300 p-0">
+              <div className="grid-row-1 rounded-2xl  grid grid-cols-2 border-2 border-gray-300 p-0">
                 <div className="rounded-input flex flex-col rounded-r-none border-r border-inherit">
                   <span className="mt-1 px-3 text-[18px] text-gray-300 ">{t('from')}</span>
                   <div className="flex flex-row">
