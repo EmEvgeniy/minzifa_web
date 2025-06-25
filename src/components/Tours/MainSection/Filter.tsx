@@ -18,6 +18,7 @@ import MuiAccordionSummary, {
   accordionSummaryClasses,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import { useFilterStore } from './store';
 
 function valuetext(value: number) {
   return `${value}$`;
@@ -25,8 +26,7 @@ function valuetext(value: number) {
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ }) => ({
-}));
+))(({}) => ({}));
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -34,18 +34,13 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     {...props}
   />
 ))(() => ({
-  [`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]:
-  {
+  [`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]: {
     transform: 'rotate(180deg)',
   },
-  [`& .${accordionSummaryClasses.content}`]: {
-
-  }
+  [`& .${accordionSummaryClasses.content}`]: {},
 }));
 
-const AccordionDetails = styled(MuiAccordionDetails)(() => ({
-
-}));
+const AccordionDetails = styled(MuiAccordionDetails)(() => ({}));
 
 const defaultTheme = createTheme({
   typography: {
@@ -74,8 +69,7 @@ interface DataResponse {
 
 export const Filter = () => {
   const t = useTranslations('all_tours');
-  const [price, setPrice] = useState<number[]>([0, 3200]);
-  const [duration, setDuration] = useState<number[]>([0, 20]);
+  const { price, duration, setPrice, setDuration } = useFilterStore((state) => state);
   const seasons = t.raw('seasons') as { title: string; value: string }[];
   const hotels = t.raw('hotels') as { title: string; value: string }[];
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -171,7 +165,7 @@ export const Filter = () => {
                 value={price}
                 sx={{ paddingTop: 5 }}
                 min={0}
-                max={4200}
+                max={10000}
                 size="medium"
                 onChange={handleChange}
                 valueLabelDisplay="auto"
