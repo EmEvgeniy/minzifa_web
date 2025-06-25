@@ -55,6 +55,25 @@ export const BookingInfo = () => {
     }
   }, [bookingData, isPending, mutate, isChecked]);
 
+  const isAllPassengersValid = (bookingData.passengers ?? []).every((p) => {
+    return (
+      p.first_name?.trim() &&
+      p.last_name?.trim() &&
+      p.salutation?.trim() &&
+      p.email?.trim() &&
+      p.phone?.trim() &&
+      p.gender?.trim() &&
+      p.birth_date?.day &&
+      p.birth_date?.month &&
+      p.birth_date?.year &&
+      p.main_address?.address?.trim() &&
+      p.main_address?.address2?.trim() &&
+      p.main_address?.state?.trim() &&
+      p.main_address?.province?.trim() &&
+      p.main_address?.postal_code?.trim()
+    );
+  });
+
   return (
     <div className="sticky top-[150px] rounded-2xl space-y-4 bg-white p-5 shadow-xl max-[1024px]:relative max-[1024px]:top-0">
       <hr className="border-gray-300" />
@@ -82,7 +101,9 @@ export const BookingInfo = () => {
               <span>
                 <Image src={IconCalendar} alt="" />
               </span>
-              <span>{t('booking_info.days', { days: tour?.days || tour?.itineraries.length || 1 })}</span>
+              <span>
+                {t('booking_info.days', { days: tour?.days || tour?.itineraries.length || 1 })}
+              </span>
             </div>
             <div className="flex items-center gap-1">
               <span>
@@ -184,7 +205,11 @@ export const BookingInfo = () => {
       {/* Submit button */}
       <button
         onClick={handleSubmit}
-        disabled={!isChecked}
+        disabled={
+          (!(isChecked && Number(bookingData.travellers_count) > 0) &&
+            (bookingData.passengers?.length ?? 0) <= 0) ||
+          !isAllPassengersValid
+        }
         className="text-center w-full rounded-4xl disabled:bg-[#DDDDDD] disabled:cursor-not-allowed bg-[#27A430] text-white p-4 cursor-pointer transition-all duration-300 hover:bg-[#208B28] max-[1024px]:hidden"
       >
         {t('button', { count: bookingData?.travellers_count ?? 1 })}

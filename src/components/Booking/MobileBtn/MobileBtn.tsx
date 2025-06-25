@@ -32,6 +32,25 @@ export const MobileBtn = () => {
     }
   }, [bookingData, isPending, mutate]);
 
+  const isAllPassengersValid = (bookingData.passengers ?? []).every((p) => {
+    return (
+      p.first_name?.trim() &&
+      p.last_name?.trim() &&
+      p.salutation?.trim() &&
+      p.email?.trim() &&
+      p.phone?.trim() &&
+      p.gender?.trim() &&
+      p.birth_date?.day &&
+      p.birth_date?.month &&
+      p.birth_date?.year &&
+      p.main_address?.address?.trim() &&
+      p.main_address?.address2?.trim() &&
+      p.main_address?.state?.trim() &&
+      p.main_address?.province?.trim() &&
+      p.main_address?.postal_code?.trim()
+    );
+  });
+
   return (
     <div className="sticky bottom-0 bg-[#16372D] max-[1024px]:block hidden">
       <div className="container flex items-center justify-between p-5 text-white gap-5">
@@ -45,7 +64,11 @@ export const MobileBtn = () => {
         </div>
         <button
           onClick={handleSubmit}
-          disabled={false}
+          disabled={
+            (!(Number(bookingData.travellers_count) > 0) &&
+              (bookingData.passengers?.length ?? 0) <= 0) ||
+            !isAllPassengersValid
+          }
           className="text-center text-[14px] max-w-[200px]  w-full rounded-4xl disabled:bg-[#DDDDDD] disabled:cursor-not-allowed bg-[#27A430] text-white p-2 cursor-pointer transition-all duration-300 hover:bg-[#208B28]"
         >
           {t('button', { count: bookingData?.travellers_count ?? 1 })}
