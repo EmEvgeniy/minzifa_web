@@ -1,12 +1,13 @@
 'use client';
 import { useGetQuery } from '@/api/get.api';
 import { cr2 } from '@/assets/img';
-import { ArticleCard, SocialMedia } from '@/components/UI';
-import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
+import { BestSellersPackagesCard, SocialMedia } from '@/components/UI';
+import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
 import { Button, Divider } from '@mui/material';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
 
@@ -21,13 +22,12 @@ type ArticleDetail = {
   };
 };
 
-type ArticleListResponse = {
-  data: ArticleCardType[];
-};
+type TourListResponse = BestSellersPackagesCardType[];
 
 export const Content: React.FC = () => {
   const t = useTranslations();
   const { slug } = useParams() as { slug: string };
+  const locale = useLocale();
 
   const { data: articleDetail } = useGetQuery<ArticleDetail>({
     key: ['article', slug],
@@ -38,13 +38,13 @@ export const Content: React.FC = () => {
     additionalParam: '',
   });
 
-  const { data: articleList, isSuccess: isArticleListSuccess } = useGetQuery<ArticleListResponse>({
-    key: ['articles_main'],
+  const { data: tours, isSuccess: isToursSuccess } = useGetQuery<TourListResponse>({
+    key: ['tours_in_article'],
     page: '1',
     perPage: '2',
-    url: 'articles',
+    url: 'tours',
     searchItem: '',
-    additionalParam: '',
+    additionalParam: '&show_in_article=1&limit=2&random=1',
   });
 
   return (
@@ -99,25 +99,30 @@ export const Content: React.FC = () => {
             />
 
             <div className="flex flex-col gap-5 max-[1024px]:hidden">
-              {isArticleListSuccess &&
-                articleList?.data?.map((el: ArticleCardType) => (
-                  <ArticleCard key={el.id} article={el} />
+              {isToursSuccess &&
+                tours?.map((el: BestSellersPackagesCardType) => (
+                  <BestSellersPackagesCard key={el.id} slide={el} />
                 ))}
-              <div className="h-[450px] w-full bg-[#16372D] relative rounded-[16px] overflow-hidden flex items-center justify-center">
-                <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-                <Image src={cr2} alt="cyt" fill className="object-cover absolute top-0" />
-                <div className="relative z-30 text-white p-5 flex flex-col items-center gap-5 text-center">
-                  <p className="text-[28px]">{t('article.cyt.title')}</p>
-                  <p className="text-[16px]">{t('article.cyt.text')}</p>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    sx={{ borderRadius: 2, width: '100%', minHeight: 40 }}
-                  >
-                    {t('article.cyt.btn')}
-                  </Button>
+
+              <Link
+                href={`/${locale}/create-your-trip`}
+              >
+                <div className="h-[450px] w-full bg-[#16372D] relative rounded-[16px] overflow-hidden flex items-center justify-center">
+                  <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
+                  <Image src={cr2} alt="cyt" fill className="object-cover absolute top-0" />
+                  <div className="relative z-30 text-white p-5 flex flex-col items-center gap-5 text-center">
+                    <p className="text-[28px]">{t('article.cyt.title')}</p>
+                    <p className="text-[16px]">{t('article.cyt.text')}</p>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      sx={{ borderRadius: 2, width: '100%', minHeight: 40 }}
+                    >
+                      {t('article.cyt.btn')}
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
