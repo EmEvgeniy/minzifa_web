@@ -5,7 +5,7 @@ import { ContactUsRequest, ContactUsResponse } from './_types';
 import { Button, Checkbox } from '@mui/material';
 import { useLocale, useTranslations } from 'next-intl';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '@/components/UI';
 
 export const Form = () => {
