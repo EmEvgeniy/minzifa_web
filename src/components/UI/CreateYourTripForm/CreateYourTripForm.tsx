@@ -10,12 +10,15 @@ import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '../CustomSnackBar/store';
 import { CreateYourTripFormProps, CreateYourTripFormRequest, QuestionData } from './_types';
 import { useRouter } from 'next/navigation';
+import { useMetricsStore } from '@/store/useMetricsStore';
+import { PhoneInputComp } from '../PhoneInput';
 
 export const CreateYourTripForm = ({ className, popupClose }: CreateYourTripFormProps) => {
     const t = useTranslations('CreateYourTripForm');
     const locale = useLocale();
 
     const router = useRouter();
+    const { metrics } = useMetricsStore();
 
     const [formData, setFormData] = useState<CreateYourTripFormRequest>({
         destinations: [],
@@ -26,14 +29,16 @@ export const CreateYourTripForm = ({ className, popupClose }: CreateYourTripForm
         name: '',
         email: '',
         phone: '',
-
-        page: '',
-        utm_source: '',
-        utm_medium: '',
-        utm_campaign: '',
-        utm_content: '',
-        utm_term: '',
     });
+
+    useEffect(() => {
+        if (metrics?.utm_source || metrics?.page) {
+            setFormData(prev => ({
+                ...prev,
+                ...metrics
+            }));
+        }
+    }, [metrics]);
 
     const questions: QuestionData[] = useMemo(() => [
         {
@@ -215,23 +220,6 @@ export const CreateYourTripForm = ({ className, popupClose }: CreateYourTripForm
         }
     };
 
-    useEffect(() => {
-        if (typeof window === 'undefined') return;
-
-        const url = new URL(window.location.href);
-        const params = url.searchParams;
-
-        setFormData(prev => ({
-            ...prev,
-            page: url.pathname,
-            utm_source: params.get('utm_source') || '',
-            utm_medium: params.get('utm_medium') || '',
-            utm_campaign: params.get('utm_campaign') || '',
-            utm_term: params.get('utm_term') || '',
-            utm_content: params.get('utm_content') || '',
-        }));
-    }, []);
-
     return (
         <form
             onSubmit={handleSubmit}
@@ -322,16 +310,26 @@ export const CreateYourTripForm = ({ className, popupClose }: CreateYourTripForm
                                                 <label htmlFor={`form_${input}`}>
                                                     {t(`questions.slide_${questions?.length}.${input}`)}
                                                 </label>
-                                                <input
-                                                    id={`form_${input}`}
-                                                    name={input}
-                                                    onChange={handleChange}
-                                                    className={cn(
-                                                        'border rounded-lg p-2',
-                                                        errors[input] ? 'border-red-500' : 'border-gray-300'
-                                                    )}
-                                                    placeholder={t(`questions.slide_${questions.length}.${input}`)}
-                                                />
+                                                {
+                                                    input === 'phone' ?
+                                                        (
+                                                            <PhoneInputComp
+                                                                value={formData.phone}
+                                                                onChange={(value) => setFormData((prev) => ({ ...prev, phone: value }))}
+                                                            />
+                                                        ) : (
+                                                            <input
+                                                                id={`form_${input}`}
+                                                                name={input}
+                                                                onChange={handleChange}
+                                                                className={cn(
+                                                                    'border rounded-lg p-2',
+                                                                    errors[input] ? 'border-red-500' : 'border-gray-300'
+                                                                )}
+                                                                placeholder={t(`questions.slide_${questions.length}.${input}`)}
+                                                            />
+                                                        )
+                                                }
                                                 {errors[input] && <p className="text-red-500 text-sm">{errors[input]}</p>}
                                             </div>
                                         ))

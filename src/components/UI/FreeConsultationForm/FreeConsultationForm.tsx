@@ -7,32 +7,37 @@ import Link from 'next/link';
 import { cn } from '@/utils/utils';
 import { useSnackStore } from '../CustomSnackBar/store';
 import { usePostMutation } from '@/api/post.api';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '../PhoneInput';
-
-interface SubscribeFormRequest {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-}
+import { FreeConsultationFormRequest } from './_types';
+import { useMetricsStore } from '@/store/useMetricsStore';
 
 export const FreeConsultationForm = ({ className }: { className?: string }) => {
   const t = useTranslations('FreeForm');
   const locale = useLocale();
   const router = useRouter();
+  const { metrics } = useMetricsStore();
   const [valid, setValid] = useState<boolean>(false);
-  const [formData, setFormData] = useState<SubscribeFormRequest>({
+  const [formData, setFormData] = useState<FreeConsultationFormRequest>({
     name: '',
     email: '',
-    phone: '+99890',
+    phone: '',
     message: '',
   });
 
+  useEffect(() => {
+    if (metrics?.utm_source || metrics?.page) {
+      setFormData(prev => ({
+        ...prev,
+        ...metrics
+      }));
+    }
+  }, [metrics]);
+
   const { setMessage, setError } = useSnackStore((state) => state);
 
-  const { mutate, isPending } = usePostMutation<SubscribeFormRequest, SubscribeFormRequest>(
+  const { mutate, isPending } = usePostMutation<FreeConsultationFormRequest, FreeConsultationFormRequest>(
     ['subscribe-form'],
     () => {
       setMessage(locale == 'en' ? 'Your request was submitted!' : 'Ваш запрос был отправлен!');
@@ -55,6 +60,7 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+
       if (!isPending) {
         mutate({
           obj: formData,

@@ -1,9 +1,11 @@
+import { UTMMetrics } from "@/store/useMetricsStore";
+
 export interface CreateYourTripFormProps {
     className?: string;
     popupClose?: () => void;
 }
 
-export interface CreateYourTripFormRequest {
+export interface CreateYourTripFormRequest extends UTMMetrics {
     destinations: string[];
     travellers: string;
     days: string;
@@ -12,13 +14,6 @@ export interface CreateYourTripFormRequest {
     name: string;
     email: string;
     phone: string;
-    
-    page?: string;
-    utm_source?: string;
-    utm_medium?: string;
-    utm_campaign?: string;
-    utm_content?: string;
-    utm_term?: string;
 }
 
 export interface QuestionData {

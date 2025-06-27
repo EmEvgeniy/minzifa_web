@@ -1,9 +1,11 @@
+import { UTMMetrics } from "@/store/useMetricsStore";
+
 export interface ConsultationQuizFormProps {
     className?: string;
     popupClose?: () => void;
 }
 
-export interface ConsultationQuizFormRequest {
+export interface ConsultationQuizFormRequest extends UTMMetrics {
     visites: string;
     cities: string;
     days: string;

@@ -44,6 +44,7 @@ export const ToursView = () => {
     searchItem: '',
     additionalParam: `&prices[]=${price[0]}&prices[]=${price[1]}`,
   });
+  
   const totalPages = Math.ceil((data?.data?.length || 0) / perPage);
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {

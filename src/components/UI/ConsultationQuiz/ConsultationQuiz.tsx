@@ -3,19 +3,31 @@
 import { cn } from "@/utils/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSnackStore } from "../CustomSnackBar/store";
 import { usePostMutation } from "@/api/post.api";
 
 import { useRouter } from 'next/navigation';
 import { ConsultationQuizFormProps, ConsultationQuizFormRequest } from "./_types";
 import { questions } from "./questionsStore";
+import { useMetricsStore } from "@/store/useMetricsStore";
 
 export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
     const t = useTranslations('CreateYourTripForm');
     const locale = useLocale();
 
     const router = useRouter();
+
+    const { metrics } = useMetricsStore();
+
+    useEffect(() => {
+        if (metrics?.utm_source || metrics?.page) {
+            setFormData(prev => ({
+                ...prev,
+                ...metrics
+            }));
+        }
+    }, [metrics]);
 
     const [formData, setFormData] = useState<ConsultationQuizFormRequest>({
         visites: '',
@@ -61,7 +73,7 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
 
         if (current.type && fieldName) {
             const value = formData?.[fieldName];
-            const error = validateField(fieldName, value);
+            const error = validateField(fieldName, value || '');
             if (error) {
                 setErrors(prev => ({
                     ...prev,
