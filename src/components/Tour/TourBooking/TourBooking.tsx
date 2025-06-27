@@ -120,6 +120,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
             setTotalPrice((selectedPrice?.price_for_double || 0) * value);
           }}
           className="border border-gray-300 rounded-2xl p-3"
+          label={t('booking.travellers')}
         />
 
         <button
