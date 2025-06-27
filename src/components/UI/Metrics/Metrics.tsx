@@ -27,10 +27,12 @@ export default function Metrics() {
                     gtag('js', new Date());
 
                     ${isRussian
-                        ? `gtag('config', 'AW-16625384260');`
+                        ? `
+                            gtag('config', 'AW-16625384260');
+                            gtag('config', 'AW-301071748');
+                        `
                         : `
                             gtag('config', 'G-M136S4C9GK');
-                            gtag('config', 'AW-301071748');
                         `}
                 `}
             </Script>
