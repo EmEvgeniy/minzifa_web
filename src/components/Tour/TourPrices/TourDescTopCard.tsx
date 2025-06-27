@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
 import { Price, Tour } from '../_types';
 import { useLocale, useTranslations } from 'next-intl';
-import { date_end } from '@/utils/utils';
+import { date_end, formatted_date } from '@/utils/utils';
 
 type TourDescTopCardType = {
   price: Price;
@@ -35,7 +35,7 @@ export const TourDescTopCard: FC<TourDescTopCardType> = ({
       className="bg-white rounded-2xl p-6 grid grid-cols-4 items-center gap-5 max-[920px]:hidden"
     >
       <p className="flex flex-col gap-2.5">
-        {price.date_start}
+        {formatted_date(price.date_start, locale)}
         <span>{date_end(price.date_start, locale, tour?.days)}</span>
       </p>
       <p>{t('prices.seats', { count: price.tour_total_seats })}</p>

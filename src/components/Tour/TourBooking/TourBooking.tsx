@@ -1,6 +1,6 @@
 'use client';
 
-import { cn, date_end } from '@/utils/utils';
+import { cn, date_end, formatted_date } from '@/utils/utils';
 import { Price } from '../_types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
@@ -40,7 +40,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
       adults: 1,
       childrens: 1,
       tour_name: tour.name,
-      tour_start: selectedPrice.date_start,
+      tour_start: formatted_date(selectedPrice.date_start, locale),
       tour_end: date_end(selectedPrice.date_start, locale, tour.days || tour?.itineraries.length),
       travellers_count: travellers,
       tour_price: selectedPrice.price_for_double,
@@ -82,7 +82,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
             {() => (
               <div className="flex flex-row items-center gap-2">
                 <Image src={IconCalendar} width={24} height={24} alt="calendar" />
-                <div>{selectedPrice?.date_start}</div>
+                <div>{formatted_date(selectedPrice?.date_start || "", locale)}</div>
               </div>
             )}
           </DropdownSummary>
@@ -100,7 +100,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
                       }}
                       className="px-5 py-3 flex flex-row justify-between items-center gap-1.5 hover:bg-gray-100 cursor-pointer"
                     >
-                      <div>{price.date_start}</div>
+                      <div>{formatted_date(price.date_start, locale)}</div>
                       <div className="text-[#27A430]">
                         <FormattedPrice price={price.price_for_double} currency={price.valute} />
                       </div>

@@ -14,3 +14,9 @@ export function date_end(date_start: string, locale: string, days: number | unde
   const endDate = addDays(startDate, days);
   return format(endDate, formatType, { locale: locale === 'ru' ? ru : enGB });
 }
+
+export function formatted_date(date: string, locale: string, formatType: string = 'MMM d, yyyy') {
+  if(date === "") return "";
+  const startDate = new Date(date);
+  return format(startDate, formatType, { locale: locale === 'ru' ? ru : enGB });
+}

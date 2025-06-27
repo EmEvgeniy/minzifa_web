@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from 'next-intl';
 import { Price } from '../_types';
 import { useEffect, useState } from 'react';
-import { cn, date_end } from '@/utils/utils';
+import { cn, date_end, formatted_date } from '@/utils/utils';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/store/bookingStore';
@@ -66,7 +66,7 @@ export const TourPrices = () => {
       childrens: 0,
       passengers: [],
       tour_name: tour.name,
-      tour_start: selectedPrice.date_start,
+      tour_start: formatted_date(selectedPrice.date_start, locale),
       tour_end: date_end(selectedPrice.date_start, locale, tour.days),
       travellers_count: String(travellers),
       tour_price: selectedPrice.price_for_double,
