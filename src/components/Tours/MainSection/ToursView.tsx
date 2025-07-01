@@ -21,7 +21,7 @@ export const ToursView = ({ tourData }: { tourData: ToursResponse }) => {
   const locale = useLocale();
   const router = useRouter();
 
-  const { sort, page, isLoading, setSort, setPage, buildFilterQuery } = useFilterStore((state) => state);
+  const { sort, page, setSort, setPage, buildFilterQuery } = useFilterStore((state) => state);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -163,7 +163,7 @@ export const ToursView = ({ tourData }: { tourData: ToursResponse }) => {
               ))}
         </div>
         <div className="hidden grid-cols-3 gap-5 w-full [@media(max-width:1024px)]:grid [@media(max-width:768px)]:grid-cols-1">
-          {!isLoading && tourData?.data.length
+          {tourData?.data.length > 0
             ? tourData?.data.map((el: AllToursCardType) => <BestSellersPackagesCard key={el.id} slide={el} />)
             : Array.from({ length: 5 })
               .fill(2)
