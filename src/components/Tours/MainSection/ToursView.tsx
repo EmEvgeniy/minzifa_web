@@ -45,14 +45,6 @@ export const ToursView = ({ tourData }: { tourData: ToursResponse }) => {
     router.replace(`?${buildFilterQuery()}`, { scroll: false });
   };
 
-  // if (!isLoading) {
-  //   return (
-  //     <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center'>
-  //       <Loader />
-  //     </div>
-  //   )
-  // }
-
   if (tourData.data.length === 0) {
     return (
       <div>
@@ -95,7 +87,7 @@ export const ToursView = ({ tourData }: { tourData: ToursResponse }) => {
 
       <div className="w-full flex flex-col gap-5">
         <div className="flex flex-col gap-5 w-full [@media(max-width:1024px)]:hidden">
-          {!isLoading && tourData?.data.length
+          {tourData.data.length > 0
             ? tourData?.data?.map((el: AllToursCardType) => (
               <div
                 key={el.id}
