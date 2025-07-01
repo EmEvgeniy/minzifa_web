@@ -73,6 +73,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
             currency={selectedPrice?.valute}
             className="text-4xl font-semibold"
             as={'span'}
+            minimumFractionDigits={0}
           />
         </div>
         <div className="text-base">{t('booking.per_tourist', { days: tour?.days || 1 })}</div>

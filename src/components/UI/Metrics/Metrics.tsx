@@ -13,6 +13,7 @@ export default function Metrics() {
                     name="google-site-verification"
                     content="TXw2szbVg4BjVd82sfGaC_LgwUgkH0hQrTlJRec6mg0"
                 />
+                <meta name="yandex-verification" content="0cf29f74b98cb00d" />
             </Head>
 
             {/* Universal Google Tag */}

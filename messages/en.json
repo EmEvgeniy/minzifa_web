@@ -157,6 +157,7 @@
     "pl3": "Seasons:",
     "pl4": "Hotel",
     "pl5": "Type Tour",
+    "pl6": "Destinations",
     "from": "From",
     "before": "Before",
     "seasons": [
@@ -179,12 +180,16 @@
     ],
     "hotels": [
       {
-        "title": "Boutique hotels",
-        "value": "Boutique hotels"
+        "title": "Boutique hotel",
+        "value": "Boutique hotel"
       },
       {
         "title": "3 stars",
         "value": "3 stars"
+      },
+      {
+        "title": "3+ stars",
+        "value": "3+ stars"
       },
       {
         "title": "4 stars",
@@ -216,7 +221,10 @@
     "showing": "Showing",
     "out": "out of",
     "days": "Days",
-    "location": "Location"
+    "location": "Location",
+    "not_found": "Tours not found",
+    "view_itinerary": "View itinerary",
+    "find_destination": "Find destination"
   },
   "breadcrumbs": {
     "home": "Home",
@@ -807,6 +815,13 @@
     }
   },
   "Tour": {
+    "facts": {
+      "duration": "Duration",
+      "days":"{days} days",
+      "group_size": "Group Size",
+      "hotels": "Hotels",
+      "transport": "Transport"
+    },
     "gallery": {
       "button": "View {count} photos"
     },

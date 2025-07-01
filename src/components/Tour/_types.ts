@@ -12,9 +12,11 @@ export type Highlights = {
 export type Facts = {
     title: string;
     content: {
-        title: string;
-        content: string;
-    }[];
+        duration: string;
+        group_size: string;
+        hotels: string;
+        transport: string;
+    };
 };
 
 export type SeoMetadata = {

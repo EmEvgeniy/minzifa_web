@@ -8,7 +8,7 @@ export const FormattedPrice = ({
   price,
   currency = 'USD',
   className = '',
-  minimumFractionDigits = 2,
+  minimumFractionDigits = 0,
   maximumFractionDigits = 2,
   as = 'span',
 }: FormattedPriceProps) => {

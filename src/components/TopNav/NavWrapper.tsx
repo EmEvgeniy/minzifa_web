@@ -45,10 +45,10 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
               exit={{ opacity: 0 }}
               key={index}
               transition={{ duration: 0.7, ease: 'easeInOut' }}
-              className="flex flex-col gap-5 py-2"
+              className="flex flex-col gap-5 py-2 overflow-hidden overflow-y-auto h-full max-h-[300px]"
             >
               {isSuccess &&
-                data.slice(0, 5).map((el: DestinationProps) => (
+                data.map((el: DestinationProps) => (
                   <Link
                     href={`/${locale}/destination/${el.slug}`}
                     key={el.id}

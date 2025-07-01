@@ -14,7 +14,7 @@ export const MobileBtn = () => {
       <div className="text-base w-full flex flex-col">
         {t('prices.pp')}{' '}
         <FormattedPrice
-          price={tour?.prices[0]?.price_for_single}
+          price={tour?.prices[0]?.price_for_single || 0}
           currency={tour?.prices[0]?.valute}
           className="text-[16px] font-semibold"
           as={'span'}

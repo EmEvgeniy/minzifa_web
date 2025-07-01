@@ -157,6 +157,7 @@
     "pl3": "Времена года:",
     "pl4": "Отель",
     "pl5": "Тип Тура",
+    "pl6": "Направление",
     "from": "От",
     "before": "До",
     "seasons": [
@@ -179,20 +180,24 @@
     ],
     "hotels": [
       {
-        "title": "Boutique hotels",
-        "value": "Boutique hotels"
+        "title": "Бутик отели",
+        "value": "Бутик отели"
       },
       {
-        "title": "3 stars",
-        "value": "3 stars"
+        "title": "3 звезды",
+        "value": "3 звезды"
       },
       {
-        "title": "4 stars",
-        "value": "4 stars"
+        "title": "3+ звезды",
+        "value": "3+ звезды"
       },
       {
-        "title": "5 stars",
-        "value": "5 stars"
+        "title": "4 звезды",
+        "value": "4 звезды"
+      },
+      {
+        "title": "5 звезд",
+        "value": "5 звезд"
       }
     ],
     "sort": [
@@ -216,7 +221,10 @@
     "showing": "Показано",
     "out": "из",
     "days": "Дней",
-    "location": "Локация"
+    "location": "Локация",
+    "not_found": "Туры не найдены",
+    "view_itinerary": "Посмотреть маршрут",
+    "find_destination": "Найти направление"
   },
   "breadcrumbs": {
     "home": "Главная",
@@ -807,6 +815,13 @@
     }
   },
   "Tour": {
+    "facts": {
+      "duration": "Кол-во дней",
+      "days": "{days} дней",
+      "group_size": "Размер группы",
+      "hotels": "Отели",
+      "transport": "Транспорт"
+    },
     "gallery": {
       "button": "Посмотреть {count} фото"
     },
@@ -893,8 +908,8 @@
     "roomTypes": {
       "title": "Выберите тип номера",
       "included": "Включено",
-      "twin": "Двухместный номер (2 двухместные кровати)",
-      "double": "Двухместный номер (1 двухместная кровать)",
+      "twin": "Двухместный номер / TWN (две раздельные кровати)",
+      "double": "Двухместный номер / DBL (одна большая кровать)",
       "single": "Одноместный номер"
     },
     "passenger": {

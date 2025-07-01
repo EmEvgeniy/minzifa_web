@@ -1,3 +1,5 @@
+'use client';
+
 import { destinations } from '@/assets/img';
 import Image from 'next/image';
 import React from 'react';

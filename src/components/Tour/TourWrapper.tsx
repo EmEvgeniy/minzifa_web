@@ -1,11 +1,9 @@
 'use client';
-import { useGetQuery } from '@/api/get.api';
+
 import React, { useEffect } from 'react';
 import { Breadcrumbs } from '../UI/Breadcrumbs/Breadcrumbs';
 import { TourTitle } from './TourTitle/TourTitle';
-import { redirect, useParams } from 'next/navigation';
 import { Tour } from './_types';
-import { useLocale } from 'next-intl';
 import { TourGallery } from './TourGallery/TourGallery';
 import { TourFacts } from './TourFacts/TourFacts';
 import { TourDescription } from './TourDescription/TourDescription';
@@ -18,39 +16,15 @@ import { TourAccomodation } from './TourAccomodation/TourAccomodation';
 import { TourPrices } from './TourPrices/TourPrices';
 import { Reviews } from '../UI/Reviews/Reviews';
 import { useBookingStore } from '@/store/bookingStore';
-import Loader from '../UI/Loader/Loader';
 import { MobileBtn } from './MobileBtn';
 import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
 
-export const TourWrapper = () => {
-  const locale = useLocale();
-  const params = useParams();
-
+export const TourWrapper = ({ tourData }: { tourData: Tour }) => {
   const { tour, setTour } = useBookingStore((state) => state);
 
-  const { data, isLoading, isSuccess, error } = useGetQuery<Tour>({
-    key: [`tour_${params.tour}`],
-    page: '',
-    perPage: '',
-    url: `tours/${params.tour}`,
-    searchItem: '',
-    additionalParam: '',
-  });
-
   useEffect(() => {
-    if (isSuccess) {
-      setTour(data);
-    }
-  }, [data, isSuccess, setTour]);
-
-  if (!tour && error) redirect(`/${locale}/not-found`);
-
-  if (isLoading)
-    return (
-      <div className="container mt-[150px] min-h-[200px] h-screen flex items-center justify-center">
-        <Loader />
-      </div>
-    );
+    setTour(tourData);
+  }, [tourData, setTour]);
 
   return (
     <div className="w-full min-h-[200vh]">

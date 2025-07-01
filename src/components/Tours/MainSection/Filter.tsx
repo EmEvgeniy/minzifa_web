@@ -1,6 +1,7 @@
 'use client';
+
+import React, { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
 import { IoCloseCircle } from 'react-icons/io5';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider';
@@ -8,7 +9,6 @@ import Slider from '@mui/material/Slider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useGetQuery } from '@/api/get.api';
 
 import { styled } from '@mui/material/styles';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
@@ -19,6 +19,10 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { useFilterStore } from './store';
+import { useRouter } from 'next/navigation';
+import { DestinationDataResponse, TourTypeDataResponse } from './_types';
+import useDebouncedValue from '@/hooks/useDebouncedValue';
+import { FaTimes } from 'react-icons/fa';
 
 function valuetext(value: number) {
   return `${value}$`;
@@ -26,7 +30,7 @@ function valuetext(value: number) {
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({}) => ({}));
+))(({ }) => ({}));
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -62,58 +66,90 @@ const defaultTheme = createTheme({
   },
 });
 
-interface DataResponse {
-  name: string;
-  id: number;
-}
+type FilterProps = {
+  tourTypesData: TourTypeDataResponse,
+  destinationsData: DestinationDataResponse
+};
 
-export const Filter = () => {
+export const Filter = ({ tourTypesData, destinationsData }: FilterProps) => {
   const t = useTranslations('all_tours');
-  const { price, duration, setPrice, setDuration } = useFilterStore((state) => state);
-  const seasons = t.raw('seasons') as { title: string; value: string }[];
-  const hotels = t.raw('hotels') as { title: string; value: string }[];
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const [checkedItems2, setCheckedItems2] = useState<string[]>([]);
-  const [checkedItems3, setCheckedItems3] = useState<string[]>([]);
 
-  const handleChange3 = (value: string) => {
-    setCheckedItems((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
+  const [pricesRange, setPricesRange] = useState<number[]>([0, 20000]);
+  const [durationsRange, setDurationsRange] = useState<number[]>([1, 31]);
+
+  const [searchDestination, setSearchDestination] = useState("");
+
+  const router = useRouter();
+
+  const {
+    seasons,
+    hotels,
+    tourTypes,
+    destinations,
+    setPrices,
+    setDurations,
+    setSeasons,
+    setHotels,
+    setTourTypes,
+    setDestinations,
+    resetFilters,
+    buildFilterQuery,
+  } = useFilterStore();
+
+  const seasonData = t.raw('seasons') as { title: string; value: string }[];
+  const hotelData = t.raw('hotels') as { title: string; value: string }[];
+
+  const handleChangePrices = (event: Event, newValue: number[]) => {
+    setPricesRange(newValue);
+    setPrices(newValue);
+    router.replace(`?${buildFilterQuery()}`, { scroll: false });
+  };
+
+  const handleChangeDurations = (event: Event, newValue: number[]) => {
+    setDurationsRange(newValue);
+    setDurations(newValue);
+    router.replace(`?${buildFilterQuery()}`, { scroll: false });
+  };
+
+  const handleChangeHotels = (value: string) => {
+    setHotels(value);
+    router.replace(`?${buildFilterQuery()}`, { scroll: false });
+  };
+
+  const handleChangeSeasons = (value: string) => {
+    setSeasons(value);
+    router.replace(`?${buildFilterQuery()}`, { scroll: false });
+  };
+
+  const handleChangeTourTypes = (value: string) => {
+    setTourTypes(value);
+    router.replace(`?${buildFilterQuery()}`, { scroll: false });
+  };
+
+  const handleChangeDestinations = (value: string) => {
+    setDestinations(value);
+    router.replace(`?${buildFilterQuery()}`, { scroll: false });
+  };
+
+  const handleReset = () => {
+    resetFilters();
+    setPricesRange([0, 20000]);
+    setDurationsRange([1, 31]);
+    router.replace('?', { scroll: false });
+  };
+
+  const filteredDestinations = useMemo(() => {
+    return destinationsData.filter((el) =>
+      el.name.toLowerCase().includes(searchDestination.toLowerCase())
     );
-  };
+  }, [destinationsData, searchDestination]);
 
-  const handleChange4 = (value: string) => {
-    setCheckedItems2((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
-  };
-  const handleChange5 = (value: string) => {
-    setCheckedItems3((prev) =>
-      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
-    );
-  };
-
-  const handleChange = (event: Event, newValue: number[]) => {
-    setPrice(newValue);
-  };
-
-  const handleChange2 = (event: Event, newValue: number[]) => {
-    setDuration(newValue);
-  };
-
-  const { data, isSuccess } = useGetQuery<DataResponse[]>({
-    key: ['all_tours_types'],
-    page: '',
-    perPage: '',
-    url: 'types',
-    searchItem: '',
-    additionalParam: '&all=true',
-  });
+  const debouncedDestinations = useDebouncedValue(filteredDestinations, 300);
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <div className="max-w-[350px] w-full min-h-[700px] flex flex-col gap-5 items-start justify-start [@media(max-width:1024px)]:max-w-full">
-        <button className="bg-white flex items-center justify-center gap-2 px-[20px] py-[13.5px] rounded-[30px] hover:bg-gray-300 cursor-pointer transition-all active:bg-white [@media(max-width:1024px)]:hidden ">
+        <button onClick={handleReset} className="bg-white flex items-center justify-center gap-2 px-[20px] py-[13.5px] rounded-[30px] hover:bg-gray-300 cursor-pointer transition-all active:bg-white [@media(max-width:1024px)]:hidden ">
           <span className="text-[18px]">{t('f_top_btn')}</span>
           <IoCloseCircle size={30} className="text-green-600" />
         </button>
@@ -133,10 +169,10 @@ export const Filter = () => {
                   <div className="flex flex-row">
                     <input
                       min={0}
-                      value={price[0]}
+                      value={pricesRange[0]}
                       onChange={(e) => {
                         const val = Number(e.target.value);
-                        if (!isNaN(val)) setPrice([val, price[1]]);
+                        if (!isNaN(val)) setPrices([val, pricesRange[1]]);
                       }}
                       required
                       className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none "
@@ -149,10 +185,10 @@ export const Filter = () => {
                   <div className="flex flex-row">
                     <input
                       min={0}
-                      value={price[1]}
+                      value={pricesRange[1]}
                       onChange={(e) => {
                         const val = Number(e.target.value);
-                        if (!isNaN(val)) setPrice([price[0], val]);
+                        if (!isNaN(val)) setPrices([pricesRange[0], val]);
                       }}
                       required
                       className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none "
@@ -162,12 +198,12 @@ export const Filter = () => {
                 </div>
               </div>
               <Slider
-                value={price}
+                value={pricesRange}
                 sx={{ paddingTop: 5 }}
                 min={0}
-                max={10000}
+                max={20000}
                 size="medium"
-                onChange={handleChange}
+                onChange={handleChangePrices}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
               />
@@ -188,14 +224,14 @@ export const Filter = () => {
                   <span className="mt-1 px-3 text-[18px] text-gray-300 ">{t('from')}</span>
                   <div className="flex flex-row">
                     <input
-                      min={0}
-                      value={duration[0]}
+                      min={1}
+                      value={durationsRange[0]}
                       onChange={(e) => {
                         const val = Number(e.target.value);
-                        if (!isNaN(val)) setDuration([val, price[1]]);
+                        if (!isNaN(val)) setDurations([val, durationsRange[1]]);
                       }}
                       required
-                      className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none "
+                      className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -204,11 +240,11 @@ export const Filter = () => {
                   <span className="mt-1 px-3 text-[18px] text-gray-300">{t('before')}</span>
                   <div className="flex flex-row">
                     <input
-                      min={0}
-                      value={duration[1]}
+                      min={1}
+                      value={durationsRange[1]}
                       onChange={(e) => {
                         const val = Number(e.target.value);
-                        if (!isNaN(val)) setDuration([price[0], val]);
+                        if (!isNaN(val)) setDurations([durationsRange[0], val]);
                       }}
                       required
                       className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none "
@@ -218,12 +254,12 @@ export const Filter = () => {
                 </div>
               </div>
               <Slider
-                value={duration}
+                value={durationsRange}
                 sx={{ paddingTop: 5 }}
                 min={0}
                 max={31}
                 size="medium"
-                onChange={handleChange2}
+                onChange={handleChangeDurations}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
               />
@@ -240,13 +276,13 @@ export const Filter = () => {
             </AccordionSummary>
             <AccordionDetails>
               <div className="flex flex-col">
-                {seasons.map((el) => (
+                {seasonData.map((el) => (
                   <FormControlLabel
                     key={el.value}
                     control={
                       <Checkbox
-                        checked={checkedItems.includes(el.value)}
-                        onChange={() => handleChange3(el.value)}
+                        checked={seasons.includes(el.value)}
+                        onChange={() => handleChangeSeasons(el.value)}
                       />
                     }
                     label={el.title}
@@ -266,13 +302,13 @@ export const Filter = () => {
             </AccordionSummary>
             <AccordionDetails>
               <div className="flex flex-col">
-                {hotels.map((el) => (
+                {hotelData.map((el) => (
                   <FormControlLabel
                     key={el.value}
                     control={
                       <Checkbox
-                        checked={checkedItems2.includes(el.value)}
-                        onChange={() => handleChange4(el.value)}
+                        checked={hotels.includes(el.value)}
+                        onChange={() => handleChangeHotels(el.value)}
                       />
                     }
                     label={el.title}
@@ -291,20 +327,65 @@ export const Filter = () => {
               <p className="text-[18px] font-semibold">{t('pl5')}</p>
             </AccordionSummary>
             <AccordionDetails>
-              <div className="flex flex-col">
-                {isSuccess &&
-                  data.map((el: { name: string; id: number }) => (
+              <div className="flex flex-col overflow-y-scroll max-h-[300px]">
+                {tourTypesData.length && tourTypesData?.map((el) => (
+                  <FormControlLabel
+                    key={el.id}
+                    control={
+                      <Checkbox
+                        checked={tourTypes.includes(el.name)}
+                        onChange={() => handleChangeTourTypes(el.name)}
+                      />
+                    }
+                    label={el.name}
+                  />
+                ))}
+              </div>
+            </AccordionDetails>
+          </Accordion>
+          <Divider />
+          <Accordion sx={{ boxShadow: 'none' }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              <p className="text-[18px] font-semibold">{t('pl6')}</p>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div className='w-full'>
+                <div className='relative flex items-center justify-center'>
+                  <input
+                    type="text"
+                    className='border border-gray-300 rounded-md p-2 focus:border-gray-500 focus:ring-gray-500 focus:outline-none w-full'
+                    value={searchDestination}
+                    onChange={(e) => setSearchDestination(e.target.value)}
+                    placeholder={t('find_destination')}
+                  />
+                  {searchDestination &&
+                    <button
+                      className='absolute right-0 cursor-pointer p-2'
+                      onClick={() => setSearchDestination('')}
+                    >
+                      <FaTimes />
+                    </button>
+                  }
+                </div>
+                <div className="flex flex-col overflow-y-scroll max-h-[300px]">
+
+                  {debouncedDestinations?.map((el) => (
                     <FormControlLabel
                       key={el.id}
                       control={
                         <Checkbox
-                          checked={checkedItems3.includes(el.name)}
-                          onChange={() => handleChange5(el.name)}
+                          checked={destinations.includes(el.name)}
+                          onChange={() => handleChangeDestinations(el.name)}
                         />
                       }
                       label={el.name}
                     />
                   ))}
+                </div>
               </div>
             </AccordionDetails>
           </Accordion>

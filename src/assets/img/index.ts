@@ -8,7 +8,7 @@ import cyt from './cyt.jpg';
 import contact from './contact.png';
 import nf from './nf.svg';
 import person from './person.svg';
-import allTours from './allTours.webp';
+import allTours from './allTours.jpg';
 import about_hero from './about_hero.webp';
 import destination from './destination.webp';
 import gallery from './gallery-content_left-block.webp';

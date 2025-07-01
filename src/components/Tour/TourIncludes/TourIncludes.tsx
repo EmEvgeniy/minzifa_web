@@ -52,8 +52,6 @@ export const TourIncludes = ({ includes }: { includes: Include[] | undefined }) 
     return null;
   }
 
-
-
   return (
     <div className="flex flex-col gap-5 col-start-1">
       <h2 className="text-4xl font-semibold text-black max-[920px]:text-[30px] max-[550px]:text-[24px]">

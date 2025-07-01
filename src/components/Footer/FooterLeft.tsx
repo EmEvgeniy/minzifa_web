@@ -4,6 +4,7 @@ import React from 'react';
 import { Logo, SocialMedia } from '../UI';
 import { useLocale, useTranslations } from 'next-intl';
 import { contacts } from '@/store/contacts';
+import Link from 'next/link';
 
 export const FooterLeft = () => {
   const t = useTranslations('footer');
@@ -19,12 +20,12 @@ export const FooterLeft = () => {
       </p>
       <div className="flex flex-col gap-3">
         <p className="text-[24px]">{t('title')}</p>
-        <a href={contacts.phone[locale].url} className="text-[24px] text-[#66B93E]">
+        <Link href={contacts.phone[locale].url} className="text-[24px] text-[#66B93E]">
           {contacts.phone[locale].name}
-        </a>
-        <a href={contacts.email[locale].url} className="text-[14px]">
+        </Link>
+        <Link href={contacts.email[locale].url} className="text-[14px]">
           {contacts.email[locale].name}
-        </a>
+        </Link>
         <SocialMedia />
       </div>
     </div>

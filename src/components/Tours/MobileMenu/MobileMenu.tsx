@@ -8,8 +8,9 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Filter_alt } from '@/assets/icons';
 import { FaChevronLeft } from 'react-icons/fa6';
+import { DestinationDataResponse, TourTypeDataResponse } from '../MainSection/_types';
 
-export const MobileMenu = () => {
+export const MobileMenu = ({ tourTypesData, destinationsData }: { tourTypesData: TourTypeDataResponse, destinationsData: DestinationDataResponse }) => {
   const [state, setState] = useState(false);
   const t = useTranslations();
 
@@ -26,7 +27,7 @@ export const MobileMenu = () => {
   };
 
   return (
-    <React.Fragment>
+    <div className="block md:hidden">
       <Button
         sx={{
           position: 'fixed',
@@ -63,10 +64,10 @@ export const MobileMenu = () => {
             <p className="text-center w-full text-[18px] font-semibold">{t('Filters')}</p>
           </div>
           <div className=" overflow-y-scroll h-screen py-[10px]">
-            <Filter />
+            <Filter tourTypesData={tourTypesData} destinationsData={destinationsData} />
           </div>
         </div>
       </Drawer>
-    </React.Fragment>
+    </div>
   );
 };

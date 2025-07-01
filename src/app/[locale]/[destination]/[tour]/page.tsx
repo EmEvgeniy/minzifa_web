@@ -1,14 +1,16 @@
 import { Tour as TourData } from "@/components/Tour/_types";
 import { TourWrapper } from "@/components/Tour/TourWrapper";
+import Loader from "@/components/UI/Loader/Loader";
 import type { Metadata } from 'next'
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 type Props = {
     params: Promise<{ locale: string; tour: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const slug = (await params).tour;
-    const locale = (await params).locale;
+    const { tour: slug, locale } = await params;
 
     const tour: TourData = await fetch(`https://api.minzifatravel.com/api/v1/tours/${slug}?locale=${locale}`, {
         next: { revalidate: 60 },
@@ -21,6 +23,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-export default function Tour() {
-    return <TourWrapper />;
+export default async function Tour({ params }: Props) {
+    const { tour: slug, locale } = await params;
+
+    const res = await fetch(`https://api.minzifatravel.com/api/v1/tours/${slug}?locale=${locale}`, {
+        next: { revalidate: 60 },
+    });
+
+    if (!res.ok) notFound();
+
+    const tourData: TourData = await res.json();
+
+    if (!tourData?.id) notFound();
+
+    return <Suspense fallback={<Loader />}>
+        <TourWrapper tourData={tourData} />
+    </Suspense>;
 }

@@ -2,40 +2,17 @@ import { Articles } from '@/components';
 import { Hero, Tours } from '@/components/Destination';
 import { Reviews } from '@/components/UI/Reviews/Reviews';
 import React from 'react';
-
-import type { Metadata } from 'next'
-import { Destination } from '@/components/Tour/_types';
+import type { Metadata } from 'next';
+import { DestinationData } from './_types';
+import { ToursResponse } from '@/components/Tours/MainSection/_types';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>
-}
-
-export type DestinationData = {
-  id: number;
-  name: string;
-  description: string;
-  parent: Destination;
-  slug: string;
-  seo_metadata: {
-    title: string;
-    description: string;
-    keywords: string;
-  }
-  media: {
-    id: number;
-    file: string;
-    alt_text: string;
-  };
-  icon: {
-    id: number;
-    file: string;
-    alt_text: string;
-  }
+  searchParams: Promise<{ page?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slug = (await params).slug;
-  const locale = (await params).locale;
+  const { slug, locale } = await params;
 
   const destination: DestinationData = await fetch(`https://api.minzifatravel.com/api/v1/destinations/${slug}?locale=${locale}`, {
     next: { revalidate: 60 },
@@ -48,11 +25,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function page() {
+export default async function page({ params, searchParams }: Props) {
+  const { slug, locale } = await params;
+  const page = Number((await searchParams).page) || 1;
+
+  const destination: DestinationData = await fetch(`https://api.minzifatravel.com/api/v1/destinations/${slug}?locale=${locale}`, {
+    next: { revalidate: 60 },
+  }).then((res) => res.json());
+
+  const tours: ToursResponse = await fetch(`https://api.minzifatravel.com/api/v1/tours?locale=${locale}&destinations[]=${slug}&page=${page}&perPage=6`, {
+    next: { revalidate: 60 },
+  }).then((res) => res.json());
+
   return (
     <>
-      <Hero />
-      <Tours />
+      <Hero destination={destination} />
+      <Tours tours={tours} />
       <Reviews />
       <Articles />
     </>

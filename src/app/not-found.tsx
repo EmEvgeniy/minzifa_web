@@ -22,7 +22,7 @@ export default function NotFound() {
           {locale == 'en' ? 'Oops, page not found' : 'Упс, страница не найдена'}
         </p>
         <Link
-          href={'/'}
+          href={`/${locale}`}
           className="bg-[#27A430] px-[20px] py-[10px] text-white text-[18px] rounded-[16px] hover:bg-[#208B28] transition-all"
         >
           {locale == 'en' ? 'Back to the main page' : 'Вернуться на главную страницу'}
