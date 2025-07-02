@@ -17,7 +17,7 @@ export const Nav: FC<NavMenuType> = ({ menu }) => {
       {menu.map((el, i) => (
         <li
           key={i}
-          onClick={() => router.push(`/${currentLocale}/${el.link}`, undefined, { shallow: true })}
+          onClick={() => router.push(`/${currentLocale}/${el.link}`)}
           onMouseOver={() => (i == 1 ? setActiveIndex(i) : null)}
           onMouseLeave={() => setActiveIndex(null)}
         >
