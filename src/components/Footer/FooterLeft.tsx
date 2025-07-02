@@ -23,11 +23,11 @@ export const FooterLeft = () => {
         <Link
           href={contacts.phone[locale].url}
           className="text-[24px] text-[#66B93E]"
-          prefetch={false}
+          prefetch={true}
         >
           {contacts.phone[locale].name}
         </Link>
-        <Link href={contacts.email[locale].url} className="text-[14px]">
+        <Link href={contacts.email[locale].url} className="text-[14px]" prefetch={true}>
           {contacts.email[locale].name}
         </Link>
         <SocialMedia />

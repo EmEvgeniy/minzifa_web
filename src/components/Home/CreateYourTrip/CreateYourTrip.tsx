@@ -26,7 +26,7 @@ export default function CreateYourTrip() {
         </p>
         <Link
           className="bg-[#27A430] hover:bg-[#208B28] transition-all  text-white text-center py-[20px] text-[16px] rounded-[16px] shadow-2xl mt-[20px] w-full max-w-[420px] [@media(max-width:768px)]:py-[10px]"
-          prefetch={false}
+          prefetch={true}
           href={`/${locale}/create-your-trip`}
         >
           {t('create_your_trip_btn')}

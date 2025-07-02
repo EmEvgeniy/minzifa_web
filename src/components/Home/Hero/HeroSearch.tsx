@@ -35,7 +35,7 @@ export const HeroSearch = () => {
         />
         <Link
           href={`/${locale}/tours`}
-          prefetch={false}
+          prefetch={true}
           className="bg-[#27A430] p-[9.8px] rounded-[16px] hover:bg-[#208B28] cursor-pointer transition-all active:scale-110 [@media(max-width:1024px)]:p-[10px] [@media(max-width:1024px)]:rounded-[12px]"
         >
           <RiSearch2Line className="w-[28px] h-[28px] [@media(max-width:1024px)]:w-[20px] [@media(max-width:1024px)]:h-[20px]" />
@@ -45,6 +45,7 @@ export const HeroSearch = () => {
             {filtered.map((item, i) => (
               <Link
                 key={i}
+                prefetch={true}
                 href={`/${locale}/tours?destination=${encodeURIComponent(item.name)}`}
                 className="block hover:underline hover:text-[#27A430] text-[16px] truncate"
               >

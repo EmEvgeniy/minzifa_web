@@ -45,7 +45,7 @@ export default function ContactUs() {
               <Link
                 href={slug || '#'}
                 key={index}
-                prefetch={false}
+                prefetch={true}
                 className="flex flex-col items-center justify-center gap-4 text-center"
               >
                 <button
