@@ -4,7 +4,7 @@ import { Wrapper } from './Wrapper';
 import Link from 'next/link';
 import { WrapperMobile } from './Wrapper.mobile';
 
-export const Articles = () => {
+export default function Articles() {
   const t = useTranslations('home');
   const locale = useLocale();
 
@@ -26,4 +26,4 @@ export const Articles = () => {
       </div>
     </section>
   );
-};
+}

@@ -10,11 +10,14 @@ const Info2 = dynamic(() => import('@/components/About/Info2').then((mod) => mod
   loading: () => <div>Загрузка секции...</div>,
 });
 
-const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews').then((mod) => mod.Reviews), {
-  loading: () => <div>Загрузка отзывов...</div>,
-});
+const Reviews = dynamic(
+  () => import('@/components/UI/Reviews/Reviews').then((mod) => mod.Reviews),
+  {
+    loading: () => <div>Загрузка отзывов...</div>,
+  },
+);
 
-const Destinations = dynamic(() => import('@/components/Home/Destinations').then((mod) => mod.Destinations), {
+const Destinations = dynamic(() => import('@/components/Home/Destinations/Destinations'), {
   loading: () => <div>Загрузка направлений...</div>,
 });
 

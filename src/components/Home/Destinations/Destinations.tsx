@@ -1,12 +1,10 @@
-'use client';
-
 import { destinations } from '@/assets/img';
 import Image from 'next/image';
 import React from 'react';
 import { Wrapper } from './Wrapper';
 import { useTranslations } from 'next-intl';
 
-export const Destinations = () => {
+export default function Destinations() {
   const t = useTranslations('home');
 
   return (
@@ -36,4 +34,4 @@ export const Destinations = () => {
       </div>
     </section>
   );
-};
+}

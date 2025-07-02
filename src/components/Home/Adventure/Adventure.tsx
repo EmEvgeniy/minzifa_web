@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 import { Wrapper } from './Wrapper';
 
-export const Adventure = () => {
+export default function Adventure() {
   const t = useTranslations('home');
 
   return (
@@ -13,4 +13,4 @@ export const Adventure = () => {
       <Wrapper />
     </section>
   );
-};
+}

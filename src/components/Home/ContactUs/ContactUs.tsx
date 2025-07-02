@@ -9,7 +9,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { contacts } from '@/store/contacts';
 
-export const ContactUs = () => {
+export default function ContactUs() {
   const t = useTranslations('home');
   const locale = useLocale();
   const contactItems = [
@@ -80,4 +80,4 @@ export const ContactUs = () => {
       </div>
     </section>
   );
-};
+}

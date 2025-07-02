@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
 
-export const Info = () => {
+export default function Info() {
   const t = useTranslations('home');
 
   return (
@@ -47,4 +47,4 @@ export const Info = () => {
       </div>
     </section>
   );
-};
+}

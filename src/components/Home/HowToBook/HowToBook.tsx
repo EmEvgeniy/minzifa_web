@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
 
-export const HowToBook = () => {
+export default function HowToBook() {
   const t = useTranslations('home');
   const list = t.raw('book_block') as { title: string; text: string }[];
 
@@ -46,4 +46,4 @@ export const HowToBook = () => {
       </div>
     </section>
   );
-};
+}

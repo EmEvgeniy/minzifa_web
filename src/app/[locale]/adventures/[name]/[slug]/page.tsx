@@ -1,27 +1,32 @@
-import { Articles } from '@/components';
 import { Content } from '@/components/Adventure';
 import { FreeConsultationForm } from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+
+const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
 
 type Props = {
-  params: Promise<{ locale: string; slug: string }>
-}
+  params: Promise<{ locale: string; slug: string }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = (await params).slug;
   const locale = (await params).locale;
 
-  const tour: ArticleCardType = await fetch(`https://api.minzifatravel.com/api/v1/articles/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 },
-  }).then((res) => res.json());
+  const tour: ArticleCardType = await fetch(
+    `https://api.minzifatravel.com/api/v1/articles/${slug}?locale=${locale}`,
+    {
+      next: { revalidate: 60 },
+    },
+  ).then((res) => res.json());
 
   return {
     title: tour?.seo_metadata?.title,
     description: tour?.seo_metadata?.description,
     keywords: tour?.seo_metadata?.keywords,
-  }
+  };
 }
 
 export default function page() {
@@ -30,7 +35,9 @@ export default function page() {
       <div className="container">
         <Content />
       </div>
-      <Articles />
+      <Suspense>
+        <Articles />
+      </Suspense>
       <div className="container">
         <FreeConsultationForm />
       </div>

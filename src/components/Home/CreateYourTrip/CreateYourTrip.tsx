@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-export const CreateYourTrip = () => {
+export default function CreateYourTrip() {
   const t = useTranslations('home');
   const locale = useLocale();
 
@@ -34,4 +34,4 @@ export const CreateYourTrip = () => {
       </div>
     </section>
   );
-};
+}

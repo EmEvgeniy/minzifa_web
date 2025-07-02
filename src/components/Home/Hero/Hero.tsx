@@ -3,7 +3,7 @@ import React from 'react';
 import { HeroSearch } from './HeroSearch';
 import { HeroVideoBg } from './HeroVideoBg';
 
-export const Hero = () => {
+export default function Hero() {
   const t = useTranslations('home');
   return (
     <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-screen">
@@ -20,4 +20,4 @@ export const Hero = () => {
       </div>
     </section>
   );
-};
+}
