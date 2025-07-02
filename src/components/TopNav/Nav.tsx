@@ -22,7 +22,7 @@ export const Nav: FC<NavMenuType> = ({ menu }) => {
           <Link
             href={`/${currentLocale}/${el.link}`}
             locale={currentLocale}
-            prefetch={true}
+            prefetch={false}
             className="flex items-center justify-center gap-2 hover:text-green-500 transition-all"
           >
             <span className=" text-nowrap text-[18px]">{el.title}</span>
