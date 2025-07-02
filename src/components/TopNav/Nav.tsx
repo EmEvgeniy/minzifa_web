@@ -4,7 +4,7 @@ import { NavMenuType } from './_types';
 import { FaChevronDown } from 'react-icons/fa6';
 import { useNavStore } from './store';
 import { useLocale } from 'next-intl';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export const Nav: FC<NavMenuType> = ({ menu }) => {
   const activeIndex = useNavStore((state) => state.index);
