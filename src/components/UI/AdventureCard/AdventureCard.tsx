@@ -13,6 +13,7 @@ export const AdventureCard: React.FC<Props> = ({ type }) => {
 
   return (
     <Link
+      prefetch={false}
       href={`/${locale}/tours`}
       className="rounded-[16px] bg-cover bg-center w-full aspect-square bg-white shadow-sm flex flex-col justify-center items-center relative overflow-hidden cursor-pointer"
     >

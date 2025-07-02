@@ -12,7 +12,7 @@ export const Mobile = () => {
   const locale = useLocale();
   return (
     <header className="bg-[#16372D] fixed top-0 w-full hidden [@media(max-width:1024px)]:flex py-2 container  items-center justify-between z-50">
-      <Link href={`/${locale}`}>
+      <Link href={`/${locale}`} prefetch={false}>
         <Image src={logo} alt="logo" width={130} height={30} />
       </Link>
       <div className="flex items-center justify-end gap-1">

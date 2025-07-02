@@ -12,6 +12,7 @@ export const ArticleCard: FC<Props> = ({ article }) => {
   const locale = useLocale();
   return (
     <Link
+      prefetch={false}
       href={`/${locale}/adventures/` + article.category.slug + '/' + article?.slug}
       className="h-full"
     >

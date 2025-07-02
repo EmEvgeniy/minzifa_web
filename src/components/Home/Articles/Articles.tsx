@@ -18,6 +18,7 @@ export const Articles = () => {
         <WrapperMobile />
         <Link
           href={`/${locale}/adventures`}
+          prefetch={false}
           className="bg-[#16372D] py-[18px] px-[40px] mx-auto text-white rounded-[16px] hover:bg-[#194D3D] transition-all [@media(max-width:768px)]:hidden block"
         >
           {t('article_btn')}

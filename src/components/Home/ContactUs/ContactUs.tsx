@@ -11,8 +11,7 @@ import { contacts } from '@/store/contacts';
 
 export const ContactUs = () => {
   const t = useTranslations('home');
-  const locale = useLocale()
-  ;
+  const locale = useLocale();
   const contactItems = [
     {
       icon: IconEnvelope,
@@ -46,6 +45,7 @@ export const ContactUs = () => {
               <Link
                 href={slug || '#'}
                 key={index}
+                prefetch={false}
                 className="flex flex-col items-center justify-center gap-4 text-center"
               >
                 <button

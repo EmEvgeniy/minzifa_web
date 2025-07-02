@@ -34,6 +34,7 @@ export const Desctop = () => {
       <Link
         href={whatsappLink}
         target="_blank"
+        prefetch={false}
         className="flex items-center justify-center gap-5 rounded-full bg-[#66B93E]  px-10 [@media(max-width:1250px)]:px-5  py-[21px] text-white transition hover:bg-green-600 shadow-2xl"
       >
         <IoLogoWhatsapp size={24} />

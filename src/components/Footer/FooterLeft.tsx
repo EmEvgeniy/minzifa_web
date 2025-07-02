@@ -20,7 +20,11 @@ export const FooterLeft = () => {
       </p>
       <div className="flex flex-col gap-3">
         <p className="text-[24px]">{t('title')}</p>
-        <Link href={contacts.phone[locale].url} className="text-[24px] text-[#66B93E]">
+        <Link
+          href={contacts.phone[locale].url}
+          className="text-[24px] text-[#66B93E]"
+          prefetch={false}
+        >
           {contacts.phone[locale].name}
         </Link>
         <Link href={contacts.email[locale].url} className="text-[14px]">

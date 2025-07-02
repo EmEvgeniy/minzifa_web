@@ -14,7 +14,7 @@ export const FooterMiddle = () => {
         <p className="text-[20px] font-semibold">{t('Menu_title')}</p>
         <nav className="flex flex-col gap-3 text-[16px] font-light">
           {menu.map((el) => (
-            <Link href={`/${locale}/${el.link}`} key={el.link}>
+            <Link href={`/${locale}/${el.link}`} key={el.link} prefetch={false}>
               {el.title}
             </Link>
           ))}

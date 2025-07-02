@@ -11,6 +11,7 @@ export const Logo: FC = () => {
   return (
     <Link
       href={`/${lang}`}
+      prefetch={false}
       className="max-w-[200px] w-full flex items-center justify-center h-full max-h-[32px]"
     >
       <Image src={logo} alt="logo" className="w-full h-full object-cover" />

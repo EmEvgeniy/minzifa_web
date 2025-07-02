@@ -52,6 +52,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
                   <Link
                     href={`/${locale}/destination/${el.slug}`}
                     key={el.id}
+                    prefetch={false}
                     className="flex items-center justify-start px-2 w-full gap-3 hover:bg-gray-300 rounded-2xl py-2 "
                   >
                     {el.icon?.file && (

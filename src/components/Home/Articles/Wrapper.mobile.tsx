@@ -53,6 +53,7 @@ export const WrapperMobile = () => {
       <div className="flex items-center w-full justify-between gap-5">
         <Link
           href={`/${locale}/adventures`}
+          prefetch={false}
           className="bg-[#16372D] py-[18px] px-[40px] mx-auto text-white rounded-[16px] hover:bg-[#194D3D] transition-all w-full text-center [@media(max-width:768px)]:px-[10px] [@media(max-width:768px)]:py-[13px] text-[14px] max-w-[150px]"
         >
           {t('article_btn')}
