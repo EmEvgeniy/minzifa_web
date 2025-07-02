@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
 
-export const Hero = () => {
+export default function Hero() {
   const t = useTranslations('all_tours');
   return (
     <section className="w-full min-h-[70svh] relative flex items-center justify-center [@media(max-width:1024px)]:min-h-[50svh]">
@@ -18,4 +18,4 @@ export const Hero = () => {
       </div>
     </section>
   );
-};
+}

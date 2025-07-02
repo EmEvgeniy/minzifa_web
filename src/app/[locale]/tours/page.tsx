@@ -1,21 +1,29 @@
-import { Hero, MainSection, MobileMenu } from '@/components/Tours';
-import { DestinationDataResponse, ToursResponse, TourTypeDataResponse } from '@/components/Tours/MainSection/_types';
+import {
+  DestinationDataResponse,
+  ToursResponse,
+  TourTypeDataResponse,
+} from '@/components/Tours/MainSection/_types';
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
+const Hero = dynamic(() => import('@/components/Tours/Hero/Hero'));
+const MainSection = dynamic(() => import('@/components/Tours/MainSection/MainSection'));
+const MobileMenu = dynamic(() => import('@/components/Tours/MobileMenu/MobileMenu'));
+
 type Props = {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{
-    prices: string[],
-    days: string[],
-    seasons: string[],
-    hotels: string[],
-    types: string[],
-    destinations: string[],
-    sort?: string,
-    page?: string,
-  }>
-}
+    prices: string[];
+    days: string[];
+    seasons: string[];
+    hotels: string[];
+    types: string[];
+    destinations: string[];
+    sort?: string;
+    page?: string;
+  }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = 'tours';
@@ -29,25 +37,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: data?.seo_metadata?.title,
     description: data?.seo_metadata?.description,
     keywords: data?.seo_metadata?.keywords,
-  }
+  };
 }
 
 export default async function Tours({ params, searchParams }: Props) {
   const { locale } = await params;
-  const API_URL = "https://api.minzifatravel.com/api/v1";
-
+  const API_URL = 'https://api.minzifatravel.com/api/v1';
 
   const buildFilterQuery = async (): Promise<string> => {
-    const {
-      prices,
-      days,
-      seasons,
-      hotels,
-      types,
-      destinations,
-      sort,
-      page,
-    } = await searchParams;
+    const { prices, days, seasons, hotels, types, destinations, sort, page } = await searchParams;
 
     const params = new URLSearchParams();
 
@@ -66,15 +64,15 @@ export default async function Tours({ params, searchParams }: Props) {
       }
     };
 
-    appendRange("prices", prices);
-    appendRange("days", days);
-    appendArray("seasons", seasons);
-    appendArray("hotels", hotels);
-    appendArray("types", types);
-    appendArray("destinations", destinations);
+    appendRange('prices', prices);
+    appendRange('days', days);
+    appendArray('seasons', seasons);
+    appendArray('hotels', hotels);
+    appendArray('types', types);
+    appendArray('destinations', destinations);
 
-    if (sort) params.append("sort", sort);
-    if (page) params.append("page", page);
+    if (sort) params.append('sort', sort);
+    if (page) params.append('page', page);
 
     return params.toString();
   };
@@ -87,10 +85,15 @@ export default async function Tours({ params, searchParams }: Props) {
     next: { revalidate: 60 },
   }).then((res) => res.json());
 
-  const [tourTypesData, destinationsData]: [TourTypeDataResponse, DestinationDataResponse] = await Promise.all([
-    fetch(`${API_URL}/types?all=true&locale=${locale}`, { next: { revalidate: 60 } }).then(res => res.json()),
-    fetch(`${API_URL}/destinations?all=true&locale=${locale}`, { next: { revalidate: 60 } }).then(res => res.json()),
-  ]);
+  const [tourTypesData, destinationsData]: [TourTypeDataResponse, DestinationDataResponse] =
+    await Promise.all([
+      fetch(`${API_URL}/types?all=true&locale=${locale}`, { next: { revalidate: 60 } }).then(
+        (res) => res.json(),
+      ),
+      fetch(`${API_URL}/destinations?all=true&locale=${locale}`, { next: { revalidate: 60 } }).then(
+        (res) => res.json(),
+      ),
+    ]);
 
   return (
     <Suspense>
@@ -101,10 +104,7 @@ export default async function Tours({ params, searchParams }: Props) {
           tourTypesData={tourTypesData}
           destinationsData={destinationsData}
         />
-        <MobileMenu
-          tourTypesData={tourTypesData}
-          destinationsData={destinationsData}
-        />
+        <MobileMenu tourTypesData={tourTypesData} destinationsData={destinationsData} />
       </div>
     </Suspense>
   );

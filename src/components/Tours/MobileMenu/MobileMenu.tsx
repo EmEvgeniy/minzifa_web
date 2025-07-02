@@ -10,7 +10,13 @@ import { Filter_alt } from '@/assets/icons';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { DestinationDataResponse, TourTypeDataResponse } from '../MainSection/_types';
 
-export const MobileMenu = ({ tourTypesData, destinationsData }: { tourTypesData: TourTypeDataResponse, destinationsData: DestinationDataResponse }) => {
+export default function MobileMenu({
+  tourTypesData,
+  destinationsData,
+}: {
+  tourTypesData: TourTypeDataResponse;
+  destinationsData: DestinationDataResponse;
+}) {
   const [state, setState] = useState(false);
   const t = useTranslations();
 
@@ -70,4 +76,4 @@ export const MobileMenu = ({ tourTypesData, destinationsData }: { tourTypesData:
       </Drawer>
     </div>
   );
-};
+}

@@ -7,12 +7,16 @@ import { DestinationDataResponse, ToursResponse, TourTypeDataResponse } from './
 import Loader from '@/components/UI/Loader/Loader';
 
 type MainSectionProps = {
-  tourData: ToursResponse,
-  tourTypesData: TourTypeDataResponse,
-  destinationsData: DestinationDataResponse
+  tourData: ToursResponse;
+  tourTypesData: TourTypeDataResponse;
+  destinationsData: DestinationDataResponse;
 };
 
-export const MainSection = ({ tourData, tourTypesData, destinationsData }: MainSectionProps) => {
+export default function MainSection({
+  tourData,
+  tourTypesData,
+  destinationsData,
+}: MainSectionProps) {
   return (
     <section className="container w-full h-full min-h-[70svh]">
       <div className="w-full flex flex-col gap-5 py-[30px]">
@@ -28,4 +32,4 @@ export const MainSection = ({ tourData, tourTypesData, destinationsData }: MainS
       </div>
     </section>
   );
-};
+}
