@@ -6,6 +6,7 @@ import { Popup } from '@/components';
 import { useLocale } from 'next-intl';
 import { CreateYourTripForm } from '@/components/UI/CreateYourTripForm/CreateYourTripForm';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
+import { useSelectedLayoutSegments } from 'next/navigation';
 
 type MainLayoutType = {
   children: ReactNode;
@@ -15,6 +16,8 @@ export const MainLayout: FC<MainLayoutType> = ({ children }) => {
   const footerRef = useRef<HTMLDivElement>(null);
   const { open, setOpen, setOneOpen, oneOpened } = useLayoutStore((state) => state);
   const locale = useLocale();
+
+  const segments = useSelectedLayoutSegments();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -49,20 +52,22 @@ export const MainLayout: FC<MainLayoutType> = ({ children }) => {
   return (
     <>
       <main className="flex-1">{children}</main>
-      <Popup
-        open={open}
-        handleClose={() => setOpen(false)}
-        content={
-          <>
-            {locale === 'en' ? (
-              <CreateYourTripForm popupClose={() => setOpen(false)} />
-            ) : (
-              <ConsultationQuiz popupClose={() => setOpen(false)} />
-            )}
-          </>
-        }
-        maxWidth="md"
-      />
+      {
+        !segments?.includes('(tour)') &&
+        <Popup
+          open={open}
+          handleClose={() => setOpen(false)}
+          content={(
+            <>
+              {locale === 'en'
+                ? <CreateYourTripForm popupClose={() => setOpen(false)} />
+                : <ConsultationQuiz popupClose={() => setOpen(false)} />
+              }
+            </>
+          )}
+          maxWidth="md"
+        />
+      }
       <Footer ref={footerRef} />
     </>
   );

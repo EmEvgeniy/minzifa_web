@@ -86,7 +86,8 @@
   "best_sellers_btns": "See all trips",
   "tourCard": {
     "days": "days",
-    "from": "from"
+    "from": "from",
+    "byRequest": "by request"
   },
   "lang": [
     "en",
@@ -224,7 +225,8 @@
     "location": "Location",
     "not_found": "Tours not found",
     "view_itinerary": "View itinerary",
-    "find_destination": "Find destination"
+    "find_destination": "Find destination",
+    "byRequest": "by request"
   },
   "breadcrumbs": {
     "home": "Home",
@@ -880,6 +882,10 @@
       "no_results": "No results",
       "show_all_dates": "View all dates",
       "hide_all_dates": "Hide all dates"
+    },
+    "by_request": {
+      "text": "By request",
+      "button": "Get free consultation"
     }
   },
   "FreeForm": {

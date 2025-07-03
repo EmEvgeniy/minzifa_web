@@ -47,18 +47,17 @@ export const Popup: FC<PopupType> = ({ open, handleClose, content, maxWidth = "l
         aria-describedby="alert-dialog-slide-description"
         className={cn(className)}
       >
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={(theme) => ({
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: theme.palette.grey[500],
-          })}
-        >
-          <CloseIcon />
-        </IconButton>
+        <div className='relative w-full h-full md:absolute md:top-0 md:right-0 md:w-fit md:h-fit bg-white flex justify-end p-2'>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={(theme) => ({
+              color: theme.palette.grey[500],
+            })}
+          >
+            <CloseIcon />
+          </IconButton>
+        </div>
         <DialogContent>{content}</DialogContent>
       </CustomDialog>
     </>

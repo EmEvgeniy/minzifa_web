@@ -119,6 +119,7 @@ export type Tour = {
     facts: Facts;
     seo_metadata: SeoMetadata;
     slug: string;
+    photo: TourImage,
     gallery: TourImage[];
     days: number;
     seasons: Season[];

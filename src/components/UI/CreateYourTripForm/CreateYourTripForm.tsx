@@ -175,8 +175,8 @@ export const CreateYourTripForm = ({ className, popupClose }: CreateYourTripForm
                 phone: '',
             });
 
-            router.push(`/${locale}/thank-you`);
             popupClose?.();
+            router.push(`/${locale}/thank-you`);
         },
         () => {
             setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
@@ -227,7 +227,7 @@ export const CreateYourTripForm = ({ className, popupClose }: CreateYourTripForm
                 className,
                 "w-full bg-white rounded-2xl grid grid-cols-1 md:grid-cols-[280px_1fr] md:min-h-[200px] overflow-hidden")}
         >
-            <div className="bg-[#eff8ef] w-full h-full p-5 grid grid-cols-[100px_1fr] md:grid-cols-1 gap-3">
+            <div className="p-5 bg-[#eff8ef] w-full h-full grid grid-cols-[100px_1fr] md:grid-cols-1 gap-3">
                 <div className='w-full h-full max-w-[100px] max-h-[100px] md:max-h-[240px] md:max-w-[240px] overflow-hidden rounded-full md:rounded-2xl mb-3'>
                     <Image
                         src={createYourTrip}

@@ -167,7 +167,6 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
             });
 
             popupClose?.();
-
             router.push(`/${locale}/thank-you`);
         },
         () => {

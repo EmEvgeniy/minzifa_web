@@ -36,6 +36,10 @@ export default async function Tour({ params }: Props) {
 
     if (!tourData?.id) notFound();
 
+    if (tourData?.photo) {
+        tourData?.gallery.unshift(tourData?.photo);
+    }
+
     return <Suspense fallback={<Loader />}>
         <TourWrapper tourData={tourData} />
     </Suspense>;

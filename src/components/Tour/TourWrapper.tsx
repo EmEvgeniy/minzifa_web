@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Breadcrumbs } from '../UI/Breadcrumbs/Breadcrumbs';
 import { TourTitle } from './TourTitle/TourTitle';
 import { Tour } from './_types';
@@ -18,9 +18,12 @@ import { Reviews } from '../UI/Reviews/Reviews';
 import { useBookingStore } from '@/store/bookingStore';
 import { MobileBtn } from './MobileBtn';
 import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
+import { TourByRequest } from './TourByRequest/TourByRequest';
 
 export const TourWrapper = ({ tourData }: { tourData: Tour }) => {
   const { tour, setTour } = useBookingStore((state) => state);
+
+  const FreeConsultationBlock = useRef(null);
 
   useEffect(() => {
     setTour(tourData);
@@ -50,11 +53,15 @@ export const TourWrapper = ({ tourData }: { tourData: Tour }) => {
           </div>
           {tour?.hightlights && <TourHighlights highlights={tour?.hightlights} />}
           <TourItinerary itineraries={tour?.itineraries} />
-          <div className="col-span-2 z-40 h-fit">
+          <div ref={FreeConsultationBlock} className="col-span-2 z-40 h-fit">
             <FreeConsultationForm />
           </div>
           <TourIncludes includes={tour?.includes} />
-          <TourBooking prices={tour?.prices} className="z-30 max-[920px]:hidden" />
+          {
+            tour?.prices.length
+              ? <TourBooking prices={tour?.prices} className="z-30 max-[920px]:hidden" />
+              : <TourByRequest ref={FreeConsultationBlock} />
+          }
         </div>
         <TourAccomodation hotels={tour?.hotels} />
         <TourPrices />

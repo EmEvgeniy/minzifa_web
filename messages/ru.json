@@ -60,7 +60,8 @@
   "View_itinerary": "Посмотреть маршрут",
   "tourCard": {
     "days": "дней",
-    "from": "от"
+    "from": "от",
+    "byRequest": "По запросу"
   },
   "best_sellers_btns": "Смотреть все",
   "navigation": {
@@ -224,7 +225,8 @@
     "location": "Локация",
     "not_found": "Туры не найдены",
     "view_itinerary": "Посмотреть маршрут",
-    "find_destination": "Найти направление"
+    "find_destination": "Найти направление",
+    "byRequest": "По запросу"
   },
   "breadcrumbs": {
     "home": "Главная",
@@ -880,6 +882,10 @@
       "no_results": "Нет результатов",
       "show_all_dates": "Показать все даты",
       "hide_all_dates": "Скрыть все даты"
+    },
+    "by_request": {
+      "text": "По запросу",
+      "button": "Получить бесплатную консультацию"
     }
   },
   "FreeForm": {
