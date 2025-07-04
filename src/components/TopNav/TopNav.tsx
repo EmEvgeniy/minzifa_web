@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
-import { Desctop } from './Desctop';
+import React from 'react';
+import Desctop from './Desctop';
 import { Mobile } from './Mobile';
 
-export const TopNav: FC = () => {
+export const TopNav = () => {
   return (
     <div className="w-full">
       <Desctop />

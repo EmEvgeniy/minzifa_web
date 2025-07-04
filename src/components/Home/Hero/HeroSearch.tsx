@@ -1,28 +1,24 @@
 'use client';
-import { useGetQuery } from '@/api/get.api';
-import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useState, useMemo } from 'react';
 import { RiSearch2Line } from 'react-icons/ri';
 import { DestinationBlockProps } from '../Destinations/_types';
 
-export default function HeroSearch() {
-  const t = useTranslations();
-  const locale = useLocale();
+export default function HeroSearch({
+  data,
+  locale,
+  pl,
+}: {
+  data: DestinationBlockProps[];
+  locale: string;
+  pl: string;
+}) {
   const [value, setValue] = useState<string>('');
-  const { data, isSuccess } = useGetQuery<DestinationBlockProps[]>({
-    key: ['destinations'],
-    page: '',
-    perPage: '',
-    url: 'destinations',
-    searchItem: '',
-    additionalParam: `&all=1`,
-  });
 
   const filtered = useMemo(() => {
-    if (!value || !isSuccess || !data) return [];
+    if (!value || !data) return [];
     return data.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
-  }, [value, data, isSuccess]);
+  }, [value, data]);
 
   return (
     <div className="relative w-full flex items-center justify-center">
@@ -30,12 +26,11 @@ export default function HeroSearch() {
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder={t('search')}
+          placeholder={pl}
           className="text-[#16372DCC] w-full focus:outline-none text-base [@media(max-width:1024px)]:text-[14px]"
         />
         <Link
           href={`/${locale}/tours`}
-          prefetch={true}
           className="bg-[#27A430] p-[9.8px] rounded-[16px] hover:bg-[#208B28] cursor-pointer transition-all active:scale-110 [@media(max-width:1024px)]:p-[10px] [@media(max-width:1024px)]:rounded-[12px]"
         >
           <RiSearch2Line className="w-[28px] h-[28px] [@media(max-width:1024px)]:w-[20px] [@media(max-width:1024px)]:h-[20px]" />
@@ -45,7 +40,6 @@ export default function HeroSearch() {
             {filtered.map((item, i) => (
               <Link
                 key={i}
-                prefetch={true}
                 href={`/${locale}/tours?destination=${encodeURIComponent(item.name)}`}
                 className="block hover:underline hover:text-[#27A430] text-[16px] truncate"
               >

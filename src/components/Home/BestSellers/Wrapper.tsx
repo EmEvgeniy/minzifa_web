@@ -1,14 +1,10 @@
 'use client';
 import { BestSellersPackagesCard, Slider, SliderBtns } from '@/components/UI';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
-import { useLocale, useTranslations } from 'next-intl';
-import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
-export const Wrapper = ({ data }: { data: BestSellersPackagesCardType[] }) => {
-  const t = useTranslations();
-  const locale = useLocale();
+export const Wrapper = ({ data, btn }: { data: BestSellersPackagesCardType[]; btn: ReactNode }) => {
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -37,12 +33,7 @@ export const Wrapper = ({ data }: { data: BestSellersPackagesCardType[] }) => {
         )}
       </div>
       <div className="w-full flex items-center justify-between">
-        <Link
-          href={`/${locale}/tours`}
-          className="w-full max-w-[209px] text-center bg-[#16372D] text-white py-[15px] rounded-[16px] text-[16px] shadow-2xl hover:bg-[#194D3D] transition-all active:bg-[#16372D] [@media(max-width:1024px)]:max-w-[150px] [@media(max-width:550px)]:py-[8px]"
-        >
-          {t('best_sellers_btns')}
-        </Link>
+        {btn}
         <SliderBtns
           swiperRef={swiperRef}
           isBeginning={isBeginning}

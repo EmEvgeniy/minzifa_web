@@ -1,26 +1,40 @@
-import { useTranslations } from 'next-intl';
-import React, { Suspense } from 'react';
-import dynamic from 'next/dynamic';
-const HeroVideoBg = dynamic(() => import('./HeroVideoBg'));
-const HeroSearch = dynamic(() => import('./HeroSearch'));
+import React from 'react';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
+import HeroSearch from './HeroSearch';
 
-export default function Hero() {
-  const t = useTranslations('home');
+export default async function Hero({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale });
+
+  const res = await fetch(
+    `https://api.minzifatravel.com/api/v1/destinations?all=1&locale=${locale}`,
+    {
+      next: { revalidate: 60 * 5 },
+    },
+  );
+  const data = await res.json();
+
   return (
-    <Suspense fallback={false}>
-      <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-screen">
-        <div className="w-full absolute top-0 h-full bg-[rgba(0,0,0,0.35)] backdrop-blur-[1px] z-20" />
-        <HeroVideoBg />
-        <div className="container relative z-30 text-white flex flex-col items-center justify-center gap-5 [@media(max-width:1024px)]:items-start">
-          <h1 className="text-[48px] font-semibold text-center [@media(max-width:1024px)]:text-[34px] [@media(max-width:1024px)]:text-left font-title">
-            {t('title')}
-          </h1>
-          <p className="max-w-[50%] text-center text-[18px] font-light [@media(max-width:1024px)]:text-[15px] [@media(max-width:1024px)]:max-w-full [@media(max-width:1024px)]:text-left">
-            {t('subTitle')}
-          </p>
-          <HeroSearch />
-        </div>
-      </section>
-    </Suspense>
+    <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-screen">
+      <div className="w-full absolute top-0 h-full bg-[rgba(0,0,0,0.35)] backdrop-blur-[1px] z-20" />
+      <video
+        className="absolute top-0 left-0 w-full h-full object-cover z-10"
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/output.mp4" type="video/mp4" />
+      </video>
+      <div className="container relative z-30 text-white flex flex-col items-center justify-center gap-5 [@media(max-width:1024px)]:items-start">
+        <h1 className="text-[48px] font-semibold text-center [@media(max-width:1024px)]:text-[34px] [@media(max-width:1024px)]:text-left font-title">
+          {t('home.title')}
+        </h1>
+        <p className="max-w-[50%] text-center text-[18px] font-light [@media(max-width:1024px)]:text-[15px] [@media(max-width:1024px)]:max-w-full [@media(max-width:1024px)]:text-left">
+          {t('home.subTitle')}
+        </p>
+        <HeroSearch data={data} locale={locale} pl={t('search')} />
+      </div>
+    </section>
   );
 }

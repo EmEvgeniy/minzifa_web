@@ -1,15 +1,23 @@
 import { lr2, ticket } from '@/assets/img';
+import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import React from 'react';
 
-export default async function HowToBook() {
-  const t = await getTranslations('home');
+export default async function HowToBook({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'home' });
   const list = t.raw('book_block') as { title: string; text: string }[];
 
   return (
     <section className="bg-[#16372D] w-full">
-      <Image src={lr2} alt="" width={600} height={500} className="absolute left-0 " />
+      <Image
+        src={lr2}
+        alt=""
+        width={600}
+        loading="lazy"
+        height={500}
+        className="absolute left-0 "
+      />
       <div className="container text-white py-[70px] flex flex-col gap-5 [@media(max-width:768px)]:gap-3 [@media(max-width:768px)]:py-[30px]">
         <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('book_title')}</h5>
         <p className="text-[18px] [@media(max-width:768px)]:text-[16px]">{t('book_text')}</p>

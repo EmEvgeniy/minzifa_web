@@ -1,12 +1,12 @@
 import { cyt } from '@/assets/img';
-import { useLocale, useTranslations } from 'next-intl';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-export default function CreateYourTrip() {
-  const t = useTranslations('home');
-  const locale = useLocale();
+export default async function CreateYourTrip({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'home' });
 
   return (
     <section className="w-full relative">
@@ -15,6 +15,7 @@ export default function CreateYourTrip() {
         src={cyt}
         alt="create_your_trip"
         fill
+        loading="lazy"
         className="absolute top-0 w-full object-cover z-0"
       />
       <div className="container py-[188px] relative z-20 text-white flex flex-col items-center justify-center gap-5 [@media(max-width:768px)]:py-[90px]">
@@ -26,7 +27,6 @@ export default function CreateYourTrip() {
         </p>
         <Link
           className="bg-[#27A430] hover:bg-[#208B28] transition-all  text-white text-center py-[20px] text-[16px] rounded-[16px] shadow-2xl mt-[20px] w-full max-w-[420px] [@media(max-width:768px)]:py-[10px]"
-          prefetch={true}
           href={`/${locale}/create-your-trip`}
         >
           {t('create_your_trip_btn')}

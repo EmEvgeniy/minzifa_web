@@ -1,16 +1,32 @@
-import { useTranslations } from 'next-intl';
 import React from 'react';
-import { Wrapper } from './Wrapper';
+import { getTranslations } from 'next-intl/server';
+import { DefaultComponentsProps } from '@/types';
+import { AdventureCardType } from '@/components/UI/AdventureCard/_types';
+import { AdventureCard } from '@/components/UI';
 
-export default function Adventure() {
-  const t = useTranslations('home');
+export default async function Adventure({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'home' });
+
+  const res = await fetch(
+    `https://api.minzifatravel.com/api/v1/types?main_page=1&limit=12&page=1&perPage=12&locale=${locale}`,
+    {
+      next: { revalidate: 60 * 5 },
+    },
+  );
+  const data = await res.json();
+
+  if (!data.length) return null;
 
   return (
     <section className="container my-[70px] flex flex-col gap-5 [@media(max-width:768px)]:my-[40px]">
       <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px] font-semibold">
         {t('adventure_title')}
       </h5>
-      <Wrapper />
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 [@media(max-width:1024px)]:grid-cols-3 [@media(max-width:768px)]:grid-cols-2">
+        {data?.slice(0, 8).map((type: AdventureCardType) => (
+          <AdventureCard key={type.id} type={type} />
+        ))}
+      </div>
     </section>
   );
 }

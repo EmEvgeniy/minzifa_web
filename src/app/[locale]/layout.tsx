@@ -10,7 +10,11 @@ import dynamic from 'next/dynamic';
 
 const MainLayout = dynamic(() => import('@/layouts/MainLayout'));
 
-export default function RootLayout({
+export async function generateStaticParams() {
+  return ['en', 'ru'].map((locale) => ({ lang: locale }));
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

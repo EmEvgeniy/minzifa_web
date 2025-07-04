@@ -1,5 +1,4 @@
 import { contact } from '@/assets/img';
-import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
 import IconPhone from '@/assets/icons/phone.svg';
@@ -8,10 +7,12 @@ import IconEnvelope from '@/assets/icons/question.svg';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { contacts } from '@/store/contacts';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
 
-export default function ContactUs() {
-  const t = useTranslations('home');
-  const locale = useLocale();
+export default async function ContactUs({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'home' });
+
   const contactItems = [
     {
       icon: IconEnvelope,
@@ -56,6 +57,7 @@ export default function ContactUs() {
                   <Image
                     src={icon}
                     alt=""
+                    loading="lazy"
                     width={30}
                     className="w-[30px] [@media(max-width:768px)]:w-[25px]"
                   />
@@ -74,7 +76,7 @@ export default function ContactUs() {
             fill
             className="object-cover md:mask-l-from-50% md:mask-l-to-90%"
             sizes="(max-width: 1024px) 100vw, 50vw"
-            priority
+            loading="lazy"
           />
         </div>
       </div>

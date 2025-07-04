@@ -1,6 +1,5 @@
 import Metrics from '@/components/UI/Metrics/Metrics';
 import './[locale]/globals.css';
-import { useLocale } from 'next-intl';
 import { Unbounded, Inter } from 'next/font/google';
 
 const TitleFont = Unbounded({
@@ -17,16 +16,18 @@ const TextFont = Inter({
   weight: ['300', '400', '500', '600', '700'],
 });
 
-
-export default function RootLayout({
+export async function generateStaticParams() {
+  return ['en', 'ru'].map((locale) => ({ lang: locale }));
+}
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: { lang: string };
 }>) {
-  const locale = useLocale();
-
   return (
-    <html lang={locale}>
+    <html lang={params.lang}>
       <body className={`${TitleFont.variable} ${TextFont.variable}`}>
         <Metrics />
         {children}

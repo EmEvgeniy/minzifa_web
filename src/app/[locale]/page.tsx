@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 import Adventure from '@/components/Home/Adventure/Adventure';
 import Articles from '@/components/Home/Articles/Articles';
 import BestSellers from '@/components/Home/BestSellers/BestSellers';
@@ -8,13 +10,14 @@ import Hero from '@/components/Home/Hero/Hero';
 import HowToBook from '@/components/Home/HowToBook/HowToBook';
 import Info from '@/components/Home/Info/Info';
 import { Reviews } from '@/components/UI/Reviews/Reviews';
+import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+export function generateStaticParams() {
+  return ['en', 'ru'].map((locale) => ({ locale }));
+}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = 'home';
   const locale = (await params).locale;
 
@@ -29,19 +32,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function Home() {
+export default async function HomePage({ params }: DefaultPageProps) {
+  const locale = await params;
+
   return (
     <>
-      <Hero />
-      <Info />
-      <BestSellers />
-      <Destinations />
-      <HowToBook />
-      <Adventure />
-      <CreateYourTrip />
-      <ContactUs />
+      <Hero locale={locale.locale} />
+      <Info locale={locale.locale} />
+      <BestSellers locale={locale.locale} />
+      <Destinations locale={locale.locale} />
+      <HowToBook locale={locale.locale} />
+      <Adventure locale={locale.locale} />
+      <CreateYourTrip locale={locale.locale} />
+      <ContactUs locale={locale.locale} />
       <Reviews />
-      <Articles />
+      <Articles locale={locale.locale} />
     </>
   );
 }

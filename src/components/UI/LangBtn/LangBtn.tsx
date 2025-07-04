@@ -1,23 +1,22 @@
 'use client';
-import React, { FC, useEffect, useRef, useState } from 'react';
-import { LangBtnType } from './_types';
+import React, { useEffect, useRef, useState } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa6';
+import { usePathname } from 'next/navigation';
 
-import { usePathname, useRouter } from '@/i18n/routing';
-import { useLocale } from 'next-intl';
+import Link from 'next/link';
 
-export const LangBtn: FC<LangBtnType> = ({ langs }) => {
-  const currentLocale = useLocale();
-  const router = useRouter();
+export const LangBtn = () => {
   const pathname = usePathname();
   const [active, setActive] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleChange = (locale: string) => {
-    if (locale !== currentLocale) {
-      router.replace(pathname, { locale });
-    }
+    if (!pathname) return '/';
+    const segments = pathname.split('/');
+    segments[1] = locale;
+    return segments.join('/');
   };
 
   useEffect(() => {
@@ -36,7 +35,9 @@ export const LangBtn: FC<LangBtnType> = ({ langs }) => {
         onClick={() => setActive((prev) => !prev)}
         className="flex items-center gap-1 text-[16px] text-white focus:outline-none cursor-pointer"
       >
-        <span className="[@media(max-width:1024px)]:text-sm">{currentLocale.toUpperCase()}</span>
+        <span className="[@media(max-width:1024px)]:text-sm">
+          {pathname?.slice(1, 3).toUpperCase()}
+        </span>
         <motion.span animate={{ rotate: active ? 180 : 0 }} transition={{ duration: 0.3 }}>
           <FaChevronDown size={14} />
         </motion.span>
@@ -51,20 +52,26 @@ export const LangBtn: FC<LangBtnType> = ({ langs }) => {
             transition={{ duration: 0.3 }}
             className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-[#16372D80] rounded-[10px] w-[70px] p-3 shadow-2xl flex flex-col gap-2 z-50 [@media(max-width:950px)]:bg-white"
           >
-            {langs.map((el) => (
+            {['en', 'ru'].map((el) => (
               <button
                 key={el}
                 onClick={() => {
-                  handleChange(el);
                   setActive(false);
                 }}
                 className={`text-center cursor-pointer ${
-                  el === currentLocale
+                  el === pathname?.slice(1, 3)
                     ? 'text-white font-semibold [@media(max-width:950px)]:text-gray-900'
                     : 'text-gray-900'
                 }`}
               >
-                {el.toUpperCase()}
+                <Link
+                  onClick={() => {
+                    setActive(false);
+                  }}
+                  href={handleChange(el)}
+                >
+                  {el.toUpperCase()}
+                </Link>
               </button>
             ))}
           </motion.div>
