@@ -1,5 +1,4 @@
 'use client';
-import { useGetQuery } from '@/api/get.api';
 import { BestSellersPackagesCard, Slider, SliderBtns } from '@/components/UI';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import { useLocale, useTranslations } from 'next-intl';
@@ -7,7 +6,7 @@ import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
-export const Wrapper = () => {
+export const Wrapper = ({ data }: { data: BestSellersPackagesCardType[] }) => {
   const t = useTranslations();
   const locale = useLocale();
   const swiperRef = useRef<SwiperClass | null>(null);
@@ -19,18 +18,10 @@ export const Wrapper = () => {
     setIsEnd(swiper.isEnd);
   };
 
-  const { data, isSuccess } = useGetQuery<BestSellersPackagesCardType[]>({
-    key: ['tours'],
-    page: '',
-    perPage: '',
-    url: 'tours',
-    searchItem: '',
-    additionalParam: `&main_page=1`,
-  });
   return (
     <>
       <div className="min-h-[520px] [@media(max-width:1024px)]:min-h-[450px] [@media(max-width:450px)]:min-h-[350px]">
-        {isSuccess && (
+        {data?.length && (
           <Slider
             slides={data}
             swiperRef={swiperRef}

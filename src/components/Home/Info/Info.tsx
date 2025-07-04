@@ -1,11 +1,11 @@
 import { tripadvisor_mobile } from '@/assets/icons';
 import { info, lr } from '@/assets/img';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import React from 'react';
 
-export default function Info() {
-  const t = useTranslations('home');
+export default async function Info() {
+  const t = await getTranslations('home');
 
   return (
     <section className="container">
@@ -14,6 +14,7 @@ export default function Info() {
           src={lr}
           alt="lr"
           width={500}
+          loading="lazy"
           height={500}
           className="absolute top-0 left-[-300px] z-10 max-w-[100%] h-full pointer-events-none block object-cover [@media(max-width:768px)]:hidden"
         />
@@ -21,6 +22,7 @@ export default function Info() {
           src={lr}
           alt="lr"
           width={500}
+          loading="lazy"
           height={500}
           className="absolute top-0 right-[-300px] z-10 rotate-180 max-w-[100%] h-full pointer-events-none block object-cover [@media(max-width:768px)]:hidden"
         />
@@ -33,6 +35,7 @@ export default function Info() {
         <Image
           src={info}
           alt="info_img"
+          loading="lazy"
           width={611}
           height={97}
           className="object-cover block [@media(max-width:768px)]:hidden"
@@ -41,6 +44,7 @@ export default function Info() {
           src={tripadvisor_mobile}
           alt="info_img"
           width={250}
+          loading="lazy"
           height={97}
           className="object-cover hidden [@media(max-width:768px)]:block"
         />

@@ -6,7 +6,7 @@ import React, { useState, useMemo } from 'react';
 import { RiSearch2Line } from 'react-icons/ri';
 import { DestinationBlockProps } from '../Destinations/_types';
 
-export const HeroSearch = () => {
+export default function HeroSearch() {
   const t = useTranslations();
   const locale = useLocale();
   const [value, setValue] = useState<string>('');
@@ -64,4 +64,4 @@ export const HeroSearch = () => {
       </div>
     </div>
   );
-};
+}

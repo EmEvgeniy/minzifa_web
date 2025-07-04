@@ -1,10 +1,10 @@
 import { lr2, ticket } from '@/assets/img';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import React from 'react';
 
-export default function HowToBook() {
-  const t = useTranslations('home');
+export default async function HowToBook() {
+  const t = await getTranslations('home');
   const list = t.raw('book_block') as { title: string; text: string }[];
 
   return (

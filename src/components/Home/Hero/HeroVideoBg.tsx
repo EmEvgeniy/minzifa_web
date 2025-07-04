@@ -1,7 +1,6 @@
-'use client';
 import React from 'react';
 
-export const HeroVideoBg = () => {
+export default function HeroVideoBg() {
   return (
     <video
       className="absolute top-0 left-0 w-full h-full object-cover z-10"
@@ -13,4 +12,4 @@ export const HeroVideoBg = () => {
       <source src="/output.mp4" type="video/mp4" />
     </video>
   );
-};
+}

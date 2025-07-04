@@ -4,8 +4,11 @@ import { NextIntlClientProvider } from 'next-intl';
 import { QueryProvider } from '@/providers/QueryProvider';
 import { ThemeProviderWrap } from '@/providers/ThemeProviderWrap';
 import { CustomSnackBar } from '@/components/UI/CustomSnackBar';
-import { MainLayout } from '@/layouts';
 import { UTMMetricsProvider } from '@/providers/UTMMetricsProvider';
+
+import dynamic from 'next/dynamic';
+
+const MainLayout = dynamic(() => import('@/layouts/MainLayout'));
 
 export default function RootLayout({
   children,

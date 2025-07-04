@@ -1,20 +1,14 @@
-import Loader from '@/components/UI/Loader/Loader';
+import Adventure from '@/components/Home/Adventure/Adventure';
+import Articles from '@/components/Home/Articles/Articles';
+import BestSellers from '@/components/Home/BestSellers/BestSellers';
+import ContactUs from '@/components/Home/ContactUs/ContactUs';
+import CreateYourTrip from '@/components/Home/CreateYourTrip/CreateYourTrip';
+import Destinations from '@/components/Home/Destinations/Destinations';
+import Hero from '@/components/Home/Hero/Hero';
+import HowToBook from '@/components/Home/HowToBook/HowToBook';
+import Info from '@/components/Home/Info/Info';
 import { Reviews } from '@/components/UI/Reviews/Reviews';
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
-
-const Hero = dynamic(() => import('@/components/Home/Hero/Hero'), {
-  loading: () => <div>Загрузка направлений...</div>,
-});
-const Info = dynamic(() => import('@/components/Home/Info/Info'));
-const BestSellers = dynamic(() => import('@/components/Home/BestSellers/BestSellers'));
-const Destinations = dynamic(() => import('@/components/Home/Destinations/Destinations'));
-const HowToBook = dynamic(() => import('@/components/Home/HowToBook/HowToBook'));
-const Adventure = dynamic(() => import('@/components/Home/Adventure/Adventure'));
-const CreateYourTrip = dynamic(() => import('@/components/Home/CreateYourTrip/CreateYourTrip'));
-const ContactUs = dynamic(() => import('@/components/Home/ContactUs/ContactUs'));
-const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -25,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = (await params).locale;
 
   const data = await fetch(`https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 },
+    cache: 'force-cache',
   }).then((res) => res.json());
 
   return {
@@ -37,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function Home() {
   return (
-    <Suspense fallback={<Loader />}>
+    <>
       <Hero />
       <Info />
       <BestSellers />
@@ -48,6 +42,6 @@ export default function Home() {
       <ContactUs />
       <Reviews />
       <Articles />
-    </Suspense>
+    </>
   );
 }
