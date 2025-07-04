@@ -1,15 +1,14 @@
+export const dynamic = 'force-static';
+
+import Hero from '@/components/Tours/Hero/Hero';
 import {
   DestinationDataResponse,
   ToursResponse,
   TourTypeDataResponse,
 } from '@/components/Tours/MainSection/_types';
+import MainSection from '@/components/Tours/MainSection/MainSection';
+import MobileMenu from '@/components/Tours/MobileMenu/MobileMenu';
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
-
-const Hero = dynamic(() => import('@/components/Tours/Hero/Hero'));
-const MainSection = dynamic(() => import('@/components/Tours/MainSection/MainSection'));
-const MobileMenu = dynamic(() => import('@/components/Tours/MobileMenu/MobileMenu'));
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -24,6 +23,10 @@ type Props = {
     page?: string;
   }>;
 };
+
+export function generateStaticParams() {
+  return ['en', 'ru'].map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = 'tours';
@@ -96,16 +99,14 @@ export default async function Tours({ params, searchParams }: Props) {
     ]);
 
   return (
-    <Suspense>
-      <div className="w-full relative">
-        <Hero />
-        <MainSection
-          tourData={tourData}
-          tourTypesData={tourTypesData}
-          destinationsData={destinationsData}
-        />
-        <MobileMenu tourTypesData={tourTypesData} destinationsData={destinationsData} />
-      </div>
-    </Suspense>
+    <section className="w-full relative">
+      <Hero />
+      <MainSection
+        tourData={tourData}
+        tourTypesData={tourTypesData}
+        destinationsData={destinationsData}
+      />
+      <MobileMenu tourTypesData={tourTypesData} destinationsData={destinationsData} />
+    </section>
   );
 }

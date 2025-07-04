@@ -17,7 +17,7 @@ export default async function Articles({ locale }: DefaultComponentsProps) {
   );
   const data = await res.json();
 
-  if (!data?.length) return null;
+  if (!data?.data.length) return null;
 
   return (
     <section className="container pb-[70px] w-full">
