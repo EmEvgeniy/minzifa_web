@@ -104,9 +104,7 @@ export const Content: React.FC = () => {
                   <BestSellersPackagesCard key={el.id} slide={el} />
                 ))}
 
-              <Link
-                href={`/${locale}/create-your-trip`}
-              >
+              <Link href={`/${locale}/create-your-trip`}>
                 <div className="h-[450px] w-full bg-[#16372D] relative rounded-[16px] overflow-hidden flex items-center justify-center">
                   <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
                   <Image src={cr2} alt="cyt" fill className="object-cover absolute top-0" />

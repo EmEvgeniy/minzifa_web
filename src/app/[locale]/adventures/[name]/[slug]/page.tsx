@@ -1,25 +1,22 @@
+export const dynamic = 'force-static';
+
 import { Content } from '@/components/Adventure';
 import { FreeConsultationForm } from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
-import React, { Suspense } from 'react';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
+import { DefaultPageProps } from '@/types';
+import Articles from '@/components/Home/Articles/Articles';
 
-const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
+export function generateStaticParams() {
+  return ['en', 'ru'].map((locale) => ({ locale }));
+}
 
-type Props = {
-  params: Promise<{ locale: string; slug: string }>;
-};
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = (await params).slug;
   const locale = (await params).locale;
 
   const tour: ArticleCardType = await fetch(
     `https://api.minzifatravel.com/api/v1/articles/${slug}?locale=${locale}`,
-    {
-      next: { revalidate: 60 },
-    },
   ).then((res) => res.json());
 
   return {
@@ -29,15 +26,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function page() {
+export default async function page({ params }: DefaultPageProps) {
+  const locale = await params;
   return (
     <section className=" pt-[150px] min-h-[100svh] max-[1200px]:pt-[120px] max-[550px]:pt-[100px]">
       <div className="container">
         <Content />
       </div>
-      <Suspense>
-        <Articles />
-      </Suspense>
+
+      <Articles locale={locale.locale} />
+
       <div className="container">
         <FreeConsultationForm />
       </div>
