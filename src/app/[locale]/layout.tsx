@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 const MainLayout = dynamic(() => import('@/layouts/MainLayout'));
 
 export async function generateStaticParams() {
-  return ['en', 'ru'].map((locale) => ({ lang: locale }));
+  return ['en', 'ru'].map((locale) => ({ locale }));
 }
 
 export default async function RootLayout({
