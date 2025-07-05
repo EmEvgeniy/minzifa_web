@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { RiSearch2Line } from 'react-icons/ri';
 import { DestinationBlockProps } from '../Destinations/_types';
 

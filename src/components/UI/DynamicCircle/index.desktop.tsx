@@ -1,8 +1,8 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { items } from './const';
 
-const EnvironmentCircle = () => {
+export default function EnvironmentCircle() {
   const radius = 225.5;
   const [activeLabel, setLabel] = useState<'env' | 'cult' | 'animal' | 'economy'>('env');
 
@@ -115,6 +115,4 @@ const EnvironmentCircle = () => {
       </div>
     </div>
   );
-};
-
-export default EnvironmentCircle;
+}

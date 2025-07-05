@@ -1,7 +1,6 @@
 'use client';
 import { useGetQuery } from '@/api/get.api';
 import { DestinationBlockProps } from '@/components/Home/Destinations/_types';
-import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
 import { Skeleton } from '@mui/material';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
@@ -21,7 +20,6 @@ export const Main = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-8">
-      <Breadcrumbs />
       {!isLoading && isSuccess ? (
         <div
           className="w-full grid grid-cols-4 gap-5 max-[1024px]:grid-cols-3 

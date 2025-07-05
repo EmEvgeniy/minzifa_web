@@ -7,7 +7,13 @@ import { DestinationBlockProps } from './_types';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export const Wrapper = ({ data, locale }: { data: DestinationBlockProps[]; locale: string }) => {
+export default function Wrapper({
+  data,
+  locale,
+}: {
+  data: DestinationBlockProps[];
+  locale: string;
+}) {
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -66,4 +72,4 @@ export const Wrapper = ({ data, locale }: { data: DestinationBlockProps[]; local
       </div>
     </>
   );
-};
+}

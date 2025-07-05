@@ -1,6 +1,5 @@
 import { contact } from '@/assets/img';
 import Image from 'next/image';
-import React from 'react';
 import IconPhone from '@/assets/icons/phone.svg';
 import IconWhatsapp from '@/assets/icons/Vector (5).svg';
 import IconEnvelope from '@/assets/icons/question.svg';

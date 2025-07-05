@@ -2,7 +2,7 @@
 
 import { ArticleCard, Slider, SliderBtns } from '@/components/UI';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
-import React, { ReactNode, useRef, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
 interface DataResponse {

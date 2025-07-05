@@ -1,7 +1,8 @@
 import { getTranslations } from 'next-intl/server';
-import { Wrapper } from './Wrapper';
 import { DefaultComponentsProps } from '@/types';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+const Wrapper = dynamic(() => import('./Wrapper'));
 
 export default async function BestSellers({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale });

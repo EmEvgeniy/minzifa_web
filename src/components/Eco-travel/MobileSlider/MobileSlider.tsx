@@ -3,7 +3,7 @@ import { circle1, circle3, circle4, circle5 } from '@/assets/img';
 import { Slider, SliderBtns } from '@/components/UI';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
 interface DataInterface {
@@ -13,7 +13,7 @@ interface DataInterface {
 
 const imgs = [circle1, circle3, circle4, circle5];
 
-export const MobileSlider = () => {
+export default function MobileSlider() {
   const t = useTranslations();
   const data = t.raw('eco.block') as DataInterface[];
   const swiperRef = useRef<SwiperClass | null>(null);
@@ -64,4 +64,4 @@ export const MobileSlider = () => {
       }
     </div>
   );
-};
+}

@@ -1,14 +1,15 @@
 'use client';
 import { economy_1, economy_2 } from '@/assets/img';
 import { Slider, SliderBtns } from '@/components/UI';
-import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
-export const MobileSlider = () => {
-  const t = useTranslations('eco');
-  const block = t.raw('economy.block') as { title: string; text: string; img: string }[];
+export default function MobileSlider({
+  block,
+}: {
+  block: { title: string; text: string; img: string }[];
+}) {
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -45,6 +46,7 @@ export const MobileSlider = () => {
                       alt="child"
                       width={0}
                       height={0}
+                      loading="lazy"
                       key={i}
                       className="object-cover rounded-full w-[250px] h-[250px]"
                     />
@@ -72,4 +74,4 @@ export const MobileSlider = () => {
       }
     </div>
   );
-};
+}

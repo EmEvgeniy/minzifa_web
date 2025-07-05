@@ -1,18 +1,15 @@
 export const dynamic = 'force-static';
 
-import { Main } from '@/components/Privacy-Policy';
-import React from 'react';
 import { Metadata } from 'next';
-
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
+import { DefaultPageProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = 'privacy-policy';
   const locale = (await params).locale;
 
@@ -27,6 +24,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function page() {
-  return <Main />;
+export default async function page({ params }: DefaultPageProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'privacy' });
+
+  return (
+    <section className="container py-[150px] flex flex-col gap-5 max-[768px]:py-[100px]">
+      <Breadcrumbs />
+      <h1 className="text-[42px] max-[768px]:text-[30px] max-[550px]:text-[24px] font-title">
+        {t('title')}
+      </h1>
+      <div
+        dangerouslySetInnerHTML={{ __html: t('text') || '' }}
+        className="text-[18px] max-[550px]:text-[14px]"
+      />
+    </section>
+  );
 }

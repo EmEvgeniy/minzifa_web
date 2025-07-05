@@ -1,4 +1,4 @@
-import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 

@@ -1,11 +1,12 @@
 import { circle, circle2 } from '@/assets/img';
-import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import React from 'react';
-import { MobileSlider } from './MobileSlider';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
+import dynamic from 'next/dynamic';
+const MobileSlider = dynamic(() => import('./MobileSlider'));
 
-export const Values = () => {
-  const t = useTranslations('about');
+export default async function Values({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'about' });
   const values = t.raw('values') as {
     title: string;
     text: string;
@@ -13,6 +14,7 @@ export const Values = () => {
     circle: string;
     circle2: string;
   }[];
+
   return (
     <section className="bg-[#16372D] w-full py-[70px]">
       <div className="container text-white flex flex-col gap-5">
@@ -36,6 +38,7 @@ export const Values = () => {
                   className="aspect-square  rounded-full object-cover h-[250px] w-[250px]"
                   width={200}
                   height={200}
+                  loading="lazy"
                   alt="text"
                 />
               </div>
@@ -51,8 +54,8 @@ export const Values = () => {
             ),
           )}
         </div>
-        <MobileSlider />
+        <MobileSlider values={values} />
       </div>
     </section>
   );
-};
+}

@@ -1,15 +1,12 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
 import { info } from '@/assets/img';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa6';
-import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
+import ReviewsInner from './ReviewsInner';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
 
-export const Reviews = () => {
-  const t = useTranslations('reviews');
-  const pathname = usePathname();
+export default async function Reviews({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'reviews' });
 
   const rating = 5.0;
   const fullStars = Math.floor(rating);
@@ -22,28 +19,6 @@ export const Reviews = () => {
       }
     />
   ));
-
-  const widgetRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const scriptId = 'trustindex-script';
-    const oldScript = document.getElementById(scriptId);
-    if (oldScript) {
-      oldScript.remove();
-    }
-    if (widgetRef.current) {
-      widgetRef.current.innerHTML = '';
-    }
-
-    const script = document.createElement('script');
-    script.src = 'https://cdn.trustindex.io/loader.js?9148d5a459d5117735065c57433';
-    script.async = true;
-    script.defer = true;
-    script.setAttribute('data-trustindex', 'true');
-    script.id = scriptId;
-
-    widgetRef.current?.appendChild(script);
-  }, [pathname]);
 
   return (
     <section className="relative container">
@@ -70,7 +45,7 @@ export const Reviews = () => {
         <Image src={info} alt="info_img" width={611} height={97} className="object-cover" />
       </div>
 
-      <div ref={widgetRef} className="mt-10 w-full" />
+      <ReviewsInner />
     </section>
   );
-};
+}

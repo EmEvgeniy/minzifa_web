@@ -1,4 +1,3 @@
-import React from 'react';
 import { getTranslations } from 'next-intl/server';
 import { DefaultComponentsProps } from '@/types';
 import { AdventureCardType } from '@/components/UI/AdventureCard/_types';

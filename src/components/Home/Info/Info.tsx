@@ -3,7 +3,6 @@ import { info, lr } from '@/assets/img';
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
-import React from 'react';
 
 export default async function Info({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });

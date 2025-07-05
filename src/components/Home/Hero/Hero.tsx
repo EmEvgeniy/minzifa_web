@@ -1,7 +1,7 @@
-import React from 'react';
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
-import HeroSearch from './HeroSearch';
+import dynamic from 'next/dynamic';
+const HeroSearch = dynamic(() => import('./HeroSearch'));
 
 export default async function Hero({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale });

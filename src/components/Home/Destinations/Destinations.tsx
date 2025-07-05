@@ -1,9 +1,10 @@
 import { destinations } from '@/assets/img';
 import Image from 'next/image';
-import React from 'react';
-import { Wrapper } from './Wrapper';
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
+import dynamic from 'next/dynamic';
+
+const Wrapper = dynamic(() => import('./Wrapper'));
 
 export default async function Destinations({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });

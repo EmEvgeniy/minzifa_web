@@ -1,14 +1,19 @@
 import { economy_icon } from '@/assets/icons';
 import { economy, economy_1, economy_2 } from '@/assets/img';
-import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React from 'react';
-import { MobileSlider } from './MobileSlider';
 
-export const Economy = () => {
-  const t = useTranslations('eco');
-  const block = t.raw('economy.block') as { title: string; text: string; img: string }[];
+const MobileSlider = dynamic(() => import('./MobileSlider'));
 
+export default function Economy({
+  block,
+  title,
+  subTitle,
+}: {
+  block: { title: string; text: string; img: string }[];
+  title: string;
+  subTitle: string;
+}) {
   return (
     <section className="w-full bg-[#16372D] relative">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
@@ -22,9 +27,9 @@ export const Economy = () => {
           className="max-[550px]:w-[35px]"
         />
         <h6 className="text-[42px] max-w-[70%] text-center max-[1024px]:text-[35px]  max-[1024px]:max-w-full max-[550px]:text-[24px]">
-          {t('economy.title')}
+          {title}
         </h6>
-        <p className="text-[20px] max-[1024px]:text-[18px] text-center">{t('economy.sub_title')}</p>
+        <p className="text-[20px] max-[1024px]:text-[18px] text-center">{subTitle}</p>
         <div className="grid grid-cols-4 gap-5 items-center pt-[30px] max-[1024px]:hidden">
           {block.slice(0, 4).map((el, i) =>
             el.img === 'true' ? (
@@ -71,8 +76,8 @@ export const Economy = () => {
             )}
           </div>
         </div>
-        <MobileSlider />
+        <MobileSlider block={block} />
       </div>
     </section>
   );
-};
+}

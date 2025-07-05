@@ -1,14 +1,20 @@
 import { car, eco_icon3, guide, heart, location } from '@/assets/icons';
 import { eco_block } from '@/assets/img';
-import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React from 'react';
-import { MobileSlider } from './MobileSlider';
+const MobileSlider = dynamic(() => import('./MobileSlider'));
 
-export const Environment = () => {
-  const t = useTranslations('eco');
-  const block = t.raw('environment.block') as { title: string; text: string }[];
-
+export default async function Environment({
+  block,
+  title,
+  subTitle,
+  subTitle2,
+}: {
+  block: { title: string; text: string }[];
+  title: string;
+  subTitle: string;
+  subTitle2: string;
+}) {
   return (
     <section className="relative bg-[#16372D] w-full h-full py-[40px]">
       <Image src={eco_block} alt="environment" fill className=" object-cover absolute top-0" />
@@ -21,11 +27,11 @@ export const Environment = () => {
           className="max-[1024px]:w-[40px]"
         />
         <h5 className="text-[42px] text-center max-w-[70%] flex flex-col items-center max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[500px]:text-[24px]">
-          <span>{t('environment.title')}</span>
-          <span>{t('environment.title2')}</span>
+          <span>{title}</span>
+          <span>{subTitle}</span>
         </h5>
         <p className="text-[20px] max-w-[70%] text-center max-[500px]:text-[16px] max-[500px]:max-w-full">
-          {t('environment.sub_title')}
+          {subTitle2}
         </p>
         <div className="grid grid-cols-2 w-full h-full gap-5 pt-[30px] max-[500px]:hidden">
           {block.map((el, i) => (
@@ -45,8 +51,8 @@ export const Environment = () => {
             </div>
           ))}
         </div>
-        <MobileSlider />
+        <MobileSlider block={block} />
       </div>
     </section>
   );
-};
+}

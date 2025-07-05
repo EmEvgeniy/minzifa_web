@@ -3,7 +3,6 @@ import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
 export default async function CreateYourTrip({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });

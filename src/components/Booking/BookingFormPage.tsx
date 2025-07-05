@@ -1,7 +1,7 @@
 'use client';
 
 import { BookingHeader } from './BookingHeader/BookingHeader';
-import { Breadcrumbs } from '../UI/Breadcrumbs/Breadcrumbs';
+
 import { Travellers } from './Travellers/Travellers';
 import { Passengers } from './Passengers/Passengers';
 import { RoomTypes } from './RoomTypes/RoomTypes';
@@ -23,7 +23,6 @@ export default function BookingFormPage() {
   return (
     <section className="relative pb-[0px]">
       <div className="container mt-[150px] flex flex-col gap-5 min-h-[200px] mb-10 max-[1024px]:mt-[90px]">
-        <Breadcrumbs />
         <BookingHeader />
 
         <div className="flex items-start justify-between gap-5 relative max-[1024px]:flex-col-reverse">

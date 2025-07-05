@@ -2,9 +2,10 @@ import React, { Suspense } from 'react';
 
 import { Filter } from './Filter';
 import { ToursView } from './ToursView';
-import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
+
 import { DestinationDataResponse, ToursResponse, TourTypeDataResponse } from './_types';
 import Loader from '@/components/UI/Loader/Loader';
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 
 type MainSectionProps = {
   tourData: ToursResponse;

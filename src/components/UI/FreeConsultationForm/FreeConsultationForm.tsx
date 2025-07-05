@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Banner from '../../../assets/img/FreeConBanner.jpg';
+import Banner from '@/assets/img/FreeConBanner.jpg';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { cn } from '@/utils/utils';
@@ -13,7 +13,7 @@ import { PhoneInputComp } from '../PhoneInput';
 import { FreeConsultationFormRequest } from './_types';
 import { useMetricsStore } from '@/store/useMetricsStore';
 
-export const FreeConsultationForm = ({ className }: { className?: string }) => {
+export default function FreeConsultationForm({ className }: { className?: string }) {
   const t = useTranslations('FreeForm');
   const locale = useLocale();
   const router = useRouter();
@@ -28,16 +28,19 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
 
   useEffect(() => {
     if (metrics?.utm_source || metrics?.page) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        ...metrics
+        ...metrics,
       }));
     }
   }, [metrics]);
 
   const { setMessage, setError } = useSnackStore((state) => state);
 
-  const { mutate, isPending } = usePostMutation<FreeConsultationFormRequest, FreeConsultationFormRequest>(
+  const { mutate, isPending } = usePostMutation<
+    FreeConsultationFormRequest,
+    FreeConsultationFormRequest
+  >(
     ['subscribe-form'],
     () => {
       setMessage(locale == 'en' ? 'Your request was submitted!' : 'Ваш запрос был отправлен!');
@@ -170,4 +173,4 @@ export const FreeConsultationForm = ({ className }: { className?: string }) => {
       </div>
     </form>
   );
-};
+}

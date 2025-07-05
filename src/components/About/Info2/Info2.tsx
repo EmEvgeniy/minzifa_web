@@ -1,12 +1,11 @@
 import { gallery, lr2 } from '@/assets/img';
-import { useLocale, useTranslations } from 'next-intl';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
-export const Info2 = () => {
-  const t = useTranslations('about');
-  const locale = useLocale();
+export default async function Info2({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'about' });
 
   return (
     <section className="bg-[#16372D] w-full py-[70px] relative h-full overflow-hidden">
@@ -15,6 +14,7 @@ export const Info2 = () => {
         alt=""
         width={600}
         height={300}
+        loading="lazy"
         className="absolute top-0 left-0 object-cover"
       />
       <div className="relative z-20 container text-white flex items-center justify-between gap-5 max-[920px]:flex-col-reverse">
@@ -23,6 +23,7 @@ export const Info2 = () => {
           alt="gallery"
           width={567}
           height={400}
+          loading="lazy"
           className="max-[1024px]:w-[400px] max-[920px]:w-full"
         />
         <div className=" flex flex-col justify-start items-start h-full gap-5 max-[920px]:w-full max-[920px]:mb-[30px] max-[550px]:items-center">
@@ -41,4 +42,4 @@ export const Info2 = () => {
       </div>
     </section>
   );
-};
+}

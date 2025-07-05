@@ -3,7 +3,7 @@ import { useGetQuery } from '@/api/get.api';
 import { cr2 } from '@/assets/img';
 import { BestSellersPackagesCard, SocialMedia } from '@/components/UI';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
-import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
+// import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
 import { Button, Divider } from '@mui/material';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -49,7 +49,7 @@ export const Content: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col items-start gap-5">
-      <Breadcrumbs />
+      {/* <Breadcrumbs /> */}
       <div className="flex flex-col gap-3 pt-[40px] max-[1024px]:pt-[20px] max-[768px]:gap-2">
         <h1 className="text-[56px] max-w-[70%] max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[550px]:text-[24px] max-[550px]:font-semibold font-title">
           {articleDetail?.name}

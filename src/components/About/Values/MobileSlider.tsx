@@ -1,20 +1,21 @@
 'use client';
 import { circle, circle2 } from '@/assets/img';
 import { Slider, SliderBtns } from '@/components/UI';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
+import Image from 'next/image';
 
-export const MobileSlider = () => {
-  const t = useTranslations('about');
-  const values = t.raw('values') as {
+type Props = {
+  values: {
     title: string;
     text: string;
     img: string;
     circle: string;
     circle2: string;
   }[];
+};
+
+export default function MobileSlider({ values }: Props) {
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -53,6 +54,7 @@ export const MobileSlider = () => {
                     className="aspect-square  rounded-full object-cover h-[300px] w-[300px]"
                     width={0}
                     height={0}
+                    loading="lazy"
                     alt="text"
                   />
                 </div>
@@ -81,4 +83,4 @@ export const MobileSlider = () => {
       }
     </div>
   );
-};
+}

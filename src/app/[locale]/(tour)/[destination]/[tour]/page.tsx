@@ -43,5 +43,5 @@ export default async function Tour({ params }: Props) {
     tourData?.gallery.unshift(tourData?.photo);
   }
 
-  return <TourWrapper tourData={tourData} />;
+  return <TourWrapper tourData={tourData} locale={locale} />;
 }

@@ -1,10 +1,20 @@
 import createMiddleware from 'next-intl/middleware';
+import { NextRequest } from 'next/server';
 
-export default createMiddleware({
+const intlMiddleware = createMiddleware({
   locales: ['en', 'ru'],
   defaultLocale: 'en',
   localeDetection: false,
 });
+
+export function middleware(request: NextRequest) {
+  const response = intlMiddleware(request);
+
+  // Добавляем pathname в заголовок
+  response.headers.set('x-pathname', request.nextUrl.pathname);
+
+  return response;
+}
 
 export const config = {
   matcher: ['/', '/(ru|en)/:path*'],

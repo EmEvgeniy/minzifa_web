@@ -1,7 +1,7 @@
 export const dynamic = 'force-static';
 
 import { Hero, Tours } from '@/components/Destination';
-import { Reviews } from '@/components/UI/Reviews/Reviews';
+import Reviews from '@/components/UI/Reviews/Reviews';
 
 import type { Metadata } from 'next';
 import { DestinationData } from './_types';
@@ -48,7 +48,7 @@ export default async function page({ params, searchParams }: Props) {
     <>
       <Hero destination={destination} />
       <Tours tours={tours} />
-      <Reviews />
+      <Reviews locale={locale} />
       <Articles locale={locale} />
     </>
   );

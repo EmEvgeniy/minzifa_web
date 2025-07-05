@@ -1,10 +1,10 @@
-import React from 'react';
 import Link from 'next/link';
-import WrapperMobile from './Wrapper.mobile';
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import { ArticleCard } from '@/components/UI';
+import dynamic from 'next/dynamic';
+const WrapperMobile = dynamic(() => import('./Wrapper.mobile'));
 
 export default async function Articles({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });

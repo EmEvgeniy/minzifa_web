@@ -1,8 +1,9 @@
-import { useTranslations } from 'next-intl';
-import React from 'react';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
 
-export const Mission = () => {
-  const t = useTranslations('about');
+export default async function Mission({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'about' });
+
   return (
     <section className="container my-[70px] flex flex-col gap-8 max-[550px]:my-[40px]">
       <h4 className="text-[42px] text-[#16372D] max-[768px]:text-center max-[768px]:text-[30px]">
@@ -16,4 +17,4 @@ export const Mission = () => {
       </div>
     </section>
   );
-};
+}
