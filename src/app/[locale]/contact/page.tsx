@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 import { contact_us } from '@/assets/img';
 import { Form } from '@/components/ContactUs';
 import Image from 'next/image';

@@ -1,12 +1,10 @@
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-static';
 import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import Hero from '@/components/Adventures/Hero/Hero';
-const ArticlesMain = dynamic(() => import('@/components/Adventures/ArticlesMain/ArticlesMain'));
-const FreeConsultationForm = dynamic(
-  () => import('@/components/UI/FreeConsultationForm/FreeConsultationForm'),
-);
+import ArticlesMain from '@/components/Adventures/ArticlesMain/ArticlesMain';
+import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));

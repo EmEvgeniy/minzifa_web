@@ -1,15 +1,13 @@
 'use client';
-import React, { FC } from 'react';
-import { NavMenuType } from './_types';
+
+import { NavItemType } from './_types';
 import Link from 'next/link';
 import { FaChevronDown } from 'react-icons/fa6';
 import { useNavStore } from './store';
-import { useLocale } from 'next-intl';
 
-export const Nav: FC<NavMenuType> = ({ menu }) => {
+export const Nav = ({ menu, locale }: { menu: NavItemType[]; locale: string }) => {
   const activeIndex = useNavStore((state) => state.index);
   const setActiveIndex = useNavStore((state) => state.setIndex);
-  const currentLocale = useLocale();
 
   return (
     <nav className="text-white list-none flex items-center w-full justify-end gap-5">
@@ -20,9 +18,7 @@ export const Nav: FC<NavMenuType> = ({ menu }) => {
           onMouseLeave={() => setActiveIndex(null)}
         >
           <Link
-            href={`/${currentLocale}/${el.link}`}
-            locale={currentLocale}
-            prefetch={true}
+            href={`/${locale}/${el.link}`}
             className="flex items-center justify-center gap-2 hover:text-green-500 transition-all"
           >
             <span className=" text-nowrap text-[18px]">{el.title}</span>

@@ -1,13 +1,17 @@
+export const dynamic = 'force-static';
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
 import Articles from '@/components/Home/Articles/Articles';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
-import dynamic from 'next/dynamic';
+
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { redirect } from 'next/navigation';
-import { ArticleDetail } from '@/components/Adventure/Content/Content';
+import Content, { ArticleDetail } from '@/components/Adventure/Content/Content';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
-const Content = dynamic(() => import('@/components/Adventure/Content/Content'));
+
+export function generateStaticParams() {
+  return ['en', 'ru'].map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = (await params).slug;

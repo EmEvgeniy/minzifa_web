@@ -21,7 +21,7 @@ export default async function Desctop({ locale }: DefaultComponentsProps) {
       <div className="bg-[rgba(22,55,45,0.7)] backdrop-blur-[6px] w-full py-5 px-5 rounded-[20px] flex items-center justify-between">
         <Logo locale={locale} />
         <NavWrapper>
-          <Nav menu={navItems} />
+          <Nav menu={navItems} locale={locale} />
         </NavWrapper>
       </div>
 
@@ -29,7 +29,6 @@ export default async function Desctop({ locale }: DefaultComponentsProps) {
       <Link
         href={whatsappLink}
         target="_blank"
-        prefetch={false}
         className="flex items-center justify-center gap-5 rounded-full bg-[#66B93E] px-10 [@media(max-width:1250px)]:px-5 py-[21px] text-white transition hover:bg-green-600 shadow-2xl"
       >
         <IoLogoWhatsapp size={24} />

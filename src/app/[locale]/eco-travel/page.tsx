@@ -1,4 +1,4 @@
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-static';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { eco_icon, eco_icon2, eco_icon4, eco_icon5 } from '@/assets/icons';
@@ -6,13 +6,11 @@ import { eco_bg, lr, lr2, child, animal } from '@/assets/img';
 import { respect } from '@/assets/img';
 import { DefaultPageProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
-const Environment = dynamic(() => import('@/components/Eco-travel/Environment/Environment'));
-const Economy = dynamic(() => import('@/components/Eco-travel/Economy/Economy'));
-const FreeConsultationForm = dynamic(
-  () => import('@/components/UI/FreeConsultationForm/FreeConsultationForm'),
-);
-const EnvironmentCircle = dynamic(() => import('@/components/UI/DynamicCircle/index.desktop'));
-const MobileSlider = dynamic(() => import('@/components/Eco-travel/MobileSlider/MobileSlider'));
+import EnvironmentCircle from '@/components/UI/DynamicCircle/index.desktop';
+import MobileSlider from '@/components/Eco-travel/MobileSlider/MobileSlider';
+import Environment from '@/components/Eco-travel/Environment/Environment';
+import Economy from '@/components/Eco-travel/Economy/Economy';
+import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));

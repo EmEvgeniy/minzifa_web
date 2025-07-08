@@ -1,14 +1,11 @@
+export const dynamic = 'force-static';
 import { create } from '@/assets/img';
 
 import Image from 'next/image';
 
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
-import dynamic from 'next/dynamic';
-
-const CreateYourTripFormWrapper = dynamic(
-  () => import('@/components/Create-Your-Trip/CreateYourTripFormWrapper/CreateYourTripFormWrapper'),
-);
+import CreateYourTripFormWrapper from '@/components/Create-Your-Trip/CreateYourTripFormWrapper/CreateYourTripFormWrapper';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));

@@ -1,6 +1,5 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
-import React from 'react';
 import { useNavStore } from './store';
 import { useGetQuery } from '@/api/get.api';
 import Link from 'next/link';

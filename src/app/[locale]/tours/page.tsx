@@ -1,10 +1,9 @@
+export const dynamic = 'force-static';
 import Hero from '@/components/Tours/Hero/Hero';
 import MainSection from '@/components/Tours/MainSection/MainSection';
+import MobileMenu from '@/components/Tours/MobileMenu/MobileMenu';
 import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
-
-const MobileMenu = dynamic(() => import('@/components/Tours/MobileMenu/MobileMenu'));
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));

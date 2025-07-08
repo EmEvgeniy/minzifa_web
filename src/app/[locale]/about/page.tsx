@@ -1,14 +1,13 @@
+export const dynamic = 'force-static';
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
-
 import Hero from '@/components/About/Hero/Hero';
 import Info from '@/components/About/Info/Info';
 import Info2 from '@/components/About/Info2/Info2';
 import Mission from '@/components/About/Mission/Mission';
 import Values from '@/components/About/Values/Values';
-import dynamic from 'next/dynamic';
-const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews'));
-const Destinations = dynamic(() => import('@/components/Home/Destinations/Destinations'));
+import Reviews from '@/components/UI/Reviews/Reviews';
+import Destinations from '@/components/Home/Destinations/Destinations';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));

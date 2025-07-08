@@ -45,7 +45,6 @@ export default async function ContactUs({ locale }: DefaultComponentsProps) {
               <Link
                 href={slug || '#'}
                 key={index}
-                prefetch={true}
                 className="flex flex-col items-center justify-center gap-4 text-center"
               >
                 <button

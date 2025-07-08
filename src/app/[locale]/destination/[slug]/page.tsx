@@ -1,11 +1,12 @@
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-static';
+
 import type { Metadata } from 'next';
 import { DestinationData } from './_types';
 import { ToursResponse } from '@/components/Tours/MainSection/_types';
-const Hero = dynamic(() => import('@/components/Destination/Hero/Hero'));
-const Tours = dynamic(() => import('@/components/Destination/Tours/Tours'));
-const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
-const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews'));
+import Hero from '@/components/Destination/Hero/Hero';
+import Tours from '@/components/Destination/Tours/Tours';
+import Reviews from '@/components/UI/Reviews/Reviews';
+import Articles from '@/components/Home/Articles/Articles';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
