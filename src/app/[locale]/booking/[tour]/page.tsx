@@ -7,10 +7,6 @@ type Props = {
   params: Promise<{ locale: string; tour: string }>;
 };
 
-export function generateStaticParams() {
-  return ['en', 'ru'].map((locale) => ({ locale }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = 'booking-tour';
   const locale = (await params).locale;
