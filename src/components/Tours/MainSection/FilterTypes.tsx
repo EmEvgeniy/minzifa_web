@@ -54,6 +54,7 @@ function FilterTypes({ tourTypesData, pl }: { tourTypesData: TourTypeDataRespons
                   key={el.id}
                   control={
                     <Checkbox
+                      color="secondary"
                       checked={tourTypes.includes(el.name)}
                       onChange={() => handleChangeTourTypes(el.name)}
                     />

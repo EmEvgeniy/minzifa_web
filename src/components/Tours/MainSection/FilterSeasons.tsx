@@ -58,6 +58,7 @@ function FilterSeasons({
                 key={el.value}
                 control={
                   <Checkbox
+                    color="secondary"
                     checked={seasons.includes(el.value)}
                     onChange={() => handleChangeSeasons(el.value)}
                   />

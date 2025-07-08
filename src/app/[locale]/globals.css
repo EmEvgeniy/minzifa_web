@@ -28,3 +28,8 @@ body {
 .container {
   @apply max-w-[1200px] px-[15px] w-full mx-auto;
 }
+
+#nprogress .bar {
+  background: #10b981 !important; /* зелёный */
+  height: 3px !important;
+}

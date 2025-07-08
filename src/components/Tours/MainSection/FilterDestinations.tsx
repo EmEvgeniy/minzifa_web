@@ -57,7 +57,7 @@ function FilterDestinations({
 
   return (
     <>
-      <Accordion sx={{ boxShadow: 'none' }}>
+      <Accordion color="secondary" sx={{ boxShadow: 'none' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
@@ -88,9 +88,11 @@ function FilterDestinations({
               {debouncedDestinations?.map((el) => (
                 <FormControlLabel
                   key={el.id}
+                  color="secondary"
                   control={
                     <Checkbox
                       checked={destinations.includes(el.name)}
+                      color="secondary"
                       onChange={() => handleChangeDestinations(el.name)}
                     />
                   }

@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 const defaultTheme = createTheme({
   typography: {
-    fontFamily: ['Montserrat', 'sans-serif'].join(','),
+    fontFamily: ['Inter', 'sans-serif'].join(','),
   },
   palette: {
     primary: {

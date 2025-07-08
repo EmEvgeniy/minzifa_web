@@ -65,6 +65,7 @@ function FilterDurationSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: 
             min={0}
             max={31}
             size="medium"
+            color="secondary"
             onChange={handleChangeDurations}
             valueLabelDisplay="auto"
             getAriaValueText={valuetext}

@@ -66,6 +66,7 @@ function FilterPriceSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: str
             min={0}
             max={20000}
             size="medium"
+            color="secondary"
             onChange={handleChangePrices}
             valueLabelDisplay="auto"
             getAriaValueText={valuetext}

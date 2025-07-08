@@ -58,6 +58,7 @@ function FilterHotels({
                 key={el.value}
                 control={
                   <Checkbox
+                    color="secondary"
                     checked={hotels.includes(el.value)}
                     onChange={() => handleChangeHotels(el.value)}
                   />

@@ -1,6 +1,7 @@
 import Metrics from '@/components/UI/Metrics/Metrics';
 import './[locale]/globals.css';
 import { Unbounded, Inter } from 'next/font/google';
+import ProgressBar from '@/components/UI/ProgressBar/ProgressBar';
 
 const TitleFont = Unbounded({
   subsets: ['latin', 'cyrillic'],
@@ -29,6 +30,7 @@ export default async function RootLayout({
   return (
     <html lang={params.lang}>
       <body className={`${TitleFont.variable} ${TextFont.variable}`}>
+        <ProgressBar />
         <Metrics />
         {children}
       </body>
