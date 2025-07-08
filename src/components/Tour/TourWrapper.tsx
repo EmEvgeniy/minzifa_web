@@ -1,73 +1,71 @@
-'use client';
-
-import React, { useEffect, useRef } from 'react';
-import { TourTitle } from './TourTitle/TourTitle';
 import { Tour } from './_types';
-import { TourGallery } from './TourGallery/TourGallery';
-import { TourFacts } from './TourFacts/TourFacts';
-import { TourDescription } from './TourDescription/TourDescription';
-import { TourHighlights } from './TourHighlights/TourHighlights';
-import { TourItinerary } from './TourItinerary/TourItinerary';
-
-import { TourBooking } from './TourBooking/TourBooking';
-import { TourIncludes } from './TourIncludes/TourIncludes';
-import { TourAccomodation } from './TourAccomodation/TourAccomodation';
-import { TourPrices } from './TourPrices/TourPrices';
-import Reviews from '../UI/Reviews/Reviews';
-import { useBookingStore } from '@/store/bookingStore';
-import { MobileBtn } from './MobileBtn';
 import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
-import { TourByRequest } from './TourByRequest/TourByRequest';
-import FreeConsultationForm from '../UI/FreeConsultationForm/FreeConsultationForm';
+import dynamic from 'next/dynamic';
+import TourTitle from './TourTitle/TourTitle';
+const Reviews = dynamic(() => import('../UI/Reviews/Reviews'));
+const TourHighlights = dynamic(() => import('./TourHighlights/TourHighlights'));
+const TourGallery = dynamic(() => import('./TourGallery/TourGallery'));
+const TourFacts = dynamic(() => import('./TourFacts/TourFacts'));
+const TourDescription = dynamic(() => import('./TourDescription/TourDescription'));
+const TourItinerary = dynamic(() => import('./TourItinerary/TourItinerary'));
+const TourAccomodation = dynamic(() => import('./TourAccomodation/TourAccomodation'));
+const TourByRequest = dynamic(() => import('./TourByRequest/TourByRequest'));
+const FreeConsultationForm = dynamic(
+  () => import('../UI/FreeConsultationForm/FreeConsultationForm'),
+);
+const TourIncludes = dynamic(() => import('./TourIncludes/TourIncludes'));
+const TourBooking = dynamic(() => import('./TourBooking/TourBooking'));
+const TourPrices = dynamic(() => import('./TourPrices/TourPrices'));
+const MobileBtn = dynamic(() => import('./MobileBtn/MobileBtn'));
 
-export const TourWrapper = ({ tourData, locale }: { tourData: Tour; locale: string }) => {
-  const { tour, setTour } = useBookingStore((state) => state);
-
-  const FreeConsultationBlock = useRef(null);
-
-  useEffect(() => {
-    setTour(tourData);
-  }, [tourData, setTour]);
-
+export default async function TourWrapper({
+  tourData,
+  locale,
+}: {
+  tourData: Tour;
+  locale: string;
+}) {
   return (
     <div className="w-full min-h-[200vh]">
       <div className="container pt-[150px] flex flex-col gap-10 max-[920px]:pt-[100px]">
         <div className="w-full block max-[920px]:hidden">
-          <TourTitle title={tour?.name} />
+          <TourTitle title={tourData?.name} />
         </div>
-        <TourGallery images={tour?.gallery} tourName={tour?.name} />
+        <TourGallery images={tourData?.gallery} tourName={tourData?.name} locale={locale} />
         <div className="w-full hidden max-[920px]:block">
-          <TourTitle title={tour?.name} />
+          <TourTitle title={tourData?.name} />
         </div>
         <div className="grid grid-flow-row-dense  grid-cols-[1fr_445px] max-[920px]:grid-cols-1 gap-5 max-[920px]:gap-0">
           <div className="flex flex-col gap-5 w-full">
-            {tour?.facts && <TourFacts facts={tour?.facts} />}
-            {tour?.description && (
-              <TourDescription
-                subtitle={tour?.subtitle}
-                description={tour?.description}
-                className="col-start-1 max-[920px]:gap-5 max-[920px]:py-5"
-              />
-            )}
+            <TourFacts facts={tourData?.facts} locale={locale} />
+            <TourDescription
+              subtitle={tourData?.subtitle}
+              description={tourData?.description}
+              className="col-start-1 max-[920px]:gap-5 max-[920px]:py-5"
+            />
           </div>
-          {tour?.hightlights && <TourHighlights highlights={tour?.hightlights} />}
-          <TourItinerary itineraries={tour?.itineraries} />
-          <div ref={FreeConsultationBlock} className="col-span-2 z-40 h-fit">
+          <TourHighlights highlights={tourData?.hightlights} />
+          <TourItinerary itineraries={tourData?.itineraries} locale={locale} />
+          <div id="free-consultation" className="col-span-2 z-40 h-fit">
             <FreeConsultationForm />
           </div>
-          <TourIncludes includes={tour?.includes} />
-          {tour?.prices.length ? (
-            <TourBooking prices={tour?.prices} className="z-30 max-[920px]:hidden" />
+          <TourIncludes includes={tourData?.includes} locale={locale} />
+          {tourData?.prices.length ? (
+            <TourBooking
+              prices={tourData?.prices}
+              className="z-30 max-[920px]:hidden"
+              tour={tourData}
+            />
           ) : (
-            <TourByRequest ref={FreeConsultationBlock} />
+            <TourByRequest locale={locale} />
           )}
         </div>
-        <TourAccomodation hotels={tour?.hotels} />
-        <TourPrices />
+        <TourAccomodation hotels={tourData.hotels} locale={locale} />
+        <TourPrices tour={tourData} />
         <Reviews locale={locale} />
         <CreateYourTripForm className="mb-5" />
       </div>
-      <MobileBtn />
+      <MobileBtn locale={locale} tour={tourData} />
     </div>
   );
-};
+}

@@ -1,12 +1,12 @@
-import React from 'react';
 import Desctop from './Desctop';
 import { Mobile } from './Mobile';
+import { DefaultComponentsProps } from '@/types';
 
-export const TopNav = () => {
+export default async function TopNav({ locale }: DefaultComponentsProps) {
   return (
     <div className="w-full">
-      <Desctop />
+      <Desctop locale={locale} />
       <Mobile />
     </div>
   );
-};
+}

@@ -11,8 +11,9 @@ import { useLocale, useTranslations } from 'next-intl';
 import { NavItemType } from './_types';
 import Image from 'next/image';
 import { logo } from '@/assets/icons';
-import { SocialMedia } from '../UI';
+
 import { useRouter } from 'next/navigation';
+import SocialMedia from '../UI/SocialMedia/SocialMedia';
 
 export const MobileHeader = () => {
   const [open, setOpen] = useState(false);

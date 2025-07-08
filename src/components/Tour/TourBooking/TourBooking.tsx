@@ -1,7 +1,7 @@
 'use client';
 
 import { cn, date_end, formatted_date } from '@/utils/utils';
-import { Price } from '../_types';
+import { Price, Tour } from '../_types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
@@ -15,9 +15,10 @@ import Image from 'next/image';
 interface TourBookingProps {
   prices: Price[] | undefined;
   className?: string;
+  tour: Tour;
 }
 
-export const TourBooking = ({ prices, className }: TourBookingProps) => {
+export default function TourBooking({ prices, className, tour }: TourBookingProps) {
   const t = useTranslations('Tour');
   const locale = useLocale();
 
@@ -27,7 +28,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
   const [selectedPrice, setSelectedPrice] = useState<Price | undefined>(undefined);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
-  const { tour, setBookingData } = useBookingStore((state) => state);
+  const { setBookingData } = useBookingStore((state) => state);
 
   const handleBookingData = (
     selectedPrice: Price | undefined,
@@ -37,8 +38,6 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
     if (!tour || !selectedPrice) return;
     setBookingData({
       passengers: [],
-      adults: 1,
-      childrens: 1,
       tour_name: tour.name,
       tour_start: formatted_date(selectedPrice.date_start, locale),
       tour_end: date_end(selectedPrice.date_start, locale, tour.days || tour?.itineraries.length),
@@ -52,7 +51,21 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
       currency: selectedPrice.valute,
       total_seats: selectedPrice.tour_total_seats,
     });
-    router.push(`/${locale}/booking/${tour?.slug}`);
+    const params = new URLSearchParams({
+      tour_name: tour.name,
+      tour_start: formatted_date(selectedPrice.date_start, locale),
+      tour_end: date_end(selectedPrice.date_start, locale, tour.days || tour?.itineraries.length),
+      travellers_count: travellers.toString(),
+      tour_price: selectedPrice.price_for_double.toString(),
+      deposit: (totalPrice * 0.15).toString(),
+      total_price: totalPrice.toString(),
+      payment_type: 'cash',
+      payment_status: 'pending',
+      single_price: selectedPrice.price_for_single.toString(),
+      currency: selectedPrice.valute,
+      total_seats: selectedPrice.tour_total_seats.toString(),
+    });
+    router.push(`/${locale}/booking/${tour?.slug}?${params.toString()}`);
   };
 
   useEffect(() => {
@@ -83,7 +96,7 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
             {() => (
               <div className="flex flex-row items-center gap-2">
                 <Image src={IconCalendar} width={24} height={24} alt="calendar" />
-                <div>{formatted_date(selectedPrice?.date_start || "", locale)}</div>
+                <div>{formatted_date(selectedPrice?.date_start || '', locale)}</div>
               </div>
             )}
           </DropdownSummary>
@@ -133,4 +146,4 @@ export const TourBooking = ({ prices, className }: TourBookingProps) => {
       </div>
     </div>
   );
-};
+}

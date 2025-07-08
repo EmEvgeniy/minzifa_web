@@ -1,10 +1,9 @@
-import { useLocale, useTranslations } from 'next-intl';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import React from 'react';
 
-export const FooterMiddle = () => {
-  const t = useTranslations('footer');
-  const locale = useLocale();
+export default async function FooterMiddle({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'footer' });
   const menu = t.raw('Menu') as { title: string; link: string }[];
   const menu2 = t.raw('Useful_information') as { title: string; link: string }[];
 
@@ -14,7 +13,7 @@ export const FooterMiddle = () => {
         <p className="text-[20px] font-semibold">{t('Menu_title')}</p>
         <nav className="flex flex-col gap-3 text-[16px] font-light">
           {menu.map((el) => (
-            <Link href={`/${locale}/${el.link}`} key={el.link} prefetch={true}>
+            <Link href={`/${locale}/${el.link}`} key={el.link}>
               {el.title}
             </Link>
           ))}
@@ -24,7 +23,7 @@ export const FooterMiddle = () => {
         <p className="text-[20px] font-semibold">{t('Useful_information_title')}</p>
         <nav className="flex flex-col gap-3 text-[16px] font-light">
           {menu2.map((el) => (
-            <Link href={`/${locale}/${el.link}`} key={el.link} prefetch={true}>
+            <Link href={`/${locale}/${el.link}`} key={el.link}>
               {el.title}
             </Link>
           ))}
@@ -32,4 +31,4 @@ export const FooterMiddle = () => {
       </div>
     </div>
   );
-};
+}

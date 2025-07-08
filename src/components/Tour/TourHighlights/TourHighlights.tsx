@@ -1,6 +1,6 @@
 import { Highlights } from '../_types';
 
-export const TourHighlights = ({ highlights }: { highlights: Highlights }) => {
+export default function TourHighlights({ highlights }: { highlights: Highlights }) {
   if (!highlights || highlights?.content?.length === 0) return null;
 
   return (
@@ -27,4 +27,4 @@ export const TourHighlights = ({ highlights }: { highlights: Highlights }) => {
       </ul>
     </div>
   );
-};
+}

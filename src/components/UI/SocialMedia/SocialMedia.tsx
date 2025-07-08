@@ -1,11 +1,10 @@
-import React from 'react';
 import { cn } from '@/utils/utils';
 import { SocialMediaProps } from './_types';
 import { useLocale } from 'next-intl';
 import { contacts } from '@/store/contacts';
 import Link from 'next/link';
 
-export const SocialMedia: React.FC<SocialMediaProps> = ({
+export default function SocialMedia({
   socials = contacts.social_media,
   direction = 'horizontal',
   iconSize = 24,
@@ -15,7 +14,7 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({
   gap = 10,
   linkClassName,
   className,
-}) => {
+}: SocialMediaProps) {
   const locale = useLocale();
   return (
     <div
@@ -27,27 +26,31 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({
         flexWrap: 'wrap',
       }}
     >
-      {socials.map(({ Icon, url }, index) => url && url[locale] && (
-        <Link
-          className={cn(linkClassName)}
-          key={index}
-          href={url[locale]}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: `${iconSize}px`,
-            height: `${iconSize}px`,
-            borderRadius: withBackground ? '50%' : 'none',
-            backgroundColor: withBackground ? backgroundColor : 'transparent',
-            textDecoration: 'none',
-          }}
-        >
-          {Icon && <Icon size={iconSize} color={iconColor} />}
-        </Link>
-      ))}
+      {socials.map(
+        ({ Icon, url }, index) =>
+          url &&
+          url[locale] && (
+            <Link
+              className={cn(linkClassName)}
+              key={index}
+              href={url[locale]}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: `${iconSize}px`,
+                height: `${iconSize}px`,
+                borderRadius: withBackground ? '50%' : 'none',
+                backgroundColor: withBackground ? backgroundColor : 'transparent',
+                textDecoration: 'none',
+              }}
+            >
+              {Icon && <Icon size={iconSize} color={iconColor} />}
+            </Link>
+          ),
+      )}
     </div>
   );
-};
+}

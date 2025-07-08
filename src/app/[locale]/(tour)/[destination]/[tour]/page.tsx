@@ -1,17 +1,12 @@
-export const dynamic = 'force-static';
-
 import { Tour as TourData } from '@/components/Tour/_types';
-import { TourWrapper } from '@/components/Tour/TourWrapper';
+import TourWrapper from '@/components/Tour/TourWrapper';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
 };
 
-export function generateStaticParams() {
-  return ['en', 'ru'].map((locale) => ({ locale }));
-}
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tour: slug, locale } = await params;
 
@@ -30,14 +25,14 @@ export default async function Tour({ params }: Props) {
   const { tour: slug, locale } = await params;
 
   const res = await fetch(`https://api.minzifatravel.com/api/v1/tours/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 },
+    next: { revalidate: 60 * 20 },
   });
 
-  if (!res.ok) notFound();
+  if (!res.ok) redirect(`/${locale}`);
 
   const tourData: TourData = await res.json();
 
-  if (!tourData?.id) notFound();
+  if (!tourData?.id) redirect(`/${locale}`);
 
   if (tourData?.photo) {
     tourData?.gallery.unshift(tourData?.photo);

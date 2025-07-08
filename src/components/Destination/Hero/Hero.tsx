@@ -1,16 +1,26 @@
 import { DestinationData } from '@/app/[locale]/destination/[slug]/_types';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
-import React from 'react';
 
-export const Hero = ({ destination }: { destination: DestinationData }) => {
-  const t = useTranslations();
-  
+export default async function Hero({
+  destination,
+  locale,
+}: {
+  destination: DestinationData;
+  locale: string;
+}) {
+  const t = await getTranslations({ locale });
+
   return (
     <section className="min-h-[90svh] bg-[#16372D] w-full relative flex items-center justify-center">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
       {destination?.media?.file && (
-        <Image src={destination?.media?.file} alt="bg" fill className=" object-cover absolute top-0" />
+        <Image
+          src={destination?.media?.file}
+          alt="bg"
+          fill
+          className=" object-cover absolute top-0"
+        />
       )}
       <div className="relative z-30 container flex flex-col items-center justify-center gap-5 text-white">
         <div className="w-[65px] h-[65px]">
@@ -27,4 +37,4 @@ export const Hero = ({ destination }: { destination: DestinationData }) => {
       </div>
     </section>
   );
-};
+}

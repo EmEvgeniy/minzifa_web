@@ -1,6 +1,6 @@
 import { cn } from '@/utils/utils';
 import Markdown from 'markdown-to-jsx';
-import React from 'react';
+import { Fragment } from 'react';
 
 const options = {
   overrides: {
@@ -66,7 +66,7 @@ const options = {
       },
     },
   },
-  wrapper: React.Fragment,
+  wrapper: Fragment,
 };
 
 type DescriptionProps = {
@@ -75,11 +75,13 @@ type DescriptionProps = {
   className?: string;
 };
 
-export const TourDescription = ({
+export default function TourDescription({
   description,
   subtitle = '',
   className = '',
-}: DescriptionProps) => {
+}: DescriptionProps) {
+  if (!description) return null;
+
   return (
     <div className={cn(className)}>
       {subtitle && (
@@ -90,4 +92,4 @@ export const TourDescription = ({
       <Markdown options={options}>{description}</Markdown>
     </div>
   );
-};
+}

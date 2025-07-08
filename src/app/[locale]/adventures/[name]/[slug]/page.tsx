@@ -1,13 +1,13 @@
-// import { Content } from '@/components/Adventure';
-export const dynamic = 'force-static';
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
 import Articles from '@/components/Home/Articles/Articles';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
-
-export function generateStaticParams() {
-  return ['en', 'ru'].map((locale) => ({ locale }));
-}
+import dynamic from 'next/dynamic';
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
+import { redirect } from 'next/navigation';
+import { ArticleDetail } from '@/components/Adventure/Content/Content';
+import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
+const Content = dynamic(() => import('@/components/Adventure/Content/Content'));
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = (await params).slug;
@@ -25,14 +25,34 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 }
 
 export default async function page({ params }: DefaultPageProps) {
-  const locale = await params;
+  const { locale, slug } = await params;
+
+  const res = await fetch(
+    `https://api.minzifatravel.com/api/v1/articles/${slug}?locale=${locale}`,
+    {
+      next: { revalidate: 60 * 20 },
+    },
+  );
+  const res2 = await fetch(
+    `https://api.minzifatravel.com/api/v1/tours?show_in_article=1&limit=2&random=1&locale=${locale}`,
+    {
+      next: { revalidate: 60 * 20 },
+    },
+  );
+
+  const article: ArticleDetail = await res.json();
+  const tours: BestSellersPackagesCardType[] = await res2.json();
+
+  if (res.status !== 200) redirect(`/${locale}`);
+
   return (
     <section className=" pt-[150px] min-h-[100svh] max-[1200px]:pt-[120px] max-[550px]:pt-[100px]">
-      {/* <div className="container">
-        <Content />
-      </div> */}
+      <div className="container">
+        <Breadcrumbs />
+        <Content locale={locale} articleDetail={article} tours={tours} />
+      </div>
 
-      <Articles locale={locale.locale} />
+      <Articles locale={locale} />
 
       <div className="container">
         <FreeConsultationForm />

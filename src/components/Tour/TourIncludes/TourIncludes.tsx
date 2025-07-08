@@ -1,102 +1,44 @@
-'use client';
-
-import {
-  CustomAccordion,
-  CustomAccordionDetails,
-  CustomAccordionSummary,
-} from '@/components/UI/CustomAccordion/CustomAccordion';
+import { getTranslations } from 'next-intl/server';
 import { Include } from '../_types';
-import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 
-import AccomodationIcon from '../../../assets/icons/includes_icons/Accomodation.svg';
-import MealsIcon from '../../../assets/icons/includes_icons/Meals.svg';
-import TrasfersIcon from '../../../assets/icons/includes_icons/Car.svg';
-import TicketIcon from '../../../assets/icons/includes_icons/Ticket.svg';
-import GuideIcon from '../../../assets/icons/includes_icons/Guide.svg';
-import AdditionalIcon from '../../../assets/icons/includes_icons/Add_ring_light.svg';
+const TourIncludesInner = dynamic(() => import('./TourIncludesInner'));
 
-import ExcludeIcon from '../../../assets/icons/includes_icons/exclude.svg';
-import Image from 'next/image';
+export default async function TourIncludes({
+  includes,
+  locale,
+}: {
+  includes: Include[] | undefined;
+  locale: string;
+}) {
+  const t = await getTranslations({ locale, namespace: 'Tour' });
+  const categories = t.raw('includes.categories') as {
+    accommodation: string;
+    meals: string;
+    transfer: string;
+    tickets: string;
+    guide: string;
+    additional_service: string;
+    airway_tickets: string;
+    'off-plan meals': string;
+    visa: string;
+    insurance: string;
+    personal_expenses: string;
+  };
 
-const icons: { [key: string]: string } = {
-  accommodation: AccomodationIcon,
-  meals: MealsIcon,
-  transfer: TrasfersIcon,
-  tickets: TicketIcon,
-  guide: GuideIcon,
-  additional_service: AdditionalIcon,
-  visa: ExcludeIcon,
-  airway_tickets: TicketIcon,
-  'off-plan meals': MealsIcon,
-  insurance: '',
-  personal_expenses: '',
-  exclude: ExcludeIcon,
-};
-
-export const TourIncludes = ({ includes }: { includes: Include[] | undefined }) => {
-  const t = useTranslations('Tour');
-
-  const [includeAccordionIndexes, setIncludeAccordionIndexes] = useState<number[] | undefined>([]);
-  const [excludeAccordionIndexes, setExcludeAccordionIndexes] = useState<number[] | undefined>([]);
-
-  const includeItems = includes?.filter((item) => item.type === 'include');
-  const excludeItems = includes?.filter((item) => item.type === 'exclude');
-
-  useEffect(() => {
-    setIncludeAccordionIndexes(Array.from({ length: includeItems?.length || 0 }, (_, i) => i));
-    setExcludeAccordionIndexes(Array.from({ length: excludeItems?.length || 0 }, (_, i) => i));
-  }, [includes, includeItems?.length, excludeItems?.length]);
-
-  if (!includes) {
-    return null;
-  }
+  if (!includes) return null;
 
   return (
     <div className="flex flex-col gap-5 col-start-1">
       <h2 className="text-4xl font-semibold text-black max-[920px]:text-[30px] max-[550px]:text-[24px]">
         {t('includes.title')}
       </h2>
-      {[includeItems, excludeItems].map((items, index) => {
-        if (!items || items.length === 0) return null;
-        return (
-          <div className="bg-white rounded-2xl" key={index}>
-            <h2 className="text-2xl font-semibold text-black p-5 max-[920px]:text-[30px] max-[550px]:text-[20px]">
-              {index === 0 ? t('includes.include') : t('includes.exclude')}
-            </h2>
-            <CustomAccordion
-              expandedIndexes={index === 0 ? includeAccordionIndexes : excludeAccordionIndexes}
-              onExpandedIndexesChange={
-                index === 0 ? setIncludeAccordionIndexes : setExcludeAccordionIndexes
-              }
-            >
-              {items?.map((include) => {
-                return (
-                  <div key={include.id}>
-                    <CustomAccordionSummary className="rounded-none">
-                      <div className="flex flex-row gap-3 items-center text-base font-semibold">
-                        <Image
-                          width={28}
-                          height={28}
-                          alt={include.category}
-                          src={index === 0 ? icons[include.category] : icons.exclude}
-                        />
-                        {t(`includes.categories.${include.category}`)}
-                      </div>
-                    </CustomAccordionSummary>
-                    <CustomAccordionDetails className='max-w-[600px]'>
-                      <ul className="pl-10 text-base list-disc list-inside">
-                        {include.service.split('\r\n').map((item, index) => <li key={index}>{item}</li>)}
-                      </ul>
-                    </CustomAccordionDetails>
-                  </div>
-                )
-              })}
-            </CustomAccordion>
-          </div>
-        );
-      })}
-
+      <TourIncludesInner
+        includes={includes}
+        pl={t('includes.include')}
+        pl2={t('includes.exclude')}
+        pl3={categories}
+      />
       <div className="bg-[#E2FFF4] p-5 rounded-2xl flex flex-row gap-2.5 items-center text-lg max-[920px]:text-[12px] max-[550px]:p-2.5 max-[550px]:text-[12px]">
         <svg
           width="30"
@@ -114,4 +56,4 @@ export const TourIncludes = ({ includes }: { includes: Include[] | undefined }) 
       </div>
     </div>
   );
-};
+}

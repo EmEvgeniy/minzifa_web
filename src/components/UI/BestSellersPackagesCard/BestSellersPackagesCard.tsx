@@ -37,18 +37,16 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
               <span>{t('tourCard.days')}</span>
             </p>
             <p className="flex items-center justify-start gap-1.5 text-[18px]">
-              {
-                slide.price ? (
-                  <>
-                    <span className="text-[#464646]">{t('tourCard.from')}</span>
-                    <span className="font-semibold text-[24px]">
-                      {slide?.valute ?? '$'} {slide?.price}
-                    </span>
-                  </>
-                ) : (
-                    <span>{t('tourCard.byRequest')}</span>
-                )
-              }
+              {slide.price ? (
+                <>
+                  <span className="text-[#464646]">{t('tourCard.from')}</span>
+                  <span className="font-semibold text-[24px]">
+                    {slide?.valute ?? '$'} {slide?.price}
+                  </span>
+                </>
+              ) : (
+                <span>{t('tourCard.byRequest')}</span>
+              )}
             </p>
           </div>
           <button className="bg-[#27A430] px-[15px] py-[12px] text-white text-[14px] rounded-[16px] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)] text-base">

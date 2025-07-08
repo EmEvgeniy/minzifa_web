@@ -16,6 +16,7 @@ export const LangBtn = () => {
     if (!pathname) return '/';
     const segments = pathname.split('/');
     segments[1] = locale;
+
     return segments.join('/');
   };
 

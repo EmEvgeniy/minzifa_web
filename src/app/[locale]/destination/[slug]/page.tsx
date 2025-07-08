@@ -1,21 +1,16 @@
-export const dynamic = 'force-static';
-
-import { Hero, Tours } from '@/components/Destination';
-import Reviews from '@/components/UI/Reviews/Reviews';
-
+import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
 import { DestinationData } from './_types';
 import { ToursResponse } from '@/components/Tours/MainSection/_types';
-import Articles from '@/components/Home/Articles/Articles';
+const Hero = dynamic(() => import('@/components/Destination/Hero/Hero'));
+const Tours = dynamic(() => import('@/components/Destination/Tours/Tours'));
+const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
+const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews'));
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
   searchParams: Promise<{ page?: string }>;
 };
-
-export function generateStaticParams() {
-  return ['en', 'ru'].map((locale) => ({ locale }));
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
@@ -46,7 +41,7 @@ export default async function page({ params, searchParams }: Props) {
 
   return (
     <>
-      <Hero destination={destination} />
+      <Hero destination={destination} locale={locale} />
       <Tours tours={tours} />
       <Reviews locale={locale} />
       <Articles locale={locale} />

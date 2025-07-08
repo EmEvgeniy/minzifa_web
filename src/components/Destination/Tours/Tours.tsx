@@ -5,13 +5,13 @@ import { BestSellersPackagesCard } from '@/components/UI';
 import { Pagination, Skeleton } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export const Tours = ({ tours }: { tours: ToursResponse }) => {
+export default function Tours({ tours }: { tours: ToursResponse }) {
   const page = Number(useSearchParams().get('page')) || 1;
   const router = useRouter();
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     router.push(`?page=${value}`);
-  }
+  };
 
   const totalPages = tours?.meta?.last_page || 1;
 
@@ -20,21 +20,22 @@ export const Tours = ({ tours }: { tours: ToursResponse }) => {
       <div className="w-full flex flex-col gap-10 items-center">
         <div className="grid grid-cols-3 gap-5 w-full h-full">
           {tours?.data?.length > 0
-            ? tours?.data?.map((el: AllToursCardType) => <BestSellersPackagesCard slide={el} key={el.id} />)
+            ? tours?.data?.map((el: AllToursCardType) => (
+                <BestSellersPackagesCard slide={el} key={el.id} />
+              ))
             : Array.from({ length: 9 })
-              .fill(1)
-              .map((_, i) => (
-                <Skeleton
-                  sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                  variant="rectangular"
-                  width={'100%'}
-                  key={i}
-                  height={375}
-                />
-              ))}
+                .fill(1)
+                .map((_, i) => (
+                  <Skeleton
+                    sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
+                    variant="rectangular"
+                    width={'100%'}
+                    key={i}
+                    height={375}
+                  />
+                ))}
         </div>
-        {
-          totalPages > 1 &&
+        {totalPages > 1 && (
           <Pagination
             color="primary"
             count={totalPages}
@@ -43,8 +44,8 @@ export const Tours = ({ tours }: { tours: ToursResponse }) => {
             onChange={handlePageChange}
             shape="rounded"
           />
-        }
+        )}
       </div>
     </section>
   );
-};
+}

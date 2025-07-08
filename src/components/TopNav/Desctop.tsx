@@ -1,16 +1,17 @@
-import { Logo, LangBtn } from '../UI';
+import { LangBtn } from '../UI';
 import { NavWrapper } from './NavWrapper';
 import { Nav } from './Nav';
 import { IoLogoWhatsapp } from 'react-icons/io';
 import Link from 'next/link';
 import { contacts } from '@/store/contacts';
-import { getTranslations, getLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { NavItemType } from './_types';
+import Logo from '../UI/Logo/Logo';
+import { DefaultComponentsProps } from '@/types';
 
-export default async function Desctop() {
-  const t = await getTranslations();
-  const locale = await getLocale();
-  const navItems = t.raw('navigation.nav') as NavItemType[];
+export default async function Desctop({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'navigation' });
+  const navItems = t.raw('nav') as NavItemType[];
 
   const wa = contacts?.social_media?.find((item) => item.name === 'WhatsApp');
   const whatsappLink = wa?.url?.[locale] || '#';
@@ -18,7 +19,7 @@ export default async function Desctop() {
   return (
     <header className="container w-full fixed top-10 left-1/2 -translate-x-1/2 [@media(max-width:1024px)]:hidden flex items-center justify-between gap-5 z-50">
       <div className="bg-[rgba(22,55,45,0.7)] backdrop-blur-[6px] w-full py-5 px-5 rounded-[20px] flex items-center justify-between">
-        <Logo />
+        <Logo locale={locale} />
         <NavWrapper>
           <Nav menu={navItems} />
         </NavWrapper>

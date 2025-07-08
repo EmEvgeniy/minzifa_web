@@ -1,20 +1,16 @@
-export const dynamic = 'force-static';
-
 import { contact_us } from '@/assets/img';
-import { Form, LeftInfo } from '@/components/ContactUs';
+import { Form } from '@/components/ContactUs';
 import Image from 'next/image';
 import React from 'react';
 import { Metadata } from 'next';
-
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+import LeftInfo from '@/components/ContactUs/LeftInfo/LeftInfo';
+import { DefaultPageProps } from '@/types';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = 'contact-us';
   const locale = (await params).locale;
 
@@ -43,7 +39,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function page() {
+export default async function page({ params }: DefaultPageProps) {
+  const { locale } = await params;
+
   return (
     <section className="bg-[#16372D] w-full relative min-h-[90svh] h-full flex items-center justify-center py-[150px] max-[1024px]:min-h-[100svh] max-[768px]:py-[100px]">
       <Image
@@ -55,7 +53,7 @@ export default async function page() {
       />
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
       <div className="container flex items-start justify-between gap-5 w-full relative z-30 h-full max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-center">
-        <LeftInfo />
+        <LeftInfo locale={locale} />
         <div className="w-full block max-[768px]:hidden">
           <Form />
         </div>

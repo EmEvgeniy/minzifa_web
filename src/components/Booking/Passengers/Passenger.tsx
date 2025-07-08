@@ -61,8 +61,10 @@ const RadioButton = ({
 
 export const Passenger = ({
   index,
+  hints,
 }: {
   index: number;
+  hints: string[];
   errors?: Partial<Record<keyof PassengerType, string[]>>;
 }) => {
   const locale = useLocale();
@@ -121,6 +123,7 @@ export const Passenger = ({
       console.warn('bookingData или passengers не инициализированы');
       return;
     }
+    console.log(bookingData);
 
     const keys = path.split('.');
 
@@ -149,8 +152,6 @@ export const Passenger = ({
 
     newPassengers[index] = passenger;
 
-    console.log(newPassengers);
-
     setBookingData({
       ...bookingData,
       passengers: newPassengers,
@@ -161,9 +162,9 @@ export const Passenger = ({
     <div className="space-y-6">
       <div className="bg-[#C5DCD3]/50 rounded-2xl px-2.5 py-5 flex flex-row items-center gap-2 max-[768px]:text-[12px]">
         <Image src={IconInfo} alt={''} width={30} height={30} />
-        {t.rich('passenger.passenger_hint', {
-          strong: (chunks) => <b>{chunks}</b>,
-        })}
+        {hints.map((el) => (
+          <p key={el}>{el}</p>
+        ))}
       </div>
       {/* Personal Information section */}
       <div className="space-y-4">
@@ -311,48 +312,52 @@ export const Passenger = ({
         </div>
       </div>
 
-      <hr className="border-[#16372D]/20" />
+      {index === 0 && <hr className="border-[#16372D]/20" />}
       {/* Address Information section */}
-      <span className="block text-sm font-medium text-gray-700">{t('passenger.adress')}</span>
+      {index === 0 && (
+        <span className="block text-sm font-medium text-gray-700">{t('passenger.adress')}</span>
+      )}
 
-      <div className="mt-2 space-y-4">
-        {/* Street Address */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <InputField
-            value={bookingData?.passengers?.[index]?.main_address?.address || ''}
-            onChange={(e) => updatePassengerField(index, 'main_address.address', e.target.value)}
-            placeholder={t('passenger.adress_line', { number: 1 })}
-          />
-          <InputField
-            value={bookingData?.passengers?.[index]?.main_address?.address2 || ''}
-            onChange={(e) => updatePassengerField(index, 'main_address.address2', e.target.value)}
-            placeholder={t('passenger.adress_line', { number: 2 })}
-          />
-        </div>
+      {index === 0 && (
+        <div className="mt-2 space-y-4">
+          {/* Street Address */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <InputField
+              value={bookingData?.passengers?.[index]?.main_address?.address || ''}
+              onChange={(e) => updatePassengerField(index, 'main_address.address', e.target.value)}
+              placeholder={t('passenger.adress_line', { number: 1 })}
+            />
+            <InputField
+              value={bookingData?.passengers?.[index]?.main_address?.address2 || ''}
+              onChange={(e) => updatePassengerField(index, 'main_address.address2', e.target.value)}
+              placeholder={t('passenger.adress_line', { number: 2 })}
+            />
+          </div>
 
-        {/* City, State/Province, Postal Code */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <InputField
-            value={bookingData?.passengers?.[index]?.main_address?.province || ''}
-            onChange={(e) => updatePassengerField(index, 'main_address.province', e.target.value)}
-            placeholder={t('passenger.province')}
-          />
-          <InputField
-            value={bookingData?.passengers?.[index]?.main_address?.state || ''}
-            onChange={(e) => updatePassengerField(index, 'main_address.state', e.target.value)}
-            placeholder={t('passenger.state')}
-          />
+          {/* City, State/Province, Postal Code */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <InputField
+              value={bookingData?.passengers?.[index]?.main_address?.province || ''}
+              onChange={(e) => updatePassengerField(index, 'main_address.province', e.target.value)}
+              placeholder={t('passenger.province')}
+            />
+            <InputField
+              value={bookingData?.passengers?.[index]?.main_address?.state || ''}
+              onChange={(e) => updatePassengerField(index, 'main_address.state', e.target.value)}
+              placeholder={t('passenger.state')}
+            />
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            <InputField
+              value={bookingData?.passengers?.[index]?.main_address?.postal_code || ''}
+              onChange={(e) =>
+                updatePassengerField(index, 'main_address.postal_code', e.target.value)
+              }
+              placeholder={t('passenger.zip')}
+            />
+          </div>
         </div>
-        <div className="grid grid-cols-1 gap-4">
-          <InputField
-            value={bookingData?.passengers?.[index]?.main_address?.postal_code || ''}
-            onChange={(e) =>
-              updatePassengerField(index, 'main_address.postal_code', e.target.value)
-            }
-            placeholder={t('passenger.zip')}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 };

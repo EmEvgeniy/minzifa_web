@@ -25,8 +25,6 @@ export type Passenger = {
 };
 
 export type BookingTourData = {
-  adults?: number;
-  childrens?: number;
   tour_name?: string;
   tour_start?: string;
   tour_end?: string;
@@ -65,8 +63,13 @@ export const useBookingStore = create<BookingStoreData>()(
       },
       selectedPrice: undefined,
       setTour: (tour: Tour | undefined) => set({ tour: tour }),
-      setBookingData: (bookingData: BookingTourData) =>
-        set(bookingData ? { bookingData: bookingData } : { bookingData: {} }),
+      setBookingData: (data) =>
+        set((state) => ({
+          bookingData: {
+            ...state.bookingData,
+            ...data,
+          },
+        })),
     }),
     {
       name: 'booking-storage',

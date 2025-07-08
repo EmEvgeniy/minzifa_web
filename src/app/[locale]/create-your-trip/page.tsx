@@ -1,20 +1,20 @@
-export const dynamic = 'force-static';
-
 import { create } from '@/assets/img';
-import { CreateYourTripFormWrapper } from '@/components/Create-Your-Trip';
-import Image from 'next/image';
-import React from 'react';
-import { Metadata } from 'next';
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+import Image from 'next/image';
+
+import { Metadata } from 'next';
+import { DefaultPageProps } from '@/types';
+import dynamic from 'next/dynamic';
+
+const CreateYourTripFormWrapper = dynamic(
+  () => import('@/components/Create-Your-Trip/CreateYourTripFormWrapper/CreateYourTripFormWrapper'),
+);
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = 'create-your-trip';
   const locale = (await params).locale;
 
@@ -29,12 +29,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function page() {
+export default async function page({ params }: DefaultPageProps) {
+  const { locale } = await params;
+
   return (
     <section className="bg-[#16372D] w-full h-full min-h-[90svh] relative flex items-center">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-      <Image src={create} alt="background-image" fill className="absolute top-0 object-cover" />
-      <CreateYourTripFormWrapper />
+      <Image
+        src={create}
+        alt="background-image"
+        fill
+        className="absolute top-0 object-cover"
+        loading="lazy"
+      />
+      <CreateYourTripFormWrapper locale={locale} />
     </section>
   );
 }

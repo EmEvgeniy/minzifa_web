@@ -27,14 +27,14 @@ export type FilterStoreData = {
 export const useFilterStore = create<FilterStoreData>()(
   persist(
     (set, get) => ({
-      prices: [],
-      durations: [],
+      prices: [0, 20000],
+      durations: [1, 31],
       seasons: [],
       hotels: [],
       tourTypes: [],
       destinations: [],
       sort: 'newest',
-      page: "1",
+      page: '1',
       isLoading: true,
       setPrices: (prices) => set({ prices: prices }),
       setDurations: (durations) => set({ durations: durations }),
@@ -44,35 +44,38 @@ export const useFilterStore = create<FilterStoreData>()(
             ? state.seasons.filter((v) => v !== season)
             : [...state.seasons, season],
         })),
-      setHotels: (hotel: string) => set((state) => ({
-        hotels: state.hotels.includes(hotel)
-          ? state.hotels.filter((v) => v !== hotel)
-          : [...state.hotels, hotel],
-      })),
-      setTourTypes: (type: string) => set((state) => ({
-        tourTypes: state.tourTypes.includes(type)
-          ? state.tourTypes.filter((v) => v !== type)
-          : [...state.tourTypes, type],
-      })),
-      setDestinations: (destination: string) => set((state) => ({
-        destinations: state.destinations.includes(destination)
-          ? state.destinations.filter((v) => v !== destination)
-          : [...state.destinations, destination],
-      })),
+      setHotels: (hotel: string) =>
+        set((state) => ({
+          hotels: state.hotels.includes(hotel)
+            ? state.hotels.filter((v) => v !== hotel)
+            : [...state.hotels, hotel],
+        })),
+      setTourTypes: (type: string) =>
+        set((state) => ({
+          tourTypes: state.tourTypes.includes(type)
+            ? state.tourTypes.filter((v) => v !== type)
+            : [...state.tourTypes, type],
+        })),
+      setDestinations: (destination: string) =>
+        set((state) => ({
+          destinations: state.destinations.includes(destination)
+            ? state.destinations.filter((v) => v !== destination)
+            : [...state.destinations, destination],
+        })),
       setSort: (sort: string) => set({ sort: sort }),
       setPage: (page: number | string) => set({ page: page }),
       setIsLoading: (isLoading: boolean) => set({ isLoading: isLoading }),
       resetFilters: () =>
         set({
-          prices: [],
-          durations: [],
+          prices: [0, 20000],
+          durations: [1, 31],
           seasons: [],
           hotels: [],
           tourTypes: [],
           destinations: [],
           sort: 'newest',
           page: 1,
-          isLoading: false
+          isLoading: false,
         }),
       buildFilterQuery: () => {
         const { prices, durations, destinations, seasons, hotels, tourTypes } = get();

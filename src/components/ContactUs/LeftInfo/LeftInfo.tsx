@@ -1,13 +1,12 @@
-import { SocialMedia } from '@/components/UI';
-import { useLocale, useTranslations } from 'next-intl';
-import React from 'react';
 import { Form } from '../Form';
 import { contacts } from '@/store/contacts';
 import Link from 'next/link';
+import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
+import { getTranslations } from 'next-intl/server';
+import { DefaultComponentsProps } from '@/types';
 
-export const LeftInfo = () => {
-  const t = useTranslations();
-  const locale = useLocale();
+export default async function LeftInfo({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale });
 
   return (
     <div className="w-full flex flex-col h-full items-start justify-start gap-20 min-h-[45svh] max-[768px]:items-center max-[768px]:min-h-full">
@@ -15,10 +14,16 @@ export const LeftInfo = () => {
         <h2 className="mb-4 w-full text-[56px] leading-tight font-bold tracking-tight text-white/70 max-[1024px]:text-[35px] max-[768px]:text-center font-title">
           {t('contact_us.title')}
         </h2>
-        <Link href={`tel:${contacts.phone[locale].url}`} className="mt-8 w-full text-[24px] font-bold text-white max-[1024px]:text-[18px] max-[768px]:text-center">
+        <Link
+          href={`tel:${contacts.phone[locale].url}`}
+          className="mt-8 w-full text-[24px] font-bold text-white max-[1024px]:text-[18px] max-[768px]:text-center"
+        >
           {contacts.phone[locale].name}
         </Link>
-        <Link href={`mailto:${contacts.email[locale].url}`} className="text-[24px] font-bold text-white max-[1024px]:text-[18px] py-[10px] max-[768px]:text-center">
+        <Link
+          href={`mailto:${contacts.email[locale].url}`}
+          className="text-[24px] font-bold text-white max-[1024px]:text-[18px] py-[10px] max-[768px]:text-center"
+        >
           {contacts.email[locale].name}
         </Link>
         <p className="w-full text-[24px] text-white max-[1024px]:text-[18px] max-[768px]:text-center">
@@ -42,4 +47,4 @@ export const LeftInfo = () => {
       </div>
     </div>
   );
-};
+}

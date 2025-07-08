@@ -1,14 +1,11 @@
-'use client';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
-import { useBookingStore } from '@/store/bookingStore';
-import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import React from 'react';
+import { Tour } from '../_types';
+import { getTranslations } from 'next-intl/server';
 
-export const MobileBtn = () => {
-  const t = useTranslations('Tour');
-  const locale = useLocale();
-  const { tour } = useBookingStore((state) => state);
+export default async function MobileBtn({ locale, tour }: { locale: string; tour: Tour }) {
+  const t = await getTranslations({ locale, namespace: 'Tour' });
+
   return (
     <div className="container  bg-[#16372D] sticky bottom-0 z-50 text-white py-5 w-full hidden items-center justify-between max-[920px]:flex gap-5">
       <div className="text-base w-full flex flex-col">
@@ -28,4 +25,4 @@ export const MobileBtn = () => {
       </Link>
     </div>
   );
-};
+}

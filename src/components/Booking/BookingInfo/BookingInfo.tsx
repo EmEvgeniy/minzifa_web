@@ -12,21 +12,40 @@ import { useLocale, useTranslations } from 'next-intl';
 import { BookingTourData, useBookingStore } from '@/store/bookingStore';
 import Link from 'next/link';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { usePostMutation } from '@/api/post.api';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Tour } from '@/components/Tour/_types';
 
-export const BookingInfo = () => {
+export default function BookingInfo({ tour }: { tour: Tour }) {
   const t = useTranslations('Booking');
   const locale = useLocale();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [isChecked, setIsChecked] = useState(false);
 
-  const { tour, bookingData } = useBookingStore((state) => state);
+  const { bookingData, setBookingData } = useBookingStore((state) => state);
   const { setMessage, setError } = useSnackStore((state) => state);
+
+  useEffect(() => {
+    setBookingData({
+      tour_name: searchParams.get('tour_name') || '',
+      tour_start: searchParams.get('tour_start') || '',
+      tour_end: searchParams.get('tour_end') || '',
+      travellers_count: Number(searchParams.get('travellers_count')) || 1,
+      tour_price: Number(searchParams.get('tour_price')) || 1,
+      deposit: Number(searchParams.get('deposit')) || 0,
+      total_price: Number(searchParams.get('total_price')) || 0,
+      payment_type: 'cash',
+      payment_status: 'pending',
+      single_price: Number(searchParams.get('single_price')) || 0,
+      currency: searchParams.get('currency') || 'USD',
+      total_seats: Number(searchParams.get('total_seats')) || 1,
+    });
+  }, [searchParams, setBookingData]);
 
   const { mutate, isPending } = usePostMutation<BookingTourData, BookingTourData>(
     ['subscribe-booking'],
@@ -82,9 +101,7 @@ export const BookingInfo = () => {
         <Image src={IconShield} alt="icon" width={24} height={24} loading={'lazy'} />
         <div className="text-md">{t('booking_info.guarantee')}</div>
       </div>
-
       <hr className="border-gray-300" />
-
       <div className="grid grid-cols-1 md:grid-cols-[124px_1fr] gap-3 space-y-2">
         <Image
           width={124}
@@ -216,4 +233,4 @@ export const BookingInfo = () => {
       </button>
     </div>
   );
-};
+}

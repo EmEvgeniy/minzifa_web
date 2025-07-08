@@ -1,9 +1,9 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { Price } from '../_types';
-import { useEffect, useState } from 'react';
-import { cn, date_end, formatted_date } from '@/utils/utils';
+import { Price, Tour } from '../_types';
+import { useState } from 'react';
+import { date_end, formatted_date } from '@/utils/utils';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/store/bookingStore';
@@ -14,49 +14,49 @@ import { TourMobileCard } from './TourMobileCard';
 import IconCalendar from '../../../assets/icons/booking/calendar.svg';
 import Image from 'next/image';
 
-const months: { [key in 'en' | 'ru']: string[] } = {
-  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  ru: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
-};
+// const months: { [key in 'en' | 'ru']: string[] } = {
+//   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+//   ru: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+// };
 
-export const TourPrices = () => {
+export default function TourPrices({ tour }: { tour: Tour }) {
   const t = useTranslations('Tour');
   const locale = useLocale() as 'en' | 'ru';
 
   const router = useRouter();
 
-  const { tour, setBookingData } = useBookingStore((state) => state);
+  const { setBookingData } = useBookingStore((state) => state);
 
-  const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  const [years, setYears] = useState<number[]>([]);
+  // const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  // const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+  // const [years, setYears] = useState<number[]>([]);
 
   const [limit, setLimit] = useState(5);
 
-  useEffect(() => {
-    if (!tour?.prices) return;
-    const uniqueYears = Array.from(
-      new Set(tour?.prices.map((price) => new Date(price.date_start).getFullYear())),
-    );
-    setYears(uniqueYears);
-    setSelectedYear(uniqueYears[0]);
-  }, [tour?.prices]);
+  // useEffect(() => {
+  //   if (!tour?.prices) return;
+  //   const uniqueYears = Array.from(
+  //     new Set(tour?.prices.map((price) => new Date(price.date_start).getFullYear())),
+  //   );
+  //   setYears(uniqueYears);
+  //   setSelectedYear(uniqueYears[0]);
+  // }, [tour?.prices]);
 
-  useEffect(() => {
-    if (selectedYear !== null) {
-      setSelectedMonth(null);
-    }
-  }, [selectedYear]);
+  // useEffect(() => {
+  //   if (selectedYear !== null) {
+  //     setSelectedMonth(null);
+  //   }
+  // }, [selectedYear]);
 
   if (!tour?.prices) return;
 
-  const filteredPrices = tour?.prices.filter((price) => {
-    const date = new Date(price.date_start);
-    const yearMatches = selectedYear === null || date.getFullYear() === selectedYear;
-    const monthMatches =
-      selectedMonth === null || date.getMonth() === months[locale].indexOf(selectedMonth);
-    return yearMatches && monthMatches;
-  });
+  // const filteredPrices = tour?.prices.filter((price) => {
+  //   const date = new Date(price.date_start);
+  //   const yearMatches = selectedYear === null || date.getFullYear() === selectedYear;
+  //   const monthMatches =
+  //     selectedMonth === null || date.getMonth() === months[locale].indexOf(selectedMonth);
+  //   return yearMatches && monthMatches;
+  // });
 
   const handleBookingData = (
     selectedPrice: Price | undefined,
@@ -65,8 +65,6 @@ export const TourPrices = () => {
   ) => {
     if (!tour || !selectedPrice) return;
     setBookingData({
-      adults: 1,
-      childrens: 0,
       passengers: [],
       tour_name: tour.name,
       tour_start: formatted_date(selectedPrice.date_start, locale),
@@ -85,10 +83,10 @@ export const TourPrices = () => {
   };
 
   return (
-    filteredPrices.length > 0 && (
+    tour.prices.length > 0 && (
       <section className="flex flex-col gap-5 max-[550px]:gap-3">
         <h2 className="text-4xl font-semibold  max-[920px]:text-[24px]">{t('prices.title')}</h2>
-
+        {/* 
         <div className="flex flex-row gap-2">
           {years.map((year, index) => (
             <button
@@ -130,7 +128,7 @@ export const TourPrices = () => {
               </button>
             );
           })}
-        </div>
+        </div> */}
 
         <div className="bg-[#E2FFF4] p-5 rounded-2xl flex flex-row gap-2.5 items-center text-lg self-end max-[920px]:p-3 max-[920px]:text-[14px] max-[920px]:gap-1.5 max-[550px]:w-full max-[550px]:p-2">
           <Image src={IconCalendar} alt="" />
@@ -143,10 +141,10 @@ export const TourPrices = () => {
             <p>{t('prices.number')}</p>
             <p>{t('prices.pp')}</p>
           </div>
-          {filteredPrices.length > 0 ? (
+          {tour.prices.length > 0 ? (
             <>
               <AnimatePresence initial={false}>
-                {filteredPrices.slice(0, limit).map((price, index) => (
+                {tour.prices.slice(0, limit).map((price, index) => (
                   <div key={index}>
                     <TourDescTopCard
                       price={price}
@@ -163,19 +161,19 @@ export const TourPrices = () => {
                   </div>
                 ))}
               </AnimatePresence>
-              {filteredPrices.length > 0 && filteredPrices.length >= limit && (
+              {tour.prices.length > 0 && tour.prices.length >= limit && (
                 <button
                   className="cursor-pointer px-5 py-3 transition-all duration-300 bg-[#ECEEED] hover:bg-[#E8E8E8] border border-[#DCDCDC] text-black rounded-full flex items-center justify-center gap-2.5 self-center"
                   onClick={() =>
-                    limit === filteredPrices.length ? setLimit(3) : setLimit(filteredPrices.length)
+                    limit === tour.prices.length ? setLimit(3) : setLimit(tour.prices.length)
                   }
                 >
                   {t(
-                    limit === filteredPrices.length
+                    limit === tour.prices.length
                       ? 'prices.hide_all_dates'
                       : 'prices.show_all_dates',
                   )}
-                  {limit === filteredPrices.length ? <FaChevronUp /> : <FaChevronDown />}
+                  {limit === tour.prices.length ? <FaChevronUp /> : <FaChevronDown />}
                 </button>
               )}
             </>
@@ -196,4 +194,4 @@ export const TourPrices = () => {
       </section>
     )
   );
-};
+}

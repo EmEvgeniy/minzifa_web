@@ -89,10 +89,7 @@
     "from": "from",
     "byRequest": "by request"
   },
-  "lang": [
-    "en",
-    "ru"
-  ],
+  "lang": ["en", "ru"],
   "Home": {
     "title": "NextJS i18n Tutorial",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
@@ -819,7 +816,7 @@
   "Tour": {
     "facts": {
       "duration": "Duration",
-      "days":"{days} days",
+      "days": "{days} days",
       "group_size": "Group Size",
       "hotels": "Hotels",
       "transport": "Transport"
@@ -895,10 +892,7 @@
     "phone": "Номер телефона",
     "wishes": "Optional placeholder text",
     "button": "Send request",
-    "checkbox": [
-      "By submitting a request, you agree to the",
-      "Privacy Policy"
-    ]
+    "checkbox": ["By submitting a request, you agree to the", "Privacy Policy"]
   },
   "reviews": {
     "title": "Ratings & Reviews",
@@ -920,8 +914,8 @@
     },
     "passenger": {
       "title": "Passenger information",
-      "passenger": "Passenger {count}",
-      "passenger_hint": "<strong>Please note:</strong> Traveller details should match information on passport",
+      "passenger": "Passenger",
+      "passenger_hint": ["Please note:", "Traveller details should match information on passport"],
       "first_name": "First name",
       "last_name": "Last name",
       "email": "Email",
@@ -930,10 +924,7 @@
       "month": "Month",
       "day": "Day",
       "year": "Year",
-      "gender": [
-        "Male",
-        "Female"
-      ],
+      "gender": ["Male", "Female"],
       "adress": "Address",
       "adress_line": "Address line {number}",
       "province": "Suburb / Town",
@@ -956,10 +947,7 @@
       "title": "Select a payment method:",
       "credit_card": "Payment by credit card",
       "bank_transfer": "Bank transfer",
-      "accept_terms": [
-        "I accept Minzifa Travel",
-        "and"
-      ]
+      "accept_terms": ["I accept Minzifa Travel", "and"]
     },
     "button": "Book {count} space"
   },
@@ -995,12 +983,7 @@
       },
       "slide_3": {
         "title": "How many days are you planning on traveling for?",
-        "answers": [
-          "Up to 10 days",
-          "11-15 days",
-          "16-23 days",
-          "24+ days"
-        ]
+        "answers": ["Up to 10 days", "11-15 days", "16-23 days", "24+ days"]
       },
       "slide_4": {
         "title": "What level of accommodation do you feel comfortable with?",

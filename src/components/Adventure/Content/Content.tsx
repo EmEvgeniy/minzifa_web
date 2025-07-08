@@ -1,17 +1,14 @@
-'use client';
-import { useGetQuery } from '@/api/get.api';
 import { cr2 } from '@/assets/img';
-import { BestSellersPackagesCard, SocialMedia } from '@/components/UI';
+import { BestSellersPackagesCard } from '@/components/UI';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
-// import { Breadcrumbs } from '@/components/UI/Breadcrumbs';
+import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
+
 import { Button, Divider } from '@mui/material';
-import { useLocale, useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import React from 'react';
 
-type ArticleDetail = {
+export type ArticleDetail = {
   id: number;
   name: string;
   published: string;
@@ -22,34 +19,19 @@ type ArticleDetail = {
   };
 };
 
-type TourListResponse = BestSellersPackagesCardType[];
-
-export const Content: React.FC = () => {
-  const t = useTranslations();
-  const { slug } = useParams() as { slug: string };
-  const locale = useLocale();
-
-  const { data: articleDetail } = useGetQuery<ArticleDetail>({
-    key: ['article', slug],
-    page: '',
-    perPage: '',
-    url: `articles/${slug}`,
-    searchItem: '',
-    additionalParam: '',
-  });
-
-  const { data: tours, isSuccess: isToursSuccess } = useGetQuery<TourListResponse>({
-    key: ['tours_in_article'],
-    page: '1',
-    perPage: '2',
-    url: 'tours',
-    searchItem: '',
-    additionalParam: '&show_in_article=1&limit=2&random=1',
-  });
+export default async function Content({
+  locale,
+  articleDetail,
+  tours,
+}: {
+  locale: string;
+  articleDetail: ArticleDetail;
+  tours: BestSellersPackagesCardType[];
+}) {
+  const t = await getTranslations({ locale });
 
   return (
     <div className="w-full flex flex-col items-start gap-5">
-      {/* <Breadcrumbs /> */}
       <div className="flex flex-col gap-3 pt-[40px] max-[1024px]:pt-[20px] max-[768px]:gap-2">
         <h1 className="text-[56px] max-w-[70%] max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[550px]:text-[24px] max-[550px]:font-semibold font-title">
           {articleDetail?.name}
@@ -63,6 +45,7 @@ export const Content: React.FC = () => {
           <Image
             src={articleDetail.media.file}
             alt={articleDetail.media.alt || 'image'}
+            loading="lazy"
             fill
             className="object-cover absolute top-0 "
           />
@@ -99,10 +82,9 @@ export const Content: React.FC = () => {
             />
 
             <div className="flex flex-col gap-5 max-[1024px]:hidden">
-              {isToursSuccess &&
-                tours?.map((el: BestSellersPackagesCardType) => (
-                  <BestSellersPackagesCard key={el.id} slide={el} />
-                ))}
+              {tours?.map((el: BestSellersPackagesCardType) => (
+                <BestSellersPackagesCard key={el.id} slide={el} />
+              ))}
 
               <Link href={`/${locale}/create-your-trip`}>
                 <div className="h-[450px] w-full bg-[#16372D] relative rounded-[16px] overflow-hidden flex items-center justify-center">
@@ -127,4 +109,4 @@ export const Content: React.FC = () => {
       </div>
     </div>
   );
-};
+}

@@ -31,7 +31,7 @@ export default async function Articles({ locale }: DefaultComponentsProps) {
           ))}
         </div>
         <WrapperMobile
-          data={data.data}
+          data={data.data.slice(0, 3)}
           btn={
             <Link
               href={`/${locale}/adventures`}

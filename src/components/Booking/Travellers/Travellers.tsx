@@ -1,24 +1,10 @@
-'use client';
+import { DefaultComponentsProps } from '@/types';
+import { getTranslations } from 'next-intl/server';
+import dynamic from 'next/dynamic';
+const TravellersCounter = dynamic(() => import('./TravellersCounter'));
 
-import Counter from '@/components/UI/Counter/Counter';
-import { useBookingStore } from '@/store/bookingStore';
-import { useTranslations } from 'next-intl';
-
-export const Travellers = () => {
-  const t = useTranslations('Booking');
-  const { bookingData, setBookingData } = useBookingStore((state) => state);
-
-  const handleCount = (value: number) => {
-    const tour_price = bookingData?.tour_price as number;
-
-    setBookingData({
-      ...bookingData,
-      room_types: {},
-      travellers_count: value,
-      deposit: tour_price * 0.15 * Number(value),
-      total_price: tour_price * Number(value),
-    });
-  };
+export default async function Travellers({ locale }: DefaultComponentsProps) {
+  const t = await getTranslations({ locale, namespace: 'Booking' });
 
   return (
     <div className="flex flex-col gap-5">
@@ -28,15 +14,9 @@ export const Travellers = () => {
       <div className="grid grid-cols-1">
         <div className="rounded-2xl flex items-center justify-between bg-white p-5">
           <span className="text-lg font-normal">{t('travellers.person')}</span>
-          <Counter
-            value={bookingData?.travellers_count as number}
-            onChange={handleCount}
-            label=""
-            min={1}
-            max={bookingData?.total_seats}
-          />
+          <TravellersCounter />
         </div>
       </div>
     </div>
   );
-};
+}

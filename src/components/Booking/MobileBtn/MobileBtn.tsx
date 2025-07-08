@@ -4,14 +4,33 @@ import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
 import { BookingTourData, useBookingStore } from '@/store/bookingStore';
 import { useLocale, useTranslations } from 'next-intl';
-import React, { useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
 
-export const MobileBtn = () => {
+export default function MobileBtn() {
   const t = useTranslations('Booking');
-  const { bookingData } = useBookingStore((state) => state);
+  const { bookingData, setBookingData } = useBookingStore((state) => state);
   const locale = useLocale();
+  const searchParams = useSearchParams();
 
   const { setMessage, setError } = useSnackStore((state) => state);
+
+  useEffect(() => {
+    setBookingData({
+      tour_name: searchParams.get('tour_name') || '',
+      tour_start: searchParams.get('tour_start') || '',
+      tour_end: searchParams.get('tour_end') || '',
+      travellers_count: Number(searchParams.get('travellers_count')) || 1,
+      tour_price: Number(searchParams.get('tour_price')) || 1,
+      deposit: Number(searchParams.get('deposit')) || 0,
+      total_price: Number(searchParams.get('total_price')) || 0,
+      payment_type: 'cash',
+      payment_status: 'pending',
+      single_price: Number(searchParams.get('single_price')) || 0,
+      currency: searchParams.get('currency') || 'USD',
+      total_seats: Number(searchParams.get('total_seats')) || 1,
+    });
+  }, [searchParams, setBookingData]);
 
   const { mutate, isPending } = usePostMutation<BookingTourData, BookingTourData>(
     ['subscribe-booking'],
@@ -76,4 +95,4 @@ export const MobileBtn = () => {
       </div>
     </div>
   );
-};
+}
