@@ -37,7 +37,7 @@ export default async function page({ params, searchParams }: Props) {
   ).then((res) => res.json());
 
   const tours: ToursResponse = await fetch(
-    `https://api.minzifatravel.com/api/v1/tours?locale=${locale}&destinations[]=${slug}&page=${page}&perPage=6`,
+    `https://api.minzifatravel.com/api/v1/tours?locale=${locale}&destinations[]=${destination.name}&page=${page}&perPage=6`,
   ).then((res) => res.json());
 
   return (

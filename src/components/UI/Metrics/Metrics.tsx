@@ -1,6 +1,5 @@
 import { useLocale } from 'next-intl';
 import Script from 'next/script';
-import Head from 'next/head';
 
 export default function Metrics() {
     const locale = useLocale();
@@ -8,14 +7,6 @@ export default function Metrics() {
 
     return (
         <>
-            <Head>
-                <meta
-                    name="google-site-verification"
-                    content="TXw2szbVg4BjVd82sfGaC_LgwUgkH0hQrTlJRec6mg0"
-                />
-                <meta name="yandex-verification" content="0cf29f74b98cb00d" />
-            </Head>
-
             {/* Universal Google Tag */}
             <Script
                 async
