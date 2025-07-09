@@ -2,10 +2,10 @@
 import { Drawer } from '@mui/material';
 import { useMobFilterStore } from './store';
 import { FaChevronLeft } from 'react-icons/fa6';
-import Filter from '../MainSection/Filter';
-import { KeyboardEvent, MouseEvent } from 'react';
 
-function MobileDrawler({ locale, btn }: { locale: string; btn: string }) {
+import { KeyboardEvent, MouseEvent, ReactNode } from 'react';
+
+function MobileDrawler({ btn, elem }: { btn: string; elem: ReactNode }) {
   const { setOpen, open } = useMobFilterStore((s) => s);
 
   const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
@@ -37,9 +37,7 @@ function MobileDrawler({ locale, btn }: { locale: string; btn: string }) {
           <FaChevronLeft className="text-[]" onClick={toggleDrawer(false)} />
           <p className="text-center w-full text-[18px] font-semibold">{btn}</p>
         </div>
-        <div className=" overflow-y-scroll h-screen py-[10px]">
-          <Filter locale={locale} />
-        </div>
+        <div className=" overflow-y-scroll h-screen py-[10px]">{elem}</div>
       </div>
     </Drawer>
   );

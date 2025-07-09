@@ -29,13 +29,13 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang={params.lang}>
-      <header>
+      <head>
         <meta
           name="google-site-verification"
           content="TXw2szbVg4BjVd82sfGaC_LgwUgkH0hQrTlJRec6mg0"
         />
         <meta name="yandex-verification" content="0cf29f74b98cb00d" />
-      </header>
+      </head>
       <body className={`${TitleFont.variable} ${TextFont.variable}`}>
         <ProgressBar />
         <Metrics />

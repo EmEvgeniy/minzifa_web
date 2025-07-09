@@ -13,9 +13,9 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
   const locale = useLocale();
 
   return (
-    <Link prefetch={true} href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}>
-      <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white [@media(max-width:450px)]:min-h-[350px] w-full h-full shadow-[0px_0px_20px_5px_rgba(0,0,0,0.2)]">
-        <div className="relative min-h-[372px] max-h-[372px] h-full w-full [@media(max-width:450px)]:min-h-[270px]">
+    <Link href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}>
+      <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white  w-full h-full shadow-[0px_0px_20px_5px_rgba(0,0,0,0.2)]">
+        <div className="relative min-h-[372px] max-h-[372px] h-full w-full max-[450px]:min-h-[270px]">
           <div className="absolute inset-0 bg-black opacity-15 z-1 h-full" />
           {slide?.photo?.file && (
             <Image
@@ -30,7 +30,7 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
             {slide?.name}
           </p>
         </div>
-        <div className="p-[10px] flex items-center justify-between">
+        <div className="p-[10px] flex items-center justify-between ">
           <div className=" flex flex-col gap-2">
             <p className="flex items-center justify-start gap-1.5 text-[18px]">
               <span>{slide?.days}</span>
