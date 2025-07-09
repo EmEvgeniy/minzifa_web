@@ -27,6 +27,7 @@ export default function Metrics() {
                         `}
 
                     gtag('config', 'AW-301071748');
+                    gtag('config', 'G-JK3M1DVN37');
                 `}
             </Script>
 
