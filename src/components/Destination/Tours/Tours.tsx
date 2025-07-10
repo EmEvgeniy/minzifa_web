@@ -6,7 +6,16 @@ import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/Bes
 import { Pagination, Skeleton } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function Tours({ tours, locale }: { tours: ToursResponse; locale: string }) {
+type Props = {
+  days: string;
+  from: string;
+  view_itinerary: string;
+  byRequest: string;
+  tours: ToursResponse;
+  locale: string;
+};
+
+export default function Tours({ tours, locale, days, from, byRequest, view_itinerary }: Props) {
   const page = Number(useSearchParams().get('page')) || 1;
   const router = useRouter();
 
@@ -22,7 +31,15 @@ export default function Tours({ tours, locale }: { tours: ToursResponse; locale:
         <div className="grid grid-cols-3 gap-5 w-full h-full">
           {tours?.data?.length > 0
             ? tours?.data?.map((el: AllToursCardType) => (
-                <BestSellersPackagesCard slide={el} key={el.id} locale={locale} />
+                <BestSellersPackagesCard
+                  slide={el}
+                  key={el.id}
+                  locale={locale}
+                  days={days}
+                  from={from}
+                  byRequest={byRequest}
+                  view_itinerary={view_itinerary}
+                />
               ))
             : Array.from({ length: 9 })
                 .fill(1)

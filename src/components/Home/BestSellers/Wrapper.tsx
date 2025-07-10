@@ -5,15 +5,26 @@ import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/Bes
 import { ReactNode, useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
+type Props = {
+  days: string;
+  from: string;
+  location: string;
+  view_itinerary: string;
+  byRequest: string;
+  data: BestSellersPackagesCardType[];
+  btn: ReactNode;
+  locale: string;
+};
+
 export default function Wrapper({
   data,
   btn,
   locale,
-}: {
-  data: BestSellersPackagesCardType[];
-  btn: ReactNode;
-  locale: string;
-}) {
+  days,
+  from,
+  byRequest,
+  view_itinerary,
+}: Props) {
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -36,7 +47,14 @@ export default function Wrapper({
             setIsEnd={setIsEnd}
             handleSlideChange={handleSlideChange}
             renderCard={(slide: BestSellersPackagesCardType) => (
-              <BestSellersPackagesCard slide={slide} locale={locale} />
+              <BestSellersPackagesCard
+                slide={slide}
+                locale={locale}
+                days={days}
+                from={from}
+                byRequest={byRequest}
+                view_itinerary={view_itinerary}
+              />
             )}
           />
         )}

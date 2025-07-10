@@ -2,14 +2,27 @@
 import { AllToursCardType, ToursResponse } from './_types';
 import Skeleton from '@mui/material/Skeleton';
 import Pagination from '@mui/material/Pagination';
-
 import { useFilterStore } from './store';
-import { HorizontalTourCard } from '../HorizontalTourCard';
 import dynamic from 'next/dynamic';
 import { useQuery } from '@tanstack/react-query';
 import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
+import HorizontalTourCard from '../HorizontalTourCard';
 
 const TourViewBtn = dynamic(() => import('./TourViewBtn'));
+
+type Props = {
+  tourData: ToursResponse;
+  locale: string;
+  menu: { title: string; value: string }[];
+  showing: string;
+  out: string;
+  nf: string;
+  days: string;
+  from: string;
+  location: string;
+  view_itinerary: string;
+  byRequest: string;
+};
 
 export default function ToursView({
   tourData,
@@ -18,14 +31,12 @@ export default function ToursView({
   showing,
   out,
   nf,
-}: {
-  tourData: ToursResponse;
-  locale: string;
-  menu: { title: string; value: string }[];
-  showing: string;
-  out: string;
-  nf: string;
-}) {
+  days,
+  from,
+  location,
+  view_itinerary,
+  byRequest,
+}: Props) {
   const { page, setPage, prices, durations, seasons, hotels, tourTypes, destinations } =
     useFilterStore((state) => state);
 
@@ -86,7 +97,16 @@ export default function ToursView({
         <div className="flex flex-col gap-5 w-full [@media(max-width:1024px)]:hidden">
           {data.data.length > 0
             ? data?.data?.map((el: AllToursCardType) => (
-                <HorizontalTourCard key={el.id} tour={el} />
+                <HorizontalTourCard
+                  locale={locale}
+                  key={el.id}
+                  tour={el}
+                  days={days}
+                  from={from}
+                  location={location}
+                  view_itinerary={view_itinerary}
+                  byRequest={byRequest}
+                />
               ))
             : Array.from({ length: 5 })
                 .fill(1)
@@ -103,7 +123,15 @@ export default function ToursView({
         <div className="hidden grid-cols-3 gap-5 w-full [@media(max-width:1024px)]:grid [@media(max-width:768px)]:grid-cols-1">
           {tourData?.data.length > 0
             ? tourData?.data.map((el: AllToursCardType) => (
-                <BestSellersPackagesCard key={el.id} slide={el} locale={locale} />
+                <BestSellersPackagesCard
+                  key={el.id}
+                  slide={el}
+                  locale={locale}
+                  days={days}
+                  from={from}
+                  byRequest={byRequest}
+                  view_itinerary={view_itinerary}
+                />
               ))
             : Array.from({ length: 5 })
                 .fill(2)

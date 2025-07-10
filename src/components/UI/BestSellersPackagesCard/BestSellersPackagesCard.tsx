@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import type { BestSellersPackagesCardType } from './_types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,10 +5,20 @@ import Link from 'next/link';
 type Props = {
   slide: BestSellersPackagesCardType;
   locale: string;
+  days: string;
+  from: string;
+  byRequest: string;
+  view_itinerary: string;
 };
 
-export default function BestSellersPackagesCard({ slide, locale }: Props) {
-  const t = useTranslations();
+export default function BestSellersPackagesCard({
+  slide,
+  locale,
+  days,
+  from,
+  byRequest,
+  view_itinerary,
+}: Props) {
   return (
     <Link href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}>
       <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white  w-full h-full shadow-[0px_0px_20px_5px_rgba(0,0,0,0.2)]">
@@ -32,23 +41,23 @@ export default function BestSellersPackagesCard({ slide, locale }: Props) {
           <div className=" flex flex-col gap-2">
             <p className="flex items-center justify-start gap-1.5 text-[18px]">
               <span>{slide?.days}</span>
-              <span>{t('tourCard.days')}</span>
+              <span>{days}</span>
             </p>
             <p className="flex items-center justify-start gap-1.5 text-[18px]">
               {slide.price ? (
                 <>
-                  <span className="text-[#464646]">{t('tourCard.from')}</span>
+                  <span className="text-[#464646]">{from}</span>
                   <span className="font-semibold text-[24px]">
                     {slide?.valute ?? '$'} {slide?.price}
                   </span>
                 </>
               ) : (
-                <span>{t('tourCard.byRequest')}</span>
+                <span>{byRequest}</span>
               )}
             </p>
           </div>
           <button className="bg-[#27A430] px-[15px] py-[12px] text-white text-[14px] rounded-[16px] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)] text-base">
-            {t('View_itinerary')}
+            {view_itinerary}
           </button>
         </div>
       </div>

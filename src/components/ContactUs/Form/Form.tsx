@@ -1,6 +1,6 @@
 'use client';
 import { usePostMutation } from '@/api/post.api';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { ContactUsRequest, ContactUsResponse } from './_types';
 import { Button, Checkbox } from '@mui/material';
 import { useLocale, useTranslations } from 'next-intl';

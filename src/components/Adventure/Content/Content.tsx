@@ -84,7 +84,15 @@ export default async function Content({
 
             <div className="flex flex-col gap-5 max-[1024px]:hidden">
               {tours?.map((el: BestSellersPackagesCardType) => (
-                <BestSellersPackagesCard key={el.id} slide={el} locale={locale} />
+                <BestSellersPackagesCard
+                  key={el.id}
+                  slide={el}
+                  locale={locale}
+                  days={t('all_tours.days')}
+                  from={t('all_tours.from')}
+                  view_itinerary={t('all_tours.view_itinerary')}
+                  byRequest={t('all_tours.byRequest')}
+                />
               ))}
 
               <Link href={`/${locale}/create-your-trip`}>

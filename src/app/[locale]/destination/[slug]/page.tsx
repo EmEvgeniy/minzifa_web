@@ -7,6 +7,7 @@ import Hero from '@/components/Destination/Hero/Hero';
 import Tours from '@/components/Destination/Tours/Tours';
 import Reviews from '@/components/UI/Reviews/Reviews';
 import Articles from '@/components/Home/Articles/Articles';
+import { getTranslations } from 'next-intl/server';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -29,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function page({ params, searchParams }: Props) {
   const { slug, locale } = await params;
+  const t = await getTranslations({ locale });
 
   const page = Number((await searchParams).page) || 1;
 
@@ -43,7 +45,14 @@ export default async function page({ params, searchParams }: Props) {
   return (
     <>
       <Hero destination={destination} locale={locale} />
-      <Tours tours={tours} locale={locale} />
+      <Tours
+        tours={tours}
+        locale={locale}
+        days={t('all_tours.days')}
+        from={t('all_tours.from')}
+        view_itinerary={t('all_tours.view_itinerary')}
+        byRequest={t('all_tours.byRequest')}
+      />
       <Reviews locale={locale} />
       <Articles locale={locale} />
     </>

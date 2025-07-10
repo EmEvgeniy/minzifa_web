@@ -21,6 +21,11 @@ export default async function BestSellers({ locale }: DefaultComponentsProps) {
       <Wrapper
         data={data}
         locale={locale}
+        days={t('all_tours.days')}
+        from={t('all_tours.from')}
+        location={t('all_tours.location')}
+        view_itinerary={t('all_tours.view_itinerary')}
+        byRequest={t('all_tours.byRequest')}
         btn={
           <Link
             href={`/${locale}/tours`}
