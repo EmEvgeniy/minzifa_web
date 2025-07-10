@@ -1,62 +1,38 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-
-import { useSelectedLayoutSegments, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { CreateYourTripForm } from '@/components/UI/CreateYourTripForm/CreateYourTripForm';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
 import { Popup } from '@/components';
 import { useLayoutStore } from './layoutStote';
 import { DefaultComponentsProps } from '@/types';
 
-const STORAGE_KEY = 'minzifa_popup_shown_paths';
-
 export default function ClientPopupObserver({ locale }: DefaultComponentsProps) {
   const footerRef = useRef<HTMLDivElement>(null);
-  const { open, setOpen } = useLayoutStore((s) => s);
-
   const pathname = usePathname();
-  const segments = useSelectedLayoutSegments();
 
-  const wasShown = () => {
-    if (typeof window === 'undefined') return false;
+  const { open, setOpen, markAsShown, wasShown } = useLayoutStore((s) => s);
 
-    const shownPaths = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    return shownPaths.includes(pathname);
-  };
-
-  const markAsShown = () => {
-    const shownPaths = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    if (!shownPaths.includes(pathname)) {
-      shownPaths.push(pathname);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(shownPaths));
-    }
-  };
-
-  const tryShowPopup = () => {
-    if (!wasShown()) {
-      setOpen(true);
-      markAsShown();
-    }
-  };
-
-  // Таймер на 15 секунд
+  // Показываем по таймеру, если ещё не было
   useEffect(() => {
     const timer = setTimeout(() => {
-      tryShowPopup();
+      setOpen(true);
+      markAsShown(pathname);
     }, 15000);
 
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, wasShown, markAsShown, setOpen]);
 
-  // Обсервер на футер
+  // Показываем при достижении футера, если ещё не было
   useEffect(() => {
-    if (wasShown()) return;
+    if (wasShown(pathname)) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          tryShowPopup();
+        if (entry.isIntersecting && !wasShown(pathname)) {
+          setOpen(true);
+          markAsShown(pathname);
         }
       },
       { threshold: 0.4 },
@@ -68,9 +44,7 @@ export default function ClientPopupObserver({ locale }: DefaultComponentsProps) 
     return () => {
       if (target) observer.unobserve(target);
     };
-  }, [pathname]);
-
-  if (segments?.includes('(tour)')) return null;
+  }, [pathname, wasShown, markAsShown, setOpen]);
 
   return (
     <>

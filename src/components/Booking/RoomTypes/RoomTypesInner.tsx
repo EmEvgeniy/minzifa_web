@@ -10,10 +10,8 @@ import { cn } from '@/utils/utils';
 const roomTypes = ['double', 'twin', 'single'] as const;
 type RoomType = (typeof roomTypes)[number];
 
-function RoomTypesInner({
-  title,
-  included,
-}: {
+type Props = {
+  included: string;
   title: {
     title: string;
     included: string;
@@ -21,8 +19,9 @@ function RoomTypesInner({
     double: string;
     single: string;
   };
-  included: string;
-}) {
+};
+
+function RoomTypesInner({ title, included }: Props) {
   const { bookingData, setBookingData } = useBookingStore((state) => state);
   const travellersCount = bookingData?.travellers_count || 0;
   const selectedRoomsTotal = Object.values(bookingData?.room_types || {}).reduce(

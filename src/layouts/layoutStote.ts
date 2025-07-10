@@ -3,22 +3,30 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 export type LayoutStoreData = {
   open: boolean;
+  shownPaths: string[];
   setOpen: (e: boolean) => void;
-  setOneOpen: (e: boolean) => void;
-  oneOpened: boolean;
+  markAsShown: (path: string) => void;
+  wasShown: (path: string) => boolean;
 };
 
 export const useLayoutStore = create<LayoutStoreData>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       open: false,
-      oneOpened: false,
+      shownPaths: [],
       setOpen: (e) => set({ open: e }),
-      setOneOpen: (e) => set({ oneOpened: e }),
+      markAsShown: (path) => {
+        if (!get().shownPaths.includes(path)) {
+          set((state) => ({
+            shownPaths: [...state.shownPaths, path],
+          }));
+        }
+      },
+      wasShown: (path) => get().shownPaths.includes(path),
     }),
     {
       name: 'layout-storage',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => sessionStorage), // или localStorage
     },
   ),
 );

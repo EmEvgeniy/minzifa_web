@@ -1,4 +1,5 @@
 export const dynamic = 'force-static';
+
 import Hero from '@/components/Tours/Hero/Hero';
 import MainSection from '@/components/Tours/MainSection/MainSection';
 import MobileMenu from '@/components/Tours/MobileMenu/MobileMenu';
