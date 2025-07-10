@@ -1,6 +1,6 @@
 function loading() {
   return (
-    <section className="flex items-center justify-center">
+    <section className="flex items-center justify-center min-h-[100svh] w-full">
       <svg
         className={'text-white' + ' animate-spin size-10'}
         xmlns="http://www.w3.org/2000/svg"
