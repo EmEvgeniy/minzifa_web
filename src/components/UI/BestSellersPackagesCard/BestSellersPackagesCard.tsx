@@ -1,17 +1,15 @@
-import type { FC } from 'react';
+import { useTranslations } from 'next-intl';
 import type { BestSellersPackagesCardType } from './_types';
-import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 
 type Props = {
   slide: BestSellersPackagesCardType;
+  locale: string;
 };
 
-export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
+export default function BestSellersPackagesCard({ slide, locale }: Props) {
   const t = useTranslations();
-  const locale = useLocale();
-
   return (
     <Link href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}>
       <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white  w-full h-full shadow-[0px_0px_20px_5px_rgba(0,0,0,0.2)]">
@@ -56,4 +54,4 @@ export const BestSellersPackagesCard: FC<Props> = ({ slide }) => {
       </div>
     </Link>
   );
-};
+}

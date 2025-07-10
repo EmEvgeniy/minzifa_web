@@ -1,6 +1,7 @@
 import { cr2 } from '@/assets/img';
-import { BestSellersPackagesCard } from '@/components/UI';
+
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
+import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
 import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
 
 import { Button, Divider } from '@mui/material';
@@ -83,7 +84,7 @@ export default async function Content({
 
             <div className="flex flex-col gap-5 max-[1024px]:hidden">
               {tours?.map((el: BestSellersPackagesCardType) => (
-                <BestSellersPackagesCard key={el.id} slide={el} />
+                <BestSellersPackagesCard key={el.id} slide={el} locale={locale} />
               ))}
 
               <Link href={`/${locale}/create-your-trip`}>

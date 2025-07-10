@@ -1,18 +1,15 @@
-import type { FC } from 'react';
 import type { ArticleCardType } from './_types';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
 import Image from 'next/image';
 
 type Props = {
   article: ArticleCardType;
+  locale: string;
 };
 
-export const ArticleCard: FC<Props> = ({ article }) => {
-  const locale = useLocale();
+export default function ArticleCard({ article, locale }: Props) {
   return (
     <Link
-      prefetch={true}
       href={`/${locale}/adventures/` + article.category.slug + '/' + article?.slug}
       className="h-full"
     >
@@ -39,4 +36,4 @@ export const ArticleCard: FC<Props> = ({ article }) => {
       </div>
     </Link>
   );
-};
+}

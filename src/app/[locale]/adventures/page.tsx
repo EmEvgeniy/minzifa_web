@@ -61,6 +61,7 @@ export default async function page({ params }: DefaultPageProps) {
       />
       <ArticlesMain
         btns={btns}
+        locale={locale}
         menu={menu}
         titleT={t('articles.title')}
         btn={t('articles.show_more')}

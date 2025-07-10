@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
-import { ArticleCard } from '@/components/UI';
 import dynamic from 'next/dynamic';
 const WrapperMobile = dynamic(() => import('./Wrapper.mobile'));
+const ArticleCard = dynamic(() => import('@/components/UI/ArticleCard/ArticleCard'));
 
 export default async function Articles({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });
@@ -27,11 +27,12 @@ export default async function Articles({ locale }: DefaultComponentsProps) {
         </h5>
         <div className="grid grid-cols-3 w-full gap-5 [@media(max-width:768px)]:hidden">
           {data?.data.slice(0, 3).map((el: ArticleCardType) => (
-            <ArticleCard key={el.id} article={el} />
+            <ArticleCard key={el.id} article={el} locale={locale} />
           ))}
         </div>
         <WrapperMobile
           data={data.data.slice(0, 3)}
+          locale={locale}
           btn={
             <Link
               href={`/${locale}/adventures`}

@@ -1,7 +1,8 @@
+import dynamic from 'next/dynamic';
 import { getTranslations } from 'next-intl/server';
 import { DefaultComponentsProps } from '@/types';
 import { AdventureCardType } from '@/components/UI/AdventureCard/_types';
-import { AdventureCard } from '@/components/UI';
+const AdventureCard = dynamic(() => import('@/components/UI/AdventureCard/AdventureCard'));
 
 export default async function Adventure({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });
@@ -23,7 +24,7 @@ export default async function Adventure({ locale }: DefaultComponentsProps) {
       </h5>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 [@media(max-width:1024px)]:grid-cols-3 [@media(max-width:768px)]:grid-cols-2">
         {data?.slice(0, 8).map((type: AdventureCardType) => (
-          <AdventureCard key={type.id} type={type} />
+          <AdventureCard key={type.id} type={type} locale={locale} />
         ))}
       </div>
     </section>

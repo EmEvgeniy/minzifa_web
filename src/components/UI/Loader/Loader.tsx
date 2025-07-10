@@ -1,7 +1,7 @@
-export default function Loader({ color = "text-white" }) {
+export default function Loader({ color = 'text-white' }) {
   return (
     <svg
-      className={color + " animate-spin size-10"}
+      className={color + ' animate-spin size-10'}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

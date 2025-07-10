@@ -1,7 +1,8 @@
 'use client';
 import { useGetQuery } from '@/api/get.api';
-import { ArticleCard } from '@/components/UI';
+
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
+import ArticleCard from '@/components/UI/ArticleCard/ArticleCard';
 import { Menu, MenuItem, Skeleton, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
@@ -16,11 +17,13 @@ export default function ArticlesMain({
   menu,
   titleT,
   btn,
+  locale,
 }: {
   btns: { title: string; value: string }[];
   menu: { title: string; value: string }[];
   titleT: string;
   btn: string;
+  locale: string;
 }) {
   const [size, setSize] = useState<number>(9);
   const [alignment, setAlignment] = useState<string | null>('all');
@@ -99,7 +102,9 @@ export default function ArticlesMain({
       <div className="flex items-center justify-center flex-col gap-5">
         <div className="grid grid-cols-3 gap-5 min-h-[50svh] w-full max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
           {!isLoading && !isRefetching && !isFetching
-            ? data?.data.map((el: ArticleCardType) => <ArticleCard key={el.id} article={el} />)
+            ? data?.data.map((el: ArticleCardType) => (
+                <ArticleCard locale={locale} key={el.id} article={el} />
+              ))
             : size > 0 &&
               Array.from({ length: size })
                 .fill(22)

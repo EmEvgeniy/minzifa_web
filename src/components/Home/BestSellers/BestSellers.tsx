@@ -20,6 +20,7 @@ export default async function BestSellers({ locale }: DefaultComponentsProps) {
       <h3 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('home.best_title')}</h3>
       <Wrapper
         data={data}
+        locale={locale}
         btn={
           <Link
             href={`/${locale}/tours`}

@@ -2,11 +2,12 @@
 import { AllToursCardType, ToursResponse } from './_types';
 import Skeleton from '@mui/material/Skeleton';
 import Pagination from '@mui/material/Pagination';
-import { BestSellersPackagesCard } from '@/components/UI';
+
 import { useFilterStore } from './store';
 import { HorizontalTourCard } from '../HorizontalTourCard';
 import dynamic from 'next/dynamic';
 import { useQuery } from '@tanstack/react-query';
+import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
 
 const TourViewBtn = dynamic(() => import('./TourViewBtn'));
 
@@ -102,7 +103,7 @@ export default function ToursView({
         <div className="hidden grid-cols-3 gap-5 w-full [@media(max-width:1024px)]:grid [@media(max-width:768px)]:grid-cols-1">
           {tourData?.data.length > 0
             ? tourData?.data.map((el: AllToursCardType) => (
-                <BestSellersPackagesCard key={el.id} slide={el} />
+                <BestSellersPackagesCard key={el.id} slide={el} locale={locale} />
               ))
             : Array.from({ length: 5 })
                 .fill(2)

@@ -1,16 +1,18 @@
 'use client';
 
-import { ArticleCard, Slider, SliderBtns } from '@/components/UI';
+import { Slider, SliderBtns } from '@/components/UI';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
+import ArticleCard from '@/components/UI/ArticleCard/ArticleCard';
 import { ReactNode, useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
 interface DataResponse {
   data: ArticleCardType[];
   btn: ReactNode;
+  locale: string;
 }
 
-export default function WrapperMobile({ data, btn }: DataResponse) {
+export default function WrapperMobile({ data, btn, locale }: DataResponse) {
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
   const [isEnd, setIsEnd] = useState<boolean>(false);
@@ -36,7 +38,9 @@ export default function WrapperMobile({ data, btn }: DataResponse) {
           768: { slidesPerView: 3.2 },
           1024: { slidesPerView: 4.4 },
         }}
-        renderCard={(slide: ArticleCardType) => <ArticleCard key={slide.id} article={slide} />}
+        renderCard={(slide: ArticleCardType) => (
+          <ArticleCard key={slide.id} article={slide} locale={locale} />
+        )}
       />
 
       <div className="flex items-center w-full justify-between gap-5">

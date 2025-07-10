@@ -43,7 +43,7 @@ export default async function page({ params, searchParams }: Props) {
   return (
     <>
       <Hero destination={destination} locale={locale} />
-      <Tours tours={tours} />
+      <Tours tours={tours} locale={locale} />
       <Reviews locale={locale} />
       <Articles locale={locale} />
     </>

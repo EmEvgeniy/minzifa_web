@@ -1,15 +1,18 @@
 'use client';
-import { BestSellersPackagesCard, Slider, SliderBtns } from '@/components/UI';
+import { Slider, SliderBtns } from '@/components/UI';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
+import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
 import { ReactNode, useRef, useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
 export default function Wrapper({
   data,
   btn,
+  locale,
 }: {
   data: BestSellersPackagesCardType[];
   btn: ReactNode;
+  locale: string;
 }) {
   const swiperRef = useRef<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState<boolean>(true);
@@ -33,7 +36,7 @@ export default function Wrapper({
             setIsEnd={setIsEnd}
             handleSlideChange={handleSlideChange}
             renderCard={(slide: BestSellersPackagesCardType) => (
-              <BestSellersPackagesCard slide={slide} />
+              <BestSellersPackagesCard slide={slide} locale={locale} />
             )}
           />
         )}
