@@ -1,16 +1,16 @@
 export const dynamic = 'force-static';
 
 import { Main } from '@/components/Destination';
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
+import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const slug = 'destination';
   const locale = (await params).locale;
 
@@ -25,12 +25,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function page() {
+export default async function page({ params }: DefaultPageProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+
   return (
     <section
-      className="container flex items-center justify-center min-h-[50svh] h-full py-[150px] 
-  max-[768px]:py-[100px] max-[500px]:pt-[100px]"
+      className="container flex flex-col items-start gap-8 justify-center min-h-[50svh] h-full py-[150px] 
+  max-[768px]:py-[100px] max-[500px]:pt-[100px] "
     >
+      <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.destination') }} />
       <Main />
     </section>
   );

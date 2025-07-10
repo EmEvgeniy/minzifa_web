@@ -26,16 +26,16 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
 export default async function page({ params }: DefaultPageProps) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'privacy' });
+  const t = await getTranslations({ locale });
 
   return (
     <section className="container py-[150px] flex flex-col gap-5 max-[768px]:py-[100px]">
-      <Breadcrumbs />
+      <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.privacy') }} />
       <h1 className="text-[42px] max-[768px]:text-[30px] max-[550px]:text-[24px] font-title">
-        {t('title')}
+        {t('privacy.title')}
       </h1>
       <div
-        dangerouslySetInnerHTML={{ __html: t('text') || '' }}
+        dangerouslySetInnerHTML={{ __html: t('privacy.text') || '' }}
         className="text-[18px] max-[550px]:text-[14px]"
       />
     </section>

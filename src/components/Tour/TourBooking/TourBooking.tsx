@@ -5,12 +5,10 @@ import { Price, Tour } from '../_types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
-import { Dropdown, DropdownDetails, DropdownSummary } from '@/components/UI/Dropdown/Dropdown';
 import Counter from '@/components/UI/Counter/Counter';
 import { useBookingStore } from '@/store/bookingStore';
 import { useRouter } from 'next/navigation';
-import IconCalendar from '../../../assets/icons/booking/calendar.svg';
-import Image from 'next/image';
+import TourBookingPrice from './TourBookingPrice';
 
 interface TourBookingProps {
   prices: Price[] | undefined;
@@ -24,7 +22,7 @@ export default function TourBooking({ prices, className, tour }: TourBookingProp
 
   const router = useRouter();
 
-  const [travellers, setTravellers] = useState(1);
+  const [travellers, setTravellers] = useState<number>(1);
   const [selectedPrice, setSelectedPrice] = useState<Price | undefined>(undefined);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -90,41 +88,14 @@ export default function TourBooking({ prices, className, tour }: TourBookingProp
           />
         </div>
         <div className="text-base">{t('booking.per_tourist', { days: tour?.days || 1 })}</div>
-
-        <Dropdown>
-          <DropdownSummary className="flex flex-row justify-between items-center gap-1.5 border border-gray-300 rounded-2xl p-3 relative cursor-pointer">
-            {() => (
-              <div className="flex flex-row items-center gap-2">
-                <Image src={IconCalendar} width={24} height={24} alt="calendar" />
-                <div>{formatted_date(selectedPrice?.date_start || '', locale)}</div>
-              </div>
-            )}
-          </DropdownSummary>
-          <DropdownDetails>
-            {({ isOpen, toggle }) => (
-              <div className="flex flex-col overflow-hidden overflow-y-auto max-h-[300px]">
-                {prices.length > 0 &&
-                  prices.map((price) => (
-                    <div
-                      key={price.date_start}
-                      onClick={() => {
-                        setSelectedPrice(price);
-                        setTotalPrice(price.price_for_double * travellers);
-                        toggle(!isOpen);
-                      }}
-                      className="px-5 py-3 flex flex-row justify-between items-center gap-1.5 hover:bg-gray-100 cursor-pointer"
-                    >
-                      <div>{formatted_date(price.date_start, locale)}</div>
-                      <div className="text-[#27A430]">
-                        <FormattedPrice price={price.price_for_double} currency={price.valute} />
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            )}
-          </DropdownDetails>
-        </Dropdown>
-
+        <TourBookingPrice
+          setTotalPrice={setTotalPrice}
+          locale={locale}
+          travellers={travellers}
+          prices={prices}
+          selectedPrice={selectedPrice}
+          setSelectedPrice={setSelectedPrice}
+        />
         <Counter
           min={1}
           max={10}

@@ -3,6 +3,8 @@ import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm'
 import dynamic from 'next/dynamic';
 import TourTitle from './TourTitle/TourTitle';
 import { redirect } from 'next/navigation';
+import Breadcrumbs from '../UI/Breadcrumbs/Breadcrumbs';
+import { getTranslations } from 'next-intl/server';
 const Reviews = dynamic(() => import('../UI/Reviews/Reviews'));
 const TourHighlights = dynamic(() => import('./TourHighlights/TourHighlights'));
 const TourGallery = dynamic(() => import('./TourGallery/TourGallery'));
@@ -20,6 +22,7 @@ const TourPrices = dynamic(() => import('./TourPrices/TourPrices'));
 const MobileBtn = dynamic(() => import('./MobileBtn/MobileBtn'));
 
 export default async function TourWrapper({ locale, slug }: { locale: string; slug: string }) {
+  const t = await getTranslations({ locale });
   const res = await fetch(`https://api.minzifatravel.com/api/v1/tours/${slug}?locale=${locale}`, {
     next: { revalidate: 60 * 20 },
   });
@@ -37,6 +40,11 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
   return (
     <div className="w-full min-h-[200vh]">
       <div className="container pt-[150px] flex flex-col gap-10 max-[920px]:pt-[100px]">
+        <Breadcrumbs
+          locale={locale}
+          link={{ title: t('breadcrumbs.all_tours'), link: `/${locale}/tours` }}
+          link2={{ title: tourData.name, link: '' }}
+        />
         <div className="w-full block max-[920px]:hidden">
           <TourTitle title={tourData?.name} />
         </div>

@@ -1,13 +1,15 @@
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import { useTranslations } from 'next-intl';
-import React from 'react';
+import { getTranslations } from 'next-intl/server';
 
-export const Main = () => {
-  const t = useTranslations();
+export default async function Main({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale });
 
   return (
     <section className="container py-[150px] max-[550px]:py-[100px]">
-      <Breadcrumbs />
+      <Breadcrumbs
+        locale={locale}
+        link={{ title: t("breadcrumbs.company's-sustainable-development-policy"), link: '' }}
+      />
       <div className="flex flex-col w-full gap-5 pt-[30px]">
         <h1 className="text-[56px] font-semibold max-[1024px]:text-[35px] max-[550px]:text-[24px] font-title">
           {t("company's-sustainable-development-policy.title")}
@@ -112,4 +114,4 @@ export const Main = () => {
       </div>
     </section>
   );
-};
+}

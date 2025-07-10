@@ -8,6 +8,7 @@ import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { redirect } from 'next/navigation';
 import Content, { ArticleDetail } from '@/components/Adventure/Content/Content';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
+import { getTranslations } from 'next-intl/server';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
 export default async function page({ params }: DefaultPageProps) {
   const { locale, slug } = await params;
+  const t = await getTranslations();
 
   const res = await fetch(
     `https://api.minzifatravel.com/api/v1/articles/${slug}?locale=${locale}`,
@@ -52,7 +54,11 @@ export default async function page({ params }: DefaultPageProps) {
   return (
     <section className=" pt-[150px] min-h-[100svh] max-[1200px]:pt-[120px] max-[550px]:pt-[100px]">
       <div className="container">
-        <Breadcrumbs />
+        <Breadcrumbs
+          locale={locale}
+          link={{ title: t('breadcrumbs.articles'), link: `/${locale}/adventures` }}
+          link2={{ title: article.name, link: '' }}
+        />
         <Content locale={locale} articleDetail={article} tours={tours} />
       </div>
 

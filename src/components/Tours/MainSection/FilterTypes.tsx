@@ -35,6 +35,14 @@ function FilterTypes({ tourTypesData, pl }: { tourTypesData: TourTypeDataRespons
   const handleChangeTourTypes = (value: string) => {
     setTourTypes(value);
   };
+  // const searchParams = useSearchParams();
+  // const tourTypeParam = useMemo(() => searchParams.get('tour_types'), [searchParams]);
+
+  // useEffect(() => {
+  //   if (tourTypeParam) {
+  //     setTourTypes(tourTypeParam);
+  //   }
+  // }, [tourTypeParam]);
 
   return (
     <>

@@ -1,4 +1,5 @@
 import { DestinationData } from '@/app/[locale]/destination/[slug]/_types';
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 
@@ -12,7 +13,7 @@ export default async function Hero({
   const t = await getTranslations({ locale });
 
   return (
-    <section className="min-h-[90svh] bg-[#16372D] w-full relative flex items-center justify-center">
+    <section className="min-h-[90svh] bg-[#16372D] w-full relative  items-center justify-center flex flex-col">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
       {destination?.media?.file && (
         <Image
@@ -22,8 +23,17 @@ export default async function Hero({
           className=" object-cover absolute top-0"
         />
       )}
+      <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
+        <Breadcrumbs
+          mainStyle="text-white place-self-start w-full"
+          listClasses="text-white"
+          locale={locale}
+          link={{ link: `/${locale}/destination`, title: t('breadcrumbs.destination') }}
+          link2={{ link: '', title: destination?.name }}
+        />
+      </div>
       <div className="relative z-30 container flex flex-col items-center justify-center gap-5 text-white">
-        <div className="w-[65px] h-[65px]">
+        <div className="w-[65px] h-[65px] ">
           {destination?.icon?.file && (
             <Image src={destination?.icon?.file} alt="icon" width={65} height={65} />
           )}

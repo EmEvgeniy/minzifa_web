@@ -1,7 +1,6 @@
 export const dynamic = 'force-static';
 
-import { Main } from "@/components/company's-sustainable-development-policy";
-
+import Main from "@/components/company's-sustainable-development-policy/Main/Main";
 import { Metadata } from 'next';
 
 type Props = {
@@ -27,6 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function page() {
-  return <Main />;
+export default async function page({ params }: Props) {
+  const { locale } = await params;
+
+  return <Main locale={locale} />;
 }

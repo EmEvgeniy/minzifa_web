@@ -47,14 +47,24 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
 export default async function page({ params }: DefaultPageProps) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'articles' });
-  const btns = t.raw('btns') as { title: string; value: string }[];
-  const menu = t.raw('sort') as { title: string; value: string }[];
+  const t = await getTranslations({ locale });
+  const btns = t.raw('articles.btns') as { title: string; value: string }[];
+  const menu = t.raw('articles.sort') as { title: string; value: string }[];
 
   return (
     <>
-      <Hero title={t('main_title')} subTitle="" />
-      <ArticlesMain btns={btns} menu={menu} titleT={t('title')} btn={t('show_more')} />
+      <Hero
+        title={t('articles.main_title')}
+        subTitle=""
+        locale={locale}
+        link={{ link: '', title: t('breadcrumbs.articles') }}
+      />
+      <ArticlesMain
+        btns={btns}
+        menu={menu}
+        titleT={t('articles.title')}
+        btn={t('articles.show_more')}
+      />
       <div className="container">
         <FreeConsultationForm />
       </div>

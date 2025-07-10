@@ -11,6 +11,7 @@ import MobileSlider from '@/components/Eco-travel/MobileSlider/MobileSlider';
 import Environment from '@/components/Eco-travel/Environment/Environment';
 import Economy from '@/components/Eco-travel/Economy/Economy';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -33,10 +34,10 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
 export default async function page({ params }: DefaultPageProps) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'eco' });
-  const block = t.raw('environment.block') as { title: string; text: string }[];
-  const block2 = t.raw('children.block') as { title: string; text: string; img: string }[];
-  const block3 = t.raw('economy.block') as { title: string; text: string; img: string }[];
+  const t = await getTranslations({ locale });
+  const block = t.raw('eco.environment.block') as { title: string; text: string }[];
+  const block2 = t.raw('eco.children.block') as { title: string; text: string; img: string }[];
+  const block3 = t.raw('eco.economy.block') as { title: string; text: string; img: string }[];
   return (
     <>
       <section className="min-h-[90svh] w-full relative bg-[#16372D] flex items-center justify-center max-[768px]:min-h-[70svh]">
@@ -48,6 +49,14 @@ export default async function page({ params }: DefaultPageProps) {
           className=" object-cover absolute top-0 z-10"
           loading="lazy"
         />
+        <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
+          <Breadcrumbs
+            mainStyle="text-white "
+            listClasses="text-white"
+            locale={locale}
+            link={{ link: '', title: t('breadcrumbs.eco') }}
+          />
+        </div>
         <div className="container relative z-30 flex flex-col items-center justify-center gap-5">
           <Image
             src={eco_icon}
@@ -57,22 +66,22 @@ export default async function page({ params }: DefaultPageProps) {
             className="max-[768px]:w-[40px] max-[500px]:w-[30px]"
           />
           <h1 className="text-white text-[56px] flex flex-col text-center max-[768px]:text-[35px] max-[500px]:text-[24px] font-title">
-            <span>{t('title')}</span>
-            <span>{t('title2')}</span>
+            <span>{t('eco.title')}</span>
+            <span>{t('eco.title2')}</span>
           </h1>
         </div>
       </section>
       <section className="container py-[70px] flex flex-col gap-10 max-[1024px]:py-[50px] max-[500px]:gap-5">
         <h2 className="text-[42px] text-[#16372D] text-center max-[1024px]:text-[35px] max-[500px]:text-[24px]">
-          {t('team.title')}
+          {t('eco.team.title')}
         </h2>
         <div className="w-full flex flex-col gap-5 text-[18px] text-center max-[500px]:text-[16px]">
-          <p>{t('team.text')}</p>
-          <p>{t('team.text2')}</p>
-          <p>{t('team.text3')}</p>
-          <p>{t('team.text4')}</p>
-          <p>{t('team.text5')}</p>
-          <p>{t('team.text6')}</p>
+          <p>{t('eco.team.text')}</p>
+          <p>{t('eco.team.text2')}</p>
+          <p>{t('eco.team.text3')}</p>
+          <p>{t('eco.team.text4')}</p>
+          <p>{t('eco.team.text5')}</p>
+          <p>{t('eco.team.text6')}</p>
         </div>
       </section>
       <section className="bg-[#16372D] w-full min-h-[385px] relative h-full mb-[70px] overflow-hidden">
@@ -95,21 +104,21 @@ export default async function page({ params }: DefaultPageProps) {
         />
         <div className="container relative z-30 text-white py-[70px] flex flex-col items-center justify-center gap-10 max-[1024px]:gap-5">
           <h2 className="text-[42px] text-center max-[1024px]:text-[35px] max-[500px]:text-[24px]">
-            {t('mission.title')}
+            {t('eco.mission.title')}
           </h2>
           <p className="text-[18px] text-center flex flex-col gap-5 max-[500px]:text-[16px]">
-            <span>{t('mission.text')}</span>
-            <span>{t('mission.text2')}</span>
+            <span>{t('eco.mission.text')}</span>
+            <span>{t('eco.mission.text2')}</span>
           </p>
         </div>
       </section>
       <EnvironmentCircle />
       <MobileSlider />
       <Environment
-        title={t('environment.title')}
+        title={t('eco.environment.title')}
         block={block}
-        subTitle={t('environment.title2')}
-        subTitle2={t('environment.sub_title')}
+        subTitle={t('eco.environment.title2')}
+        subTitle2={t('eco.environment.sub_title')}
       />
       <section className="container flex flex-col gap-5 items-center justify-center h-full py-[70px] max-[768px]:py-[40px] max-[768px]:gap-3">
         <Image
@@ -120,16 +129,16 @@ export default async function page({ params }: DefaultPageProps) {
           className="max-[1024px]:w-[40px] max-[500px]:w-[35px]"
         />
         <h5 className="text-[42px] max-w-[70%] text-center max-[1024px]:max-w-full max-[1024px]:text-[30px] max-[500px]:text-[24px]">
-          {t('env.title')}
+          {t('eco.env.title')}
         </h5>
         <p className="text-[24px] max-w-[70%] text-center max-[1024px]:max-w-full max-[768px]:text-[18px]">
-          {t('env.sub_title')}
+          {t('eco.env.sub_title')}
         </p>
         <div className="w-full flex gap-5 min-h-[400px] h-full max-[768px]:flex-col-reverse max-[768px]:pt-[30px]">
           <div className="bg-[#BCCEC8] rounded-[16px]   flex flex-col justify-between p-5 gap-5 text-[18px] w-1/2 max-[768px]:w-full max-[500px]:text-[16px]">
-            <p>{t('env.text')}</p>
-            <p>{t('env.text2')}</p>
-            <p>{t('env.text3')}</p>
+            <p>{t('eco.env.text')}</p>
+            <p>{t('eco.env.text2')}</p>
+            <p>{t('eco.env.text3')}</p>
           </div>
 
           <Image
@@ -158,10 +167,10 @@ export default async function page({ params }: DefaultPageProps) {
             className="max-[768px]:w-[35px]"
           />
           <h6 className="text-[42px] max-[1024px]:text-[35px] max-[768px]:text-[24px] ">
-            {t('children.title')}
+            {t('eco.children.title')}
           </h6>
           <p className="text-[18px] max-[768px]:text-[16px] max-[768px]:text-center">
-            {t('children.sub_title')}
+            {t('eco.children.sub_title')}
           </p>
           <div className="grid grid-cols-4 gap-5 items-center pt-[30px] max-[1150px]:grid-cols-3 max-[920px]:grid-cols-2 max-[550px]:grid-cols-1 max-[550px]:justify-items-center">
             {block2.map((el, i) =>
@@ -190,9 +199,9 @@ export default async function page({ params }: DefaultPageProps) {
       </section>
       <section className="container py-[70px] flex flex-col gap-8 items-center max-[768px]:gap-3 max-[768px]:py-[40px]">
         <Image src={eco_icon5} alt="icon" width={65} height={65} className="max-[768px]:w-[35px]" />
-        <h6 className="text-[42px] max-[1024px]:text-[35px]">{t('animal.title')}</h6>
+        <h6 className="text-[42px] max-[1024px]:text-[35px]">{t('eco.animal.title')}</h6>
         <p className="text-[20px] text-center max-w-[80%] max-[768px]:text-[18px] max-[768px]:max-w-full">
-          {t('animal.sub_title')}
+          {t('eco.animal.sub_title')}
         </p>
         <div className="w-full flex gap-5 min-h-[400px] h-full max-[768px]:pt-[30px] max-[768px]:flex-col">
           <Image
@@ -204,12 +213,16 @@ export default async function page({ params }: DefaultPageProps) {
             className="object-cover  h-full max-h-[400px] rounded-[16px] shadow-2xl w-1/2 max-[768px]:w-full"
           />
           <div className="bg-[#BCCEC8] rounded-[16px]   flex flex-col justify-center p-5 gap-5 text-[18px] w-1/2 max-[768px]:w-full max-[768px]:text-[16px]">
-            <p>{t('animal.text')}</p>
-            <p>{t('animal.text2')}</p>
+            <p>{t('eco.animal.text')}</p>
+            <p>{t('eco.animal.text2')}</p>
           </div>
         </div>
       </section>
-      <Economy block={block3} title={t('economy.title')} subTitle={t('economy.sub_title')} />
+      <Economy
+        block={block3}
+        title={t('eco.economy.title')}
+        subTitle={t('eco.economy.sub_title')}
+      />
       <div className="container">
         <FreeConsultationForm />
       </div>

@@ -25,15 +25,18 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
 export default async function page({ params }: DefaultPageProps) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'terms_and_conditions_of_booking' });
+  const t = await getTranslations({ locale });
   return (
     <section className="container pt-[150px] flex flex-col gap-5 pb-[70px] max-[768px]:pt-[100px] max-[550px]:pt-[100px]">
-      <Breadcrumbs />
+      <Breadcrumbs
+        locale={locale}
+        link={{ title: t('breadcrumbs.terms_and_conditions_of_booking'), link: '' }}
+      />
       <h1 className="text-[42px] max-[1024px]:text-[30px] max-[550px]:text-[24px] max-[550px]:font-semibold font-title">
-        {t('title')}
+        {t('terms_and_conditions_of_booking.title')}
       </h1>
       <div
-        dangerouslySetInnerHTML={{ __html: t('text') || '' }}
+        dangerouslySetInnerHTML={{ __html: t('terms_and_conditions_of_booking.text') || '' }}
         className="text-[18px] max-[550px]:text-[14px]"
       />
     </section>
