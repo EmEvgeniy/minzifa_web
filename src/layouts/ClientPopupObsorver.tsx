@@ -80,7 +80,7 @@ export default function ClientPopupObserver({ locale }: DefaultComponentsProps) 
         handleClose={() => setOpen(false)}
         content={
           locale === 'en' ? (
-            <CreateYourTripForm popupClose={() => setOpen(false)} />
+            <CreateYourTripForm locale={locale} popupClose={() => setOpen(false)} />
           ) : (
             <ConsultationQuiz popupClose={() => setOpen(false)} />
           )
