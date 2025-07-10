@@ -28,7 +28,7 @@ export default function Tours({ tours, locale, days, from, byRequest, view_itine
   return (
     <section className="container py-[70px]">
       <div className="w-full flex flex-col gap-10 items-center">
-        <div className="grid grid-cols-3 gap-5 w-full h-full">
+        <div className="grid grid-cols-3 gap-5 w-full h-full max-[1024px]:grid-cols-2 max-[500px]:grid-cols-1">
           {tours?.data?.length > 0
             ? tours?.data?.map((el: AllToursCardType) => (
                 <BestSellersPackagesCard

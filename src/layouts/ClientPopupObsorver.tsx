@@ -1,20 +1,20 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useLocale } from 'next-intl';
+
 import { useSelectedLayoutSegments, usePathname } from 'next/navigation';
 import { CreateYourTripForm } from '@/components/UI/CreateYourTripForm/CreateYourTripForm';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
 import { Popup } from '@/components';
 import { useLayoutStore } from './layoutStote';
+import { DefaultComponentsProps } from '@/types';
 
 const STORAGE_KEY = 'minzifa_popup_shown_paths';
 
-export default function ClientPopupObserver() {
+export default function ClientPopupObserver({ locale }: DefaultComponentsProps) {
   const footerRef = useRef<HTMLDivElement>(null);
   const { open, setOpen } = useLayoutStore((s) => s);
-  const locale = useLocale();
+
   const pathname = usePathname();
   const segments = useSelectedLayoutSegments();
 

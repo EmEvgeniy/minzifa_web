@@ -35,7 +35,7 @@ export default async function RootLayout({
               </div>
               <TopNav locale={locale} />
               <main className="flex-1">{children}</main>
-              <ClientPopupObserver />
+              <ClientPopupObserver locale={locale} />
               <Footer locale={locale} />
               <CustomSnackBar />
             </div>

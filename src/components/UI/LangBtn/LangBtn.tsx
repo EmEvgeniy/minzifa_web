@@ -3,14 +3,13 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa6';
-import { usePathname } from 'next/navigation';
-
-import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const LangBtn = () => {
   const pathname = usePathname();
   const [active, setActive] = useState<boolean>(false);
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const handleChange = (locale: string) => {
     if (!pathname) return '/';
@@ -58,6 +57,8 @@ export const LangBtn = () => {
                 key={el}
                 onClick={() => {
                   setActive(false);
+                  const newLocalePath = handleChange(el);
+                  router.replace(newLocalePath);
                 }}
                 className={`text-center cursor-pointer ${
                   el === pathname?.slice(1, 3)
@@ -65,14 +66,7 @@ export const LangBtn = () => {
                     : 'text-gray-900'
                 }`}
               >
-                <Link
-                  onClick={() => {
-                    setActive(false);
-                  }}
-                  href={handleChange(el)}
-                >
-                  {el.toUpperCase()}
-                </Link>
+                {el.toUpperCase()}
               </button>
             ))}
           </motion.div>

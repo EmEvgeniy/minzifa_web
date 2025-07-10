@@ -23,6 +23,7 @@ const MobileBtn = dynamic(() => import('./MobileBtn/MobileBtn'));
 
 export default async function TourWrapper({ locale, slug }: { locale: string; slug: string }) {
   const t = await getTranslations({ locale });
+
   const res = await fetch(`https://api.minzifatravel.com/api/v1/tours/${slug}?locale=${locale}`, {
     next: { revalidate: 60 * 20 },
   });
@@ -80,7 +81,7 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
         <TourAccomodation hotels={tourData.hotels} locale={locale} />
         <TourPrices tour={tourData} />
         <Reviews locale={locale} />
-        <CreateYourTripForm className="mb-5" />
+        <CreateYourTripForm className="mb-5" locale={locale} />
       </div>
       <MobileBtn locale={locale} tour={tourData} />
     </div>

@@ -13,7 +13,7 @@ export default async function Hero({ locale }: DefaultComponentsProps) {
         alt="all_tours"
         fill
         className="absolute top-0 z-10 object-cover"
-        placeholder="blur"
+        loading="lazy"
       />
       <div className="container relative z-30 h-full">
         <div className="text-white flex items-center justify-center w-full h-full">

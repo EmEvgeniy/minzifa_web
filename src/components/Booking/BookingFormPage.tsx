@@ -35,7 +35,7 @@ export default async function BookingFormPage({
         </div>
       </div>
 
-      <MobileBtn />
+      <MobileBtn locale={locale} btn={t('Booking.button')} />
     </section>
   );
 }

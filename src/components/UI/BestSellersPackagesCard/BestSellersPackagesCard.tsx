@@ -21,7 +21,7 @@ export default function BestSellersPackagesCard({
 }: Props) {
   return (
     <Link href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}>
-      <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white  w-full h-full shadow-[0px_0px_20px_5px_rgba(0,0,0,0.2)]">
+      <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white   w-full h-full shadow-[0px_0px_20px_5px_rgba(0,0,0,0.2)] max-[450px]:min-h-[270px]">
         <div className="relative min-h-[372px] max-h-[372px] h-full w-full max-[450px]:min-h-[270px]">
           <div className="absolute inset-0 bg-black opacity-15 z-1 h-full" />
           {slide?.photo?.file && (
