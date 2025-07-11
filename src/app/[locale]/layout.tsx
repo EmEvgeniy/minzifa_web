@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import TopNav from '@/components/TopNav/TopNav';
 import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
 import Footer from '@/components/Footer/Footer';
+import { getMessages } from 'next-intl/server';
 
 const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'));
 
@@ -23,9 +24,10 @@ export default async function RootLayout({
   params: { locale: string };
 }>) {
   const { locale } = await params;
+  const messages = await getMessages({ locale });
 
   return (
-    <NextIntlClientProvider>
+    <NextIntlClientProvider locale={locale} messages={messages}>
       <QueryProvider>
         <ThemeProviderWrap>
           <UTMMetricsProvider>
