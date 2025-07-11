@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
 import { CreateYourTripForm } from '@/components/UI/CreateYourTripForm/CreateYourTripForm';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
 import { Popup } from '@/components';
@@ -10,29 +9,31 @@ import { DefaultComponentsProps } from '@/types';
 
 export default function ClientPopupObserver({ locale }: DefaultComponentsProps) {
   const footerRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
 
-  const { open, setOpen, markAsShown, wasShown } = useLayoutStore((s) => s);
+  const { open, setOpen, shownByTimer, shownByScroll, markShownByTimer, markShownByScroll } =
+    useLayoutStore((s) => s);
 
-  // Показываем по таймеру, если ещё не было
+  // Таймер: один раз за сессию
   useEffect(() => {
+    if (shownByTimer) return;
+
     const timer = setTimeout(() => {
       setOpen(true);
-      markAsShown(pathname);
+      markShownByTimer();
     }, 15000);
 
     return () => clearTimeout(timer);
-  }, [pathname, wasShown, markAsShown, setOpen]);
+  }, [shownByTimer, setOpen, markShownByTimer]);
 
-  // Показываем при достижении футера, если ещё не было
+  // Скролл до футера: один раз за сессию
   useEffect(() => {
-    if (wasShown(pathname)) return;
+    if (shownByScroll) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !wasShown(pathname)) {
+        if (entry.isIntersecting) {
           setOpen(true);
-          markAsShown(pathname);
+          markShownByScroll();
         }
       },
       { threshold: 0.4 },
@@ -44,7 +45,7 @@ export default function ClientPopupObserver({ locale }: DefaultComponentsProps) 
     return () => {
       if (target) observer.unobserve(target);
     };
-  }, [pathname, wasShown, markAsShown, setOpen]);
+  }, [shownByScroll, setOpen, markShownByScroll]);
 
   return (
     <>

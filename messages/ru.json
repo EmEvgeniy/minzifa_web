@@ -940,8 +940,8 @@
     },
     "booking_info": {
       "guarantee": "Гарантия лучшей цены",
-      "days": "{{ дни }} дней",
-      "countries": "{{ countries }} Стран",
+      "days": "{ days} дней",
+      "countries": "{ countries } Стран",
       "price_details": "Детали цены",
       "start_trip": "Начало поездки",
       "end_trip": "Конец поездки",

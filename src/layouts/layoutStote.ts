@@ -1,28 +1,24 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-export type LayoutStoreData = {
+interface LayoutStore {
   open: boolean;
-  shownPaths: string[];
-  setOpen: (e: boolean) => void;
-  markAsShown: (path: string) => void;
-  wasShown: (path: string) => boolean;
-};
+  shownByTimer: boolean;
+  shownByScroll: boolean;
+  setOpen: (val: boolean) => void;
+  markShownByTimer: () => void;
+  markShownByScroll: () => void;
+}
 
-export const useLayoutStore = create<LayoutStoreData>()(
+export const useLayoutStore = create<LayoutStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       open: false,
-      shownPaths: [],
-      setOpen: (e) => set({ open: e }),
-      markAsShown: (path) => {
-        if (!get().shownPaths.includes(path)) {
-          set((state) => ({
-            shownPaths: [...state.shownPaths, path],
-          }));
-        }
-      },
-      wasShown: (path) => get().shownPaths.includes(path),
+      shownByTimer: false,
+      shownByScroll: false,
+      setOpen: (val) => set({ open: val }),
+      markShownByTimer: () => set({ shownByTimer: true }),
+      markShownByScroll: () => set({ shownByScroll: true }),
     }),
     {
       name: 'layout-storage',
