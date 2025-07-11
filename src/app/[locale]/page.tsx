@@ -4,7 +4,6 @@ import CreateYourTrip from '@/components/Home/CreateYourTrip/CreateYourTrip';
 import HowToBook from '@/components/Home/HowToBook/HowToBook';
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
-
 const Hero = dynamic(() => import('@/components/Home/Hero/Hero'));
 const Info = dynamic(() => import('@/components/Home/Info/Info'));
 const BestSellers = dynamic(() => import('@/components/Home/BestSellers/BestSellers'));
