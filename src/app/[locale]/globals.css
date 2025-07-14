@@ -20,7 +20,18 @@
     --foreground: #16372d;
   }
 }
+@keyframes carouselScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
 
+.carousel-track {
+  animation: carouselScroll 330s linear infinite;
+}
 body {
   @apply bg-background text-foreground font-text;
 }

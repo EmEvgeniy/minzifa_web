@@ -1,6 +1,6 @@
 import Favorites from '@/components/Favorites/Favorites';
-import FavoritesAll from '@/components/Favorites/FavoritesAll';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
+import Carousel from '@/components/UI/Carusel/Carusel';
 import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
@@ -28,16 +28,18 @@ export default async function page({ params }: DefaultPageProps) {
 
   return (
     <section
-      className="w-full h-full min-h-[100svh] flex flex-col gap-5 container py-[150px] 
+      className="w-full h-full min-h-[100svh]  py-[150px] 
   max-[768px]:py-[100px] max-[500px]:pt-[100px] "
     >
-      <Breadcrumbs
-        locale={locale}
-        link={{ title: locale === 'en' ? 'Favorites' : 'Избранные', link: '' }}
-      />
-      <h1 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('favoriteBtn')}</h1>
-      <Favorites locale={locale} />
-      <FavoritesAll locale={locale} />
+      <div className="w-full container flex flex-col gap-5 ">
+        <Breadcrumbs
+          locale={locale}
+          link={{ title: locale === 'en' ? 'Favorites' : 'Избранные', link: '' }}
+        />
+        <h1 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('favoriteBtn')}</h1>
+        <Favorites locale={locale} />
+      </div>
+      <Carousel locale={locale} />
     </section>
   );
 }
