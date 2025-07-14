@@ -7,6 +7,8 @@ import BestSellersPackagesCard from '../BestSellersPackagesCard/BestSellersPacka
 import { BestSellersPackagesCardType } from '../BestSellersPackagesCard/_types';
 import Link from 'next/link';
 
+import { IoMdCloseCircle } from 'react-icons/io';
+
 function FavoriteMenu() {
   const t = useTranslations();
   const { setActive, tours, active } = useFavoriteStore((state) => state);
@@ -25,10 +27,19 @@ function FavoriteMenu() {
         padding: '20px 10px',
       }}
       role="presentation"
+      className="max-[1024px]:!w-[350px]"
     >
       <Link href={`/${locale}/favorites`} className="text-white underline  text-2xl">
         {t('favoriteBtn')}
       </Link>
+      <span
+        className="hidden fixed top-5 right-4 max-[550px]:block cursor-pointer hover:scale-110 active:scale-95 transition-all"
+        onClick={() => {
+          toggleDrawer(false)();
+        }}
+      >
+        <IoMdCloseCircle className="text-white text-[28px]" />
+      </span>
       <List
         className="text-white   !p-0 !w-full overflow-y-scroll h-full max-h-[90svh] !mt-5"
         sx={{ marginTop: 2 }}
