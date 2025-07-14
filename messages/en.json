@@ -85,6 +85,8 @@
   },
   "best_sellers_btns": "See all trips",
   "favoriteBtn": "Your favorites",
+  "favorite_nf": "There are no favorites tours! Choose some tours or take a free consultations",
+
   "tourCard": {
     "days": "days",
     "from": "from",

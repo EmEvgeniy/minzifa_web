@@ -1,4 +1,5 @@
 import Favorites from '@/components/Favorites/Favorites';
+import FavoritesAll from '@/components/Favorites/FavoritesAll';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
@@ -36,6 +37,7 @@ export default async function page({ params }: DefaultPageProps) {
       />
       <h1 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('favoriteBtn')}</h1>
       <Favorites locale={locale} />
+      <FavoritesAll locale={locale} />
     </section>
   );
 }
