@@ -26,7 +26,7 @@ function FavoriteMenu() {
       }}
       role="presentation"
     >
-      <Link href={`/${locale}/favorite`} className="text-white underline  text-2xl">
+      <Link href={`/${locale}/favorites`} className="text-white underline  text-2xl">
         {t('favoriteBtn')}
       </Link>
       <List

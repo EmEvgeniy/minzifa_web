@@ -7,6 +7,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 function FavoriteBtn() {
   const { tours, setActive } = useFavoriteStore((state) => state);
 
+  if (!tours.length) return null;
+
   return (
     <div
       className="fixed right-20 z-50 bottom-20 bg-white rounded-full p-5 shadow-2xl cursor-pointer hover:scale-110 active:scale-95 transition-all"
