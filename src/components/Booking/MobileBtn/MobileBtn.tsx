@@ -85,14 +85,13 @@ export default function MobileBtn({ locale, btn }: { locale: string; btn: string
         <button
           onClick={handleSubmit}
           disabled={
-            (!(Number(bookingData.travellers_count) > 0) &&
+            (!!(Number(bookingData.travellers_count) > 0) &&
               (bookingData.passengers?.length ?? 0) <= 0) ||
             !isAllPassengersValid
           }
           className="text-center text-[14px] max-w-[200px]  w-full rounded-4xl disabled:bg-[#DDDDDD] disabled:cursor-not-allowed bg-[#27A430] text-white p-2 cursor-pointer transition-all duration-300 hover:bg-[#208B28]"
         >
-          <span>{btn}</span>
-          <span>{bookingData?.travellers_count}</span>
+          <span>{btn}</span> - <span>{bookingData?.travellers_count}</span>
         </button>
       </div>
     </div>

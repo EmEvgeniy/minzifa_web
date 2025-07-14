@@ -223,7 +223,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       <button
         onClick={handleSubmit}
         disabled={
-          (!(isChecked && Number(bookingData.travellers_count) > 0) &&
+          (!!(Number(bookingData.travellers_count) > 0) &&
             (bookingData.passengers?.length ?? 0) <= 0) ||
           !isAllPassengersValid
         }

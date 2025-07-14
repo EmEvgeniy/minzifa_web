@@ -958,7 +958,7 @@
       "bank_transfer": "Банковский перевод",
       "accept_terms": ["Я принимаю Minzifa Travel", "и"]
     },
-    "button": "Забронировать {count} мест"
+    "button": "Забронировать мест"
   },
   "CreateYourTripForm": {
     "card": {

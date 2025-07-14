@@ -956,7 +956,7 @@
       "bank_transfer": "Bank transfer",
       "accept_terms": ["I accept Minzifa Travel", "and"]
     },
-    "button": "Book {count} space"
+    "button": "Book space"
   },
   "CreateYourTripForm": {
     "card": {
