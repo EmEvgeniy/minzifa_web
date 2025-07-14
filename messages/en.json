@@ -84,6 +84,7 @@
     ]
   },
   "best_sellers_btns": "See all trips",
+  "favoriteBtn": "Your favorites",
   "tourCard": {
     "days": "days",
     "from": "from",

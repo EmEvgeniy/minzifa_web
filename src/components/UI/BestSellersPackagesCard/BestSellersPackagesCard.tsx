@@ -1,6 +1,7 @@
 import type { BestSellersPackagesCardType } from './_types';
 import Image from 'next/image';
 import Link from 'next/link';
+import BestSellersFavoriteBtn from './BestSellersFavoriteBtn';
 
 type Props = {
   slide: BestSellersPackagesCardType;
@@ -20,9 +21,10 @@ export default function BestSellersPackagesCard({
   view_itinerary,
 }: Props) {
   return (
-    <Link href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}>
-      <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white   w-full h-full shadow-[0px_0px_20px_5px_rgba(0,0,0,0.2)] max-[450px]:min-h-[270px]">
+    <Link href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`} className="w-full">
+      <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white   w-full h-full shadow-xl max-[450px]:min-h-[270px]">
         <div className="relative min-h-[372px] max-h-[372px] h-full w-full max-[450px]:min-h-[270px]">
+          <BestSellersFavoriteBtn tour={slide} />
           <div className="absolute inset-0 bg-black opacity-15 z-1 h-full" />
           {slide?.photo?.file && (
             <Image
@@ -39,15 +41,15 @@ export default function BestSellersPackagesCard({
         </div>
         <div className="p-[10px] flex items-center justify-between ">
           <div className=" flex flex-col gap-2">
-            <p className="flex items-center justify-start gap-1.5 text-[18px]">
+            <p className="flex items-center justify-start gap-1.5 text-[18px] text-black">
               <span>{slide?.days}</span>
               <span>{days}</span>
             </p>
             <p className="flex items-center justify-start gap-1.5 text-[18px]">
-              {slide.price ? (
+              {slide?.price ? (
                 <>
                   <span className="text-[#464646]">{from}</span>
-                  <span className="font-semibold text-[24px]">
+                  <span className="font-semibold text-[24px] text-black">
                     {slide?.valute ?? '$'} {slide?.price}
                   </span>
                 </>
@@ -56,9 +58,12 @@ export default function BestSellersPackagesCard({
               )}
             </p>
           </div>
-          <button className="bg-[#27A430] px-[15px] py-[12px] text-white text-[14px] rounded-[16px] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)] text-base">
+          <Link
+            href={`/${locale}/${slide?.destination?.slug}/${slide?.slug}`}
+            className="bg-[#27A430] px-[15px] py-[12px] text-white text-[14px] rounded-[16px] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)] text-base"
+          >
             {view_itinerary}
-          </button>
+          </Link>
         </div>
       </div>
     </Link>

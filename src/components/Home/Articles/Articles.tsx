@@ -10,7 +10,7 @@ export default async function Articles({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
   const res = await fetch(
-    `https://api.minzifatravel.com/api/v1/articles?limit=12&page=1&perPage=12&locale=${locale}`,
+    `https://api.minzifatravel.com/api/v1/articles?limit=3&page=1&perPage=3&locale=${locale}`,
     {
       next: { revalidate: 60 * 5 },
     },
@@ -26,12 +26,12 @@ export default async function Articles({ locale }: DefaultComponentsProps) {
           {t('articles_title')}
         </h5>
         <div className="grid grid-cols-3 w-full gap-5 [@media(max-width:768px)]:hidden">
-          {data?.data.slice(0, 3).map((el: ArticleCardType) => (
+          {data?.data.map((el: ArticleCardType) => (
             <ArticleCard key={el.id} article={el} locale={locale} />
           ))}
         </div>
         <WrapperMobile
-          data={data.data.slice(0, 3)}
+          data={data.data}
           locale={locale}
           btn={
             <Link

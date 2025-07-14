@@ -12,6 +12,8 @@ import { getMessages } from 'next-intl/server';
 import { ThemeProviderWrap } from '@/providers/ThemeProviderWrap';
 
 const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'));
+const FavoriteBtn = dynamic(() => import('@/components/UI/FavoriteBtn/FavoriteBtn'));
+const FavoriteMenu = dynamic(() => import('@/components/UI/FavoriteBtn/FavoriteMenu'));
 
 export async function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -38,6 +40,8 @@ export default async function RootLayout({
                   <SocialMedia direction="vertical" gap={20} />
                 </div>
                 <TopNav locale={locale} />
+                <FavoriteBtn />
+                <FavoriteMenu />
                 <main className="flex-1">{children}</main>
                 <ClientPopupObserver locale={locale} />
                 <Footer locale={locale} />
