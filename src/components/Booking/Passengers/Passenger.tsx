@@ -14,50 +14,15 @@ import { useMemo } from 'react';
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 import Image from 'next/image';
 import { PhoneInputComp } from '@/components/UI';
-
-const InputField = ({
-  value,
-  onChange,
-  placeholder,
-}: {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder: string;
-}) => (
-  <input
-    type="text"
-    value={value}
-    placeholder={placeholder}
-    onChange={onChange}
-    className="rounded-2xl border border-[#D8DADC] placeholder:text-[#16372D]/50 text-[#16372D] font-normal text-base px-2.5 py-4 w-full"
-  />
-);
-
-const RadioButton = ({
-  name,
-  value,
-  checked,
-  label,
-  onChange,
-}: {
-  name: string;
-  value: string;
-  checked: boolean;
-  label: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) => (
-  <label className="flex items-center space-x-2 text-sm text-gray-600">
-    <input
-      type="radio"
-      name={name}
-      value={value}
-      checked={checked}
-      onChange={onChange}
-      className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-    />
-    <span>{label}</span>
-  </label>
-);
+import { cn } from '@/utils/utils';
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from '@mui/material';
 
 export const Passenger = ({
   index,
@@ -70,7 +35,7 @@ export const Passenger = ({
   const locale = useLocale();
   const t = useTranslations('Booking');
 
-  const { bookingData, setBookingData } = useBookingStore((state) => state);
+  const { bookingData, setBookingData, sendStatus } = useBookingStore((state) => state);
 
   const salutations: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Miss'];
 
@@ -123,7 +88,6 @@ export const Passenger = ({
       console.warn('bookingData или passengers не инициализированы');
       return;
     }
-    console.log(bookingData);
 
     const keys = path.split('.');
 
@@ -169,49 +133,87 @@ export const Passenger = ({
       {/* Personal Information section */}
       <div className="space-y-4">
         {/* Salutation */}
-        <div>
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            {locale === 'en' &&
-              salutations?.map((s) => (
-                <RadioButton
-                  key={s}
-                  name={`salutation_${index}`}
-                  value={s}
-                  checked={bookingData?.passengers?.[index]?.salutation === s}
-                  label={s}
-                  onChange={(e) => updatePassengerField(index, 'salutation', e.target.value)}
-                />
-              ))}
-          </div>
+        <div className="w-full flex flex-col gap-3">
+          {locale === 'en' && (
+            <FormControl error={sendStatus && !bookingData?.passengers?.[index]?.salutation}>
+              <FormLabel>
+                {locale === 'en' ? 'Choose one of them:*' : 'Выберите один из вариантов:*'}
+              </FormLabel>
+              <RadioGroup
+                color="secondary"
+                name={`salutation_${index}`}
+                value={bookingData?.passengers?.[index]?.salutation || 'Mr.'}
+                onChange={(e) =>
+                  updatePassengerField(
+                    index,
+                    'salutation',
+                    bookingData?.passengers?.[index]?.salutation ? e.target.value : 'Mr.',
+                  )
+                }
+                sx={{ my: 1, display: 'flex', flexDirection: 'row' }}
+              >
+                {salutations?.map((s: string) => (
+                  <FormControlLabel
+                    color="secondary"
+                    key={s}
+                    value={s}
+                    control={<Radio color="secondary" />}
+                    label={s}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          )}
         </div>
 
         {/* Name */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <InputField
-              value={bookingData?.passengers?.[index]?.first_name || ''}
-              onChange={(e) => updatePassengerField(index, 'first_name', e.target.value)}
-              placeholder={t('passenger.first_name')}
-            />
-          </div>
-          <div>
-            <InputField
-              value={bookingData?.passengers?.[index]?.last_name || ''}
-              onChange={(e) => updatePassengerField(index, 'last_name', e.target.value)}
-              placeholder={t('passenger.last_name')}
-            />
-          </div>
+          <TextField
+            type="text"
+            color="secondary"
+            fullWidth
+            error={sendStatus && !bookingData?.passengers?.[index]?.first_name}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '16px',
+              },
+            }}
+            value={bookingData?.passengers?.[index]?.first_name || ''}
+            onChange={(e) => updatePassengerField(index, 'first_name', e.target.value)}
+            placeholder={t('passenger.first_name')}
+          />
+          <TextField
+            type="text"
+            color="secondary"
+            fullWidth
+            error={sendStatus && !bookingData?.passengers?.[index]?.last_name}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '16px',
+              },
+            }}
+            value={bookingData?.passengers?.[index]?.last_name || ''}
+            onChange={(e) => updatePassengerField(index, 'last_name', e.target.value)}
+            placeholder={t('passenger.last_name')}
+          />
         </div>
 
         {/* Email */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <InputField
-              value={bookingData?.passengers?.[index]?.email || ''}
-              onChange={(e) => updatePassengerField(index, 'email', e.target.value)}
-              placeholder={t('passenger.email')}
-            />
-          </div>
+          <TextField
+            type="text"
+            color="secondary"
+            fullWidth
+            error={sendStatus && !bookingData?.passengers?.[index]?.email}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '16px',
+              },
+            }}
+            value={bookingData?.passengers?.[index]?.email || ''}
+            onChange={(e) => updatePassengerField(index, 'email', e.target.value)}
+            placeholder={t('passenger.email')}
+          />
 
           {/* Phone Number */}
           <div>
@@ -226,8 +228,17 @@ export const Passenger = ({
 
         {/* Date of Birth */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            {t('passenger.date_of_birth')}
+          <label
+            className={cn(
+              'block text-sm font-medium text-gray-700',
+              sendStatus &&
+                !bookingData?.passengers?.[index]?.birth_date?.month &&
+                !bookingData?.passengers?.[index]?.birth_date?.day &&
+                !bookingData?.passengers?.[index]?.birth_date?.year &&
+                'text-red-500',
+            )}
+          >
+            {`${t('passenger.date_of_birth')}:*`}
           </label>
           <div className="mt-1 grid grid-cols-3 gap-2">
             <Dropdown>
@@ -296,19 +307,33 @@ export const Passenger = ({
         </div>
 
         {/* Gender */}
-        <div>
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            {genders[locale].map((g) => (
-              <RadioButton
-                key={g}
-                name={`gender_${index}`}
-                value={g}
-                checked={bookingData?.passengers?.[index]?.gender === g}
-                label={g}
-                onChange={(e) => updatePassengerField(index, 'gender', e.target.value)}
-              />
-            ))}
-          </div>
+        <div className="flex flex-col gap-3">
+          <FormControl error={sendStatus && !bookingData?.passengers?.[index]?.salutation}>
+            <FormLabel>{locale === 'en' ? 'Your gender:*' : 'Ваш пол:*'}</FormLabel>
+            <RadioGroup
+              color="secondary"
+              name={`salutation_${index}`}
+              value={bookingData?.passengers?.[index]?.gender || 'Male'}
+              onChange={(e) =>
+                updatePassengerField(
+                  index,
+                  'gender',
+                  bookingData?.passengers?.[index]?.gender ? e.target.value : 'Male',
+                )
+              }
+              sx={{ my: 1, display: 'flex', flexDirection: 'row' }}
+            >
+              {genders[locale].map((s: string) => (
+                <FormControlLabel
+                  color="secondary"
+                  key={s}
+                  value={s}
+                  control={<Radio color="secondary" />}
+                  label={s}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
         </div>
       </div>
 
@@ -322,12 +347,30 @@ export const Passenger = ({
         <div className="mt-2 space-y-4">
           {/* Street Address */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField
+            <TextField
+              type="text"
+              color="secondary"
+              fullWidth
+              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.address}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '16px',
+                },
+              }}
               value={bookingData?.passengers?.[index]?.main_address?.address || ''}
               onChange={(e) => updatePassengerField(index, 'main_address.address', e.target.value)}
               placeholder={t('passenger.adress_line', { number: 1 })}
             />
-            <InputField
+            <TextField
+              type="text"
+              color="secondary"
+              fullWidth
+              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.address2}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '16px',
+                },
+              }}
               value={bookingData?.passengers?.[index]?.main_address?.address2 || ''}
               onChange={(e) => updatePassengerField(index, 'main_address.address2', e.target.value)}
               placeholder={t('passenger.adress_line', { number: 2 })}
@@ -336,19 +379,46 @@ export const Passenger = ({
 
           {/* City, State/Province, Postal Code */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <InputField
+            <TextField
+              type="text"
+              color="secondary"
+              fullWidth
+              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.province}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '16px',
+                },
+              }}
               value={bookingData?.passengers?.[index]?.main_address?.province || ''}
               onChange={(e) => updatePassengerField(index, 'main_address.province', e.target.value)}
               placeholder={t('passenger.province')}
             />
-            <InputField
+            <TextField
+              type="text"
+              color="secondary"
+              fullWidth
+              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.state}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '16px',
+                },
+              }}
               value={bookingData?.passengers?.[index]?.main_address?.state || ''}
               onChange={(e) => updatePassengerField(index, 'main_address.state', e.target.value)}
               placeholder={t('passenger.state')}
             />
           </div>
           <div className="grid grid-cols-1 gap-4">
-            <InputField
+            <TextField
+              type="text"
+              color="secondary"
+              fullWidth
+              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.postal_code}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '16px',
+                },
+              }}
               value={bookingData?.passengers?.[index]?.main_address?.postal_code || ''}
               onChange={(e) =>
                 updatePassengerField(index, 'main_address.postal_code', e.target.value)

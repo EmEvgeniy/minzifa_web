@@ -27,7 +27,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
 
   const [isChecked, setIsChecked] = useState(false);
 
-  const { bookingData, setBookingData } = useBookingStore((state) => state);
+  const { bookingData, setBookingData, setSendData } = useBookingStore((state) => state);
   const { setMessage, setError } = useSnackStore((state) => state);
 
   useEffect(() => {
@@ -57,23 +57,6 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
     },
   );
-
-  const handleSubmit = useCallback(() => {
-    if (!isPending && isChecked && bookingData) {
-      mutate({
-        obj: {
-          ...bookingData,
-          travellers_count: (bookingData.travellers_count ?? 0).toString(),
-          tour_price: (bookingData.tour_price ?? 0).toString(),
-          single_price: (bookingData.single_price ?? 0).toString(),
-          deposit: (bookingData.deposit ?? 0).toString(),
-          total_price: (bookingData.total_price ?? 0).toString(),
-        },
-        http: 'forms/booking',
-      });
-    }
-  }, [bookingData, isPending, mutate, isChecked]);
-
   const isAllPassengersValid = (bookingData.passengers ?? []).every((p) => {
     return (
       p.first_name?.trim() &&
@@ -92,6 +75,28 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       p.main_address?.postal_code?.trim()
     );
   });
+
+  const handleSubmit = useCallback(() => {
+    if (!isAllPassengersValid) {
+      setSendData(false);
+      return;
+    }
+
+    if (!isPending && isChecked && bookingData) {
+      mutate({
+        obj: {
+          ...bookingData,
+          travellers_count: (bookingData.travellers_count ?? 0).toString(),
+          tour_price: (bookingData.tour_price ?? 0).toString(),
+          single_price: (bookingData.single_price ?? 0).toString(),
+          deposit: (bookingData.deposit ?? 0).toString(),
+          total_price: (bookingData.total_price ?? 0).toString(),
+        },
+        http: 'forms/booking',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookingData, isPending, mutate, isChecked, isAllPassengersValid]);
 
   return (
     <div className="sticky top-[150px] rounded-2xl space-y-4 bg-white p-5 shadow-xl max-[1024px]:relative max-[1024px]:top-0">

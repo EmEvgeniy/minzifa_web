@@ -48,8 +48,10 @@ export type BookingTourData = {
 export type BookingStoreData = {
   tour: Tour | undefined;
   bookingData: BookingTourData;
+  sendStatus: boolean;
   setTour: (tour: Tour | undefined) => void;
   setBookingData: (data: BookingTourData) => void;
+  setSendData: (val: boolean) => void;
 };
 
 export const useBookingStore = create<BookingStoreData>()(
@@ -62,7 +64,9 @@ export const useBookingStore = create<BookingStoreData>()(
         room_types: {},
       },
       selectedPrice: undefined,
+      sendStatus: true,
       setTour: (tour: Tour | undefined) => set({ tour: tour }),
+      setSendData: (val) => set({ sendStatus: val }),
       setBookingData: (data) =>
         set((state) => ({
           bookingData: {
