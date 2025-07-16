@@ -65,7 +65,7 @@ export default async function page({ params }: DefaultPageProps) {
         />
       </div>
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-      <div className="container flex items-start justify-between gap-5 w-full relative z-30 h-full max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-center">
+      <div className="container flex items-start justify-between gap-5 w-full relative z-30 h-full max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-center mt-[50px]">
         <LeftInfo locale={locale} />
         <div className="w-full block max-[768px]:hidden">
           <Form />
