@@ -10,7 +10,7 @@ import {
   DropdownItem,
   DropdownSummary,
 } from '@/components/UI/Dropdown/Dropdown';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 import Image from 'next/image';
 import { PhoneInputComp } from '@/components/UI';
@@ -122,6 +122,41 @@ export const Passenger = ({
     });
   };
 
+  useEffect(() => {
+    const defaultPassenger: PassengerType = {
+      salutation: 'Mr.',
+      gender: 'Male',
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      birth_date: {
+        day: '',
+        month: '',
+        year: '',
+      },
+      main_address: {
+        address: '',
+        address2: '',
+        province: '',
+        state: '',
+        postal_code: '',
+      },
+    };
+
+    const updatedPassengers = [...(bookingData.passengers || [])];
+
+    // Только если пассажир с таким индексом не существует — создаём нового
+    if (!updatedPassengers[index]) {
+      updatedPassengers[index] = defaultPassenger;
+      setBookingData({
+        ...bookingData,
+        passengers: updatedPassengers,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="space-y-6">
       <div className="bg-[#C5DCD3]/50 rounded-2xl px-2.5 py-5 flex flex-row items-center gap-2 max-[768px]:text-[12px]">
@@ -142,7 +177,7 @@ export const Passenger = ({
               <RadioGroup
                 color="secondary"
                 name={`salutation_${index}`}
-                value={bookingData?.passengers?.[index]?.salutation || 'Mr.'}
+                value={bookingData?.passengers?.[index]?.salutation || ''}
                 onChange={(e) =>
                   updatePassengerField(
                     index,
@@ -365,7 +400,7 @@ export const Passenger = ({
               type="text"
               color="secondary"
               fullWidth
-              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.address2}
+              // error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.address2}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '16px',
@@ -383,7 +418,7 @@ export const Passenger = ({
               type="text"
               color="secondary"
               fullWidth
-              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.province}
+              // error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.province}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '16px',
@@ -397,7 +432,7 @@ export const Passenger = ({
               type="text"
               color="secondary"
               fullWidth
-              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.state}
+              // error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.state}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '16px',
@@ -413,7 +448,7 @@ export const Passenger = ({
               type="text"
               color="secondary"
               fullWidth
-              error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.postal_code}
+              // error={sendStatus && !bookingData?.passengers?.[index]?.main_address?.postal_code}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '16px',

@@ -68,11 +68,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       p.birth_date?.day &&
       p.birth_date?.month &&
       p.birth_date?.year &&
-      p.main_address?.address?.trim() &&
-      p.main_address?.address2?.trim() &&
-      p.main_address?.state?.trim() &&
-      p.main_address?.province?.trim() &&
-      p.main_address?.postal_code?.trim()
+      p.main_address?.address?.trim()
     );
   });
 
@@ -228,9 +224,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       <button
         onClick={handleSubmit}
         disabled={
-          (!!(Number(bookingData.travellers_count) > 0) &&
-            (bookingData.passengers?.length ?? 0) <= 0) ||
-          !isAllPassengersValid
+          !isChecked || !isAllPassengersValid || (bookingData.passengers?.length ?? 0) === 0
         }
         className="text-center w-full rounded-4xl disabled:bg-[#DDDDDD] disabled:cursor-not-allowed bg-[#27A430] text-white p-4 cursor-pointer transition-all duration-300 hover:bg-[#208B28] max-[1024px]:hidden"
       >
