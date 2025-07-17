@@ -3,15 +3,12 @@ import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
 import { BookingTourData, useBookingStore } from '@/store/bookingStore';
-
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
 export default function MobileBtn({ locale, btn }: { locale: string; btn: string }) {
   const { bookingData, setBookingData, setSendData } = useBookingStore((state) => state);
-
   const searchParams = useSearchParams();
-
   const { setMessage, setError } = useSnackStore((state) => state);
 
   useEffect(() => {
