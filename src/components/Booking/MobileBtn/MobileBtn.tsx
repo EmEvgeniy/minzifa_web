@@ -8,7 +8,7 @@ import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
 export default function MobileBtn({ locale, btn }: { locale: string; btn: string }) {
-  const { bookingData, setBookingData } = useBookingStore((state) => state);
+  const { bookingData, setBookingData, setSendData } = useBookingStore((state) => state);
 
   const searchParams = useSearchParams();
 
@@ -41,15 +41,6 @@ export default function MobileBtn({ locale, btn }: { locale: string; btn: string
     },
   );
 
-  const handleSubmit = useCallback(() => {
-    if (!isPending) {
-      mutate({
-        obj: bookingData,
-        http: 'forms/booking',
-      });
-    }
-  }, [bookingData, isPending, mutate]);
-
   const isAllPassengersValid = (bookingData.passengers ?? []).every((p) => {
     return (
       p.first_name?.trim() &&
@@ -61,13 +52,24 @@ export default function MobileBtn({ locale, btn }: { locale: string; btn: string
       p.birth_date?.day &&
       p.birth_date?.month &&
       p.birth_date?.year &&
-      p.main_address?.address?.trim() &&
-      p.main_address?.address2?.trim() &&
-      p.main_address?.state?.trim() &&
-      p.main_address?.province?.trim() &&
-      p.main_address?.postal_code?.trim()
+      p.main_address?.address?.trim()
     );
   });
+
+  const handleSubmit = useCallback(() => {
+    if (!isAllPassengersValid) {
+      setSendData(false);
+      return;
+    }
+
+    if (!isPending) {
+      mutate({
+        obj: bookingData,
+        http: 'forms/booking',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookingData, isPending, mutate, isAllPassengersValid]);
 
   return (
     <div className="sticky bottom-0 bg-[#16372D] max-[1024px]:block hidden">
