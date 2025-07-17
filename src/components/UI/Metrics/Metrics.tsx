@@ -15,15 +15,14 @@ export default function Metrics() {
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
 
-                    ${
-                      isRussian
-                        ? `
+                    ${isRussian
+            ? `
                             gtag('config', 'AW-16625384260');
                         `
-                        : `
+            : `
                             gtag('config', 'G-M136S4C9GK');
                         `
-                    }
+          }
 
                     gtag('config', 'AW-301071748');
                     gtag('config', 'G-JK3M1DVN37');
@@ -69,16 +68,15 @@ export default function Metrics() {
                             fbq('track', 'PageView');
                         `}
           </Script>
-        </>
-      )}
-      {!isRussian && (
-        <Script id="clarity" strategy="afterInteractive">
-          {`(function(c,l,a,r,i,t,y){
+          {/* Clarity */}
+          <Script id="clarity" strategy="afterInteractive">
+            {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "sdnbxkik9r");`}
-        </Script>
+          </Script>
+        </>
       )}
     </>
   );
