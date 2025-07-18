@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
-  const slug = 'thank-you';
   const locale = (await params).locale;
+  const slug = `https://minzifatravel.com/${locale}/thank-you`;
 
   const data = await fetch(
     `https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`,

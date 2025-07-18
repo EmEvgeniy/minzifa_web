@@ -18,14 +18,14 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const slug = (await params).slug;
   const locale = (await params).locale;
 
-  const tour = await fetch(
+  const article = await fetch(
     `https://api.minzifatravel.com/api/v1/articles/${slug}?locale=${locale}`,
   ).then((res) => res.json());
 
   return {
-    title: tour?.seo_metadata?.title,
-    description: tour?.seo_metadata?.description,
-    keywords: tour?.seo_metadata?.keywords,
+    title: article?.seo_metadata?.title,
+    description: article?.seo_metadata?.description,
+    keywords: article?.seo_metadata?.keywords,
   };
 }
 

@@ -12,36 +12,16 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const locale = (await params).locale;
+  const slug = `https://minzifatravel.com/${locale}/adventures`;
 
-  const data: {
-    [key: string]: {
-      seo_metadata: {
-        title: string;
-        description: string;
-        keywords: string;
-      };
-    };
-  } = {
-    en: {
-      seo_metadata: {
-        title: 'Adventures',
-        description: 'Adventures',
-        keywords: 'Adventures',
-      },
-    },
-    ru: {
-      seo_metadata: {
-        title: 'Путешествия',
-        description: 'Путешествия',
-        keywords: 'Путешествия',
-      },
-    },
-  };
+  const data = await fetch(
+    `https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`,
+  ).then((res) => res.json());
 
   return {
-    title: data[locale].seo_metadata?.title,
-    description: data[locale]?.seo_metadata?.description,
-    keywords: data[locale]?.seo_metadata?.keywords,
+    title: data?.seo_metadata?.title,
+    description: data?.seo_metadata?.description,
+    keywords: data?.seo_metadata?.keywords,
   };
 }
 

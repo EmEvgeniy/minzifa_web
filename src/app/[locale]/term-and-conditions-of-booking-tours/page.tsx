@@ -9,8 +9,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
-  const slug = 'terms-and-conditions';
   const locale = (await params).locale;
+  const slug = `https://minzifatravel.com/${locale}/term-and-conditions-of-booking-tours`;
 
   const data = await fetch(
     `https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`,

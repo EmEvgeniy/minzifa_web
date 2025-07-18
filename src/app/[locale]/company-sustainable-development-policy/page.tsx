@@ -12,9 +12,9 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slug = 'sustainability-policy';
   const locale = (await params).locale;
-
+  const slug = `https://minzifatravel.com/${locale}/company-sustainable-development-policy`;
+  
   const data = await fetch(
     `https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`,
   ).then((res) => res.json());
