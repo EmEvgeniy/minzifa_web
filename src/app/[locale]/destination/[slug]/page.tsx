@@ -50,7 +50,7 @@ export default async function page({ params }: Props) {
           view_itinerary={t('all_tours.view_itinerary')}
           byRequest={t('all_tours.byRequest')}
           // location={t('all_tours.location')}
-          destination={destination}
+          // destination={destination}
         />
       </div>
       <Reviews locale={locale} />
