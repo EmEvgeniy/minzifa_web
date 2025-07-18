@@ -18,29 +18,15 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const slug = `https://minzifatravel.com/${locale}/contact`;
 
-  try {
-    const res = await fetch(`https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`);
+  const data = await fetch(
+    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
+  ).then((res) => res.json());
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch metadata: ${res.status}`);
-    }
-
-    const data = await res.json();
-
-    return {
-      title: data?.seo_metadata?.title || 'Default title',
-      description: data?.seo_metadata?.description || 'Default description',
-      keywords: data?.seo_metadata?.keywords || '',
-    };
-  } catch (error) {
-    console.error('Metadata fetch error:', error);
-
-    return {
-      title: 'Default title',
-      description: 'Default description',
-      keywords: '',
-    };
-  }
+  return {
+    title: data?.seo_metadata?.title,
+    description: data?.seo_metadata?.description,
+    keywords: data?.seo_metadata?.keywords,
+  };
 }
 
 export default async function page({ params }: DefaultPageProps) {

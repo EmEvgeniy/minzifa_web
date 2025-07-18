@@ -14,9 +14,9 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const slug = `https://minzifatravel.com/${locale}/privacy-policy`;
 
   const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages/${slug}?locale=${locale}`,
+    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
   ).then((res) => res.json());
-
+  
   return {
     title: data?.seo_metadata?.title,
     description: data?.seo_metadata?.description,
