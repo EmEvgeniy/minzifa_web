@@ -66,7 +66,6 @@ export default async function ContactUs({ locale }: DefaultComponentsProps) {
               </Link>
             ))}
           </div>
-           
         </div>
         <div className="relative w-[50%] h-[420px] [@media(max-width:1024px)]:w-full [@media(max-width:1024px)]:h-[300px]">
           <Image
