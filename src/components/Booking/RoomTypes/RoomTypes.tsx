@@ -6,10 +6,11 @@ export default async function RoomTypes({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'Booking' });
   const roomTypes = t.raw('roomTypes') as {
     title: string;
-    included: string;
-    twin: string;
-    double: string;
+    standart: string;
+    standart_hint: string;
     single: string;
+    single_hint: string;
+    pt: string;
   };
 
   return (
@@ -17,7 +18,7 @@ export default async function RoomTypes({ locale }: DefaultComponentsProps) {
       <h2 className="text-[#16372D] text-3xl max-[768px]:text-[24px] max-[768px]:text-center">
         {t('roomTypes.title')}
       </h2>
-      <RoomTypesInner title={roomTypes} included={t('roomTypes.included')} />
+      <RoomTypesInner title={roomTypes} />
     </div>
   );
 }

@@ -16,7 +16,7 @@ export default async function ContactUs({ locale }: DefaultComponentsProps) {
     {
       icon: IconEnvelope,
       label: t(`contacts.envelope`),
-      slug: contacts.email?.[locale].url,
+      slug: contacts.email?.[locale]?.url,
     },
     {
       icon: IconWhatsapp,
@@ -26,7 +26,7 @@ export default async function ContactUs({ locale }: DefaultComponentsProps) {
     {
       icon: IconPhone,
       label: t(`contacts.phone`),
-      slug: contacts.phone?.[locale].url,
+      slug: contacts.phone?.[locale]?.url,
     },
   ];
 

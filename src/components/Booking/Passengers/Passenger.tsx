@@ -3,13 +3,6 @@
 import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { Passenger as PassengerType, useBookingStore } from '@/store/bookingStore';
-
-import {
-  Dropdown,
-  DropdownDetails,
-  DropdownItem,
-  DropdownSummary,
-} from '@/components/UI/Dropdown/Dropdown';
 import { useEffect, useMemo } from 'react';
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 import Image from 'next/image';
@@ -19,10 +12,50 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  MenuItem,
+  OutlinedInput,
   Radio,
   RadioGroup,
+  Select,
   TextField,
 } from '@mui/material';
+
+const salutations: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Miss'];
+const genders: { [key: string]: string[] } = {
+  en: ['Male', 'Female'],
+  ru: ['Мужчина', 'Женщина'],
+};
+
+const months: { [key: string]: string[] } = {
+  en: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ],
+  ru: [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь',
+  ],
+};
 
 export const Passenger = ({
   index,
@@ -35,92 +68,15 @@ export const Passenger = ({
   const locale = useLocale();
   const t = useTranslations('Booking');
 
-  const { bookingData, setBookingData, sendStatus } = useBookingStore((state) => state);
-
-  const salutations: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Miss'];
-
-  const genders: { [key: string]: string[] } = {
-    en: ['Male', 'Female'],
-    ru: ['Мужчина', 'Женщина'],
-  };
-
-  const months: { [key: string]: string[] } = {
-    en: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ],
-    ru: [
-      'Январь',
-      'Февраль',
-      'Март',
-      'Апрель',
-      'Май',
-      'Июнь',
-      'Июль',
-      'Август',
-      'Сентябрь',
-      'Октябрь',
-      'Ноябрь',
-      'Декабрь',
-    ],
-  };
-
+  const { bookingData, setBookingData, sendStatus, updatePassengerField } = useBookingStore((state) => state);
   const days = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'));
 
   const currentYear = new Date().getFullYear();
+
   const years = useMemo(
     () => Array.from({ length: 100 }, (_, i) => String(currentYear - i)),
     [currentYear],
   );
-
-  const updatePassengerField = (index: number, path: string, value: string) => {
-    if (!bookingData || !Array.isArray(bookingData.passengers)) {
-      console.warn('bookingData или passengers не инициализированы');
-      return;
-    }
-
-    const keys = path.split('.');
-
-    const newPassengers: PassengerType[] = [...bookingData.passengers];
-    const passenger = { ...newPassengers[index] };
-
-    let current: Record<string, unknown> = passenger;
-
-    for (let i = 0; i < keys.length - 1; i++) {
-      const key = keys[i];
-
-      if (
-        typeof current[key] !== 'object' ||
-        current[key] === null ||
-        Array.isArray(current[key])
-      ) {
-        current[key] = {};
-      } else {
-        current[key] = { ...current[key] };
-      }
-
-      current = current[key] as Record<string, unknown>;
-    }
-
-    current[keys[keys.length - 1]] = value;
-
-    newPassengers[index] = passenger;
-
-    setBookingData({
-      ...bookingData,
-      passengers: newPassengers,
-    });
-  };
 
   useEffect(() => {
     const defaultPassenger: PassengerType = {
@@ -267,77 +223,95 @@ export const Passenger = ({
             className={cn(
               'block text-sm font-medium text-gray-700',
               sendStatus &&
-                !bookingData?.passengers?.[index]?.birth_date?.month &&
-                !bookingData?.passengers?.[index]?.birth_date?.day &&
-                !bookingData?.passengers?.[index]?.birth_date?.year &&
-                'text-red-500',
+              !bookingData?.passengers?.[index]?.birth_date?.month &&
+              !bookingData?.passengers?.[index]?.birth_date?.day &&
+              !bookingData?.passengers?.[index]?.birth_date?.year &&
+              'text-red-500',
             )}
           >
             {`${t('passenger.date_of_birth')}:*`}
           </label>
           <div className="mt-1 grid grid-cols-3 gap-2">
-            <Dropdown>
-              <DropdownSummary className="cursor-pointer rounded-2xl border border-[#D8DADC] placeholder:text-[#16372D]/50 text-[#16372D] font-normal text-base px-2.5 py-4 w-full flex flex-row justify-between items-center">
-                {bookingData?.passengers?.[index]?.birth_date?.month || t('passenger.month')}
-              </DropdownSummary>
-              <DropdownDetails className="flex flex-col overflow-hidden overflow-y-auto max-h-[300px]">
-                {({ isOpen, toggle }) =>
-                  months[locale].map((month) => (
-                    <DropdownItem
-                      key={month}
-                      onClick={() => {
-                        updatePassengerField(index, 'birth_date.month', month);
-                        toggle(!isOpen);
-                      }}
-                    >
-                      {month}
-                    </DropdownItem>
-                  ))
-                }
-              </DropdownDetails>
-            </Dropdown>
+            <Select
+              onChange={(e) => updatePassengerField(index, 'birth_date.month', e.target.value)}
+              value={bookingData?.passengers?.[index]?.birth_date?.month || ''}
+              displayEmpty
+              input={
+                <OutlinedInput
+                  notched={false}
+                  placeholder={t('passenger.month')}
+                  sx={{
+                    borderRadius: '16px',
+                    fontSize: '14px',
+                    width: '100%',
+                    color: '#000',
+                  }}
+                />
+              }
+            >
+              <MenuItem value="" disabled>
+                {t('passenger.month')}
+              </MenuItem>
+              {months[locale].map((month) => (
+                <MenuItem key={month} value={month}>
+                  {month}
+                </MenuItem>
+              ))}
+            </Select>
 
-            <Dropdown>
-              <DropdownSummary className="cursor-pointer rounded-2xl border border-[#D8DADC] placeholder:text-[#16372D]/50 text-[#16372D] font-normal text-base px-2.5 py-4 w-full flex flex-row justify-between items-center">
-                {bookingData?.passengers?.[index]?.birth_date?.day || t('passenger.day')}
-              </DropdownSummary>
-              <DropdownDetails className="flex flex-col overflow-hidden overflow-y-auto max-h-[300px]">
-                {({ isOpen, toggle }) =>
-                  days.map((day) => (
-                    <DropdownItem
-                      key={day}
-                      onClick={() => {
-                        updatePassengerField(index, 'birth_date.day', day);
-                        toggle(!isOpen);
-                      }}
-                    >
-                      {day}
-                    </DropdownItem>
-                  ))
-                }
-              </DropdownDetails>
-            </Dropdown>
+            <Select
+              onChange={(e) => updatePassengerField(index, 'birth_date.day', e.target.value)}
+              value={bookingData?.passengers?.[index]?.birth_date?.day || ''}
+              displayEmpty
+              input={
+                <OutlinedInput
+                  notched={false}
+                  placeholder={t('passenger.day')}
+                  sx={{
+                    borderRadius: '16px',
+                    fontSize: '14px',
+                    width: '100%',
+                    color: '#000',
+                  }}
+                />
+              }
+            >
+              <MenuItem value="" disabled>
+                {t('passenger.day')}
+              </MenuItem>
+              {days.map((day) => (
+                <MenuItem key={day} value={day}>
+                  {day}
+                </MenuItem>
+              ))}
+            </Select>
 
-            <Dropdown>
-              <DropdownSummary className="cursor-pointer rounded-2xl border border-[#D8DADC] placeholder:text-[#16372D]/50 text-[#16372D] font-normal text-base px-2.5 py-4 w-full flex flex-row justify-between items-center">
-                {bookingData?.passengers?.[index]?.birth_date?.year || t('passenger.year')}
-              </DropdownSummary>
-              <DropdownDetails className="flex flex-col overflow-hidden overflow-y-auto max-h-[300px]">
-                {({ isOpen, toggle }) =>
-                  years.map((year) => (
-                    <DropdownItem
-                      key={year}
-                      onClick={() => {
-                        updatePassengerField(index, 'birth_date.year', year);
-                        toggle(!isOpen);
-                      }}
-                    >
-                      {year}
-                    </DropdownItem>
-                  ))
-                }
-              </DropdownDetails>
-            </Dropdown>
+            <Select
+              onChange={(e) => updatePassengerField(index, 'birth_date.year', e.target.value)}
+              value={bookingData?.passengers?.[index]?.birth_date?.year || ''}
+              displayEmpty
+              input={
+                <OutlinedInput
+                  notched={false}
+                  placeholder={t('passenger.year')}
+                  sx={{
+                    borderRadius: '16px',
+                    fontSize: '14px',
+                    width: '100%',
+                    color: '#000',
+                  }}
+                />
+              }
+            >
+              <MenuItem value="" disabled>
+                {t('passenger.year')}
+              </MenuItem>
+              {years.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
           </div>
         </div>
 

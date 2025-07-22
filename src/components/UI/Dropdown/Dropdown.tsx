@@ -8,6 +8,7 @@ import React, {
     useRef,
     ReactNode,
     useMemo,
+    useCallback,
 } from "react";
 import { DropdownContextType, DropdownDetailsProps, DropdownProps, DropdownSummaryProps } from "./_types";
 import { cn } from "@/utils/utils";
@@ -31,11 +32,11 @@ export const Dropdown = ({
     const toggle = (val?: boolean) =>
         setIsOpen(prev => (typeof val === "boolean" ? val : !prev));
 
-    const handleChange = (val: string | number) => {
+    const handleChange = useCallback((val: string | number) => {
         setInternalValue(val);
         onChange?.(val);
         setIsOpen(false);
-    };
+    }, [onChange]);
 
     useEffect(() => {
         setInternalValue(value);
@@ -56,12 +57,12 @@ export const Dropdown = ({
         };
     }, []);
 
-    const contextValue: DropdownContextType = {
+    const contextValue = useMemo(() => ({
         isOpen,
         toggle,
         value: internalValue,
         onChange: handleChange,
-    };
+    }), [isOpen, internalValue, handleChange]);
 
     return (
         <DropdownContext.Provider value={contextValue}>

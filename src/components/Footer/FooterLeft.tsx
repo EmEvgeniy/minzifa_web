@@ -18,11 +18,11 @@ export default async function FooterLeft({ locale }: DefaultComponentsProps) {
       </p>
       <div className="flex flex-col gap-3">
         <p className="text-[24px]">{t('title')}</p>
-        <Link href={contacts.phone[locale]?.url} className="text-[24px] text-[#66B93E]">
-          {contacts.phone[locale]?.name}
+        <Link href={contacts?.phone[locale]?.url} className="text-[24px] text-[#66B93E]">
+          {contacts?.phone[locale]?.name}
         </Link>
-        <Link href={contacts.email[locale]?.url} className="text-[14px]">
-          {contacts.email[locale]?.name}
+        <Link href={contacts?.email[locale]?.url} className="text-[14px]">
+          {contacts?.email[locale]?.name}
         </Link>
         <SocialMedia />
       </div>

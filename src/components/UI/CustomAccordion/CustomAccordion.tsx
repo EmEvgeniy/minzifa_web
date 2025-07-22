@@ -123,7 +123,7 @@ export const CustomAccordionDetails: React.FC<CustomAccordionDetailsProps> = ({ 
                     transition={{ duration: 0.25, ease: "easeInOut" }}
                     className={cn(
                         `bg-white overflow-hidden transition-all duration-300 ease-in-out`,
-                        expanded ? 'max-h-screen opacity-100 py-5 rounded-b-2xl' : 'max-h-0 opacity-0 p-0 rounded-none',
+                        expanded ? 'max-h-full opacity-100 py-5 rounded-b-2xl' : 'max-h-0 opacity-0 p-0 rounded-none',
                         className,
                     )}
                 >

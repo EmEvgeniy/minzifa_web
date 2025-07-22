@@ -1,243 +1,114 @@
 'use client';
+
 import { Dropdown } from '@/components/UI/Dropdown/Dropdown';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
-import { useBookingStore } from '@/store/bookingStore';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import IconCheck from '@/assets/icons/booking/Line 1.svg';
-import { cn } from '@/utils/utils';
+import { RoomType, RoomTypes, useBookingStore } from '@/store/bookingStore';
+import { useEffect, useRef } from 'react';
 
-const roomTypes = ['double', 'twin', 'single'] as const;
-type RoomType = (typeof roomTypes)[number];
+const roomTypesAll: RoomType[] = ['standart', 'single'] as const;
 
 type Props = {
-  included: string;
   title: {
     title: string;
-    included: string;
-    twin: string;
-    double: string;
+    standart: string;
+    standart_hint: string;
     single: string;
+    single_hint: string;
+    pt: string;
   };
 };
 
-function RoomTypesInner({ title, included }: Props) {
+function RoomTypesInner({ title }: Props) {
   const { bookingData, setBookingData } = useBookingStore((state) => state);
-  const travellersCount = bookingData?.travellers_count || 0;
-  const selectedRoomsTotal = Object.values(bookingData?.room_types || {}).reduce(
-    (acc, curr) => acc + curr,
-    0,
-  );
+  const travellersCount = Number(bookingData?.travellers_count || 0);
+  const single_price = Number(bookingData?.single_price || 0);
+  const tour_price = Number(bookingData?.tour_price || 0);
 
-  // Состояние для визуального выделения активных комнат
-  const [selectedRoomTypes, setSelectedRoomTypes] = useState<Set<RoomType>>(
-    new Set(
-      Object.entries(bookingData?.room_types || {})
-        .filter(([, count]) => count > 0)
-        .map(([key]) => key as RoomType),
-    ),
-  );
+  const prevTravellersRef = useRef<number>(travellersCount);
 
   useEffect(() => {
-    if (!bookingData) return;
+    const prevTravellers = prevTravellersRef.current;
+    if (!bookingData?.room_types) return;
 
-    const currentRoomTypes = bookingData.room_types || {};
+    const totalRoomsSelected =
+      (bookingData.room_types.standart || 0) +
+      (bookingData.room_types.single || 0);
 
-    // Сброс если 0
-    if (travellersCount === 0 && Object.keys(currentRoomTypes).length > 0) {
-      setBookingData({
-        ...bookingData,
-        room_types: {},
-      });
-      setSelectedRoomTypes(new Set());
-    }
-
-    // Автовыбор если 1
-    if (Number(travellersCount) === 1) {
-      const selected = Object.entries(currentRoomTypes).filter(([, count]) => count > 0);
-
-      if (selected.length !== 1 || selected[0][1] !== 1) {
-        const firstSelected = (selected[0]?.[0] as RoomType) || 'double';
-
-        setBookingData({
-          ...bookingData,
-          room_types: {
-            [firstSelected]: 1,
-          },
-        });
-
-        setSelectedRoomTypes(new Set([firstSelected]));
-      }
-    }
-  }, [travellersCount, bookingData, setBookingData]);
-
-  const handleRoomTypeClick = (roomType: RoomType) => {
-    if (!bookingData || !travellersCount) return;
-
-    const travellers = Number(bookingData?.travellers_count) as number;
-    const tour_price = bookingData?.tour_price as number;
-    const single_price = bookingData?.single_price as number;
-
-    if (Number(travellersCount) === 1) {
-      let deposit;
-      let total_price;
-
-      if (roomType === 'single') {
-        deposit = tour_price * 0.15 + single_price;
-        total_price = tour_price * travellers + single_price;
-      } else {
-        deposit = (bookingData?.deposit as number) - single_price;
-        total_price = (bookingData?.total_price as number) - single_price;
-      }
-
-      // Только один тип номера
-      setSelectedRoomTypes(new Set([roomType]));
+    if (travellersCount !== prevTravellers || totalRoomsSelected > travellersCount) {
       setBookingData({
         ...bookingData,
         room_types: {
-          [roomType]: 1,
+          standart: Math.min(travellersCount, 1),
+          single: 0,
         },
-        deposit: deposit,
-        total_price: total_price,
-      });
-    } else {
-      // Множественный выбор
-      const roomCount = bookingData.room_types?.[roomType] || 0;
-      const updatedSet = new Set(selectedRoomTypes);
-
-      const updatedRoomTypes = {
-        ...bookingData.room_types,
-        [roomType]: roomCount > 0 ? 0 : 1,
-      };
-
-      if (roomCount > 0) {
-        updatedSet.delete(roomType);
-      } else {
-        updatedSet.add(roomType);
-      }
-
-      setSelectedRoomTypes(updatedSet);
-      setBookingData({
-        ...bookingData,
-        room_types: updatedRoomTypes,
-        deposit:
-          tour_price * 0.15 * travellers + (roomType === 'single' ? single_price * roomCount : 0),
-        total_price:
-          tour_price * travellers + (roomType === 'single' ? single_price * roomCount : 0),
       });
     }
-  };
 
-  const handleChangeCount = (value: number, roomType: RoomType) => {
-    const otherRoomTypes = Object.entries(bookingData?.room_types || {})
-      .filter(([key]) => key !== roomType)
-      .reduce((acc, [, count]) => acc + count, 0);
+    prevTravellersRef.current = travellersCount;
+  }, [travellersCount, bookingData, setBookingData]);
 
-    const available = Number(travellersCount) - otherRoomTypes;
-    const finalValue = Math.min(value, available);
+  if (!bookingData?.room_types) return null;
 
-    const updatedSet = new Set(selectedRoomTypes);
-    if (finalValue > 0) {
-      updatedSet.add(roomType);
-    } else {
-      updatedSet.delete(roomType);
-    }
+  const handleChangeCount = (roomType: RoomType, value: number) => {
+    const updatedRooms: RoomTypes = {
+      ...bookingData.room_types!,
+      [roomType]: value,
+    };
 
-    const travellers = Number(bookingData?.travellers_count) as number;
-    const tour_price = bookingData?.tour_price as number;
-    const single_price = bookingData?.single_price as number;
+    const singleRoomsCount = updatedRooms['single'] || 0;
 
-    setSelectedRoomTypes(updatedSet);
+    const deposit = tour_price * 0.15 * travellersCount + single_price * singleRoomsCount;
+    const total_price = tour_price * travellersCount + single_price * singleRoomsCount;
+
     setBookingData({
       ...bookingData,
-      room_types: {
-        ...(bookingData?.room_types || {}),
-        [roomType]: finalValue,
-      },
-      deposit:
-        tour_price * 0.15 * travellers + (roomType === 'single' ? single_price * finalValue : 0),
-      total_price:
-        tour_price * travellers + (roomType === 'single' ? single_price * finalValue : 0),
+      room_types: updatedRooms,
+      deposit,
+      total_price,
     });
   };
 
+  const getFormattedRoomPrice = (roomType: RoomType): number => {
+    return roomType === 'single' ? tour_price + single_price : tour_price;
+  };
+
+  const visibleRoomTypes = roomTypesAll.filter((type) =>
+    type === 'single' ? single_price > 0 : true,
+  );
+
   return (
     <>
-      {roomTypes.map((roomType: RoomType) => {
-        const roomCount = bookingData?.room_types?.[roomType] || 0;
-        const isSelected = roomCount > 0;
+      {visibleRoomTypes.map((roomType) => {
+        const roomTitle = title[roomType];
+        const roomHint = roomType === 'single' ? title.single_hint : title.standart_hint;
+        const currentCount = bookingData.room_types?.[roomType] ?? 0;
 
         return (
           <div key={roomType} className="md:flex flex-col gap-5 rounded-2xl">
             <div
-              onClick={() => handleRoomTypeClick(roomType)}
-              className={cn(
-                'relative rounded-2xl grid grid-cols-1 items-center bg-white hover:bg-gray-100 transition-all duration-300 p-5 pl-8 cursor-pointer max-[550px]:grid-cols-1 max-[550px]:justify-items-center max-[550px]:gap-2',
-                isSelected ? 'border-2 border-[#16372D]' : 'border border-gray-300',
-                Number(travellersCount) > 1 ? 'grid-cols-3' : 'grid-cols-2',
-              )}
+              className={'relative rounded-2xl grid grid-cols-1 md:grid-cols-3 items-center bg-white transition-all duration-300 p-5 max-[550px]:grid-cols-1 max-[550px]:justify-items-center max-[550px]:gap-2'}
             >
-              <span className="text-base font-normal">{title[roomType]}</span>
-
-              {isSelected ? (
-                <>
-                  <span
-                    className={cn(
-                      Number(travellersCount) > 1
-                        ? 'text-center'
-                        : 'text-right md:justify-self-end',
-                      'text-base font-semibold',
-                    )}
-                  >
-                    {included}
-                  </span>
-                  <span className="absolute top-0 right-0 overflow-hidden w-full h-full rounded-t-xl">
-                    <span className="absolute top-0 left-0 w-[15px] h-[15px]">
-                      <div className="absolute w-[50px] h-[50px] bg-[#16372D]/80 rotate-45 z-[1] -top-[25.5px] -left-[25.5px]" />
-                      <Image
-                        src={IconCheck}
-                        width={8}
-                        height={10}
-                        loading="lazy"
-                        alt=""
-                        className="z-[2] absolute top-[3px] left-[3px] w-full h-full"
-                      />
-                    </span>
-                  </span>
-                </>
-              ) : (
-                <span
-                  className={cn(
-                    Number(travellersCount) > 1 ? 'text-center' : 'text-right md:justify-self-end',
-                    'text-base font-semibold',
-                  )}
-                >
-                  +{' '}
-                  <FormattedPrice
-                    price={roomType === 'single' ? bookingData?.single_price || 0 : 0}
-                  />
-                </span>
-              )}
-
-              {Number(travellersCount) > 1 && (
-                <Dropdown
-                  value={roomCount}
-                  onChange={(val) => handleChangeCount(Number(val), roomType)}
-                  className="border rounded-md px-2 py-1"
-                  options={Array.from({
-                    length:
-                      (bookingData?.room_types?.[roomType] || 0) +
-                      (Number(travellersCount) - selectedRoomsTotal) +
-                      1,
-                  }).map((_, i) => {
-                    return {
-                      label: String(i),
-                      value: String(i),
-                    };
-                  })}
-                  placeholder="0"
-                ></Dropdown>
-              )}
+              <span className="text-base font-normal flex flex-col">
+                <span className='text-base font-semibold'>{roomTitle}</span>
+                <span className='text-xs text-gray-500'>{roomHint}</span>
+              </span>
+              <span className='text-base font-normal flex flex-col text-center'>
+                <FormattedPrice
+                  className='text-base font-semibold'
+                  price={getFormattedRoomPrice(roomType)}
+                />
+                <span className='text-xs text-gray-500'>{title.pt}</span>
+              </span>
+              <Dropdown
+                value={String(currentCount)}
+                onChange={(val) => handleChangeCount(roomType, Number(val))}
+                className="border rounded-md px-2 py-1"
+                options={Array.from({ length: travellersCount + 1 }).map((_, i) => ({
+                  label: String(i),
+                  value: String(i),
+                }))}
+                placeholder={String(currentCount)}
+              />
             </div>
           </div>
         );

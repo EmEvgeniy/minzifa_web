@@ -42,7 +42,7 @@ function PassengersInner({ passenger, hints }: { passenger: string; hints: strin
                 </p>
               </div>
             </CustomAccordionSummary>
-            <CustomAccordionDetails className="p-5 max-[1024px]:overflow-y-scroll">
+            <CustomAccordionDetails className="h-full p-5 max-[1024px]:overflow-y-scroll">
               <Passenger index={index} hints={hints} />
             </CustomAccordionDetails>
           </div>

@@ -914,10 +914,11 @@
     },
     "roomTypes": {
       "title": "Select room type",
-      "included": "Included",
-      "twin": "Twin room (2 double bed)",
-      "double": "Double room (1 double bed)",
-      "single": "Single room"
+      "standart": "Standart",
+      "standart_hint": "Per person in a shared room for two people. If you're booking together, you'll be paired with your travel partner. Solo adult travelers are matched with a fellow guest of the same gender.",
+      "single": "Single room",
+      "single_hint": "Please contact us for full details on the single room option availability on a night by night basis for this tour. Examples of exceptions can include but are not limited to camping and jungle lodges.",
+      "pt": "per Traveler"
     },
     "passenger": {
       "title": "Passenger information",
