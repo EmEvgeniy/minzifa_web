@@ -1,7 +1,7 @@
 'use client';
+
 import { Checkbox, Divider, FormControlLabel, styled } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useFilterStore } from './store';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
@@ -9,10 +9,12 @@ import MuiAccordionSummary, {
   accordionSummaryClasses,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import { useRouter } from 'next/navigation';
+import { useFilterStore } from './store';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({}) => ({}));
+))(({ }) => ({}));
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -35,10 +37,12 @@ function FilterHotels({
   pl: string;
   hotelData: { title: string; value: string }[];
 }) {
-  const { hotels, setHotels } = useFilterStore();
+  const { hotels, setHotels, buildFilterQuery } = useFilterStore();
+  const router = useRouter();
 
   const handleChangeHotels = (value: string) => {
     setHotels(value);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

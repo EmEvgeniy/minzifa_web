@@ -21,7 +21,7 @@ export default async function MainSection({ locale }: DefaultComponentsProps) {
         <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.all_tours') }} />
         <div className="w-full grid max-[1024px]:grid-cols-1 grid-cols-[300px_1fr] items-start justify-between gap-7">
           <div className="block [@media(max-width:1024px)]:hidden">
-            <Filter locale={locale} />
+            <Filter locale={locale} showFilter={['price', 'duration', 'seasons', 'hotels', 'tourType', 'destinations']} />
           </div>
           <ToursView
             tourData={initialTours}

@@ -10,7 +10,7 @@ const FilterHotels = dynamic(() => import('./FilterHotels'));
 const FilterTypes = dynamic(() => import('./FilterTypes'));
 const FilterDestinations = dynamic(() => import('./FilterDestinations'));
 
-export default async function Filter({ locale }: DefaultComponentsProps) {
+export default async function Filter({ locale, showFilter }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'all_tours' });
   const seasonData = t.raw('seasons') as { title: string; value: string }[];
   const hotelData = t.raw('hotels') as { title: string; value: string }[];
@@ -29,16 +29,12 @@ export default async function Filter({ locale }: DefaultComponentsProps) {
     <div className="max-w-[350px] w-full min-h-[700px] flex flex-col gap-5 items-start justify-start [@media(max-width:1024px)]:max-w-full">
       <FilterResetBtn title={t('f_top_btn')} />
       <div className="bg-white rounded-2xl w-full p-3 shadow-xl [@media(max-width:1024px)]:bg-transparent [@media(max-width:1024px)]:shadow-none [@media(max-width:1024px)]:p-0">
-        <FilterPriceSlider pl={t('pl')} pl2={t('from')} pl3={t('before')} />
-        <FilterDurationSlider pl={t('pl2')} pl2={t('from')} pl3={t('before')} />
-        <FilterSeasons pl={t('pl3')} seasonData={seasonData} />
-        <FilterHotels pl={t('pl4')} hotelData={hotelData} />
-        <FilterTypes tourTypesData={tourTypesData} pl={t('pl5')} />
-        <FilterDestinations
-          destinationsData={destinationsData}
-          pl2={t('find_destination')}
-          pl={t('pl6')}
-        />
+        {showFilter?.includes('price') && <FilterPriceSlider pl={t('pl')} pl2={t('from')} pl3={t('before')} />}
+        {showFilter?.includes('duration') && <FilterDurationSlider pl={t('pl2')} pl2={t('from')} pl3={t('before')} />}
+        {showFilter?.includes('seasons') && <FilterSeasons pl={t('pl3')} seasonData={seasonData} />}
+        {showFilter?.includes('hotels') && <FilterHotels pl={t('pl4')} hotelData={hotelData} />}
+        {showFilter?.includes('tourType') && <FilterTypes tourTypesData={tourTypesData} pl={t('pl5')} />}
+        {showFilter?.includes('destinations') && <FilterDestinations destinationsData={destinationsData} pl2={t('find_destination')} pl={t('pl6')} />}
       </div>
     </div>
   );

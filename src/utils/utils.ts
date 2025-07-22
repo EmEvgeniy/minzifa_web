@@ -25,3 +25,5 @@ export function formatted_date(date: string, locale: string, formatType: string 
   const startDate = new Date(date);
   return format(startDate, formatType, { locale: locale === 'ru' ? ru : enGB });
 }
+
+export const makeMultiParam = (key: string, values: (string | number)[]) => values.length ? values.map(val => `${key}[]=${val}`) : [];

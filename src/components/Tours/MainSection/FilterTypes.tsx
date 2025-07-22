@@ -1,7 +1,6 @@
 'use client';
 import { Checkbox, Divider, FormControlLabel, styled } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useFilterStore } from './store';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
@@ -10,10 +9,12 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { TourTypeDataResponse } from './_types';
+import { useRouter } from 'next/navigation';
+import { useFilterStore } from './store';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({}) => ({}));
+))(({ }) => ({}));
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -30,19 +31,13 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 const AccordionDetails = styled(MuiAccordionDetails)(() => ({}));
 
 function FilterTypes({ tourTypesData, pl }: { tourTypesData: TourTypeDataResponse; pl: string }) {
-  const { tourTypes, setTourTypes } = useFilterStore();
+  const router = useRouter();
+  const { tourTypes, setTourTypes, buildFilterQuery } = useFilterStore();
 
-  const handleChangeTourTypes = (value: string) => {
+  const handleChangeTypes = (value: string) => {
     setTourTypes(value);
+    router.replace(`?${buildFilterQuery().toString() }`, { scroll: false });
   };
-  // const searchParams = useSearchParams();
-  // const tourTypeParam = useMemo(() => searchParams.get('tour_types'), [searchParams]);
-
-  // useEffect(() => {
-  //   if (tourTypeParam) {
-  //     setTourTypes(tourTypeParam);
-  //   }
-  // }, [tourTypeParam]);
 
   return (
     <>
@@ -64,7 +59,7 @@ function FilterTypes({ tourTypesData, pl }: { tourTypesData: TourTypeDataRespons
                     <Checkbox
                       color="secondary"
                       checked={tourTypes.includes(el.name)}
-                      onChange={() => handleChangeTourTypes(el.name)}
+                      onChange={() => handleChangeTypes(el.name)}
                     />
                   }
                   label={el.name}

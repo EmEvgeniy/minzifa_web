@@ -2,11 +2,13 @@
 import { AllToursCardType, ToursResponse } from './_types';
 import Skeleton from '@mui/material/Skeleton';
 import Pagination from '@mui/material/Pagination';
-import { useFilterStore } from './store';
 import dynamic from 'next/dynamic';
-import { useQuery } from '@tanstack/react-query';
 import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
 import HorizontalTourCard from '../HorizontalTourCard';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useGetQuery } from '@/api/get.api';
+import { useRef } from 'react';
+import { useFilterStore } from './store';
 
 const TourViewBtn = dynamic(() => import('./TourViewBtn'));
 
@@ -37,50 +39,45 @@ export default function ToursView({
   view_itinerary,
   byRequest,
 }: Props) {
-  const { page, setPage, prices, durations, seasons, hotels, tourTypes, destinations } =
-    useFilterStore((state) => state);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const { data } = useQuery({
-    queryKey: [
-      'all_tours',
+  const queryString = useFilterStore(state => state.buildFilterQuery());
+
+  const ref = useRef(null);
+
+  const page = Number(searchParams.get('page')) || 1;
+  const perPage = 8;
+
+  const { data: tours, isLoading } = useGetQuery<ToursResponse>({
+    key: [
+      'destination_tours',
       locale,
-      page,
-      prices[0],
-      prices[1],
-      durations[0],
-      durations[1],
-      seasons?.length,
-      hotels?.length,
-      tourTypes?.length,
-      destinations?.length,
+      page.toString(),
+      perPage.toString(),
+      queryString
     ],
-    queryFn: async () => {
-      const res = await fetch(
-        `https://api.minzifatravel.com/api/v1/tours?${
-          prices[0] > 0 || prices[1] !== 20000 ? `prices[]=${prices[0]}&prices[]=${prices[1]}` : ''
-        }&${
-          durations[0] > 1 || durations[1] !== 31
-            ? `days[]=${durations[0]}&days[]=${durations[1]}`
-            : ''
-        }&${seasons?.length ? `seasons[]=${seasons.join(',')}` : ''}&${
-          hotels?.length ? `hotels[]=${hotels.join(',')}` : ''
-        }&${tourTypes?.length ? `types[]=${tourTypes.join(',')}` : ''}&${
-          destinations?.length ? `destinations[]=${destinations.join(',')}` : ''
-        }&limit=5&page=${page}&perPage=5&locale=${locale}`,
-      );
-      if (!res.ok) throw new Error('Failed to fetch tours');
-      return res.json();
-    },
-    initialData: tourData,
+    page: page.toString(),
+    perPage: `${perPage}`,
+    url: 'tours',
+    searchItem: '',
+    additionalParam: `&${queryString}`,
   });
 
-  const lastPage = data?.meta.last_page || 1;
+  const totalPages = tours?.meta?.last_page || 1;
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', value.toString());
+    router.replace(`?${params.toString()}`, { scroll: false, });
+
+    if (ref.current) {
+      const topOffset = (ref?.current as HTMLElement).getBoundingClientRect().top + window.scrollY - 200;
+      window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    }
   };
 
-  if (data.data.length === 0) {
+  if (tours?.data.length === 0) {
     return <div>{nf}</div>;
   }
 
@@ -88,67 +85,67 @@ export default function ToursView({
     <div className="w-full flex flex-col gap-5 items-start justify-start">
       <div className="w-full flex items-center justify-between min-h-[57px] [@media(max-width:1024px)]:justify-end">
         <p className="block [@media(max-width:1024px)]:hidden">
-          {showing} {tourData?.meta.from} - {tourData?.meta.to} {out} {tourData?.meta.total}
+          {showing} {tours?.meta.from} - {tours?.meta.to} {out} {tours?.meta.total}
         </p>
         <TourViewBtn menu={menu} />
       </div>
 
       <div className="w-full flex flex-col gap-5">
         <div className="flex flex-col gap-5 w-full [@media(max-width:1024px)]:hidden">
-          {data.data.length > 0
-            ? data?.data?.map((el: AllToursCardType) => (
-                <HorizontalTourCard
-                  locale={locale}
-                  key={el.id}
-                  tour={el}
-                  days={days}
-                  from={from}
-                  location={location}
-                  view_itinerary={view_itinerary}
-                  byRequest={byRequest}
-                />
-              ))
+          {!isLoading && tours?.data.length
+            ? tours?.data?.map((el: AllToursCardType) => (
+              <HorizontalTourCard
+                locale={locale}
+                key={el.id}
+                tour={el}
+                days={days}
+                from={from}
+                location={location}
+                view_itinerary={view_itinerary}
+                byRequest={byRequest}
+              />
+            ))
             : Array.from({ length: 5 })
-                .fill(1)
-                .map((_, i) => (
-                  <Skeleton
-                    sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                    variant="rectangular"
-                    width={'100%'}
-                    key={i}
-                    height={300}
-                  />
-                ))}
+              .fill(1)
+              .map((_, i) => (
+                <Skeleton
+                  sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
+                  variant="rectangular"
+                  width={'100%'}
+                  key={i}
+                  height={300}
+                />
+              ))}
         </div>
         <div className="hidden grid-cols-3 gap-5 w-full [@media(max-width:1024px)]:grid [@media(max-width:768px)]:grid-cols-1">
           {tourData?.data.length > 0
             ? tourData?.data.map((el: AllToursCardType) => (
-                <BestSellersPackagesCard
-                  key={el.id}
-                  slide={el}
-                  locale={locale}
-                  days={days}
-                  from={from}
-                  byRequest={byRequest}
-                  view_itinerary={view_itinerary}
-                />
-              ))
+              <BestSellersPackagesCard
+                key={el.id}
+                slide={el}
+                locale={locale}
+                days={days}
+                from={from}
+                byRequest={byRequest}
+                view_itinerary={view_itinerary}
+              />
+            ))
             : Array.from({ length: 5 })
-                .fill(2)
-                .map((_, i) => (
-                  <Skeleton
-                    sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                    variant="rectangular"
-                    width={'100%'}
-                    height={375}
-                    key={i}
-                  />
-                ))}
+              .fill(2)
+              .map((_, i) => (
+                <Skeleton
+                  sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
+                  variant="rectangular"
+                  width={'100%'}
+                  height={375}
+                  key={i}
+                />
+              ))}
         </div>
-        {lastPage && lastPage > 1 ? (
+        {totalPages && totalPages > 1 ? (
           <Pagination
             color="primary"
-            count={lastPage}
+            count={totalPages}
             page={Number(page)}
             size="medium"
             onChange={handlePageChange}

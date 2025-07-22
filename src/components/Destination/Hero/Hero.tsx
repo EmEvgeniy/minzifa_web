@@ -33,9 +33,9 @@ export default async function Hero({
         />
       </div>
       <div className="relative z-30 container flex flex-col items-center justify-center gap-5 text-white">
-        <div className="w-[65px] h-[65px] ">
+        <div className="w-[100px] h-[100px] border-white border-dashed border-1 rounded-full p-3">
           {destination?.icon?.file && (
-            <Image src={destination?.icon?.file} alt="icon" width={65} height={65} />
+            <Image src={destination?.icon?.file} alt="icon" width={100} height={100} className='invert' />
           )}
         </div>
         <h1 className="text-[56px] font-title max-[1024px]:text-[35px] max-[550px]:text-[30px]">

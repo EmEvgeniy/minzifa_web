@@ -1,7 +1,6 @@
 'use client';
 import { Checkbox, FormControlLabel, styled } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useFilterStore } from './store';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
@@ -13,10 +12,12 @@ import { DestinationDataResponse } from './_types';
 import { useMemo, useState } from 'react';
 import useDebouncedValue from '@/hooks/useDebouncedValue';
 import { FaTimes } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+import { useFilterStore } from './store';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({}) => ({}));
+))(({ }) => ({}));
 
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary
@@ -41,8 +42,10 @@ function FilterDestinations({
   pl: string;
   pl2: string;
 }) {
+  const { destinations, setDestinations, buildFilterQuery } = useFilterStore();
   const [searchDestination, setSearchDestination] = useState('');
-  const { destinations, setDestinations } = useFilterStore();
+  const router = useRouter();
+
   const filteredDestinations = useMemo(() => {
     return destinationsData.filter((el) =>
       el.name.toLowerCase().includes(searchDestination.toLowerCase()),
@@ -53,6 +56,7 @@ function FilterDestinations({
 
   const handleChangeDestinations = (value: string) => {
     setDestinations(value);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

@@ -2,16 +2,20 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Divider, Slider } from '@mui/material';
 import { useFilterStore } from './store';
+import { useRouter } from 'next/navigation';
 
 function valuetext(value: number) {
   return `${value}$`;
 }
 
 function FilterDurationSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: string }) {
-  const { durations, setDurations } = useFilterStore((s) => s);
+
+  const router = useRouter();
+  const { durations, setDurations, buildFilterQuery } = useFilterStore();
 
   const handleChangeDurations = (_: Event, newValue: number[]) => {
     setDurations(newValue);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

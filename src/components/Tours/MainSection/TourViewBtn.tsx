@@ -4,11 +4,14 @@ import Menu from '@mui/material/Menu';
 import { FaChevronDown } from 'react-icons/fa6';
 import { useState } from 'react';
 import { useFilterStore } from './store';
+import { useRouter } from 'next/navigation';
 
 function TourViewBtn({ menu }: { menu: { title: string; value: string }[] }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { sort, setSort } = useFilterStore((state) => state);
+  const { sort, setSort, buildFilterQuery } = useFilterStore((state) => state);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -17,6 +20,7 @@ function TourViewBtn({ menu }: { menu: { title: string; value: string }[] }) {
   const handleClose = (value: string) => {
     setSort(value);
     setAnchorEl(null);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

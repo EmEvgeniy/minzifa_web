@@ -3,4 +3,5 @@ export type DefaultPageProps = {
 };
 export type DefaultComponentsProps = {
   locale: string;
+  showFilter?: ("price" | "duration" | "seasons" | "hotels" | "tourType" | "destinations")[];
 };

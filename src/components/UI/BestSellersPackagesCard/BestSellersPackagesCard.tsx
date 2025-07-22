@@ -21,7 +21,7 @@ export default function BestSellersPackagesCard({
   view_itinerary,
 }: Props) {
   const href = `/${locale}/${slide?.destination?.slug}/${slide?.slug}`;
-
+  
   return (
     <div className="max-w-full min-h-[470px] rounded-2xl overflow-hidden bg-white w-full h-full shadow-xl max-[450px]:min-h-[270px]">
       <div className="relative min-h-[372px] max-h-[372px] h-full w-full max-[450px]:min-h-[270px]">
@@ -30,15 +30,15 @@ export default function BestSellersPackagesCard({
         </Link>
         <BestSellersFavoriteBtn tour={slide} />
         <div className="absolute inset-0 bg-black opacity-15 z-1 h-full" />
-        {slide?.photo?.file && (
-          <Image
-            src={slide?.photo?.file || ''}
-            alt={slide?.photo?.alt_text || 'Minzifa Travel'}
-            fill
-            loading="lazy"
-            className="absolute w-full h-full object-cover"
-          />
-        )}
+
+        <Image
+          src={slide?.photo?.file}
+          alt={slide?.photo?.alt_text || 'Minzifa Travel'}
+          fill
+          loading="lazy"
+          className="absolute w-full h-full object-cover"
+        />
+
         <p className="z-2 text-white absolute bottom-0 left-0 p-5 text-ellipsis text-[20px] font-bold max-w-full [@media(max-width:450px)]:max-w-full">
           {slide?.name}
         </p>

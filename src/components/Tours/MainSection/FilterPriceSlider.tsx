@@ -2,6 +2,7 @@
 
 import { Accordion, AccordionDetails, AccordionSummary, Divider, Slider } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useRouter } from 'next/navigation';
 import { useFilterStore } from './store';
 
 function valuetext(value: number) {
@@ -9,10 +10,31 @@ function valuetext(value: number) {
 }
 
 function FilterPriceSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: string }) {
-  const { prices, setPrices } = useFilterStore((s) => s);
+  const { prices, setPrices, buildFilterQuery } = useFilterStore();
+  const router = useRouter();
 
-  const handleChangePrices = (_: Event, newValue: number[]) => {
-    setPrices(newValue);
+  const handleInputChange = (index: number, value: number) => {
+    const newPrices: [number, number] = [...prices] as [number, number];
+
+    value = Math.max(0, Math.min(value, 20000));
+
+    if (index === 0 && value > newPrices[1]) {
+      newPrices[0] = newPrices[1];
+    } else if (index === 1 && value < newPrices[0]) {
+      newPrices[1] = newPrices[0];
+    } else {
+      newPrices[index] = value;
+    }
+
+    setPrices(newPrices);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
+  };
+
+  const handleSliderChange = (_: Event, newValue: number | number[]) => {
+    if (Array.isArray(newValue)) {
+      setPrices(newValue as [number, number]);
+      router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
+    }
   };
 
   return (
@@ -33,10 +55,7 @@ function FilterPriceSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: str
                 <input
                   min={0}
                   value={prices[0] || 0}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    if (!isNaN(val)) setPrices([val, prices[1]]);
-                  }}
+                  onChange={(e) => handleInputChange(0, Number(e.target.value))}
                   required
                   className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none "
                 />
@@ -49,10 +68,7 @@ function FilterPriceSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: str
                 <input
                   min={0}
                   value={prices[1] || 20000}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    if (!isNaN(val)) setPrices([prices[0], val]);
-                  }}
+                  onChange={(e) => handleInputChange(1, Number(e.target.value))}
                   required
                   className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none "
                   placeholder="$120"
@@ -67,7 +83,7 @@ function FilterPriceSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: str
             max={20000}
             size="medium"
             color="secondary"
-            onChange={handleChangePrices}
+            onChange={handleSliderChange}
             valueLabelDisplay="auto"
             getAriaValueText={valuetext}
           />
