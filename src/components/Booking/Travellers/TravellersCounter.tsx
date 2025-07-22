@@ -10,7 +10,10 @@ function TravellersCounter() {
 
     setBookingData({
       ...bookingData,
-      room_types: {},
+      room_types: {
+        standart: 1,
+        single: 0,
+      },
       travellers_count: value,
       deposit: tour_price * 0.15 * Number(value),
       total_price: tour_price * Number(value),
