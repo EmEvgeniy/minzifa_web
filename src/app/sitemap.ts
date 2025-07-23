@@ -54,7 +54,6 @@ export default async function generateSitemap(): Promise<MetadataRoute.Sitemap> 
                 priority: path.endsWith('/') ? 1.0 : 0.7,
             };
 
-            // Только если альтернативный путь существует (условно — всегда, потому что route есть в обоих языках)
             if (staticRoutes.includes(route)) {
                 entry.alternates = {
                     languages: {
@@ -84,7 +83,7 @@ export default async function generateSitemap(): Promise<MetadataRoute.Sitemap> 
             if (altTour) {
                 entry.alternates = {
                     languages: {
-                        [altLocale]: `${SITENAME} /${altLocale}/${altTour.destination.slug}/${altTour.slug}`,
+                        [altLocale]: `${SITENAME}/${altLocale}/${altTour.destination.slug}/${altTour.slug}`,
                     },
                 };
             }
@@ -99,7 +98,7 @@ export default async function generateSitemap(): Promise<MetadataRoute.Sitemap> 
 
         for (const destination of destinationByLocale[locale]) {
 
-            const path = `/${locale}/destination / ${destination.slug}`;
+            const path = `/${locale}/destination/${destination.slug}`;
             const altDestination = destinationByLocale[altLocale].find(d => d.slug === destination.slug);
 
             const entry: MetadataRoute.Sitemap[number] = {
@@ -111,7 +110,7 @@ export default async function generateSitemap(): Promise<MetadataRoute.Sitemap> 
             if (altDestination) {
                 entry.alternates = {
                     languages: {
-                        [altLocale]: `${SITENAME} /${altLocale}/destination / ${altDestination.slug}`,
+                        [altLocale]: `${SITENAME}/${altLocale}/destination/${altDestination.slug}`,
                     },
                 };
             }
@@ -125,7 +124,7 @@ export default async function generateSitemap(): Promise<MetadataRoute.Sitemap> 
         const altLocale = LOCALES.find(l => l !== locale)!;
 
         for (const article of articleByLocale[locale]) {
-            const path = `/${locale}/adventures / ${article.category.slug}/${article.slug}`;
+            const path = `/${locale}/adventures/${article.category.slug}/${article.slug}`;
             const altArticle = articleByLocale[altLocale].find(a => a.slug === article.slug);
 
             const entry: MetadataRoute.Sitemap[number] = {
@@ -137,7 +136,7 @@ export default async function generateSitemap(): Promise<MetadataRoute.Sitemap> 
             if (altArticle) {
                 entry.alternates = {
                     languages: {
-                        [altLocale]: `${SITENAME} /${altLocale}/adventures / ${altArticle.category.slug}/${altArticle.slug}`,
+                        [altLocale]: `${SITENAME}/${altLocale}/adventures/${altArticle.category.slug}/${altArticle.slug}`,
                     },
                 };
             }
