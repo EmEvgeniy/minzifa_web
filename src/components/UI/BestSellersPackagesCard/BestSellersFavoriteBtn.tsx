@@ -1,3 +1,5 @@
+'use client';
+
 import { FaHeart } from 'react-icons/fa';
 import { useFavoriteStore } from '../FavoriteBtn/store';
 import { cn } from '@/utils/utils';
