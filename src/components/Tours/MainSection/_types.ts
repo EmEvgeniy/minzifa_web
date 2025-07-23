@@ -19,6 +19,8 @@ export type AllToursCardType = {
   };
   full_slug: string;
   valute: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type ToursResponse = {

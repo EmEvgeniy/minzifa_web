@@ -20,5 +20,7 @@ export type DestinationData = {
         id: number;
         file: string;
         alt_text: string;
-    }
+    };
+    created_at: string;
+    updated_at: string;
 }

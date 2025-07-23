@@ -26,4 +26,6 @@ export type ArticleCardType = {
     description: string;
     keywords: string;
   };
+  created_at: string;
+  updated_at: string;
 };
