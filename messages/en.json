@@ -233,7 +233,7 @@
     "all_tours": "All tours",
     "destination": "Destination",
     "all_news": "All news",
-    "articles": "Articles",
+    "articles": "Adventures",
     "privacy": "Privacy policy",
     "eco": "Eco-Travel",
     "about": "About us",
@@ -370,34 +370,13 @@
       {
         "title": "Oldest",
         "value": "oldest"
-      },
-      {
-        "title": "Min price",
-        "value": "min_price"
-      },
-      {
-        "title": "Max price",
-        "value": "max_price"
       }
     ],
     "showing": "Showing {{currentPage}} of {{totalPages}} articles",
     "no_articles": "No articles found",
     "show_more": "Show more",
     "read_more": "Read more",
-    "btns": [
-      {
-        "title": "All",
-        "value": "all"
-      },
-      {
-        "title": "Category1",
-        "value": "category1"
-      },
-      {
-        "title": "Category2",
-        "value": "category2"
-      }
-    ]
+    "all_categories": "All"
   },
   "consultation": {
     "title": "FREE Consultation",

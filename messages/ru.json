@@ -372,34 +372,13 @@
       {
         "title": "Самый старый",
         "value": "oldest"
-      },
-      {
-        "title": "Мин цена",
-        "value": "min_price"
-      },
-      {
-        "title": "Макс цена",
-        "value": "max_price"
       }
     ],
     "showing": "Показано {{currentPage}} из {{totalPages}} статей",
     "no_articles": "Статьи не найдены",
     "show_more": "Показать больше",
     "read_more": "Читать дальше",
-    "btns": [
-      {
-        "title": "Все",
-        "value": "all"
-      },
-      {
-        "title": "Категория 1",
-        "value": "category1"
-      },
-      {
-        "title": "Категория 2",
-        "value": "category2"
-      }
-    ]
+    "all_categories": "Все"
   },
   "consultation": {
     "title": "БЕСПЛАТНАЯ консультация",

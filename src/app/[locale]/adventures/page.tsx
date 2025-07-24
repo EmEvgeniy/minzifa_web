@@ -25,11 +25,20 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   };
 }
 
+export type ArticleCategory = {
+  id: number;
+  name: string;
+  slug: string;
+  count: number;
+};
+
 export default async function page({ params }: DefaultPageProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const btns = t.raw('articles.btns') as { title: string; value: string }[];
+
+  const categories: ArticleCategory[] = await fetch(`https://api.minzifatravel.com/api/v1/categories?locale=${locale}`, { next: { revalidate: 60 } }).then((res) => res.json());
   const menu = t.raw('articles.sort') as { title: string; value: string }[];
+  const all_categories: string = t.raw('articles.all_categories');
 
   return (
     <>
@@ -40,11 +49,12 @@ export default async function page({ params }: DefaultPageProps) {
         link={{ link: '', title: t('breadcrumbs.articles') }}
       />
       <ArticlesMain
-        btns={btns}
+        categories={categories}
         locale={locale}
         menu={menu}
         titleT={t('articles.title')}
         btn={t('articles.show_more')}
+        all_categories={all_categories}
       />
       <div className="container">
         <FreeConsultationForm />
