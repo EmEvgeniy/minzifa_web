@@ -1,6 +1,6 @@
 'use client';
 import { Hotel, TourImage } from '@/components/Tour/_types';
-import TourDescription from '@/components/Tour/TourDescription/TourDescription';
+import TourDescription from '@/components/UI/MarkdownDescription/MarkdownDescription';
 import { useTranslations } from 'next-intl';
 import { FaXmark } from 'react-icons/fa6';
 import { Navigation } from 'swiper/modules';

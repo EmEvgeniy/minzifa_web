@@ -5,7 +5,7 @@ import {
   CustomAccordionSummary,
 } from '@/components/UI/CustomAccordion/CustomAccordion';
 import { Fragment } from 'react';
-import TourDescription from '../TourDescription/TourDescription';
+import TourDescription from '../../UI/MarkdownDescription/MarkdownDescription';
 import Image from 'next/image';
 import { Itinerary } from '../_types';
 import { useItineraryStore } from './store';

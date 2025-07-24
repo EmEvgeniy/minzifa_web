@@ -2,7 +2,9 @@ import { cr2 } from '@/assets/img';
 
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
+import MarkdownDescription from '@/components/UI/MarkdownDescription/MarkdownDescription';
 import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
+import { calculateReadingTime, formatted_date } from '@/utils/utils';
 
 import { Button, Divider } from '@mui/material';
 import { getTranslations } from 'next-intl/server';
@@ -34,11 +36,11 @@ export default async function Content({
   return (
     <div className="w-full flex flex-col items-start gap-5">
       <div className="flex flex-col gap-3 pt-[40px] max-[1024px]:pt-[20px] max-[768px]:gap-2">
-        <h1 className="text-[56px] max-w-[70%] max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[550px]:text-[24px] max-[550px]:font-semibold font-title">
+        <h1 className="text-[56px] max-w-[100%] max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[550px]:text-[24px] max-[550px]:font-semibold font-title">
           {articleDetail?.name}
         </h1>
         <p className="text-[18px] text-gray-500 max-[1024px]:text-[16px]">
-          {articleDetail?.published}
+          {formatted_date(articleDetail?.published || '', locale, 'MMMM d, yyyy')} • {t('article.reading_time', { time: calculateReadingTime(articleDetail?.description || '') })}
         </p>
       </div>
       <div className="w-full bg-[#16372D] h-[650px] rounded-[16px] shadow-2xl relative overflow-hidden max-[1024px]:h-[450px] max-[550px]:h-[300px]">
@@ -55,10 +57,7 @@ export default async function Content({
       <div className="relative w-full min-h-screen max-[550px]:min-h-full max-[550px]:pb-[30px]">
         <div className="flex items-start justify-between gap-5 h-full pt-[40px] max-[1024px]:flex-col">
           <div className="flex-1 w-full h-full">
-            <div
-              dangerouslySetInnerHTML={{ __html: articleDetail?.description || '' }}
-              className="text-[18px] w-full flex-1  h-full max-[1024px]:min-h-full max-[550px]:text-[14px]"
-            />
+            <MarkdownDescription description={articleDetail?.description || ''} />
             <Divider orientation="horizontal" className="py-[30px] w-full max-[1024px]:py-[10px]" />
             <div className="w-full flex flex-col items-start gap-5 pt-[40px] max-[550px]:gap-3">
               <p className="text-[42px] text-[#16372D] max-[1024px]:text-[28px] max-[550px]:text-[24px] max-[550px]:font-semibold ">

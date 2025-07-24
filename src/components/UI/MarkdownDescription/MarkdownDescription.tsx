@@ -75,7 +75,7 @@ type DescriptionProps = {
   className?: string;
 };
 
-export default function TourDescription({
+export default function MarkdownDescription({
   description,
   subtitle = '',
   className = '',

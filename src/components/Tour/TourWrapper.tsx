@@ -9,7 +9,7 @@ const Reviews = dynamic(() => import('../UI/Reviews/Reviews'));
 const TourHighlights = dynamic(() => import('./TourHighlights/TourHighlights'));
 const TourGallery = dynamic(() => import('./TourGallery/TourGallery'));
 const TourFacts = dynamic(() => import('./TourFacts/TourFacts'));
-const TourDescription = dynamic(() => import('./TourDescription/TourDescription'));
+const TourDescription = dynamic(() => import('../UI/MarkdownDescription/MarkdownDescription'));
 const TourItinerary = dynamic(() => import('./TourItinerary/TourItinerary'));
 const TourAccomodation = dynamic(() => import('./TourAccomodation/TourAccomodation'));
 const TourByRequest = dynamic(() => import('./TourByRequest/TourByRequest'));

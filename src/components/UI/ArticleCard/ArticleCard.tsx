@@ -1,6 +1,7 @@
 import type { ArticleCardType } from './_types';
 import Link from 'next/link';
 import Image from 'next/image';
+import Markdown from 'markdown-to-jsx';
 
 type Props = {
   article: ArticleCardType;
@@ -28,10 +29,9 @@ export default function ArticleCard({ article, locale }: Props) {
           <p className="text-[24px] truncate overflow-hidden whitespace-nowrap max-w-[300px] max-[768px]:max-w-full max-[768px]:text-[18px] max-[768px]:font-semibold">
             {article?.name}
           </p>
-
-          <p className="max-[768px]:text-[13px] line-clamp-3 text-base text-[#717171]">
+          <Markdown className="max-[768px]:text-[13px] line-clamp-3 text-base text-[#717171]">
             {article?.description}
-          </p>
+          </Markdown>
         </div>
       </div>
     </Link>
