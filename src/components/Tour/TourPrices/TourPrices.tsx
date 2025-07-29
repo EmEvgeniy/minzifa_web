@@ -284,7 +284,7 @@ export default function TourPrices({ tour }: { tour: Tour }) {
           color="secondary"
           variant="contained"
         >
-          {locale === 'ru' ? 'Забронировать' : 'Book'}
+          {t('booking.button')}
         </Button>
       </div>
     </section>

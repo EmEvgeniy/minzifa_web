@@ -112,7 +112,7 @@ export default function TourBooking({ prices, className, tour }: TourBookingProp
           onClick={() => handleBookingData(selectedPrice, totalPrice, travellers)}
           className="text-center w-full rounded-4xl bg-[#27A430] text-white p-4 cursor-pointer transition-all duration-300 hover:bg-[#208B28]"
         >
-          {t('booking.button', { count: travellers })}
+          {t('booking.button')}
         </button>
       </div>
     </div>
