@@ -65,9 +65,6 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       p.email?.trim() &&
       p.phone?.trim() &&
       p.gender?.trim() &&
-      p.birth_date?.day &&
-      p.birth_date?.month &&
-      p.birth_date?.year &&
       p.main_address?.address?.trim()
     );
   });
