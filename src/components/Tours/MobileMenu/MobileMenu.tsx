@@ -10,7 +10,7 @@ export default async function MobileMenu({ locale }: DefaultComponentsProps) {
   return (
     <div className="max-[1024px]:block hidden">
       <MobileBtn btn={t('Filters')} />
-      <MobileDrawler btn={t('Filters')} elem={<Filter locale={locale} />} />
+      <MobileDrawler btn={t('Filters')} elem={<Filter locale={locale} showFilter={['price', 'duration', 'seasons', 'hotels', 'tourType', 'destinations']} />} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 'use client';
-import { AllToursCardType, ToursResponse } from './_types';
+import { ToursResponse } from './_types';
 import Skeleton from '@mui/material/Skeleton';
 import Pagination from '@mui/material/Pagination';
 import dynamic from 'next/dynamic';
@@ -27,7 +27,6 @@ type Props = {
 };
 
 export default function ToursView({
-  tourData,
   locale,
   menu,
   showing,
@@ -91,13 +90,14 @@ export default function ToursView({
       </div>
 
       <div className="w-full flex flex-col gap-5">
-        <div className="flex flex-col gap-5 w-full [@media(max-width:1024px)]:hidden">
+        {/* Десктоп — HorizontalTourCard */}
+        <div ref={ref} className="flex-col gap-5 w-full hidden lg:flex">
           {!isLoading && tours?.data.length
-            ? tours?.data?.map((el: AllToursCardType) => (
+            ? tours.data.map((el) => (
               <HorizontalTourCard
-                locale={locale}
                 key={el.id}
                 tour={el}
+                locale={locale}
                 days={days}
                 from={from}
                 location={location}
@@ -105,21 +105,21 @@ export default function ToursView({
                 byRequest={byRequest}
               />
             ))
-            : Array.from({ length: 5 })
-              .fill(1)
-              .map((_, i) => (
-                <Skeleton
-                  sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                  variant="rectangular"
-                  width={'100%'}
-                  key={i}
-                  height={300}
-                />
-              ))}
+            : Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton
+                key={i}
+                sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
+                variant="rectangular"
+                width="100%"
+                height={300}
+              />
+            ))}
         </div>
-        <div className="hidden grid-cols-3 gap-5 w-full [@media(max-width:1024px)]:grid [@media(max-width:768px)]:grid-cols-1">
-          {tourData?.data.length > 0
-            ? tourData?.data.map((el: AllToursCardType) => (
+
+        {/* Мобильная сетка — BestSellersPackagesCard */}
+        <div className="grid-cols-1 gap-5 w-full grid lg:hidden">
+          {!isLoading && tours?.data.length
+            ? tours.data.map((el) => (
               <BestSellersPackagesCard
                 key={el.id}
                 slide={el}
@@ -130,18 +130,17 @@ export default function ToursView({
                 view_itinerary={view_itinerary}
               />
             ))
-            : Array.from({ length: 5 })
-              .fill(2)
-              .map((_, i) => (
-                <Skeleton
-                  sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                  variant="rectangular"
-                  width={'100%'}
-                  height={375}
-                  key={i}
-                />
-              ))}
+            : Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton
+                key={i}
+                sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
+                variant="rectangular"
+                width="100%"
+                height={375}
+              />
+            ))}
         </div>
+
         {totalPages && totalPages > 1 ? (
           <Pagination
             color="primary"

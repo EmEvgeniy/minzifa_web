@@ -1,4 +1,5 @@
 'use client';
+
 import { Slider, SliderBtns } from '@/components/UI';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
@@ -35,9 +36,9 @@ export default function Wrapper({
   };
 
   return (
-    <>
-      <div className="min-h-[520px] [@media(max-width:1024px)]:min-h-[450px] [@media(max-width:450px)]:min-h-[350px]">
-        {data?.length && (
+    <div className="flex flex-col gap-4 w-full">
+      <div className="w-full">
+        {data?.length > 0 && (
           <Slider
             slides={data}
             swiperRef={swiperRef}
@@ -59,15 +60,17 @@ export default function Wrapper({
           />
         )}
       </div>
-      <div className="w-full flex items-center justify-between">
-        {btn}
-        <SliderBtns
-          swiperRef={swiperRef}
-          isBeginning={isBeginning}
-          isEnd={isEnd}
-          variant={'primary'}
-        />
+      <div className="w-full flex flex-wrap items-center justify-between gap-3">
+        <div className="flex-shrink">{btn}</div>
+        <div className="flex-shrink">
+          <SliderBtns
+            swiperRef={swiperRef}
+            isBeginning={isBeginning}
+            isEnd={isEnd}
+            variant="primary"
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 }

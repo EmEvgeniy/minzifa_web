@@ -14,7 +14,7 @@ function MobileBtn({ btn }: { btn: string }) {
         bottom: '20px',
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 2,
+        zIndex: 100,
         borderRadius: 8,
         minHeight: 45,
         padding: '8px 25px',

@@ -29,7 +29,7 @@ export default async function BestSellers({ locale }: DefaultComponentsProps) {
         btn={
           <Link
             href={`/${locale}/tours`}
-            className="w-full max-w-[209px] text-center bg-[#16372D] text-white py-[15px] rounded-[16px] text-[16px] shadow-2xl hover:bg-[#194D3D] transition-all active:bg-[#16372D] [@media(max-width:1024px)]:max-w-[150px] [@media(max-width:550px)]:py-[8px]"
+            className="inline-flex items-center justify-center px-6 py-[14px] min-h-[48px] text-white bg-[#16372D] rounded-[16px] text-[16px] shadow-2xl hover:bg-[#194D3D] active:bg-[#16372D] transition-all"
           >
             {t('best_sellers_btns')}
           </Link>
