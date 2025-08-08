@@ -25,7 +25,7 @@ export const PhoneInputComp: FC<PhoneInputCompProp> = ({ value, onChange }) => {
 
   return (
     <PhoneInput
-      containerClass="!rounded-[16px] !border-1 !border-gray-300 !py-[9px] !bg-white text-[16px]"
+      containerClass="!rounded-[16px] !border-1 !border-gray-300 !py-[9px] !bg-white text-[16px] max-[920px]:shadow-[0px_4px_18px_0px_#0000002B] max-[920px]:border-2 max-[920px]:border-[#D8DADC]"
       inputClass="!w-full !rounded-[16px] !border-none"
       buttonClass="!rounded-tl-[16px] !rounded-bl-[16px]"
       country={countryCode}

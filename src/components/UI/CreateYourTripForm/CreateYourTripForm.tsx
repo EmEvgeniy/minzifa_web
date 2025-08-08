@@ -230,7 +230,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
       onSubmit={handleSubmit}
       className={cn(
         className,
-        'w-full bg-white rounded-2xl grid grid-cols-1 md:grid-cols-[280px_1fr] md:min-h-[200px] overflow-hidden',
+        'w-full bg-transparent rounded-2xl grid grid-cols-1 md:grid-cols-[280px_1fr] md:min-h-[200px] overflow-hidden',
       )}
     >
       <div className="p-5 bg-[#eff8ef] w-full h-full grid grid-cols-[100px_1fr] md:grid-cols-1 gap-3">

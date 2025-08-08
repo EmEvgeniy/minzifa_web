@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { CreateYourTripForm } from '@/components/UI/CreateYourTripForm/CreateYourTripForm';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
 import { Popup } from '@/components';
 import { useLayoutStore } from './layoutStote';
 import { DefaultComponentsProps } from '@/types';
+import EnForm from '@/components/UI/CreateYourTripForm/EnForm';
 
 export default function ClientPopupObserver({ locale }: DefaultComponentsProps) {
   const footerRef = useRef<HTMLDivElement>(null);
@@ -52,10 +52,11 @@ export default function ClientPopupObserver({ locale }: DefaultComponentsProps) 
       <div ref={footerRef} />
       <Popup
         open={open}
+        locale={locale}
         handleClose={() => setOpen(false)}
         content={
           locale === 'en' ? (
-            <CreateYourTripForm locale={locale} popupClose={() => setOpen(false)} />
+            <EnForm locale={locale} popupClose={() => setOpen(false)} />
           ) : (
             <ConsultationQuiz popupClose={() => setOpen(false)} />
           )

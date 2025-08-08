@@ -5,6 +5,9 @@
   --foreground: #16372d;
 }
 
+.icon-white {
+  filter: brightness(0) invert(1);
+}
 @theme {
   --font-title: 'Unbounded';
   --font-text: 'Inter';
