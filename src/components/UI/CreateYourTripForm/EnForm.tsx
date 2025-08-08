@@ -1,8 +1,5 @@
 import DescForm from './DescForm';
-import { CreateYourTripFormProps } from './_types';
 
-export default function EnForm({ className, popupClose, locale }: CreateYourTripFormProps) {
-  console.log(className, popupClose, locale);
-
-  return <DescForm popupClose={popupClose} />;
+export default function EnForm({ popupClose }: { popupClose: () => void }) {
+  return <DescForm popupClose={popupClose} locale='en' />;
 }

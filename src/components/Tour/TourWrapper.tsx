@@ -20,6 +20,7 @@ const TourIncludes = dynamic(() => import('./TourIncludes/TourIncludes'));
 const TourBooking = dynamic(() => import('./TourBooking/TourBooking'));
 const TourPrices = dynamic(() => import('./TourPrices/TourPrices'));
 const MobileBtn = dynamic(() => import('./MobileBtn/MobileBtn'));
+const DescForm = dynamic(() => import('./../UI/CreateYourTripForm/DescForm'));
 
 export default async function TourWrapper({ locale, slug }: { locale: string; slug: string }) {
   const t = await getTranslations({ locale });
@@ -81,7 +82,7 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
         <TourAccomodation hotels={tourData.hotels} locale={locale} />
         <TourPrices tour={tourData} />
         <Reviews locale={locale} />
-        <CreateYourTripForm className="mb-5" locale={locale} />
+        {locale === 'en' ? <DescForm className="mb-10" locale='en' /> : <CreateYourTripForm className="mb-10" locale={locale} />}
       </div>
       <MobileBtn locale={locale} tour={tourData} />
     </div>

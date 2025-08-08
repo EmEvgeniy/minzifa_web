@@ -1,6 +1,8 @@
+import { useQuizStore } from '@/store/quizStore';
 import { cn } from '@/utils/utils';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { StepProps } from '../DescForm';
 
 const buttons = [
   { id: 1, title: 'Solo', icon: '/Type=Solo.svg' },
@@ -9,32 +11,54 @@ const buttons = [
   { id: 4, title: 'Friends', icon: '/Type=Friend.svg' },
 ];
 
-const Step2 = () => {
+const Step2 = ({ errors = {}, clearError }: StepProps) => {
   const [active, setActive] = useState(1);
-  const [days, setDays] = useState('');
+
+  const {
+    formData: { howManyDays },
+    setHowManyPeople,
+    setHowManyDays
+  } = useQuizStore();
+
+  const handleClickPeople = (id: number) => {
+    setActive(id);
+    setHowManyPeople(buttons[id - 1].title);
+    if (clearError) clearError('howManyPeople');
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
-      setDays(value);
+      setHowManyDays(value);
+      if (clearError) clearError('howManyDays');
     }
   };
 
+  useEffect(() => {
+    setHowManyPeople(buttons[0].title);
+  }, [setHowManyPeople]);
+
   return (
     <div className="w-full h-full flex flex-col gap-10 justify-center">
-      <div className="flex flex-col gap-3">
-        <h1 className="text-left text-xl font-semibold max-[620px]:text-[14px] w-full">
+      {/* WHO */}
+      <div className="flex flex-col gap-2">
+        <h2 className="text-left text-xl font-semibold max-[620px]:text-[14px] w-full">
           Who will you share this adventure with?
-        </h1>
+        </h2>
 
-        <div className="flex items-center justify-between gap-2 w-full max-[620px]:grid max-[620px]:grid-cols-2 ">
+        <div
+          className={cn(
+            'flex items-center justify-between gap-2 w-full max-[620px]:grid max-[620px]:grid-cols-2',
+            errors.howManyPeople && 'border border-red-500 rounded-xl p-2'
+          )}
+        >
           {buttons.map((el) => (
             <button
               key={el.id}
-              onClick={() => setActive(el.id)}
+              onClick={() => handleClickPeople(el.id)}
               className={cn(
-                'flex flex-col w-full items-center justify-center bg-white rounded-2xl shadow-xl p-4  transition cursor-pointer max-[650px]:p-3 max-[920px]:border-[#E2E2E2] max-[920px]:border-[0.3px] max-[920px]:shadow-[0px_4px_18px_0px_#0000002B]',
-                active === el.id && 'bg-[#27A430] text-white',
+                'group flex flex-col w-full items-center justify-center bg-white hover:bg-[#1e7e24] hover:text-white duration-300 transition-all rounded-2xl shadow-xl p-4 cursor-pointer border-[#E2E2E2] border-[0.3px]',
+                active === el.id && 'bg-[#27A430] text-white'
               )}
             >
               <Image
@@ -42,26 +66,39 @@ const Step2 = () => {
                 width={28}
                 height={28}
                 alt={el.title}
-                className={cn('mb-2', active == el.id && 'icon-white')}
+                className={cn(
+                  'mb-2 group-hover:invert-100 group-hover:brightness-0',
+                  active === el.id && 'icon-white'
+                )}
               />
               <span className="text-sm font-medium">{el.title}</span>
             </button>
           ))}
         </div>
+        {errors.howManyPeople && (
+          <p className="text-red-500 text-sm">{errors.howManyPeople}</p>
+        )}
       </div>
 
-      <div className="flex flex-col gap-3">
+      {/* DAYS */}
+      <div className="flex flex-col gap-2">
         <h2 className="text-left text-xl font-semibold max-[620px]:text-[14px]">
           How many days are you willing to commit to yourself?
         </h2>
         <input
           inputMode="numeric"
           pattern="[0-9]*"
-          value={days}
+          value={howManyDays}
           onChange={handleChange}
-          className="w-full max-w-[300px] bg-white outline-none rounded-[16px] px-3 py-2 max-[920px]:border-[#E2E2E2] max-[920px]:border-2 max-[650px]:max-w-full"
+          className={cn(
+            'w-full max-w-[300px] bg-white outline-none rounded-[16px] px-3 py-2 border-2 max-[650px]:max-w-full',
+            errors.howManyDays ? 'border-red-500' : 'border-[#E2E2E2]'
+          )}
           placeholder="For how many days?"
         />
+        {errors.howManyDays && (
+          <p className="text-red-500 text-sm">{errors.howManyDays}</p>
+        )}
       </div>
     </div>
   );

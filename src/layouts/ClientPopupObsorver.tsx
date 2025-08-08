@@ -56,7 +56,7 @@ export default function ClientPopupObserver({ locale }: DefaultComponentsProps) 
         handleClose={() => setOpen(false)}
         content={
           locale === 'en' ? (
-            <EnForm locale={locale} popupClose={() => setOpen(false)} />
+            <EnForm popupClose={() => setOpen(false)} />
           ) : (
             <ConsultationQuiz popupClose={() => setOpen(false)} />
           )
