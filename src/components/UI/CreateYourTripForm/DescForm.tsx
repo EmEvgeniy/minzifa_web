@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import Image from 'next/image';
 import anna from '@/assets/img/CreateYourTrip.jpg'; // заменишь на свой createYourTrip.jpg
 import { motion, AnimatePresence } from 'framer-motion';
@@ -73,18 +73,6 @@ export default function QuizForm({ className, popupClose, locale }: DescFormProp
       render: () => <Step4 errors={errors} clearError={clearError} />,
     },
   ];
-
-
-
-  useEffect(() => {
-    if (metrics?.utm_source || metrics?.page) {
-      setFormData({
-        ...formData,
-        ...metrics,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const { setMessage, setError } = useSnackStore((state) => state);
 
@@ -165,7 +153,7 @@ export default function QuizForm({ className, popupClose, locale }: DescFormProp
 
     if (!isPending) {
       mutate({
-        obj: formData,
+        obj: { ...formData, ...metrics },
         http: `forms/quiz-form?locale=${locale}`,
       });
     }

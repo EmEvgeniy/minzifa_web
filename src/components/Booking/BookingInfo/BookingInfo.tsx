@@ -17,6 +17,7 @@ import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { usePostMutation } from '@/api/post.api';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Tour } from '@/components/Tour/_types';
+import { useMetricsStore } from '@/store/useMetricsStore';
 
 export default function BookingInfo({ tour }: { tour: Tour }) {
   const t = useTranslations('Booking');
@@ -28,6 +29,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
   const [isChecked, setIsChecked] = useState(false);
 
   const { bookingData, setBookingData, setSendData } = useBookingStore((state) => state);
+  const { metrics } = useMetricsStore();
   const { setMessage, setError } = useSnackStore((state) => state);
 
   useEffect(() => {
@@ -79,6 +81,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       mutate({
         obj: {
           ...bookingData,
+          ...metrics,
           travellers_count: (bookingData.travellers_count ?? 0).toString(),
           tour_price: (bookingData.tour_price ?? 0).toString(),
           single_price: (bookingData.single_price ?? 0).toString(),

@@ -30,15 +30,6 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     phone: '',
   });
 
-  useEffect(() => {
-    if (metrics?.utm_source || metrics?.page) {
-      setFormData((prev) => ({
-        ...prev,
-        ...metrics,
-      }));
-    }
-  }, [metrics]);
-
   const questions: QuestionData[] = useMemo(
     () => [
       {
@@ -219,7 +210,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     setErrors({});
     if (!isPending) {
       mutate({
-        obj: formData,
+        obj: { ...formData, ...metrics },
         http: `forms/create-my-trip-quiz?locale=${locale}`,
       });
     }

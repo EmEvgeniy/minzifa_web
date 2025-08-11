@@ -45,7 +45,7 @@ export const useQuizStore = create<QuizStoreData>()((set) => ({
         whenToCall: '',
     },
 
-    setFormData: (data) => set({ formData: data }),
+    setFormData: (data) => set((state) => ({ formData: { ...state.formData, ...data } })),
 
     setWhereGo: (value) => set((state) => ({ formData: { ...state.formData, whereGo: value } })),
     setWhenGo: (value) => set((state) => ({ formData: { ...state.formData, whenGo: value } })),

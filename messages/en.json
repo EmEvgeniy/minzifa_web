@@ -86,13 +86,15 @@
   "best_sellers_btns": "See all trips",
   "favoriteBtn": "Your favorites",
   "favorite_nf": "There are no favorites tours! Choose some tours or take a free consultations",
-
   "tourCard": {
     "days": "days",
     "from": "from",
     "byRequest": "by request"
   },
-  "lang": ["en", "ru"],
+  "lang": [
+    "en",
+    "ru"
+  ],
   "Home": {
     "title": "NextJS i18n Tutorial",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
@@ -879,7 +881,10 @@
     "phone": "Номер телефона",
     "wishes": "Optional placeholder text",
     "button": "Send request",
-    "checkbox": ["By submitting a request, you agree to the", "Privacy Policy"]
+    "checkbox": [
+      "By submitting a request, you agree to the",
+      "Privacy Policy"
+    ]
   },
   "reviews": {
     "title": "Ratings & Reviews",
@@ -903,7 +908,10 @@
     "passenger": {
       "title": "Passenger information",
       "passenger": "Passenger",
-      "passenger_hint": ["Please note:", "Traveller details should match information on passport"],
+      "passenger_hint": [
+        "Please note:",
+        "Traveller details should match information on passport"
+      ],
       "first_name": "First name",
       "last_name": "Last name",
       "email": "Email",
@@ -912,7 +920,10 @@
       "month": "Month",
       "day": "Day",
       "year": "Year",
-      "gender": ["Male", "Female"],
+      "gender": [
+        "Male",
+        "Female"
+      ],
       "adress": "Address",
       "adress_line": "Address line {number}",
       "province": "Suburb / Town",
@@ -935,7 +946,10 @@
       "title": "Select a payment method:",
       "credit_card": "Payment by credit card",
       "bank_transfer": "Bank transfer",
-      "accept_terms": ["I accept Minzifa Travel", "and"]
+      "accept_terms": [
+        "I accept Minzifa Travel",
+        "and"
+      ]
     },
     "button": "Book space"
   },
@@ -971,7 +985,12 @@
       },
       "slide_3": {
         "title": "How many days are you planning on traveling for?",
-        "answers": ["Up to 10 days", "11-15 days", "16-23 days", "24+ days"]
+        "answers": [
+          "Up to 10 days",
+          "11-15 days",
+          "16-23 days",
+          "24+ days"
+        ]
       },
       "slide_4": {
         "title": "What level of accommodation do you feel comfortable with?",
@@ -1019,5 +1038,11 @@
     "title": "Thank You for Your Inquiry!",
     "subtitle": "We have received your request and have already started processing it.",
     "text": "One of our travel experts will contact you within 24 hours via your preferred method — phone or email — to discuss the details of your trip and offer the best options tailored to your wishes."
+  },
+  "errors": {
+    "name_min": "Enter at least 5 characters",
+    "email_invalid": "Invalid email address",
+    "phone_invalid": "Enter a valid phone number",
+    "agree_required": "You must agree to the terms"
   }
 }

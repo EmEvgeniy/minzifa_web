@@ -3,7 +3,7 @@
 import { cn } from "@/utils/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSnackStore } from "../CustomSnackBar/store";
 import { usePostMutation } from "@/api/post.api";
 
@@ -19,15 +19,6 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
     const router = useRouter();
 
     const { metrics } = useMetricsStore();
-
-    useEffect(() => {
-        if (metrics?.utm_source || metrics?.page) {
-            setFormData(prev => ({
-                ...prev,
-                ...metrics
-            }));
-        }
-    }, [metrics]);
 
     const [formData, setFormData] = useState<ConsultationQuizFormRequest>({
         visites: '',
@@ -206,7 +197,7 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
         setErrors({});
         if (!isPending) {
             mutate({
-                obj: formData,
+                obj: { ...formData, ...metrics },
                 http: `forms/consultation-quiz?locale=${locale}`,
             });
         }
