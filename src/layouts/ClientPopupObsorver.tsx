@@ -3,17 +3,19 @@
 import { useEffect, useRef } from 'react';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
 import { Popup } from '@/components';
-import { useLayoutStore } from './layoutStote';
+import { useLayoutStore } from './layoutStore';
 import { DefaultComponentsProps } from '@/types';
 import EnForm from '@/components/UI/CreateYourTripForm/EnForm';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
 export default function ClientPopupObserver({ locale }: DefaultComponentsProps) {
   const footerRef = useRef<HTMLDivElement>(null);
 
   const pathname = usePathname();
+  const params = useParams();
   
   const isThankYouPage = pathname === `/${locale}/thank-you`;
+  const isBookingPage = pathname === `/${locale}/booking/${params?.tour}`;
 
   const { open, setOpen, shownByTimer, shownByScroll, markShownByTimer, markShownByScroll } =
     useLayoutStore((s) => s);
@@ -52,7 +54,7 @@ export default function ClientPopupObserver({ locale }: DefaultComponentsProps) 
     };
   }, [shownByScroll, setOpen, markShownByScroll]);
 
-  return !isThankYouPage && (
+  return (!isThankYouPage && !isBookingPage) && (
     <>
       <div ref={footerRef} />
       <Popup
