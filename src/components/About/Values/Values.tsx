@@ -16,7 +16,7 @@ export default async function Values({ locale }: DefaultComponentsProps) {
   }[];
 
   return (
-    <section className="bg-[#16372D] w-full py-[70px]">
+    <section className="bg-[#16372D] w-full py-[70px] mb-10">
       <div className="container text-white flex flex-col gap-5">
         <h5 className="text-[42px] max-[1024px]:text-[35px] max-[768px]:text-[30px]  max-[768px]:text-center ">
           {t('values_title')}

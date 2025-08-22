@@ -56,8 +56,8 @@ export const contacts: ContactProps = {
         },
     },
     address: {
-        en: '63, Eshoni Pir Str., Bukhara, Uzbekistan',
-        ru: 'Узбекистан, г. Бухара, ул. Эшони Пир, д. 63',
+        en: '53, Eshoni Pir Str., Bukhara, Uzbekistan',
+        ru: 'Узбекистан, г. Бухара, ул. Эшони Пир, д. 53',
     },
     social_media: [
         {
