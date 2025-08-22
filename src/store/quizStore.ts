@@ -11,7 +11,7 @@ export interface QuizFormData extends UTMMetrics {
     name: string;
     email: string;
     phone: string;
-    whenToCall: string;
+    contactToTalk: string;
 };
 
 type QuizStoreData = {
@@ -28,7 +28,7 @@ type QuizStoreData = {
     setName: (value: string) => void;
     setEmail: (value: string) => void;
     setPhone: (value: string) => void;
-    setWhenToCall: (value: string) => void;
+    setСontactToTalk: (value: string) => void;
 };
 
 export const useQuizStore = create<QuizStoreData>()((set) => ({
@@ -42,7 +42,7 @@ export const useQuizStore = create<QuizStoreData>()((set) => ({
         name: '',
         email: '',
         phone: '',
-        whenToCall: '',
+        contactToTalk: '',
     },
 
     setFormData: (data) => set((state) => ({ formData: { ...state.formData, ...data } })),
@@ -56,5 +56,5 @@ export const useQuizStore = create<QuizStoreData>()((set) => ({
     setName: (value) => set((state) => ({ formData: { ...state.formData, name: value } })),
     setEmail: (value) => set((state) => ({ formData: { ...state.formData, email: value } })),
     setPhone: (value) => set((state) => ({ formData: { ...state.formData, phone: value } })),
-    setWhenToCall: (value) => set((state) => ({ formData: { ...state.formData, whenToCall: value } })),
+    setСontactToTalk: (value) => set((state) => ({ formData: { ...state.formData, contactToTalk: value } })),
 }));

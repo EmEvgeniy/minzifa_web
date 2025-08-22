@@ -90,7 +90,7 @@ export default function QuizForm({ className, popupClose, locale }: DescFormProp
         name: '',
         email: '',
         phone: '',
-        whenToCall: '',
+        contactToTalk: '',
       });
 
       popupClose?.();

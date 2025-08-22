@@ -37,11 +37,11 @@ const Step3 = ({ errors = {}, clearError }: StepProps) => {
           value={budget}
           onChange={handleChange}
           className={cn(
-            "w-full max-w-[300px] bg-white outline-none rounded-[16px] px-3 py-3 border-2",
+            "w-full max-w-[350px] bg-white outline-none rounded-[16px] px-3 py-3 border-2",
             errors?.budget ? "border-red-500" : "border-[#E2E2E2]",
             "max-[650px]:max-w-full"
           )}
-          placeholder="For example: 500 to 2000 $"
+          placeholder="Enter your budget (e.g. 1000 / 8000+)"
         />
         {errors?.budget && <p className="text-red-500 text-sm">{errors.budget}</p>}
       </div>

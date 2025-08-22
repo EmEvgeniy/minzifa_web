@@ -1,16 +1,16 @@
 import React from 'react';
 import { PhoneInputComp } from '../../PhoneInput';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Radio, FormControlLabel } from '@mui/material';
 import { useQuizStore } from '@/store/quizStore';
 import { cn } from '@/utils/utils';
 import { StepProps } from '../DescForm';
 
 const Step4 = ({ errors = {}, clearError }: StepProps) => {
-  const { formData: { name, email, phone, whenToCall }, setName, setEmail, setPhone, setWhenToCall } = useQuizStore();
-
+  const { formData: { name, email, phone, contactToTalk }, setName, setEmail, setPhone, setСontactToTalk } = useQuizStore();
+  
   const handleCheckboxChange = (value: string) => {
-    setWhenToCall(whenToCall === value ? '' : value);
-    if (clearError) clearError('whenToCall');
+    setСontactToTalk(contactToTalk === value ? '' : value);
+    if (clearError) clearError('contactToTalk');
   };
 
   return (
@@ -61,19 +61,19 @@ const Step4 = ({ errors = {}, clearError }: StepProps) => {
       </div>
 
       <div className="w-full">
-        <h2 className="text-xl font-semibold">Best time to contact</h2>
+        <h2 className="text-xl font-semibold">Who would you like to talk to?</h2>
         <div className="flex gap-6 max-[500px]:flex-wrap max-[500px]:gap-2">
-          {["Morning", "Afternoon", "Evening"].map((time) => (
+          {["Human Sales Manager", "AI Assistant"].map((answer) => (
             <FormControlLabel
-              key={time}
+              key={answer}
               control={
-                <Checkbox
-                  checked={whenToCall === time}
-                  onChange={() => handleCheckboxChange(time)}
+                <Radio
+                  checked={contactToTalk === answer}
+                  onChange={() => handleCheckboxChange(answer)}
                   color="secondary"
                 />
               }
-              label={time}
+              label={answer}
             />
           ))}
         </div>
