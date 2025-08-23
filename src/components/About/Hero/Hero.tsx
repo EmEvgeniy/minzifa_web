@@ -1,4 +1,4 @@
-import { about_hero, info } from '@/assets/img';
+import { about_hero, reviews_white } from '@/assets/img';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
@@ -38,7 +38,7 @@ export default async function Hero({ locale }: DefaultComponentsProps) {
             width={0}
             height={0}
             className="h-auto w-auto"
-            src={info}
+            src={reviews_white}
             alt="Logo"
             loading="lazy"
           />

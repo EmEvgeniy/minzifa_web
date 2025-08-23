@@ -63,7 +63,7 @@ export const LangBtn = () => {
                 className={`text-center cursor-pointer ${
                   el === pathname?.slice(1, 3)
                     ? 'text-white font-semibold [@media(max-width:950px)]:text-gray-900'
-                    : 'text-gray-900'
+                    : 'text-gray-300'
                 }`}
               >
                 {el.toUpperCase()}

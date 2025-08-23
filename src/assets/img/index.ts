@@ -31,6 +31,7 @@ import circle1 from './circle1.png';
 import circle3 from './circle2.2.png';
 import circle4 from './circle3.png';
 import circle5 from './circle4.png';
+import reviews_white from './reviews_white.svg';
 
 export {
   cr2,
@@ -66,4 +67,5 @@ export {
   circle3,
   circle4,
   circle5,
+  reviews_white,
 };
