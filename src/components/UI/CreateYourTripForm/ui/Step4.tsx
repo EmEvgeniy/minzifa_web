@@ -60,24 +60,24 @@ const Step4 = ({ errors = {}, clearError }: StepProps) => {
         </div>
       </div>
 
-      <div className="w-full">
-        <h2 className="text-xl font-semibold">Who would you like to talk to?</h2>
-        <div className="flex gap-6 max-[500px]:flex-wrap max-[500px]:gap-2">
-          {["Human Sales Manager", "AI Assistant"].map((answer) => (
-            <FormControlLabel
-              key={answer}
-              control={
-                <Radio
-                  checked={contactToTalk === answer}
-                  onChange={() => handleCheckboxChange(answer)}
-                  color="secondary"
-                />
-              }
-              label={answer}
-            />
-          ))}
-        </div>
-      </div>
+      {/*<div className="w-full">*/}
+      {/*  <h2 className="text-xl font-semibold">Who would you like to talk to?</h2>*/}
+      {/*  <div className="flex gap-6 max-[500px]:flex-wrap max-[500px]:gap-2">*/}
+      {/*    {["Human Sales Manager", "AI Assistant"].map((answer) => (*/}
+      {/*      <FormControlLabel*/}
+      {/*        key={answer}*/}
+      {/*        control={*/}
+      {/*          <Radio*/}
+      {/*            checked={contactToTalk === answer}*/}
+      {/*            onChange={() => handleCheckboxChange(answer)}*/}
+      {/*            color="secondary"*/}
+      {/*          />*/}
+      {/*        }*/}
+      {/*        label={answer}*/}
+      {/*      />*/}
+      {/*    ))}*/}
+      {/*  </div>*/}
+      {/*</div>*/}
     </div>
   );
 };
