@@ -1,17 +1,23 @@
 import React from 'react';
 import { PhoneInputComp } from '../../PhoneInput';
-import { Radio, FormControlLabel } from '@mui/material';
+// import { Radio, FormControlLabel } from '@mui/material';
 import { useQuizStore } from '@/store/quizStore';
 import { cn } from '@/utils/utils';
 import { StepProps } from '../DescForm';
 
 const Step4 = ({ errors = {}, clearError }: StepProps) => {
-  const { formData: { name, email, phone, contactToTalk }, setName, setEmail, setPhone, setСontactToTalk } = useQuizStore();
-  
-  const handleCheckboxChange = (value: string) => {
-    setСontactToTalk(contactToTalk === value ? '' : value);
-    if (clearError) clearError('contactToTalk');
-  };
+  const {
+    formData: { name, email, phone }, //contactToTalk },
+    setName,
+    setEmail,
+    setPhone,
+    // setСontactToTalk,
+  } = useQuizStore();
+
+  // const handleCheckboxChange = (value: string) => {
+  //   setСontactToTalk(contactToTalk === value ? '' : value);
+  //   if (clearError) clearError('contactToTalk');
+  // };
 
   return (
     <div className="w-full flex flex-col gap-8 items-center justify-center h-full">
@@ -26,8 +32,8 @@ const Step4 = ({ errors = {}, clearError }: StepProps) => {
                 if (clearError) clearError('name');
               }}
               className={cn(
-                "outline-none bg-white w-full px-3 py-3 rounded-[16px] border-2",
-                errors?.name ? "border-red-500" : "border-[#D8DADC]"
+                'outline-none bg-white w-full px-3 py-3 rounded-[16px] border-2',
+                errors?.name ? 'border-red-500' : 'border-[#D8DADC]',
               )}
               placeholder="First Name*"
             />
@@ -38,12 +44,12 @@ const Step4 = ({ errors = {}, clearError }: StepProps) => {
             <input
               value={email}
               onChange={(e) => {
-                setEmail(e.target.value)
+                setEmail(e.target.value);
                 if (clearError) clearError('email');
               }}
               className={cn(
-                "outline-none bg-white w-full px-3 py-3 rounded-[16px] border-2",
-                errors?.email ? "border-red-500" : "border-[#D8DADC]"
+                'outline-none bg-white w-full px-3 py-3 rounded-[16px] border-2',
+                errors?.email ? 'border-red-500' : 'border-[#D8DADC]',
               )}
               placeholder="Email*"
             />
@@ -51,10 +57,13 @@ const Step4 = ({ errors = {}, clearError }: StepProps) => {
           </div>
 
           <div>
-            <PhoneInputComp value={phone} onChange={(value) => {
-              setPhone(value);
-              if (clearError) clearError('phone');
-            }} />
+            <PhoneInputComp
+              value={phone}
+              onChange={(value) => {
+                setPhone(value);
+                if (clearError) clearError('phone');
+              }}
+            />
             {errors?.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
           </div>
         </div>
