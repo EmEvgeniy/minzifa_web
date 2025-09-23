@@ -16,7 +16,7 @@ export default async function TourAccomodation({
 
   return (
     <div className="col-span-2 w-full z-40 flex flex-col">
-      <h2 className="text-4xl font-semibold text-black mb-5">{t('hotel.title')}</h2>
+      <h2 className="text-4xl font-semibold text-black mb-5 max-[920px]:text-[30px] max-[550px]:text-[24px] max-[550px]:mb-3">{t('hotel.title')}</h2>
       <TourAccomodationInner hotels={hotels} />
     </div>
   );

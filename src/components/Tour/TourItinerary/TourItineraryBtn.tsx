@@ -14,7 +14,7 @@ function TourItineraryBtn({ closed, expanded, itineraries }: TourItineraryBtnPro
 
   return (
     <button
-      className="flex flex-row gap-2 items-center hover:underline cursor-pointer text-[14px]"
+      className="flex flex-row gap-2 items-center hover:underline cursor-pointer text-[14px] max-[550px]:text-[12px] max-[550px]:gap-1"
       onClick={() => handleToggleAll(itineraries)}
     >
       {isAllExpanded ? (

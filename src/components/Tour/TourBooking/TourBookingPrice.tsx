@@ -56,11 +56,11 @@ function TourBookingPrice({
 
   return (
     <Dropdown>
-      <DropdownSummary className="flex flex-row justify-between items-center gap-1.5 border border-gray-300 rounded-2xl p-3 relative cursor-pointer">
+      <DropdownSummary className="flex flex-row justify-between items-center gap-1.5 border border-gray-300 rounded-2xl p-3 relative cursor-pointer max-[550px]:p-2 max-[550px]:gap-1">
         {() => (
-          <div className="flex flex-row items-center gap-2">
-            <Image src={IconCalendar} width={24} height={24} alt="calendar" />
-            <div>{formatted_date(selectedPrice?.date_start || '', locale)}</div>
+          <div className="flex flex-row items-center gap-2 max-[550px]:gap-1">
+            <Image src={IconCalendar} width={24} height={24} alt="calendar" className="max-[550px]:w-[20px] max-[550px]:h-[20px]" />
+            <div className="max-[550px]:text-[14px]">{formatted_date(selectedPrice?.date_start || '', locale)}</div>
           </div>
         )}
       </DropdownSummary>
