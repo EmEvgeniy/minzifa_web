@@ -166,6 +166,8 @@ feature(CODE-999): new feature   # ❌ invalid type "feature"
 
 ---
 
+---
+
 # 🇷🇺 Русская версия
 
 ## 🌍 Minzifa Travel Website
@@ -228,7 +230,7 @@ feature(CODE-999): new feature   # ❌ invalid type "feature"
 ## ⚙️ Переменные окружения
 
 | Переменная             | Описание                             | Значение по умолчанию                                     |
-| ---------------------- | ------------------------------------ | --------------------------------------------------------- |
+|------------------------|--------------------------------------|---------------------------------------------------------|
 | `NEXT_PUBLIC_WS_URL`   | WebSocket URL для Centrifugo сервера | `wss://centrifugo.minzifatravel.com/connection/websocket` |
 | `NEXT_PUBLIC_BASE_API` | Базовый URL для backend API          | `http://localhost`                                        |
 
