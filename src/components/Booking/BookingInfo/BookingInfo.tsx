@@ -88,7 +88,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
           deposit: (bookingData.deposit ?? 0).toString(),
           total_price: (bookingData.total_price ?? 0).toString(),
         },
-        http: 'forms/booking',
+        endpoint: 'forms/booking',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

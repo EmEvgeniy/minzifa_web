@@ -20,6 +20,7 @@ export default function ArticleCard({ article, locale }: Props) {
             <Image
               src={article?.media?.file}
               fill
+              sizes="(max-width: 768px) 100vw, 33vw"
               className="w-full h-full object-cover"
               alt={article.media.alt_text || 'text'}
             />

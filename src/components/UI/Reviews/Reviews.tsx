@@ -1,4 +1,4 @@
-import { info } from '@/assets/img';
+import { TravelChoice_Black } from '@/assets/img';
 import Image from 'next/image';
 import { FaStar } from 'react-icons/fa6';
 import ReviewsInner from './ReviewsInner';
@@ -42,7 +42,13 @@ export default async function Reviews({ locale }: DefaultComponentsProps) {
             </div>
           </div>
         </div>
-        <Image src={info} alt="info_img" width={611} height={97} className="object-cover" />
+        <Image
+          src={TravelChoice_Black}
+          alt="info_img"
+          width={611}
+          height={97}
+          className="object-cover"
+        />
       </div>
 
       <ReviewsInner />

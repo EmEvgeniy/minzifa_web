@@ -5,6 +5,7 @@ import TourTitle from './TourTitle/TourTitle';
 import { redirect } from 'next/navigation';
 import Breadcrumbs from '../UI/Breadcrumbs/Breadcrumbs';
 import { getTranslations } from 'next-intl/server';
+import { getApiUrl } from '@/utils/config';
 const Reviews = dynamic(() => import('../UI/Reviews/Reviews'));
 const TourHighlights = dynamic(() => import('./TourHighlights/TourHighlights'));
 const TourGallery = dynamic(() => import('./TourGallery/TourGallery'));
@@ -13,6 +14,7 @@ const TourDescription = dynamic(() => import('../UI/MarkdownDescription/Markdown
 const TourItinerary = dynamic(() => import('./TourItinerary/TourItinerary'));
 const TourAccomodation = dynamic(() => import('./TourAccomodation/TourAccomodation'));
 const TourByRequest = dynamic(() => import('./TourByRequest/TourByRequest'));
+const TourPrivateModal = dynamic(() => import('./TourPrivateModal/TourPrivateModal'));
 const FreeConsultationForm = dynamic(
   () => import('../UI/FreeConsultationForm/FreeConsultationForm'),
 );
@@ -25,19 +27,17 @@ const DescForm = dynamic(() => import('./../UI/CreateYourTripForm/DescForm'));
 export default async function TourWrapper({ locale, slug }: { locale: string; slug: string }) {
   const t = await getTranslations({ locale });
 
-  const res = await fetch(`https://api.minzifatravel.com/api/v1/tours/${slug}?locale=${locale}`, {
+  const tourData = (await fetch(getApiUrl(`tours/${slug}?locale=${locale}`), {
     next: { revalidate: 60 * 20 },
-  });
-
-  if (!res.ok) redirect(`/${locale}`);
-
-  const tourData: Tour = await res.json();
+  }).then((res) => res.json())) as Tour;
 
   if (!tourData?.id) redirect(`/${locale}`);
 
   if (tourData?.photo) {
     tourData?.gallery.unshift(tourData?.photo);
   }
+
+  const isIndividual = tourData?.tour_type === 'individual';
 
   return (
     <div className="w-full min-h-[200vh]">
@@ -69,22 +69,27 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
             <FreeConsultationForm />
           </div>
           <TourIncludes includes={tourData?.includes} locale={locale} />
-          {tourData?.prices.length ? (
+          {tourData?.prices?.data?.length ? (
             <TourBooking
-              prices={tourData?.prices}
+              prices={tourData?.prices?.data}
               className="z-30 max-[920px]:hidden"
               tour={tourData}
             />
           ) : (
-            <TourByRequest locale={locale} />
+            <TourByRequest locale={locale} tour={tourData} />
           )}
         </div>
         <TourAccomodation hotels={tourData.hotels} locale={locale} />
         <TourPrices tour={tourData} />
         <Reviews locale={locale} />
-        {locale === 'en' ? <DescForm className="mb-10" locale='en' /> : <CreateYourTripForm className="mb-10" locale={locale} />}
+        {locale === 'en' ? (
+          <DescForm className="mb-10" locale="en" />
+        ) : (
+          <CreateYourTripForm className="mb-10" locale={locale} />
+        )}
       </div>
       <MobileBtn locale={locale} tour={tourData} />
+      <TourPrivateModal locale={locale} isIndividual={isIndividual} />
     </div>
   );
 }

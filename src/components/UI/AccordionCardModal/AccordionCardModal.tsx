@@ -23,10 +23,13 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
     hotel &&
     openModal && (
       <div
-        onClick={() => setOpenModal(!openModal)}
+        onClick={() => setOpenModal(false)}
         className="fixed top-0 left-0 w-full h-full bg-black/50 z-50 flex items-center justify-center"
       >
-        <div className="bg-white p-5 rounded-2xl shadow-md min-w-[300px] lg:min-w-[830px] max-w-[830px] relative">
+        <div
+          className="bg-white p-5 rounded-2xl shadow-md min-w-[300px] lg:min-w-[830px] max-w-[830px] relative"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div>
             <h2 className="text-2xl font-semibold">{hotel.name}</h2>
             <div className="grid grid-cols-3 text-lg">
@@ -149,7 +152,7 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
             <TourDescription description={hotel?.description || ''} />
           </div>
           <button
-            onClick={() => setOpenModal(!openModal)}
+            onClick={() => setOpenModal(false)}
             className="cursor-pointer absolute right-0 top-0 p-5"
           >
             <FaXmark size={20} />

@@ -60,7 +60,7 @@ export default function FreeConsultationForm({ className }: { className?: string
   );
 
   const onSubmit = (data: FreeForm) => {
-    mutate({ obj: { ...data, ...metrics }, http: 'forms/free-consultation' });
+    mutate({ obj: { ...data, ...metrics }, endpoint: 'forms/free-consultation' });
   };
 
   return (

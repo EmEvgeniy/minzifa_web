@@ -2,16 +2,16 @@
 import React, { FC } from 'react';
 import { motion } from 'framer-motion';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
-import { Price, Tour } from '../_types';
+import { GroupPrice, Tour } from '../_types';
 import { useLocale, useTranslations } from 'next-intl';
 import { date_end, formatted_date } from '@/utils/utils';
 
 type TourDescTopCardType = {
-  price: Price;
+  price: GroupPrice;
   index: number;
   tour: Tour;
   handleBookingData: (
-    selectedPrice: Price | undefined,
+    selectedPrice: GroupPrice | undefined,
     totalPrice: number,
     travellers: string,
   ) => void;

@@ -20,7 +20,15 @@ const nextConfig: NextConfig = {
         hostname: 'placehold.co',
         port: '',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '',
+      },
     ],
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
 };
 

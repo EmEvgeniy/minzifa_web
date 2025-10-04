@@ -3,19 +3,28 @@ import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import dynamic from 'next/dynamic';
+import { apiGet } from '@/utils/serverApi';
 const WrapperMobile = dynamic(() => import('./Wrapper.mobile'));
 const ArticleCard = dynamic(() => import('@/components/UI/ArticleCard/ArticleCard'));
+
+type ArticlesData = {
+  data: ArticleCardType[];
+  meta: {
+    total: number;
+    per_page: number;
+    current_page: number;
+    last_page: number;
+    from: number;
+    to: number;
+  };
+};
 
 export default async function Articles({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
-  const res = await fetch(
-    `https://api.minzifatravel.com/api/v1/articles?limit=3&page=1&perPage=3&locale=${locale}`,
-    {
-      next: { revalidate: 60 * 5 },
-    },
-  );
-  const data = await res.json();
+  const data = (await apiGet(`articles?limit=3&page=1&perPage=3&locale=${locale}`, {
+    next: { revalidate: 60 * 5 },
+  })) as ArticlesData;
 
   if (!data?.data.length) return null;
 

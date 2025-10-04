@@ -1,83 +1,78 @@
 'use client';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Accordion, AccordionDetails, AccordionSummary, Divider, Slider } from '@mui/material';
-import { useFilterStore } from './store';
+import { useFilterStore } from '@/store';
 import { useRouter } from 'next/navigation';
-
-function valuetext(value: number) {
-  return `${value}$`;
-}
+import FilterAccordion from '@/components/UI/FilterAccordion';
 
 function FilterDurationSlider({ pl, pl2, pl3 }: { pl: string; pl2: string; pl3: string }) {
-
   const router = useRouter();
   const { durations, setDurations, buildFilterQuery } = useFilterStore();
 
-  const handleChangeDurations = (_: Event, newValue: number[]) => {
+  const handleChangeDurations = (newValue: number[]) => {
     setDurations(newValue);
     router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
-  return (
-    <>
-      <Accordion sx={{ boxShadow: 'none' }} defaultExpanded>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-        >
-          <p className="text-[18px] font-semibold">{pl}</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="grid-row-1 rounded-2xl  grid grid-cols-2 border-2 border-gray-300 p-0">
-            <div className="rounded-input flex flex-col rounded-r-none border-r border-inherit">
-              <span className="mt-1 px-3 text-[18px] text-gray-300 ">{pl2}</span>
-              <div className="flex flex-row">
-                <input
-                  min={1}
-                  value={durations[0] || 1}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    if (!isNaN(val)) setDurations([val, durations[1]]);
-                  }}
-                  required
-                  className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
-                />
-              </div>
-            </div>
+  const handleInputChange = (index: number, value: string) => {
+    const val = Number(value);
+    if (!isNaN(val)) {
+      const newDurations = [...durations];
+      newDurations[index] = val;
+      handleChangeDurations(newDurations);
+    }
+  };
 
-            <div className="rounded-input flex flex-col border-inherit">
-              <span className="mt-1 px-3 text-[18px] text-gray-300">{pl3}</span>
-              <div className="flex flex-row">
-                <input
-                  min={1}
-                  value={durations[1] || 31}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    if (!isNaN(val)) setDurations([durations[0], val]);
-                  }}
-                  required
-                  className="block h-full text-[18px] w-full min-w-0 flex-1 rounded-none rounded-r-md px-3 py-2 focus:border-blue-500 focus:ring-blue-500 focus:outline-none "
-                  placeholder="$120"
-                />
-              </div>
-            </div>
-          </div>
-          <Slider
-            value={durations || [1, 31]}
-            sx={{ paddingTop: 5 }}
-            min={0}
-            max={31}
-            size="medium"
-            color="secondary"
-            onChange={handleChangeDurations}
-            valueLabelDisplay="auto"
-            getAriaValueText={valuetext}
+  return (
+    <FilterAccordion title={pl}>
+      <div className="grid grid-cols-2 gap-2 border-2 border-gray-300 rounded-2xl p-0">
+        <div className="flex flex-col">
+          <span className="mt-1 px-3 text-[18px] text-gray-400">{pl2}</span>
+          <input
+            type="number"
+            min={1}
+            value={durations[0] || 1}
+            onChange={(e) => handleInputChange(0, e.target.value)}
+            className="block h-full text-[18px] w-full px-3 py-2 focus:border-[#27A430] focus:ring-[#27A430] focus:outline-none border-0"
           />
-        </AccordionDetails>
-      </Accordion>
-      <Divider sx={{ paddingTop: 1, paddingBottom: 1 }} />
-    </>
+        </div>
+
+        <div className="flex flex-col">
+          <span className="mt-1 px-3 text-[18px] text-gray-400">{pl3}</span>
+          <input
+            type="number"
+            min={1}
+            value={durations[1] || 31}
+            onChange={(e) => handleInputChange(1, e.target.value)}
+            className="block h-full text-[18px] w-full px-3 py-2 focus:border-[#27A430] focus:ring-[#27A430] focus:outline-none border-0"
+          />
+        </div>
+      </div>
+
+      <div className="px-3 py-5">
+        <div className="relative">
+          <input
+            type="range"
+            min={1}
+            max={31}
+            value={durations[0] || 1}
+            onChange={(e) => handleInputChange(0, e.target.value)}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+          />
+          <input
+            type="range"
+            min={1}
+            max={31}
+            value={durations[1] || 31}
+            onChange={(e) => handleInputChange(1, e.target.value)}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider absolute top-0"
+          />
+        </div>
+
+        <div className="flex justify-between text-sm text-gray-600 mt-2">
+          <span>{durations[0] || 1} дней</span>
+          <span>{durations[1] || 31} дней</span>
+        </div>
+      </div>
+    </FilterAccordion>
   );
 }
 

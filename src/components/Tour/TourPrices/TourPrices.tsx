@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { Price, Tour } from '../_types';
+import { GroupPrice, Tour } from '../_types';
 import { useState } from 'react';
 import { date_end, formatted_date } from '@/utils/utils';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
@@ -13,10 +13,10 @@ import { TourMobileCard } from './TourMobileCard';
 
 import IconCalendar from '../../../assets/icons/booking/calendar.svg';
 import Image from 'next/image';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
-import { Button } from '@mui/material';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './custom-datepicker.css';
+import { Button } from '@/components/UI/Button/Button';
 
 // const months: { [key in 'en' | 'ru']: string[] } = {
 //   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -63,7 +63,7 @@ export default function TourPrices({ tour }: { tour: Tour }) {
   // });
 
   const handleBookingData = (
-    selectedPrice: Price | undefined,
+    selectedPrice: GroupPrice | undefined,
     totalPrice: number,
     travellers: string,
   ) => {
@@ -100,7 +100,7 @@ export default function TourPrices({ tour }: { tour: Tour }) {
     router.push(`/${locale}/booking/${tour?.slug}?${params.toString()}`);
   };
 
-  return tour.prices.length ? (
+  return tour.prices.data && tour.prices.data.length > 0 ? (
     <section className="flex flex-col gap-5 max-[550px]:gap-3">
       <h2 className="text-4xl font-semibold  max-[920px]:text-[24px]">{t('prices.title')}</h2>
       {/* 
@@ -158,10 +158,10 @@ export default function TourPrices({ tour }: { tour: Tour }) {
           <p>{t('prices.number')}</p>
           <p>{t('prices.pp')}</p>
         </div>
-        {tour.prices.length > 0 ? (
+        {tour.prices.data && tour.prices.data.length > 0 ? (
           <>
             <AnimatePresence initial={false}>
-              {tour.prices.slice(0, limit).map((price, index) => (
+              {tour.prices.data.slice(0, limit).map((price, index) => (
                 <div key={index}>
                   <TourDescTopCard
                     price={price}
@@ -178,19 +178,25 @@ export default function TourPrices({ tour }: { tour: Tour }) {
                 </div>
               ))}
             </AnimatePresence>
-            {tour.prices.length > 0 && tour.prices.length >= limit && (
-              <button
-                className="cursor-pointer px-5 py-3 transition-all duration-300 bg-[#ECEEED] hover:bg-[#E8E8E8] border border-[#DCDCDC] text-black rounded-full flex items-center justify-center gap-2.5 self-center"
-                onClick={() =>
-                  limit === tour.prices.length ? setLimit(3) : setLimit(tour.prices.length)
-                }
-              >
-                {t(
-                  limit === tour.prices.length ? 'prices.hide_all_dates' : 'prices.show_all_dates',
-                )}
-                {limit === tour.prices.length ? <FaChevronUp /> : <FaChevronDown />}
-              </button>
-            )}
+            {tour.prices.data &&
+              tour.prices.data.length > 0 &&
+              tour.prices.data.length >= limit && (
+                <button
+                  className="cursor-pointer px-5 py-3 transition-all duration-300 bg-[#ECEEED] hover:bg-[#E8E8E8] border border-[#DCDCDC] text-black rounded-full flex items-center justify-center gap-2.5 self-center"
+                  onClick={() =>
+                    limit === tour.prices.data!.length
+                      ? setLimit(3)
+                      : setLimit(tour.prices.data!.length)
+                  }
+                >
+                  {t(
+                    limit === tour.prices.data?.length
+                      ? 'prices.hide_all_dates'
+                      : 'prices.show_all_dates',
+                  )}
+                  {limit === tour.prices.data?.length ? <FaChevronUp /> : <FaChevronDown />}
+                </button>
+              )}
           </>
         ) : (
           <AnimatePresence initial={false}>
@@ -213,48 +219,35 @@ export default function TourPrices({ tour }: { tour: Tour }) {
         <p className="text-[35px] font-semibold">
           {locale === 'ru' ? 'Выберите вашу дату' : 'Select your date'}
         </p>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+        <div className="space-y-4">
           <DatePicker
-            label={locale === 'ru' ? 'Дата начала тура' : 'Start tour date'}
-            value={bookingData.tour_start ? dayjs(bookingData.tour_start) : null}
-            onChange={(value) =>
+            selected={bookingData.tour_start ? new Date(bookingData.tour_start) : null}
+            onChange={(date: Date | null) =>
               setBookingData({
                 ...bookingData,
-                tour_start: value ? formatted_date(value.toISOString(), locale) : '',
+                tour_start: date ? formatted_date(date.toISOString(), locale) : '',
               })
             }
-            sx={{
-              width: '100%',
-              '& .MuiInputBase-root.MuiOutlinedInput-root': {
-                borderRadius: '15px',
-                border: 'none !important',
-              },
-              '& .css-lqwr9g-MuiPickersOutlinedInput-notchedOutline': {
-                borderRadius: '15px',
-              },
-            }}
+            className="custom-date-input"
+            dateFormat="dd/MM/yyyy"
+            placeholderText={locale === 'ru' ? 'Дата начала тура' : 'Start tour date'}
+            minDate={new Date()}
           />
+
           <DatePicker
-            label={locale === 'ru' ? 'Дата окончания тура' : 'End tour date'}
-            value={bookingData.tour_end ? dayjs(bookingData.tour_end) : null}
-            onChange={(value) =>
+            selected={bookingData.tour_end ? new Date(bookingData.tour_end) : null}
+            onChange={(date: Date | null) =>
               setBookingData({
                 ...bookingData,
-                tour_end: value ? date_end(value.toISOString(), locale, tour.days) : '',
+                tour_end: date ? date_end(date.toISOString(), locale, tour.days) : '',
               })
             }
-            sx={{
-              width: '100%',
-              '& .MuiInputBase-root.MuiOutlinedInput-root': {
-                borderRadius: '15px',
-                border: 'none !important',
-              },
-              '& .css-lqwr9g-MuiPickersOutlinedInput-notchedOutline': {
-                borderRadius: '15px',
-              },
-            }}
+            className="custom-date-input"
+            dateFormat="dd/MM/yyyy"
+            placeholderText={locale === 'ru' ? 'Дата окончания тура' : 'End tour date'}
+            minDate={bookingData.tour_start ? new Date(bookingData.tour_start) : new Date()}
           />
-        </LocalizationProvider>
+        </div>
         <Button
           onClick={() => {
             setBookingData({
@@ -279,10 +272,9 @@ export default function TourPrices({ tour }: { tour: Tour }) {
             });
             router.push(`/${locale}/booking/${tour?.slug}?${params.toString()}`);
           }}
-          fullWidth
-          sx={{ borderRadius: 2.5 }}
-          color="secondary"
-          variant="contained"
+          variant="secondary"
+          size="lg"
+          className="w-full"
         >
           {t('booking.button')}
         </Button>

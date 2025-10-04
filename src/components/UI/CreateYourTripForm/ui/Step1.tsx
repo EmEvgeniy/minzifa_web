@@ -38,7 +38,7 @@ const Step1 = ({ errors = {}, clearError }: StepProps) => {
         <div
           className={cn(
             'flex items-center justify-between gap-2 w-full max-[620px]:grid max-[620px]:grid-cols-2',
-            errors.whereGo && 'border border-red-500 rounded-xl p-2'
+            errors.whereGo && 'border border-red-500 rounded-xl p-2',
           )}
         >
           {buttons.map((el, index) => (
@@ -47,26 +47,25 @@ const Step1 = ({ errors = {}, clearError }: StepProps) => {
               onClick={() => handleClickWhereGo(el.id, index)}
               className={cn(
                 'group flex flex-col w-full items-center justify-center bg-white hover:bg-[#1e7e24] hover:text-white duration-300 transition-all rounded-2xl shadow-xl p-4 cursor-pointer border-[#E2E2E2] border-[0.3px]',
-                active === el.id && 'bg-[#27A430] text-white'
+                active === el.id && 'bg-[#27A430] text-white',
               )}
             >
               <Image
                 src={el.icon}
+                alt={el.title}
                 width={28}
                 height={28}
-                alt={el.title}
+                style={{ width: '28px', height: '28px' }}
                 className={cn(
                   'mb-2 group-hover:invert-100 group-hover:brightness-0',
-                  active === el.id && 'icon-white'
+                  active === el.id && 'icon-white',
                 )}
               />
               <span className="text-sm font-medium">{el.title}</span>
             </button>
           ))}
         </div>
-        {errors.whereGo && (
-          <p className="text-red-500 text-sm">{errors.whereGo}</p>
-        )}
+        {errors.whereGo && <p className="text-red-500 text-sm">{errors.whereGo}</p>}
       </div>
 
       {/* WHEN */}
@@ -77,9 +76,7 @@ const Step1 = ({ errors = {}, clearError }: StepProps) => {
         <div className={cn(errors.whenGo && 'border border-red-500 rounded-xl p-2')}>
           <MonthYearSelect onChange={() => clearError && clearError('whenGo')} />
         </div>
-        {errors.whenGo && (
-          <p className="text-red-500 text-sm">{errors.whenGo}</p>
-        )}
+        {errors.whenGo && <p className="text-red-500 text-sm">{errors.whenGo}</p>}
       </div>
     </div>
   );

@@ -1,12 +1,10 @@
 'use client';
 
-import { Box, Drawer, List, ListItem, ListItemButton } from '@mui/material';
 import { useFavoriteStore } from './store';
 import { useLocale, useTranslations } from 'next-intl';
 import BestSellersPackagesCard from '../BestSellersPackagesCard/BestSellersPackagesCard';
 import { BestSellersPackagesCardType } from '../BestSellersPackagesCard/_types';
 import Link from 'next/link';
-
 import { IoMdCloseCircle } from 'react-icons/io';
 
 function FavoriteMenu() {
@@ -14,65 +12,72 @@ function FavoriteMenu() {
   const { setActive, tours, active } = useFavoriteStore((state) => state);
   const locale = useLocale();
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setActive(newOpen);
+  const handleClose = () => setActive(false);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
   };
 
-  const DrawerList = (
-    <Box
-      sx={{
-        width: 450,
-        backgroundColor: '#16372D',
-        height: '100%',
-        padding: '20px 10px',
-      }}
-      role="presentation"
-      className="max-[1024px]:!w-[350px]"
-    >
-      <Link href={`/${locale}/favorites`} className="text-white underline  text-2xl">
-        {t('favoriteBtn')}
-      </Link>
-      <span
-        className="hidden fixed top-5 right-4 max-[550px]:block cursor-pointer hover:scale-110 active:scale-95 transition-all"
-        onClick={() => {
-          toggleDrawer(false)();
-        }}
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      handleClose();
+    }
+  };
+
+  return (
+    <>
+      {/* Backdrop */}
+      {active && tours?.length && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={handleBackdropClick}
+          onKeyDown={handleKeyDown}
+        />
+      )}
+
+      {/* Right Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-[450px] max-[1024px]:w-[350px] bg-[#16372D] transform transition-transform duration-300 ease-in-out z-50 ${
+          tours?.length && active ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
-        <IoMdCloseCircle className="text-white text-[28px]" />
-      </span>
-      <List
-        className="text-white   !p-0 !w-full overflow-y-scroll h-full max-h-[90svh] !mt-5"
-        sx={{ marginTop: 2 }}
-      >
-        {tours.length
-          ? tours.map((text: BestSellersPackagesCardType, i) => (
-              <ListItem key={i} className="!w-full !p-0">
-                <ListItemButton
-                  onClick={() => {
-                    toggleDrawer(false)();
-                  }}
-                >
-                  {
+        <div className="p-5 h-full flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-5">
+            <Link href={`/${locale}/favorites`} className="text-white underline text-2xl">
+              {t('favoriteBtn')}
+            </Link>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="text-white hover:scale-110 active:scale-95 transition-all"
+            >
+              <IoMdCloseCircle size={28} />
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto">
+            {tours.length
+              ? tours.map((tour: BestSellersPackagesCardType, i) => (
+                  <div key={i} className="mb-4">
                     <BestSellersPackagesCard
-                      slide={text}
+                      slide={tour}
                       locale={locale}
                       days={t('all_tours.days')}
                       from={t('all_tours.from')}
                       view_itinerary={t('all_tours.view_itinerary')}
                       byRequest={t('all_tours.byRequest')}
                     />
-                  }
-                </ListItemButton>
-              </ListItem>
-            ))
-          : null}
-      </List>
-    </Box>
-  );
-  return (
-    <Drawer anchor="right" open={tours?.length ? active : false} onClose={toggleDrawer(false)}>
-      {DrawerList}
-    </Drawer>
+                  </div>
+                ))
+              : null}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

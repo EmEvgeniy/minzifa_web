@@ -48,13 +48,13 @@ export type Itinerary = {
     label: string;
     title: string;
     description: string;
-    meals_included: string[]; // пример: ['breakfast']
+    meals_included: string[];
     accomodation: string;
     gallery: TourImage[];
 };
 
-export type Price = {
-    date_start: string; // ISO или любой формат даты
+export type GroupPrice = {
+    date_start: string;
     time_for_sale: number;
     sale_price: number;
     price_for_double: number;
@@ -110,6 +110,7 @@ export type Review = {
 
 export type Tour = {
     id: number;
+    tour_type: string;
     lang: string;
     trip_code: string;
     name: string;
@@ -126,7 +127,14 @@ export type Tour = {
     destinations: Destination[];
     types: Type[];
     itineraries: Itinerary[];
-    prices: Price[];
+    prices: {
+        valute?: string;
+        tour_total_seats?: number;
+        price_for_3_hotels?: number;
+        price_for_4_hotels?: number;
+        price_for_5_hotels?: number;
+        data?: GroupPrice[];
+    };
     hotels: Hotel[];
     includes: Include[];
     reviews: Review[];

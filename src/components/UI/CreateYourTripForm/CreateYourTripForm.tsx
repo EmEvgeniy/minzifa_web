@@ -211,7 +211,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     if (!isPending) {
       mutate({
         obj: { ...formData, ...metrics },
-        http: `forms/create-my-trip-quiz?locale=${locale}`,
+        endpoint: `forms/create-my-trip-quiz?locale=${locale}`,
       });
     }
   };

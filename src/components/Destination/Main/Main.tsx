@@ -1,7 +1,6 @@
 'use client';
 import { useGetQuery } from '@/api/get.api';
 import { DestinationBlockProps } from '@/components/Home/Destinations/_types';
-import { Skeleton } from '@mui/material';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,7 +8,7 @@ import React from 'react';
 
 export const Main = () => {
   const locale = useLocale();
-  const { data, isLoading, isSuccess } = useGetQuery<DestinationBlockProps[]>({
+  const { data, isLoading, isSuccess } = useGetQuery<{ data: DestinationBlockProps[] }>({
     key: ['destinations_main'],
     page: '',
     perPage: '',
@@ -21,12 +20,8 @@ export const Main = () => {
   return (
     <div className="w-full h-full flex flex-col gap-8">
       {!isLoading && isSuccess ? (
-        <div
-          className="w-full grid grid-cols-4 gap-5 max-[1024px]:grid-cols-3 
-  max-[768px]:grid-cols-2 
-  max-[550px]:grid-cols-1"
-        >
-          {data.map((el: DestinationBlockProps) => (
+        <div className="w-full grid grid-cols-4 gap-5 max-[1024px]:grid-cols-3 max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
+          {data?.data.map((el: DestinationBlockProps) => (
             <Link href={`/${locale}/destination/${el.slug}`} key={el.slug}>
               <div className="w-full h-full  min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold max-w-full">
                 {el.icon.file && (
@@ -53,13 +48,7 @@ export const Main = () => {
           {Array.from({ length: 7 })
             .fill(1)
             .map((_, i) => (
-              <Skeleton
-                sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                variant="rectangular"
-                width={'100%'}
-                height={275}
-                key={i}
-              />
+              <div className="w-full h-[275px] rounded-[15px] bg-[#16372D]" key={i} />
             ))}
         </div>
       )}

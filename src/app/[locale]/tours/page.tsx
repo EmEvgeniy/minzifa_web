@@ -1,4 +1,4 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 import Hero from '@/components/Tours/Hero/Hero';
 import MainSection from '@/components/Tours/MainSection/MainSection';
@@ -12,16 +12,40 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const { locale } = await params;
-  const slug = `https://minzifatravel.com/${locale}/tours`;
+  const pagePath = `/${locale}/tours`;
 
   const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
+    `https://api.minzifatravel.com/api/v1/pages?page=${encodeURIComponent(pagePath)}`,
   ).then((res) => res.json());
 
+  const title = data?.seo_metadata?.title || 'Tours - Minzifa Travel';
+  const description =
+    data?.seo_metadata?.description ||
+    'Explore amazing tour packages to Central Asia. Group and private tours to Uzbekistan, Kyrgyzstan, Tajikistan, Kazakhstan and Turkmenistan.';
+
   return {
-    title: data?.seo_metadata?.title,
-    description: data?.seo_metadata?.description,
-    keywords: data?.seo_metadata?.keywords,
+    title,
+    description,
+    keywords: data?.seo_metadata?.keywords || 'tours, travel packages, Central Asia tours',
+    alternates: {
+      canonical: `https://minzifatravel.com/${locale}/tours`,
+      languages: {
+        en: `https://minzifatravel.com/en/tours`,
+        ru: `https://minzifatravel.com/ru/tours`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://minzifatravel.com/${locale}/tours`,
+      siteName: 'Minzifa Travel',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
 }
 

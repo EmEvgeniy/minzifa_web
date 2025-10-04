@@ -1,6 +1,5 @@
 'use client';
 import { Filter_alt } from '@/assets/icons';
-import { Button } from '@mui/material';
 import Image from 'next/image';
 import { useMobFilterStore } from './store';
 
@@ -8,23 +7,13 @@ function MobileBtn({ btn }: { btn: string }) {
   const { setOpen } = useMobFilterStore((s) => s);
 
   return (
-    <Button
-      sx={{
-        position: 'fixed',
-        bottom: '20px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 100,
-        borderRadius: 8,
-        minHeight: 45,
-        padding: '8px 25px',
-      }}
-      variant="contained"
+    <button
+      className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 bg-[#27A430] hover:bg-[#1f8a26] text-white font-medium py-3 px-6 rounded-lg shadow-lg transition-colors duration-200 flex items-center gap-3"
       onClick={() => setOpen(true)}
-      startIcon={<Image src={Filter_alt} alt="btn icon" width={30} height={30} />}
     >
+      <Image src={Filter_alt} alt="btn icon" width={20} height={20} />
       {btn}
-    </Button>
+    </button>
   );
 }
 

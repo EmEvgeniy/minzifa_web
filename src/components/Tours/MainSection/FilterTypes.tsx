@@ -1,76 +1,63 @@
 'use client';
-import { Checkbox, Divider, FormControlLabel, styled } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import MuiAccordionSummary, {
-  AccordionSummaryProps,
-  accordionSummaryClasses,
-} from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { TourTypeDataResponse } from './_types';
 import { useRouter } from 'next/navigation';
-import { useFilterStore } from './store';
-
-const Accordion = styled((props: AccordionProps) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ }) => ({}));
-
-const AccordionSummary = styled((props: AccordionSummaryProps) => (
-  <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
-    {...props}
-  />
-))(() => ({
-  [`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]: {
-    transform: 'rotate(180deg)',
-  },
-  [`& .${accordionSummaryClasses.content}`]: {},
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(() => ({}));
+import { useFilterStore } from '@/store';
+import { useState } from 'react';
 
 function FilterTypes({ tourTypesData, pl }: { tourTypesData: TourTypeDataResponse; pl: string }) {
   const router = useRouter();
   const { tourTypes, setTourTypes, buildFilterQuery } = useFilterStore();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleChangeTypes = (value: string) => {
     setTourTypes(value);
-    router.replace(`?${buildFilterQuery().toString() }`, { scroll: false });
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
-  return (
-    <>
-      <Accordion sx={{ boxShadow: 'none' }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
+  // Оптимизированный кастомный аккордеон
+  const CustomAccordion = () => (
+    <div className="border-b border-gray-200">
+      <button
+        type="button"
+        className="w-full text-left py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <p className="text-[18px] font-semibold">{pl}</p>
+        <svg
+          className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
-          <p className="text-[18px] font-semibold">{pl}</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="flex flex-col overflow-y-scroll max-h-[300px]">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isExpanded && (
+        <div className="pb-4">
+          <div className="flex flex-col max-h-[300px] overflow-y-auto">
             {tourTypesData.length &&
               tourTypesData?.map((el) => (
-                <FormControlLabel
+                <label
                   key={el.id}
-                  control={
-                    <Checkbox
-                      color="secondary"
-                      checked={tourTypes.includes(el.name)}
-                      onChange={() => handleChangeTypes(el.name)}
-                    />
-                  }
-                  label={el.name}
-                />
+                  className="flex items-center gap-3 py-2 px-2 hover:bg-gray-50 cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    checked={tourTypes.includes(el.name)}
+                    onChange={() => handleChangeTypes(el.name)}
+                    className="w-4 h-4 text-[#27A430] focus:ring-[#27A430] rounded"
+                  />
+                  <span className="text-sm text-gray-700">{el.name}</span>
+                </label>
               ))}
           </div>
-        </AccordionDetails>
-      </Accordion>
-      <Divider sx={{ paddingTop: 1, paddingBottom: 1 }} />
-    </>
+        </div>
+      )}
+    </div>
   );
+
+  return <CustomAccordion />;
 }
 
 export default FilterTypes;

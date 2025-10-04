@@ -1,17 +1,16 @@
 'use client';
 
-import { cn, date_end, formatted_date } from '@/utils/utils';
-import { Price, Tour } from '../_types';
+import { cn } from '@/utils/utils';
+import { GroupPrice, Tour } from '../_types';
 import { useLocale, useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
-import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
 import Counter from '@/components/UI/Counter/Counter';
-import { useBookingStore } from '@/store/bookingStore';
-import { useRouter } from 'next/navigation';
 import TourBookingPrice from './TourBookingPrice';
+import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
+import { useTourBooking } from './useTourBooking';
+import ComfortOption from './ComfortOption';
 
 interface TourBookingProps {
-  prices: Price[] | undefined;
+  prices: GroupPrice[] | undefined;
   className?: string;
   tour: Tour;
 }
@@ -20,57 +19,18 @@ export default function TourBooking({ prices, className, tour }: TourBookingProp
   const t = useTranslations('Tour');
   const locale = useLocale();
 
-  const router = useRouter();
-
-  const [travellers, setTravellers] = useState<number>(1);
-  const [selectedPrice, setSelectedPrice] = useState<Price | undefined>(undefined);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
-
-  const { setBookingData } = useBookingStore((state) => state);
-
-  const handleBookingData = (
-    selectedPrice: Price | undefined,
-    totalPrice: number,
-    travellers: number,
-  ) => {
-    if (!tour || !selectedPrice) return;
-    setBookingData({
-      passengers: [],
-      tour_name: tour.name,
-      tour_start: formatted_date(selectedPrice.date_start, locale),
-      tour_end: date_end(selectedPrice.date_start, locale, tour.days || tour?.itineraries.length),
-      travellers_count: travellers,
-      tour_price: selectedPrice.price_for_double,
-      deposit: totalPrice * 0.15,
-      total_price: totalPrice,
-      payment_type: 'cash',
-      payment_status: 'pending',
-      single_price: selectedPrice.price_for_single,
-      currency: selectedPrice.valute,
-      total_seats: selectedPrice.tour_total_seats,
-    });
-    const params = new URLSearchParams({
-      tour_name: tour.name,
-      tour_start: formatted_date(selectedPrice.date_start, locale),
-      tour_end: date_end(selectedPrice.date_start, locale, tour.days || tour?.itineraries.length),
-      travellers_count: travellers.toString(),
-      tour_price: selectedPrice.price_for_double.toString(),
-      deposit: (totalPrice * 0.15).toString(),
-      total_price: totalPrice.toString(),
-      payment_type: 'cash',
-      payment_status: 'pending',
-      single_price: selectedPrice.price_for_single.toString(),
-      currency: selectedPrice.valute,
-      total_seats: selectedPrice.tour_total_seats.toString(),
-    });
-    router.push(`/${locale}/booking/${tour?.slug}?${params.toString()}`);
-  };
-
-  useEffect(() => {
-    if (!prices) return;
-    setSelectedPrice(prices[0]);
-    setTotalPrice(prices[0]?.price_for_double);
-  }, [prices]);
+  const {
+    travellers,
+    selectedPrice,
+    totalPrice,
+    setTravellers,
+    setSelectedPrice,
+    setTotalPrice,
+    handleBooking,
+    handlePrivateTourBooking,
+    handleComfortBooking,
+    handleFreeConsultation,
+  } = useTourBooking({ prices, tour, locale });
 
   if (!prices) return null;
 
@@ -89,12 +49,12 @@ export default function TourBooking({ prices, className, tour }: TourBookingProp
         </div>
         <div className="text-base">{t('booking.per_tourist', { days: tour?.days || 1 })}</div>
         <TourBookingPrice
-          setTotalPrice={setTotalPrice}
           locale={locale}
           travellers={travellers}
           prices={prices}
           selectedPrice={selectedPrice}
           setSelectedPrice={setSelectedPrice}
+          setTotalPrice={setTotalPrice}
         />
         <Counter
           min={1}
@@ -102,18 +62,61 @@ export default function TourBooking({ prices, className, tour }: TourBookingProp
           value={travellers}
           onChange={(value) => {
             setTravellers(value);
-            setTotalPrice((selectedPrice?.price_for_double || 0) * value);
+            if (selectedPrice) {
+              setTotalPrice(selectedPrice.price_for_double * value);
+            }
           }}
           className="border border-gray-300 rounded-2xl p-3"
           label={t('booking.travellers')}
         />
 
         <button
-          onClick={() => handleBookingData(selectedPrice, totalPrice, travellers)}
+          onClick={() => {
+            if (tour?.tour_type === 'individual') {
+              handlePrivateTourBooking();
+            } else {
+              handleBooking();
+            }
+          }}
           className="text-center w-full rounded-4xl bg-[#27A430] text-white p-4 cursor-pointer transition-all duration-300 hover:bg-[#208B28]"
         >
-          {t('booking.button')}
+          {tour?.tour_type === 'individual' ? t('by_request.button') : t('booking.button')}
         </button>
+
+        {/* Free Consultation button for group tours */}
+        {tour?.tour_type !== 'individual' && (
+          <button
+            onClick={handleFreeConsultation}
+            className="text-center w-full rounded-4xl bg-[#16372D] text-white p-4 cursor-pointer transition-all duration-300 hover:opacity-90"
+          >
+            {t('free_consultation')}
+          </button>
+        )}
+
+        {/* Individual tour comfort selector */}
+        {tour?.tour_type === 'individual' && (
+          <div className="flex flex-col gap-3">
+            <div className="text-base font-semibold text-[#16372D]">{t('comfort.title')}</div>
+            <ComfortOption
+              label={t('comfort.moderate')}
+              price={tour?.prices?.price_for_3_hotels}
+              currency={tour?.prices?.valute || 'USD'}
+              onSelect={() => handleComfortBooking()}
+            />
+            <ComfortOption
+              label={t('comfort.enhanced')}
+              price={tour?.prices?.price_for_4_hotels}
+              currency={tour?.prices?.valute || 'USD'}
+              onSelect={() => handleComfortBooking()}
+            />
+            <ComfortOption
+              label={t('comfort.ultimate')}
+              price={tour?.prices?.price_for_5_hotels}
+              currency={tour?.prices?.valute || 'USD'}
+              onSelect={() => handleComfortBooking()}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

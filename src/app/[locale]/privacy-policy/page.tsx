@@ -1,10 +1,12 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { DefaultPageProps } from '@/types';
+import { SeoMetadata } from '@/components/Tour/_types';
 import { getTranslations } from 'next-intl/server';
 import Markdown from 'markdown-to-jsx';
+import { apiGet } from '../../../utils/serverApi';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -12,11 +14,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/privacy-policy`;
+  const pagePath = `/${locale}/privacy-policy`;
 
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const data = await apiGet<{ seo_metadata?: SeoMetadata }>(
+    `pages?page=${encodeURIComponent(pagePath)}`,
+  );
 
   return {
     title: data?.seo_metadata?.title,
@@ -35,9 +37,7 @@ export default async function page({ params }: DefaultPageProps) {
       <h1 className="text-[42px] max-[768px]:text-[30px] max-[550px]:text-[24px] font-title">
         {t('privacy.title')}
       </h1>
-      <Markdown className="text-[18px] max-[550px]:text-[14px]">
-        {t('privacy.text') || ''}
-      </Markdown>
+      <Markdown className="text-[18px] max-[550px]:text-[14px]">{t('privacy.text') || ''}</Markdown>
     </section>
   );
 }

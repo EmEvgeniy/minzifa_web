@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useLocale } from 'next-intl';
+import { getApiUrl } from '@/utils/config';
 
 type GetQueryType = {
   key: string[];
@@ -11,7 +12,7 @@ type GetQueryType = {
   additionalParam: string;
 };
 
-export const useGetQuery = <T>({
+export const useGetQuery = <T = unknown>({
   key,
   page,
   perPage,
@@ -30,9 +31,16 @@ export const useGetQuery = <T>({
         params.append('page', page);
         params.append('perPage', perPage);
       }
+
+      // Используем только endpoint, getApiUrl() добавит базовый URL из переменной окружения
+      const endpoint = url.startsWith('/') ? url.slice(1) : url;
+      const extra = additionalParam
+        ? additionalParam.startsWith('&')
+          ? additionalParam
+          : `&${additionalParam}`
+        : '';
       const response = await axios.get(
-        `https://api.minzifatravel.com/api/v1/${url}?${params.toString()}${additionalParam ? additionalParam : ''
-        }`,
+        `${getApiUrl(endpoint)}?${params.toString()}${extra}`,
       );
       return response.data;
     },

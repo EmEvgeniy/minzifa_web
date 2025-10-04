@@ -1,6 +1,6 @@
 import Favorites from '@/components/Favorites/Favorites';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import Carousel from '@/components/UI/Carusel/Carusel';
+import Carousel from '@/components/UI/Carousel/Carousel';
 import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';

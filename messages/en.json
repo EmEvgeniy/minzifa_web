@@ -86,15 +86,22 @@
   "best_sellers_btns": "See all trips",
   "favoriteBtn": "Your favorites",
   "favorite_nf": "There are no favorites tours! Choose some tours or take a free consultations",
+  "tour_types": {
+    "individual": "Private tour",
+    "group": "Group tour"
+  },
+  "currencies": {
+    "USD": "$",
+    "EUR": "€",
+    "RUB": "₽",
+    "CNY": "¥"
+  },
   "tourCard": {
     "days": "days",
     "from": "from",
     "byRequest": "by request"
   },
-  "lang": [
-    "en",
-    "ru"
-  ],
+  "lang": ["en", "ru"],
   "Home": {
     "title": "NextJS i18n Tutorial",
     "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
@@ -162,11 +169,12 @@
     "pl": "Price",
     "pl2": "Duration",
     "pl3": "Seasons:",
-    "pl4": "Hotel",
+    "pl4": "Comfortable accommodation",
     "pl5": "Type Tour",
     "pl6": "Destinations",
+    "pl7": "Adventure Type",
     "from": "From",
-    "before": "Before",
+    "before": "To",
     "seasons": [
       {
         "title": "Winter",
@@ -205,6 +213,16 @@
       {
         "title": "5 stars",
         "value": "5 stars"
+      }
+    ],
+    "types": [
+      {
+        "title": "Group",
+        "value": "group"
+      },
+      {
+        "title": "Private",
+        "value": "individual"
       }
     ],
     "sort": [
@@ -862,6 +880,40 @@
       "travellers": "Travellers",
       "button": "Book Risk-Free"
     },
+    "private_tour": {
+      "free_consultation": "Free Consultation",
+      "title": "Request a personalised tour",
+      "subtitle": "Submit a request to organise a tour just for you and your loved ones",
+      "date": "Select date",
+      "date_required": "Please select a date",
+      "travellers": "Number of travellers",
+      "travellers_label": "Travellers",
+      "travellers_invalid": "Enter valid number",
+      "travellers_min": "At least 1 traveller",
+      "travellers_max": "Too many travellers",
+      "price_option": "Price option",
+      "price_placeholder": "Select a price option",
+      "wishes": "Your wishes (optional)",
+      "wishes_placeholder": "Write your wishes...",
+      "submit": "Submit an application",
+      "comfort": {
+        "title": "Comfort Level",
+        "moderate": "Moderate Comfort",
+        "enhanced": "Enhanced Comfort",
+        "ultimate": "Ultimate Comfort"
+      },
+      "forms": {
+        "name": "Name",
+        "name_placeholder": "Your name",
+        "name_required": "Please enter your name",
+        "email": "Email",
+        "email_placeholder": "Your email",
+        "email_invalid": "Invalid email",
+        "phone": "Phone number",
+        "phone_placeholder": "Your phone",
+        "phone_required": "Enter phone number"
+      }
+    },
     "prices": {
       "title": "Dates & availability",
       "info": "Prices can change anytime",
@@ -877,7 +929,8 @@
     "by_request": {
       "text": "By request",
       "button": "Get free consultation"
-    }
+    },
+    "free_consultation": "Free Consultation"
   },
   "FreeForm": {
     "title": "Free Consultation",
@@ -886,10 +939,7 @@
     "phone": "Номер телефона",
     "wishes": "Optional placeholder text",
     "button": "Send request",
-    "checkbox": [
-      "By submitting a request, you agree to the",
-      "Privacy Policy"
-    ]
+    "checkbox": ["By submitting a request, you agree to the", "Privacy Policy"]
   },
   "reviews": {
     "title": "Ratings & Reviews",
@@ -913,10 +963,7 @@
     "passenger": {
       "title": "Passenger information",
       "passenger": "Passenger",
-      "passenger_hint": [
-        "Please note:",
-        "Traveller details should match information on passport"
-      ],
+      "passenger_hint": ["Please note:", "Traveller details should match information on passport"],
       "first_name": "First name",
       "last_name": "Last name",
       "email": "Email",
@@ -925,10 +972,7 @@
       "month": "Month",
       "day": "Day",
       "year": "Year",
-      "gender": [
-        "Male",
-        "Female"
-      ],
+      "gender": ["Male", "Female"],
       "adress": "Address",
       "adress_line": "Address line {number}",
       "province": "Suburb / Town",
@@ -951,10 +995,7 @@
       "title": "Select a payment method:",
       "credit_card": "Payment by credit card",
       "bank_transfer": "Bank transfer",
-      "accept_terms": [
-        "I accept Minzifa Travel",
-        "and"
-      ]
+      "accept_terms": ["I accept Minzifa Travel", "and"]
     },
     "button": "Book space"
   },
@@ -990,12 +1031,7 @@
       },
       "slide_3": {
         "title": "How many days are you planning on traveling for?",
-        "answers": [
-          "Up to 10 days",
-          "11-15 days",
-          "16-23 days",
-          "24+ days"
-        ]
+        "answers": ["Up to 10 days", "11-15 days", "16-23 days", "24+ days"]
       },
       "slide_4": {
         "title": "What level of accommodation do you feel comfortable with?",
@@ -1045,10 +1081,15 @@
     "text": "One of our travel experts will contact you within 24 hours via your preferred method — phone or email — to discuss the details of your trip and offer the best options tailored to your wishes."
   },
   "errors": {
-    "name_min": "Enter at least 5 characters",
+    "name_min": "Name must be at least 3 characters",
     "email_invalid": "Invalid email address",
     "phone_invalid": "Enter a valid phone number",
-    "agree_required": "You must agree to the terms"
+    "message_min": "Message must be at least 10 characters",
+    "agree_required": "You must agree to the terms",
+    "password_required": "Password is required",
+    "password_min": "Password must be at least 6 characters",
+    "confirmPassword_min": "Confirm password must be at least 6 characters",
+    "passwordMismatch": "Passwords do not match"
   },
   "sertificates": {
     "title": "Sertificates",
@@ -1057,5 +1098,106 @@
       "description": "Sertificates",
       "keywords": "Sertificates"
     }
+  },
+  "auth": {
+    "title": "Login or Register",
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account",
+      "email": "Email Address",
+      "password": "Password",
+      "signIn": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up here",
+      "invalidCredentials": "Invalid email or password",
+      "error": "An error occurred. Please try again.",
+      "email_invalid": "Invalid email address",
+      "password_required": "Password is required",
+      "errors": {
+        "email_invalid": "Invalid email address",
+        "password_required": "Password is required"
+      },
+      "seo_metadata": {
+        "title": "Login",
+        "description": "Login",
+        "keywords": "Login"
+      }
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join us for amazing travel experiences",
+      "name": "Full Name",
+      "email": "Email Address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "createAccount": "Create Account",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in here",
+      "passwordMismatch": "Passwords do not match",
+      "registrationFailed": "Registration failed",
+      "successTitle": "Registration Successful!",
+      "successMessage": "Redirecting to home page...",
+      "passwordMinLength": "Create a password (min 6 characters)",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "errors": {
+        "name_min": "Name must be at least 2 characters",
+        "email_invalid": "Invalid email address",
+        "password_min": "Password must be at least 6 characters",
+        "confirmPassword_min": "Confirm password must be at least 6 characters"
+      },
+      "seo_metadata": {
+        "title": "Register",
+        "description": "Register",
+        "keywords": "Register"
+      }
+    },
+    "nav": {
+      "login": "Login",
+      "signUp": "Sign Up",
+      "profile": "Profile",
+      "chats": "Chats",
+      "logout": "Logout"
+    }
+  },
+  "chat": {
+    "authRequired": "Authorization Required",
+    "authMessage": "To contact a manager, please sign in",
+    "signIn": "Sign In",
+    "manager": "Manager",
+    "you": "You",
+    "online": "Online",
+    "typeMessage": "Type a message...",
+    "thankYou": "Thank you for your message! We will respond soon.",
+    "title": "Chat",
+    "noMessages": "No messages",
+    "messagePlaceholder": "Type a message..."
+  },
+  "chats": {
+    "title": "Chats",
+    "noChats": "You have no chats yet"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "editProfile": "Edit Profile"
+  },
+  "chat_popup": {
+    "form_title": "Contact Support",
+    "form_subtitle": "Need help?",
+    "form_description": "Fill out the form and our manager will contact you soon",
+    "chat_title": "Chat with Manager",
+    "name_placeholder": "Your name",
+    "email_placeholder": "Your email",
+    "phone_placeholder": "Your phone (optional)",
+    "message_placeholder": "Describe your issue...",
+    "send": "Send",
+    "form_sent": "Request sent! Switching to chat...",
+    "manager_greeting": "Hello! I am a support manager. How can I help?",
+    "manager_response": "Thank you for your message. We will respond soon."
+  },
+  "loginPage": {
+    "title": "Login Page"
   }
 }

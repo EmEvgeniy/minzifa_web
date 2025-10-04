@@ -1,4 +1,4 @@
-import { DestinationProps } from "@/components/TopNav/_types";
+import { DestinationProps } from '@/components/TopNav/_types';
 
 export type AllToursCardType = {
   id: number;
@@ -9,7 +9,7 @@ export type AllToursCardType = {
   photo: {
     id: number;
     file: string;
-    alt_text: string;
+    alt_text: string | null;
   };
   price: number;
   rating: number;
@@ -17,15 +17,16 @@ export type AllToursCardType = {
     name: string;
     slug: string;
   };
-  full_slug: string;
+  full_slug?: string;
   valute: string;
-  created_at: string;
-  updated_at: string;
+  tour_type?: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 export type ToursResponse = {
   data: AllToursCardType[];
-  links: { url: string; label: string; active: boolean; }[];
+  links: { url: string; label: string; active: boolean }[];
   meta: {
     current_page: number | null;
     first_page_url: string | null;
@@ -51,7 +52,7 @@ export type TourType = {
     alt_text: string;
   };
   tours_count: number;
-}
+};
 
 export type TourTypeDataResponse = TourType[];
 

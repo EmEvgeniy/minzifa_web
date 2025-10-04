@@ -1,20 +1,17 @@
 'use client';
 import { Dropdown, DropdownDetails, DropdownSummary } from '@/components/UI/Dropdown/Dropdown';
-import { Price } from '../_types';
+import { GroupPrice } from '../_types';
 import Image from 'next/image';
 import { formatted_date } from '@/utils/utils';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
 import IconCalendar from '../../../assets/icons/booking/calendar.svg';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useBookingStore } from '@/store/bookingStore';
-import dayjs from 'dayjs';
 
 type TourBookingPrice = {
-  prices: Price[];
+  prices: GroupPrice[];
   locale: string;
-  selectedPrice: Price | undefined;
-  setSelectedPrice: (val: Price) => void;
+  selectedPrice: GroupPrice | undefined;
+  setSelectedPrice: (val: GroupPrice) => void;
   setTotalPrice: (val: number) => void;
   travellers: number;
 };
@@ -31,27 +28,17 @@ function TourBookingPrice({
 
   if (!prices.length)
     return (
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
-        <DatePicker
-          value={bookingData.tour_start ? dayjs(bookingData.tour_start) : null}
-          onChange={(value) =>
-            setBookingData({
-              ...bookingData,
-              tour_start: value ? value.toISOString() : '',
-            })
-          }
-          sx={{
-            width: '100%',
-            '& .MuiInputBase-root.MuiOutlinedInput-root': {
-              borderRadius: '15px',
-              border: 'none !important',
-            },
-            '& .css-lqwr9g-MuiPickersOutlinedInput-notchedOutline': {
-              borderRadius: '15px',
-            },
-          }}
-        />
-      </LocalizationProvider>
+      <input
+        type="date"
+        value={bookingData.tour_start || ''}
+        onChange={(e) =>
+          setBookingData({
+            ...bookingData,
+            tour_start: e.target.value,
+          })
+        }
+        className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-[#27A430] focus:border-transparent"
+      />
     );
 
   return (
@@ -59,8 +46,16 @@ function TourBookingPrice({
       <DropdownSummary className="flex flex-row justify-between items-center gap-1.5 border border-gray-300 rounded-2xl p-3 relative cursor-pointer max-[550px]:p-2 max-[550px]:gap-1">
         {() => (
           <div className="flex flex-row items-center gap-2 max-[550px]:gap-1">
-            <Image src={IconCalendar} width={24} height={24} alt="calendar" className="max-[550px]:w-[20px] max-[550px]:h-[20px]" />
-            <div className="max-[550px]:text-[14px]">{formatted_date(selectedPrice?.date_start || '', locale)}</div>
+            <Image
+              src={IconCalendar}
+              width={24}
+              height={24}
+              alt="calendar"
+              className="max-[550px]:w-[20px] max-[550px]:h-[20px]"
+            />
+            <div className="max-[550px]:text-[14px]">
+              {formatted_date(selectedPrice?.date_start || '', locale)}
+            </div>
           </div>
         )}
       </DropdownSummary>

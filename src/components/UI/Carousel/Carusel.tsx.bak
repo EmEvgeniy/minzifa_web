@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { BestSellersPackagesCardType } from '../BestSellersPackagesCard/_types';
 import Image from 'next/image';
+import { apiGet } from '@/utils/serverApi';
 
 async function Carousel({ locale }: { locale: string }) {
-  const res = await fetch(`https://api.minzifatravel.com/api/v1/tours?all=1&locale=${locale}`, {
+  const data = (await apiGet(`tours?all=1&locale=${locale}`, {
     next: { revalidate: 60 * 5 },
-  });
-  const data = await res.json();
+  })) as BestSellersPackagesCardType[];
 
   if (!data?.length) return null;
 

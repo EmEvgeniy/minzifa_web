@@ -28,7 +28,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
       <AnimatePresence>
-        {index !== null && data?.length && (
+        {index !== null && data && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -47,7 +47,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
               className="flex flex-col gap-5 py-2 overflow-hidden overflow-y-auto h-full max-h-[300px]"
             >
               {isSuccess &&
-                data.map((el: DestinationProps) => (
+                data?.map((el: DestinationProps) => (
                   <Link
                     href={`/${locale}/destination/${el.slug}`}
                     key={el.id}

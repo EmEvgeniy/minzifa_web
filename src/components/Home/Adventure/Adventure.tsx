@@ -2,18 +2,15 @@ import dynamic from 'next/dynamic';
 import { getTranslations } from 'next-intl/server';
 import { DefaultComponentsProps } from '@/types';
 import { AdventureCardType } from '@/components/UI/AdventureCard/_types';
+import { apiGet } from '@/utils/serverApi';
 const AdventureCard = dynamic(() => import('@/components/UI/AdventureCard/AdventureCard'));
 
 export default async function Adventure({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
-  const res = await fetch(
-    `https://api.minzifatravel.com/api/v1/types?main_page=1&limit=12&page=1&perPage=12&locale=${locale}`,
-    {
-      next: { revalidate: 60 * 5 },
-    },
-  );
-  const data = await res.json();
+  const data = (await apiGet(`types?main_page=1&limit=12&page=1&perPage=12&locale=${locale}`, {
+    next: { revalidate: 60 * 5 },
+  })) as AdventureCardType[];
 
   if (!data.length) return null;
 

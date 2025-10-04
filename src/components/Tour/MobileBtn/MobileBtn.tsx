@@ -11,8 +11,13 @@ export default async function MobileBtn({ locale, tour }: { locale: string; tour
       <div className="text-base w-full flex flex-col">
         {t('prices.pp')}{' '}
         <FormattedPrice
-          price={tour?.prices[0]?.price_for_double || 0}
-          currency={tour?.prices[0]?.valute}
+          price={
+            tour?.prices?.price_for_3_hotels ||
+            tour?.prices?.price_for_4_hotels ||
+            tour?.prices?.price_for_5_hotels ||
+            0
+          }
+          currency={tour?.prices?.valute || 'UZS'}
           className="text-[16px] font-semibold"
           as={'span'}
         />

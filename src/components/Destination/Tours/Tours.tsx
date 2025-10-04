@@ -1,15 +1,12 @@
 'use client';
 
 import { DestinationData } from '@/app/[locale]/destination/[slug]/_types';
-import { AllToursCardType, ToursResponse } from '@/components/Tours/MainSection/_types';
-// import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Pagination, Skeleton } from '@mui/material';
-import { useGetQuery } from '@/api/get.api';
+import { AllToursCardType } from '@/components/Tours/MainSection/_types';
+import { useToursView } from '@/hooks/useToursView';
 import HorizontalTourCard from '@/components/Tours/HorizontalTourCard';
-import { useRef } from 'react';
+import { TourCardListSkeleton } from '@/components/UI/TourCardSkeleton/TourCardSkeleton';
 import TourViewBtn from '@/components/Tours/MainSection/TourViewBtn';
-import { useFilterStore } from '@/components/Tours/MainSection/store';
+import { Button } from '@/components/UI/Button/Button';
 
 type Props = {
   days: string;
@@ -36,48 +33,12 @@ export default function Tours({
   menu,
   showing,
   out,
-  nf
+  nf,
 }: Props) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const { page, setPage, buildFilterQuery } = useFilterStore();
-
-  const ref = useRef(null);
-
-  const perPage = 8;
-
-  const queryString = buildFilterQuery();
-
-  const { data: tours, isLoading } = useGetQuery<ToursResponse>({
-    key: [
-      'destination_tours',
-      locale,
-      page.toString(),
-      perPage.toString(),
-      destination.name,
-      queryString
-    ],
-    page: page.toString(),
-    perPage: perPage.toString(),
-    url: 'tours',
-    searchItem: '',
-    additionalParam: queryString ? `&${queryString}&destinations[]=${destination.name}` : `&destinations[]=${destination.name}`,
+  const { tours, isLoading, totalPages, currentPage, handlePageChange, ref } = useToursView({
+    locale,
+    destination: destination.name,
   });
-
-  const totalPages = tours?.meta?.last_page || 1;
-
-  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('page', value.toString());
-    router.replace(`?${params.toString()}`, { scroll: false, });
-
-    if (ref.current) {
-      const topOffset = (ref?.current as HTMLElement).getBoundingClientRect().top + window.scrollY - 200;
-      window.scrollTo({ top: topOffset, behavior: 'smooth' });
-    }
-  };
 
   if (tours?.data.length === 0) {
     return <div>{nf}</div>;
@@ -93,17 +54,10 @@ export default function Tours({
           <TourViewBtn menu={menu} />
         </div>
         <div className="grid grid-cols-1 gap-5 w-full h-full">
-          {(isLoading || !tours?.data?.length)
-            ? Array.from({ length: perPage }).map((_, i) => (
-              <Skeleton
-                sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                variant="rectangular"
-                width={'100%'}
-                key={i}
-                height={300}
-              />
-            ))
-            : tours?.data?.map((el: AllToursCardType) => (
+          {isLoading || !tours?.data?.length ? (
+            <TourCardListSkeleton count={8} variant="horizontal" />
+          ) : (
+            tours?.data?.map((el: AllToursCardType) => (
               <HorizontalTourCard
                 tour={el}
                 key={el.id}
@@ -114,18 +68,54 @@ export default function Tours({
                 byRequest={byRequest}
                 view_itinerary={view_itinerary}
               />
-            ))}
+            ))
+          )}
         </div>
         {totalPages > 1 && (
-          <Pagination
-            color="primary"
-            count={totalPages}
-            page={Number(page)}
-            size="medium"
-            onChange={handlePageChange}
-            shape="rounded"
-            aria-label='pagination'
-          />
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                handlePageChange({} as React.MouseEvent<HTMLButtonElement>, currentPage - 1)
+              }
+              disabled={currentPage <= 1}
+            >
+              Назад
+            </Button>
+
+            <div className="flex items-center gap-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+                if (pageNum > totalPages) return null;
+
+                return (
+                  <Button
+                    key={pageNum}
+                    variant={pageNum === currentPage ? 'secondary' : 'outline'}
+                    size="sm"
+                    onClick={() =>
+                      handlePageChange({} as React.MouseEvent<HTMLButtonElement>, pageNum)
+                    }
+                    className="min-w-[40px]"
+                  >
+                    {pageNum}
+                  </Button>
+                );
+              })}
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                handlePageChange({} as React.MouseEvent<HTMLButtonElement>, currentPage + 1)
+              }
+              disabled={currentPage >= totalPages}
+            >
+              Далее
+            </Button>
+          </div>
         )}
       </div>
     </section>

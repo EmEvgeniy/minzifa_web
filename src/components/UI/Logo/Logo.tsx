@@ -1,9 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { logo } from '@/assets/icons';
 import { DefaultComponentsProps } from '@/types';
 
-export default async function Logo({ locale }: DefaultComponentsProps) {
+export default function Logo({ locale }: DefaultComponentsProps) {
   return (
     <Link
       href={`/${locale}`}

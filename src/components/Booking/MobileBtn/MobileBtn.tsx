@@ -59,7 +59,7 @@ export default function MobileBtn({ locale, btn }: { locale: string; btn: string
     if (!isPending) {
       mutate({
         obj: bookingData,
-        http: 'forms/booking',
+        endpoint: 'forms/booking',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

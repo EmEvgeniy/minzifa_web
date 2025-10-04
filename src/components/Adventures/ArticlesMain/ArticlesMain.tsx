@@ -4,7 +4,6 @@ import { ArticleCategory } from '@/app/[locale]/adventures/page';
 
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import ArticleCard from '@/components/UI/ArticleCard/ArticleCard';
-import { Menu, MenuItem, Skeleton, ToggleButton } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
@@ -16,7 +15,7 @@ import { NavigationOptions } from 'swiper/types';
 
 type ArticleListResponse = {
   data: ArticleCardType[];
-  links: { url: string; label: string; active: boolean; }[];
+  links: { url: string; label: string; active: boolean }[];
   meta: {
     current_page: number;
     first_page_url: string;
@@ -38,7 +37,7 @@ export default function ArticlesMain({
   titleT,
   btn,
   locale,
-  all_categories
+  all_categories,
 }: {
   categories: ArticleCategory[];
   menu: { title: string; value: string }[];
@@ -49,7 +48,7 @@ export default function ArticlesMain({
 }) {
   const [page, setPage] = useState<number>(1);
   const [filteredArticles, setFilteredArticles] = useState<ArticleCardType[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>(["all"]);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>(['all']);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [title, setTitle] = useState<string>(menu[0].title);
@@ -70,14 +69,14 @@ export default function ArticlesMain({
     setAnchorEl(null);
   };
 
-  const handleAlignment = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+  const handleAlignment = (event: React.MouseEvent<HTMLButtonElement>, newAlignment: string) => {
     if (newAlignment === 'all') {
       setSelectedCategory(['all']);
     } else {
-      setSelectedCategory(prev => {
-        const withoutAll = prev.filter(i => i !== 'all');
+      setSelectedCategory((prev) => {
+        const withoutAll = prev.filter((i) => i !== 'all');
         return withoutAll.includes(newAlignment)
-          ? withoutAll.filter(i => i !== newAlignment)
+          ? withoutAll.filter((i) => i !== newAlignment)
           : [...withoutAll, newAlignment];
       });
     }
@@ -86,13 +85,17 @@ export default function ArticlesMain({
   const queryBuilder = () => {
     const params = new URLSearchParams();
     if (!selectedCategory.includes('all')) {
-      selectedCategory.forEach(item => params.append('categories[]', item));
+      selectedCategory.forEach((item) => params.append('categories[]', item));
     }
     params.append('sort', value);
     return params.toString();
   };
 
-  const { data: articles, isFetching, isLoading } = useGetQuery<ArticleListResponse>({
+  const {
+    data: articles,
+    isFetching,
+    isLoading,
+  } = useGetQuery<ArticleListResponse>({
     key: ['articles_main', page.toString(), value, ...selectedCategory],
     page: `${page}`,
     perPage: '9',
@@ -108,7 +111,7 @@ export default function ArticlesMain({
 
   useEffect(() => {
     if (articles?.data) {
-      setFilteredArticles(prev => page === 1 ? articles.data : [...prev, ...articles.data]);
+      setFilteredArticles((prev) => (page === 1 ? articles.data : [...prev, ...articles.data]));
     }
   }, [articles, page]);
 
@@ -164,25 +167,32 @@ export default function ArticlesMain({
               swiperRef.current = swiperInstance;
             }}
           >
-            <SwiperSlide className='!w-auto'>
-              <ToggleButton
-                value="all"
-                selected={selectedCategory.includes('all')}
-                onClick={handleAlignment}
+            <SwiperSlide className="!w-auto">
+              <button
+                onClick={() => handleAlignment({} as React.MouseEvent<HTMLButtonElement>, 'all')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors min-w-max ${
+                  selectedCategory.includes('all')
+                    ? 'bg-[#16372D] text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
               >
                 {all_categories}
-              </ToggleButton>
+              </button>
             </SwiperSlide>
             {categories.map((el) => (
-              <SwiperSlide key={el.id} className='!w-auto'>
-                <ToggleButton
-                  value={el.name}
-                  selected={selectedCategory.includes(el.name)}
-                  onClick={handleAlignment}
-                  className="min-w-max"
+              <SwiperSlide key={el.id} className="!w-auto">
+                <button
+                  onClick={() =>
+                    handleAlignment({} as React.MouseEvent<HTMLButtonElement>, el.name)
+                  }
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors min-w-max ${
+                    selectedCategory.includes(el.name)
+                      ? 'bg-[#16372D] text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
                 >
                   {el.name}
-                </ToggleButton>
+                </button>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -203,57 +213,47 @@ export default function ArticlesMain({
             className={`transition-transform duration-300 ${open ? 'rotate-180' : 'rotate-0'}`}
           />
         </div>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          sx={{ '& .MuiPaper-root': { borderRadius: '16px' } }}
-          onClose={() => handleClose(value, title)}
-        >
-          {menu.map((el) => (
-            <MenuItem key={el.value} onClick={() => handleClose(el.value, el.title)}>
-              {el.title}
-            </MenuItem>
-          ))}
-        </Menu>
+        {open && (
+          <div className="absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[200px]">
+            {menu.map((el) => (
+              <button
+                key={el.value}
+                onClick={() => handleClose(el.value, el.title)}
+                className="w-full text-left px-4 py-3 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg transition-colors"
+              >
+                {el.title}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
       <div className="flex items-center justify-center flex-col gap-5">
         <div className="grid grid-cols-3 gap-5 min-h-[50svh] w-full max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
-          {!isLoading && !isFetching && filteredArticles.length > 0 ? (
-            filteredArticles.map((el) => (
-              <ArticleCard locale={locale} key={el.id} article={el} />
-            ))
-          ) : (
-            Array.from({ length: 9 }).map((_, i) => (
-              <Skeleton
-                key={i}
-                sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                variant="rectangular"
-                width={'100%'}
-                height={376}
-              />
-            ))
-          )}
+          {!isLoading && !isFetching && filteredArticles.length > 0
+            ? filteredArticles.map((el) => <ArticleCard locale={locale} key={el.id} article={el} />)
+            : Array.from({ length: 9 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="w-full h-[376px] rounded-[15px] bg-[#16372D] animate-pulse"
+                />
+              ))}
 
-          {isFetching && page > 1 && (
+          {isFetching &&
+            page > 1 &&
             Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton
+              <div
                 key={`loading-more-${i}`}
-                sx={{ borderRadius: '15px', backgroundColor: '#16372D' }}
-                variant="rectangular"
-                width={'100%'}
-                height={376}
+                className="w-full h-[376px] rounded-[15px] bg-[#16372D] animate-pulse"
               />
-            ))
-          )}
+            ))}
         </div>
         {articles?.meta?.total && articles?.meta?.total > filteredArticles.length && (
           <button
             disabled={isLoadingMore}
-            onClick={() => setPage(prev => prev + 1)}
+            onClick={() => setPage((prev) => prev + 1)}
             className="bg-[#DCDCDC] flex items-center justify-center gap-2 text-black py-[10px] px-[20px] rounded-[16px] shadow-2xl hover:scale-110 active:scale-90 transition-all cursor-pointer disabled:opacity-60"
           >
-            <span>{isLoadingMore ? locale == 'en' ? 'Loading...' : 'Загрузка...' : btn}</span>
+            <span>{isLoadingMore ? (locale == 'en' ? 'Loading...' : 'Загрузка...') : btn}</span>
             <FaChevronDown className={isLoadingMore ? 'animate-bounce' : ''} />
           </button>
         )}

@@ -1,18 +1,16 @@
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
+import { getApiUrl } from '@/utils/config';
+import { DestinationBlockProps } from '../Destinations/_types';
 const HeroSearch = dynamic(() => import('./HeroSearch'));
 
 export default async function Hero({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale });
 
-  const res = await fetch(
-    `https://api.minzifatravel.com/api/v1/destinations?all=1&locale=${locale}`,
-    {
-      next: { revalidate: 60 * 5 },
-    },
-  );
-  const data = await res.json();
+  const data = (await fetch(getApiUrl(`destinations?all=1&locale=${locale}`), {
+    next: { revalidate: 60 * 5 },
+  }).then((res) => res.json())) as DestinationBlockProps[];
 
   return (
     <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-screen">

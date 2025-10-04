@@ -1,10 +1,11 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
+import { getApiUrl } from '@/utils/config';
 
 // Обобщённые типы
 interface MutationParams<T> {
   obj: T;
-  http: string;
+  endpoint: string;
 }
 
 export function usePostMutation<
@@ -18,8 +19,9 @@ export function usePostMutation<
 ): UseMutationResult<TData, TError, MutationParams<TVariables>> {
   return useMutation<TData, TError, MutationParams<TVariables>>({
     mutationKey: [...key],
-    mutationFn: async ({ obj, http }) => {
-      const response = await axios.post<TData>(`https://api.minzifatravel.com/api/v1/${http}`, {
+    mutationFn: async ({ obj, endpoint }) => {
+      // Используем только endpoint, getApiUrl() добавит базовый URL из переменной окружения
+      const response = await axios.post<TData>(getApiUrl(endpoint), {
         ...obj,
       });
       return response.data;

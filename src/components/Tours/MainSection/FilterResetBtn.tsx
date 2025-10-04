@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { IoCloseCircle } from 'react-icons/io5';
-import { useFilterStore } from './store';
+import { useFilterStore } from '@/store';
 
 function FilterResetBtn({ title }: { title: string }) {
   const router = useRouter();

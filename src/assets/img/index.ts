@@ -33,6 +33,10 @@ import circle4 from './circle3.png';
 import circle5 from './circle4.png';
 import reviews_white from './reviews_white.svg';
 
+import TravelChoice_Black from './TravelChoice_Black.svg';
+import TravelChoice_White from './TravelChoice_White.svg';
+import Fallback_Image from './fallback-image.png';
+
 export {
   cr2,
   create,
@@ -68,4 +72,7 @@ export {
   circle4,
   circle5,
   reviews_white,
+  TravelChoice_Black,
+  TravelChoice_White,
+  Fallback_Image,
 };

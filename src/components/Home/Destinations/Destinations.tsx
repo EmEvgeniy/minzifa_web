@@ -3,19 +3,17 @@ import Image from 'next/image';
 import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
+import { apiGet } from '../../../utils/serverApi';
+import { DestinationBlockProps } from './_types';
 
 const Wrapper = dynamic(() => import('./Wrapper'));
 
 export default async function Destinations({ locale }: DefaultComponentsProps) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
-  const res = await fetch(
-    `https://api.minzifatravel.com/api/v1/destinations?main_page=1&limit=12&page=1&perPage=12&locale=${locale}`,
-    {
-      next: { revalidate: 60 * 5 },
-    },
-  );
-  const data = await res.json();
+  const data = (await apiGet(`destinations?main_page=1&locale=${locale}`, {
+    next: { revalidate: 60 * 5 },
+  })) as DestinationBlockProps[];
 
   return (
     <section className="relative w-full h-full min-h-[577px] mt-[70px] [@media(max-width:768px)]:mt-[30px]">

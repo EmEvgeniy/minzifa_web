@@ -2,19 +2,18 @@
 import React, { FC } from 'react';
 import { motion } from 'framer-motion';
 import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
-import { Price, Tour } from '../_types';
+import { GroupPrice, Tour } from '../_types';
 import { useLocale, useTranslations } from 'next-intl';
 import { date_end } from '@/utils/utils';
-import { Divider } from '@mui/material';
 import Image from 'next/image';
 import { airplane } from '@/assets/icons';
 
 type TourDescTopCardType = {
-  price: Price;
+  price: GroupPrice;
   index: number;
   tour: Tour;
   handleBookingData: (
-    selectedPrice: Price | undefined,
+    selectedPrice: GroupPrice | undefined,
     totalPrice: number,
     travellers: string,
   ) => void;
@@ -44,7 +43,7 @@ export const TourMobileCard: FC<TourDescTopCardType> = ({
               {t('prices.best_price')}
             </p>
           ))}
-        {price.is_best_price || (index === 2 && <Divider className="py-2" />)}
+        {price.is_best_price || (index === 2 && <hr className="border-gray-200 w-full my-2" />)}
         <div className="flex items-center justify-between gap-2 w-full">
           <p className="flex flex-col">
             <span className="text-gray-400 text-[12px]">{locale == 'en' ? 'Start' : 'Начало'}</span>

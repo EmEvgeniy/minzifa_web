@@ -20,7 +20,7 @@ function FavoritesAll({ locale }: { locale: string }) {
     setIsEnd(swiper.isEnd);
   };
 
-  const { data, isLoading } = useGetQuery<BestSellersPackagesCardType[]>({
+  const { data, isLoading } = useGetQuery<{ data: BestSellersPackagesCardType[] }>({
     key: ['all_favorites'],
     page: '',
     perPage: '',
@@ -42,9 +42,9 @@ function FavoritesAll({ locale }: { locale: string }) {
         {locale === 'en' ? 'Our tours for you' : 'Наши туры для вас'}
       </h2>
       <div className="min-h-[520px] [@media(max-width:1024px)]:min-h-[450px] [@media(max-width:450px)]:min-h-[350px]">
-        {data?.length && (
+        {data?.data?.length && (
           <Slider
-            slides={data}
+            slides={data.data}
             swiperRef={swiperRef}
             isBeginning={isBeginning}
             isEnd={isEnd}

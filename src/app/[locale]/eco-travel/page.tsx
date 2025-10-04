@@ -1,10 +1,11 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { eco_icon, eco_icon2, eco_icon4, eco_icon5 } from '@/assets/icons';
 import { eco_bg, lr, lr2, child, animal } from '@/assets/img';
 import { respect } from '@/assets/img';
 import { DefaultPageProps } from '@/types';
+import { SeoMetadata } from '@/components/Tour/_types';
 import { getTranslations } from 'next-intl/server';
 import EnvironmentCircle from '@/components/UI/DynamicCircle/index.desktop';
 import MobileSlider from '@/components/Eco-travel/MobileSlider/MobileSlider';
@@ -12,6 +13,7 @@ import Environment from '@/components/Eco-travel/Environment/Environment';
 import Economy from '@/components/Eco-travel/Economy/Economy';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
+import { apiGet } from '../../../utils/serverApi';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -19,11 +21,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/eco-travel`;
+  const pagePath = `/${locale}/eco-travel`;
 
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const data = await apiGet<{ seo_metadata?: SeoMetadata }>(
+    `pages?page=${encodeURIComponent(pagePath)}`,
+  );
 
   return {
     title: data?.seo_metadata?.title,
