@@ -1,21 +1,23 @@
 'use client';
-
 import { useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 import { useFilterStore } from '@/store';
 
-function FilterHotels({
+function FilterType({
+  tourTypeData,
   pl,
-  hotelData,
 }: {
+  tourTypeData: { title: string; value: string }[];
   pl: string;
-  hotelData: { title: string; value: string }[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { hotels, setHotels } = useFilterStore();
+  const router = useRouter();
+  const { tourType, setTourType, buildFilterQuery } = useFilterStore();
 
-  const handleChangeHotels = (value: string) => {
-    setHotels(value);
+  const handleChangeTypes = (value: string) => {
+    setTourType(value);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (
@@ -37,16 +39,16 @@ function FilterHotels({
           isExpanded ? 'max-h-[400px] opacity-100 mt-2' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="flex flex-col">
-          {hotelData.map((el) => (
+        <div className="flex flex-col overflow-y-scroll max-h-[300px]">
+          {tourTypeData.map((el) => (
             <label
               key={el.value}
               className="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer"
             >
               <input
                 type="checkbox"
-                checked={hotels.includes(el.value)}
-                onChange={() => handleChangeHotels(el.value)}
+                checked={tourType.includes(el.value)}
+                onChange={() => handleChangeTypes(el.value)}
                 className="w-4 h-4 text-[#27A430] bg-gray-100 border-gray-300 rounded focus:ring-[#27A430] focus:ring-2"
               />
               <span>{el.title}</span>
@@ -60,4 +62,4 @@ function FilterHotels({
   );
 }
 
-export default FilterHotels;
+export default FilterType;

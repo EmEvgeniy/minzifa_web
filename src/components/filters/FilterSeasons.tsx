@@ -1,21 +1,23 @@
 'use client';
-
 import { useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 import { useFilterStore } from '@/store';
 
-function FilterHotels({
+function FilterSeasons({
   pl,
-  hotelData,
+  seasonData,
 }: {
   pl: string;
-  hotelData: { title: string; value: string }[];
+  seasonData: { title: string; value: string }[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { hotels, setHotels } = useFilterStore();
+  const router = useRouter();
+  const { seasons, setSeasons, buildFilterQuery } = useFilterStore();
 
-  const handleChangeHotels = (value: string) => {
-    setHotels(value);
+  const handleChangeSeasons = (value: string) => {
+    setSeasons(value);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (
@@ -38,15 +40,15 @@ function FilterHotels({
         }`}
       >
         <div className="flex flex-col">
-          {hotelData.map((el) => (
+          {seasonData.map((el) => (
             <label
               key={el.value}
               className="flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer"
             >
               <input
                 type="checkbox"
-                checked={hotels.includes(el.value)}
-                onChange={() => handleChangeHotels(el.value)}
+                checked={seasons.includes(el.value)}
+                onChange={() => handleChangeSeasons(el.value)}
                 className="w-4 h-4 text-[#27A430] bg-gray-100 border-gray-300 rounded focus:ring-[#27A430] focus:ring-2"
               />
               <span>{el.title}</span>
@@ -60,4 +62,4 @@ function FilterHotels({
   );
 }
 
-export default FilterHotels;
+export default FilterSeasons;

@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
 import { useFilterStore } from '@/store';
 
 function FilterType({
@@ -12,12 +11,10 @@ function FilterType({
   pl: string;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const router = useRouter();
-  const { tourType, setTourType, buildFilterQuery } = useFilterStore();
+  const { tourType, setTourType } = useFilterStore();
 
   const handleChangeTypes = (value: string) => {
     setTourType(value);
-    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

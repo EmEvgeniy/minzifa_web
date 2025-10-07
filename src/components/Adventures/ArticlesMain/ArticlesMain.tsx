@@ -7,9 +7,6 @@ import ArticleCard from '@/components/UI/ArticleCard/ArticleCard';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
 import { Navigation, FreeMode } from 'swiper/modules';
 import { NavigationOptions } from 'swiper/types';
 
@@ -144,7 +141,7 @@ export default function ArticlesMain({
       <div className="flex items-center justify-between w-full">
         <h2 className="text-[42px] max-[768px]:text-[24px] max-[768px]:font-semibold">{titleT}</h2>
         <p className="text-[42px] max-[768px]:text-[20px] max-[768px]:font-semibold">
-          {articles?.meta?.total}
+          {filteredArticles.length > 0 ? filteredArticles.length : 0}
         </p>
       </div>
       <div className="flex flex-col-reverse md:flex-row gap-5 md:gap-20 items-center justify-between w-full">
@@ -247,7 +244,7 @@ export default function ArticlesMain({
               />
             ))}
         </div>
-        {articles?.meta?.total && articles?.meta?.total > filteredArticles.length && (
+        {articles?.meta && articles.meta.total > filteredArticles.length && (
           <button
             disabled={isLoadingMore}
             onClick={() => setPage((prev) => prev + 1)}

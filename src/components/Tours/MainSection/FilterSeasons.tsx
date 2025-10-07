@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
 import { useFilterStore } from '@/store';
 
 function FilterSeasons({
@@ -12,12 +11,10 @@ function FilterSeasons({
   seasonData: { title: string; value: string }[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const router = useRouter();
-  const { seasons, setSeasons, buildFilterQuery } = useFilterStore();
+  const { seasons, setSeasons } = useFilterStore();
 
   const handleChangeSeasons = (value: string) => {
     setSeasons(value);
-    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

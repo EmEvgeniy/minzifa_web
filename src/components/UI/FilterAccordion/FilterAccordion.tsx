@@ -1,11 +1,13 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { useFilterStore } from '@/store';
 
 interface FilterAccordionProps {
   title: string;
   children: ReactNode;
+  filterKey: string; // Уникальный ключ для отслеживания состояния
   defaultExpanded?: boolean;
   className?: string;
 }
@@ -13,15 +15,28 @@ interface FilterAccordionProps {
 export default function FilterAccordion({
   title,
   children,
+  filterKey,
   defaultExpanded = true,
   className = '',
 }: FilterAccordionProps) {
-  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const { expandedFilters, setExpandedFilter } = useFilterStore();
+  const isExpanded = expandedFilters[filterKey] ?? defaultExpanded;
+
+  const handleToggle = () => {
+    setExpandedFilter(filterKey, !isExpanded);
+  };
+
+  // Синхронизируем локальное состояние с глобальным при монтировании
+  useEffect(() => {
+    if (!(filterKey in expandedFilters)) {
+      setExpandedFilter(filterKey, defaultExpanded);
+    }
+  }, [filterKey, defaultExpanded, expandedFilters, setExpandedFilter]);
 
   return (
     <div className={`w-full ${className}`}>
       <button
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={handleToggle}
         className="w-full text-left p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors flex items-center justify-between"
       >
         <p className="text-[18px] font-semibold">{title}</p>

@@ -1,14 +1,17 @@
 'use client';
-import { TourTypeDataResponse } from './_types';
+import { TourTypeDataResponse } from '@/components/Tours/MainSection/_types';
+import { useRouter } from 'next/navigation';
 import { useFilterStore } from '@/store';
 import { useState } from 'react';
 
 function FilterTypes({ tourTypesData, pl }: { tourTypesData: TourTypeDataResponse; pl: string }) {
-  const { tourTypes, setTourTypes } = useFilterStore();
+  const router = useRouter();
+  const { tourTypes, setTourTypes, buildFilterQuery } = useFilterStore();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleChangeTypes = (value: string) => {
     setTourTypes(value);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   // Оптимизированный кастомный аккордеон

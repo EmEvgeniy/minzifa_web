@@ -23,7 +23,7 @@ export const useGetQuery = <T = unknown>({
   const lang = useLocale();
 
   return useQuery<T>({
-    queryKey: [...key, page, perPage, searchItem, lang],
+    queryKey: [...key, page, perPage, searchItem, additionalParam, lang],
     queryFn: async () => {
       const params = new URLSearchParams({ locale: lang });
       if (searchItem) params.append('name', searchItem);
@@ -39,9 +39,7 @@ export const useGetQuery = <T = unknown>({
           ? additionalParam
           : `&${additionalParam}`
         : '';
-      const response = await axios.get(
-        `${getApiUrl(endpoint)}?${params.toString()}${extra}`,
-      );
+      const response = await axios.get(`${getApiUrl(endpoint)}?${params.toString()}${extra}`);
       return response.data;
     },
   });

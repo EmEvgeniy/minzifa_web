@@ -4,7 +4,7 @@ import { availableFilters, DefaultComponentsProps } from '@/types';
 import FilterType from './FilterType';
 import { useFilterData } from '@/hooks/useFilterData';
 
-const FilterResetBtn = dynamic(() => import('@/components/filters/FilterResetBtn'));
+const FilterResetBtn = dynamic(() => import('./FilterResetBtn'));
 const FilterPriceSlider = dynamic(() => import('./FilterPriceSlider'));
 const FilterDurationSlider = dynamic(() => import('./FilterDurationSlider'));
 const FilterSeasons = dynamic(() => import('./FilterSeasons'));
@@ -29,7 +29,6 @@ interface FilterProps extends DefaultComponentsProps {
     pl6: string;
     pl7: string;
     find_destination: string;
-    days?: string;
   };
 }
 
@@ -51,7 +50,6 @@ export default function Filter({
     pl6: 'Destinations',
     pl7: 'Tour Type',
     find_destination: 'Find destination',
-    days: 'days',
   },
 }: FilterProps) {
   const { tourTypesData, destinationsData } = useFilterData({ locale });
@@ -72,7 +70,6 @@ export default function Filter({
             pl={translations.pl2}
             pl2={translations.from}
             pl3={translations.before}
-            days={translations.days}
           />
         )}
         {showFilter?.includes('seasons') && seasonData && (

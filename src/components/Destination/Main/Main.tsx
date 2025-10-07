@@ -1,27 +1,48 @@
 'use client';
-import { useGetQuery } from '@/api/get.api';
 import { DestinationBlockProps } from '@/components/Home/Destinations/_types';
 import { useLocale } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import Pagination from '@/components/UI/Pagination/Pagination';
+import { usePagination } from '@/hooks/usePagination';
+
+interface PaginationMeta {
+  current_page: number;
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
 
 export const Main = () => {
   const locale = useLocale();
-  const { data, isLoading, isSuccess } = useGetQuery<{ data: DestinationBlockProps[] }>({
+
+  const { data, isLoading, currentPage, totalPages, goToPage } = usePagination<{
+    data: DestinationBlockProps[];
+    meta?: PaginationMeta;
+  }>({
     key: ['destinations_main'],
-    page: '',
-    perPage: '',
     url: 'destinations',
+    perPage: '12',
     searchItem: '',
     additionalParam: '&main_page=1',
+    initialPage: 1,
   });
+
+  const isSuccess = !isLoading && data !== undefined;
 
   return (
     <div className="w-full h-full flex flex-col gap-8">
       {!isLoading && isSuccess ? (
         <div className="w-full grid grid-cols-4 gap-5 max-[1024px]:grid-cols-3 max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
-          {data?.data.map((el: DestinationBlockProps) => (
+          {(data as DestinationBlockProps[])?.map((el: DestinationBlockProps) => (
             <Link href={`/${locale}/destination/${el.slug}`} key={el.slug}>
               <div className="w-full h-full  min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold max-w-full">
                 {el.icon.file && (
@@ -41,8 +62,8 @@ export const Main = () => {
         </div>
       ) : (
         <div
-          className="w-full grid grid-cols-4 gap-5   max-[1024px]:grid-cols-3 
-  max-[768px]:grid-cols-2 
+          className="w-full grid grid-cols-4 gap-5   max-[1024px]:grid-cols-3
+  max-[768px]:grid-cols-2
   max-[550px]:grid-cols-1"
         >
           {Array.from({ length: 7 })
@@ -51,6 +72,17 @@ export const Main = () => {
               <div className="w-full h-[275px] rounded-[15px] bg-[#16372D]" key={i} />
             ))}
         </div>
+      )}
+
+      {totalPages && totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={goToPage}
+          locale={locale}
+          showFirstLast={true}
+          showPrevNext={true}
+        />
       )}
     </div>
   );

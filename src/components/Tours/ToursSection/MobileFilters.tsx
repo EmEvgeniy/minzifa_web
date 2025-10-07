@@ -1,18 +1,19 @@
 'use client';
+
 import dynamic from 'next/dynamic';
-import { availableFilters, DefaultComponentsProps } from '@/types';
-import FilterType from './FilterType';
+import { availableFilters } from '@/types/routing';
+import FilterType from '@/components/filters/FilterType';
 import { useFilterData } from '@/hooks/useFilterData';
 
 const FilterResetBtn = dynamic(() => import('@/components/filters/FilterResetBtn'));
-const FilterPriceSlider = dynamic(() => import('./FilterPriceSlider'));
-const FilterDurationSlider = dynamic(() => import('./FilterDurationSlider'));
-const FilterSeasons = dynamic(() => import('./FilterSeasons'));
-const FilterHotels = dynamic(() => import('./FilterHotels'));
-const FilterTypes = dynamic(() => import('./FilterTypes'));
-const FilterDestinations = dynamic(() => import('./FilterDestinations'));
+const FilterPriceSlider = dynamic(() => import('@/components/filters/FilterPriceSlider'));
+const FilterDurationSlider = dynamic(() => import('@/components/filters/FilterDurationSlider'));
+const FilterSeasons = dynamic(() => import('@/components/filters/FilterSeasons'));
+const FilterHotels = dynamic(() => import('@/components/filters/FilterHotels'));
+const FilterTypes = dynamic(() => import('@/components/filters/FilterTypes'));
+const FilterDestinations = dynamic(() => import('@/components/filters/FilterDestinations'));
 
-interface FilterProps extends DefaultComponentsProps {
+interface MobileFiltersProps {
   showFilter?: availableFilters[];
   seasonData?: { title: string; value: string }[];
   hotelData?: { title: string; value: string }[];
@@ -29,13 +30,11 @@ interface FilterProps extends DefaultComponentsProps {
     pl6: string;
     pl7: string;
     find_destination: string;
-    days?: string;
   };
 }
 
-export default function Filter({
-  locale,
-  showFilter,
+export default function MobileFilters({
+  showFilter = ['price', 'duration', 'seasons', 'hotels', 'tourType', 'destinations'],
   seasonData = [],
   hotelData = [],
   types = [],
@@ -51,15 +50,13 @@ export default function Filter({
     pl6: 'Destinations',
     pl7: 'Tour Type',
     find_destination: 'Find destination',
-    days: 'days',
   },
-}: FilterProps) {
-  const { tourTypesData, destinationsData } = useFilterData({ locale });
-
+}: MobileFiltersProps) {
+  const { tourTypesData, destinationsData } = useFilterData({ locale: 'en' }); // TODO: Pass actual locale
   return (
-    <div className="max-w-[350px] w-full min-h-[700px] flex flex-col gap-5 items-start justify-start [@media(max-width:1024px)]:max-w-full">
+    <div className="w-full min-h-[600px] flex flex-col gap-5 items-start justify-start bg-white">
       <FilterResetBtn title={translations.f_top_btn} />
-      <div className="bg-white rounded-2xl w-full p-3 shadow-xl [@media(max-width:1024px)]:bg-transparent [@media(max-width:1024px)]:shadow-none [@media(max-width:1024px)]:p-0">
+      <div className="bg-white rounded-2xl w-full p-3 shadow-xl">
         {showFilter?.includes('price') && (
           <FilterPriceSlider
             pl={translations.pl}
@@ -72,7 +69,6 @@ export default function Filter({
             pl={translations.pl2}
             pl2={translations.from}
             pl3={translations.before}
-            days={translations.days}
           />
         )}
         {showFilter?.includes('seasons') && seasonData && (

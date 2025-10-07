@@ -2,11 +2,11 @@
 
 import { DestinationData } from '@/app/[locale]/destination/[slug]/_types';
 import { AllToursCardType } from '@/components/Tours/MainSection/_types';
-import { useToursView } from '@/hooks/useToursView';
 import HorizontalTourCard from '@/components/Tours/HorizontalTourCard';
 import { TourCardListSkeleton } from '@/components/UI/TourCardSkeleton/TourCardSkeleton';
 import TourViewBtn from '@/components/Tours/MainSection/TourViewBtn';
-import { Button } from '@/components/UI/Button/Button';
+import Pagination from '@/components/UI/Pagination';
+import { usePagination } from '@/hooks';
 
 type Props = {
   days: string;
@@ -29,35 +29,52 @@ export default function Tours({
   byRequest,
   view_itinerary,
   location,
-  destination,
   menu,
   showing,
   out,
   nf,
+  destination,
 }: Props) {
-  const { tours, isLoading, totalPages, currentPage, handlePageChange, ref } = useToursView({
-    locale,
-    destination: destination.name,
+  // Создаем переменные для ключа кеширования и фильтрации
+  const destinationKey = destination.name;
+  const destinationFilter = `&destination=${destination.slug}`;
+
+  const {
+    data: tours,
+    isLoading,
+    totalPages,
+    currentPage,
+    totalItems,
+    from: paginationFrom,
+    to: paginationTo,
+    goToPage,
+  } = usePagination({
+    key: ['tours_view', locale, destinationKey],
+    url: 'tours',
+    perPage: '10',
+    searchItem: '',
+    additionalParam: destinationFilter,
+    initialPage: 1,
   });
 
-  if (tours?.data.length === 0) {
+  if (tours?.length === 0) {
     return <div>{nf}</div>;
   }
 
   return (
-    <section ref={ref}>
+    <section>
       <div className="w-full flex flex-col gap-10 items-center">
         <div className="w-full flex items-center justify-between min-h-[57px] [@media(max-width:1024px)]:justify-end">
           <p className="block [@media(max-width:1024px)]:hidden">
-            {showing} {tours?.meta.from} - {tours?.meta.to} {out} {tours?.meta.total}
+            {showing} {paginationFrom} - {paginationTo} {out} {totalItems}
           </p>
           <TourViewBtn menu={menu} />
         </div>
         <div className="grid grid-cols-1 gap-5 w-full h-full">
-          {isLoading || !tours?.data?.length ? (
+          {isLoading || !tours?.length ? (
             <TourCardListSkeleton count={8} variant="horizontal" />
           ) : (
-            tours?.data?.map((el: AllToursCardType) => (
+            (tours as AllToursCardType[]).map((el: AllToursCardType) => (
               <HorizontalTourCard
                 tour={el}
                 key={el.id}
@@ -71,52 +88,14 @@ export default function Tours({
             ))
           )}
         </div>
-        {totalPages > 1 && (
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                handlePageChange({} as React.MouseEvent<HTMLButtonElement>, currentPage - 1)
-              }
-              disabled={currentPage <= 1}
-            >
-              Назад
-            </Button>
-
-            <div className="flex items-center gap-1">
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
-                if (pageNum > totalPages) return null;
-
-                return (
-                  <Button
-                    key={pageNum}
-                    variant={pageNum === currentPage ? 'secondary' : 'outline'}
-                    size="sm"
-                    onClick={() =>
-                      handlePageChange({} as React.MouseEvent<HTMLButtonElement>, pageNum)
-                    }
-                    className="min-w-[40px]"
-                  >
-                    {pageNum}
-                  </Button>
-                );
-              })}
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                handlePageChange({} as React.MouseEvent<HTMLButtonElement>, currentPage + 1)
-              }
-              disabled={currentPage >= totalPages}
-            >
-              Далее
-            </Button>
-          </div>
-        )}
+        {totalPages && totalPages > 1 ? (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={goToPage}
+            locale={locale}
+          />
+        ) : null}
       </div>
     </section>
   );

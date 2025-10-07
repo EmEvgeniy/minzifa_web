@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 import { useFilterStore } from '@/store';
 
 function FilterHotels({
@@ -12,10 +13,12 @@ function FilterHotels({
   hotelData: { title: string; value: string }[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { hotels, setHotels } = useFilterStore();
+  const { hotels, setHotels, buildFilterQuery } = useFilterStore();
+  const router = useRouter();
 
   const handleChangeHotels = (value: string) => {
     setHotels(value);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

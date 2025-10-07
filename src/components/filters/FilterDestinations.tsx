@@ -1,8 +1,9 @@
 'use client';
-import { DestinationDataResponse } from './_types';
+import { DestinationDataResponse } from '@/components/Tours/MainSection/_types';
 import { useMemo, useState } from 'react';
 import useDebouncedValue from '@/hooks/useDebouncedValue';
 import { FaTimes, FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 import { useFilterStore } from '@/store';
 
 const AccordionSummary = ({
@@ -48,9 +49,10 @@ function FilterDestinations({
   pl: string;
   pl2: string;
 }) {
-  const { destinations, setDestinations } = useFilterStore();
+  const { destinations, setDestinations, buildFilterQuery } = useFilterStore();
   const [searchDestination, setSearchDestination] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
 
   const filteredDestinations = useMemo(() => {
     return Array.isArray(destinationsData)
@@ -64,6 +66,7 @@ function FilterDestinations({
 
   const handleChangeDestinations = (value: string) => {
     setDestinations(value);
+    router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (

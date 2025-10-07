@@ -8,9 +8,12 @@ type FilterStoreData = {
   tourType: string[];
   tourTypes: string[];
   destinations: string[];
+  currentDestination: string | null; // Фильтр для конкретной дестинации на странице destination/[slug]
   sort: string;
   page: number | string;
   isLoading: boolean;
+  // Состояние аккордеонов фильтра
+  expandedFilters: Record<string, boolean>;
   setPrices: (prices: number[], resetPage?: boolean) => void;
   setDurations: (durations: number[], resetPage?: boolean) => void;
   setSeasons: (season: string, resetPage?: boolean) => void;
@@ -18,9 +21,11 @@ type FilterStoreData = {
   setTourType: (type: string, resetPage?: boolean) => void;
   setTourTypes: (type: string, resetPage?: boolean) => void;
   setDestinations: (destination: string, resetPage?: boolean) => void;
+  setCurrentDestination: (destination: string | null, resetPage?: boolean) => void;
   setSort: (sort: string, resetPage?: boolean) => void;
   setPage: (page: number | string) => void;
   setIsLoading: (isLoading: boolean) => void;
+  setExpandedFilter: (filterKey: string, expanded: boolean) => void;
   resetFilters: () => void;
   buildFilterQuery: () => string;
 };
@@ -33,9 +38,11 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
   tourType: [],
   tourTypes: [],
   destinations: [],
+  currentDestination: null,
   sort: 'newest',
   page: '1',
   isLoading: true,
+  expandedFilters: {},
   setPrices: (prices, resetPage = false) =>
     set(() => ({
       prices: prices,
@@ -81,6 +88,11 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
         : [...state.destinations, destination],
       ...(resetPage && { page: 1 }),
     })),
+  setCurrentDestination: (destination: string | null, resetPage = true) =>
+    set(() => ({
+      currentDestination: destination,
+      ...(resetPage && { page: 1 }),
+    })),
   setSort: (sort: string, resetPage = true) =>
     set(() => ({
       sort: sort,
@@ -88,6 +100,13 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
     })),
   setPage: (page: number | string) => set({ page: page }),
   setIsLoading: (isLoading: boolean) => set({ isLoading: isLoading }),
+  setExpandedFilter: (filterKey: string, expanded: boolean) =>
+    set((state) => ({
+      expandedFilters: {
+        ...state.expandedFilters,
+        [filterKey]: expanded,
+      },
+    })),
   resetFilters: () =>
     set({
       prices: [0, 20000],
@@ -97,13 +116,24 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
       tourType: [],
       tourTypes: [],
       destinations: [],
+      currentDestination: null,
       sort: 'newest',
       page: 1,
       isLoading: false,
     }),
   buildFilterQuery: () => {
-    const { prices, durations, destinations, seasons, hotels, tourType, tourTypes, sort, page } =
-      get();
+    const {
+      prices,
+      durations,
+      destinations,
+      seasons,
+      hotels,
+      tourType,
+      tourTypes,
+      currentDestination,
+      sort,
+      page,
+    } = get();
 
     const params = new URLSearchParams();
 
@@ -137,6 +167,10 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
 
     if (destinations.length > 0) {
       destinations.forEach((d) => params.append('destinations[]', d));
+    }
+
+    if (currentDestination) {
+      params.append('destinations[]', currentDestination);
     }
 
     if (sort !== 'newest') {
