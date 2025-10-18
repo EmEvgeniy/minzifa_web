@@ -35,7 +35,8 @@ export const ImageWithFallback = ({
   return (
     <Image
       {...props}
-      quality={100}
+      quality={70}
+      loading='lazy'
       src={initSrc}
       alt={props.alt || 'Minzifa Travel'}
       onLoad={handleLoad}

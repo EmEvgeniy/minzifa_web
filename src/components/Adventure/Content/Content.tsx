@@ -45,18 +45,15 @@ export default async function Content({
           })}
         </p>
       </div>
-      <div className="w-full bg-[#16372D] h-[650px] rounded-[16px] shadow-2xl relative overflow-hidden max-[1024px]:h-[450px] max-[550px]:h-[300px]">
-        {articleDetail?.media?.file && (
-          <ImageWithFallback
-            src={articleDetail.media.file}
-            alt={articleDetail.media.alt || 'image'}
-            fill
-            sizes="100vw"
-            priority={true}
-            className="object-cover absolute top-0 "
-          />
-        )}
-      </div>
+      {articleDetail?.media &&
+        <ImageWithFallback
+          src={articleDetail?.media?.file}
+          alt={articleDetail?.media?.alt as string}
+          width={800}
+          height={600}
+          className="object-cover w-full h-full aspect-[4/3] md:aspect-[21/9] rounded-2xl"
+        />
+      }
       <div className="relative w-full min-h-screen max-[550px]:min-h-full max-[550px]:pb-[30px]">
         <div className="flex items-start justify-between gap-5 h-full pt-[40px] max-[1024px]:flex-col">
           <div className="flex-1 w-full h-full">
