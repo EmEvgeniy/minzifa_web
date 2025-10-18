@@ -17,7 +17,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   try {
     const tour = await apiGet<TourData>(`tours/${slug}?locale=${locale}`);
-
     return {
       title: tour?.seo_metadata?.title,
       description: tour?.seo_metadata?.description,
@@ -36,6 +35,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Tour({ params }: Props) {
   const { tour: slug, locale } = await params;
-
   return <TourWrapper slug={slug} locale={locale} />;
 }

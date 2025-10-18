@@ -1,89 +1,71 @@
 'use client';
-import { DestinationBlockProps } from '@/components/Home/Destinations/_types';
+
+import { DestinationCard } from '@/components/Home/Destinations/_types';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
+import Pagination from '@/components/UI/Pagination';
+import { PaginatedData } from '@/types';
 import { useLocale } from 'next-intl';
-import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import Pagination from '@/components/UI/Pagination/Pagination';
-import { usePagination } from '@/hooks/usePagination';
+import { useRouter } from 'next/navigation';
+import React, { useRef } from 'react';
 
-interface PaginationMeta {
-  current_page: number;
-  first_page_url: string;
-  from: number;
-  last_page: number;
-  last_page_url: string;
-  next_page_url: string | null;
-  path: string;
-  per_page: number;
-  prev_page_url: string | null;
-  to: number;
-  total: number;
-}
-
-export const Main = () => {
+export const Main = ({
+  destinations,
+  currentPage,
+}: {
+  destinations: PaginatedData<DestinationCard>;
+  currentPage: number;
+}) => {
   const locale = useLocale();
+  const router = useRouter();
 
-  const { data, isLoading, currentPage, totalPages, goToPage } = usePagination<{
-    data: DestinationBlockProps[];
-    meta?: PaginationMeta;
-  }>({
-    key: ['destinations_main'],
-    url: 'destinations',
-    perPage: '12',
-    searchItem: '',
-    additionalParam: '&main_page=1',
-    initialPage: 1,
-  });
+  const sectionRef = useRef<HTMLElement>(null);
 
-  const isSuccess = !isLoading && data !== undefined;
+  const totalPages = destinations?.meta?.last_page as number;
+
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      router.push(`/${locale}/destination?page=${page}`, { scroll: false });
+    }
+
+    if (sectionRef.current) {
+      const element = sectionRef.current;
+      const offsetTop = element.getBoundingClientRect().top + window.scrollY - 150;
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className="w-full h-full flex flex-col gap-8">
-      {!isLoading && isSuccess ? (
-        <div className="w-full grid grid-cols-4 gap-5 max-[1024px]:grid-cols-3 max-[768px]:grid-cols-2 max-[550px]:grid-cols-1">
-          {(data as DestinationBlockProps[])?.map((el: DestinationBlockProps) => (
-            <Link href={`/${locale}/destination/${el.slug}`} key={el.slug}>
-              <div className="w-full h-full  min-h-[275px] rounded-[16px] bg-white opacity-80 flex flex-col items-center justify-center text-xl font-semibold max-w-full">
-                {el.icon.file && (
-                  <Image
-                    src={el.icon.file ? el.icon.file : ''}
-                    alt={el.icon.alt_text ? el.icon.alt_text : 'image'}
-                    width={150}
-                    height={150}
-                    className="w-[150px] h-[150px] object-cover"
-                  />
-                )}
-                <h2 className="text-2xl font-normal">{el?.name}</h2>
-                <div className="text-base font-normal">{el?.tours_count} tours</div>
+    <div className="flex flex-col items-center justify-center gap-5">
+      <section ref={sectionRef} className="grid grid-cols-2 md:grid-cols-4 gap-5">
+        {destinations?.data?.map((destination: DestinationCard) => (
+          <Link href={`/${locale}/destination/${destination?.slug}`} key={destination?.id}>
+            <div className="w-full h-full rounded-[16px] bg-white opacity-80 text-center flex flex-col items-center justify-center text-xl font-semibold p-5 [@media(max-width:768px)]:min-h-[200px]">
+              {destination?.icon?.file && (
+                <ImageWithFallback
+                  src={destination?.icon?.file ? destination?.icon?.file : ''}
+                  alt={destination?.icon?.alt_text ? destination?.icon?.alt_text : 'image'}
+                  width={150}
+                  height={150}
+                  className="object-cover mb-3"
+                />
+              )}
+              <h2 className="text-2xl font-normal [@media(max-width:768px)]:text-[18px]">
+                {destination?.name}
+              </h2>
+              <div className="text-base font-normal [@media(max-width:768px)]:text-[14px]">
+                {destination?.tours_count} tours
               </div>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div
-          className="w-full grid grid-cols-4 gap-5   max-[1024px]:grid-cols-3
-  max-[768px]:grid-cols-2
-  max-[550px]:grid-cols-1"
-        >
-          {Array.from({ length: 7 })
-            .fill(1)
-            .map((_, i) => (
-              <div className="w-full h-[275px] rounded-[15px] bg-[#16372D]" key={i} />
-            ))}
-        </div>
-      )}
-
-      {totalPages && totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={goToPage}
-          locale={locale}
-          showFirstLast={true}
-          showPrevNext={true}
-        />
-      )}
+            </div>
+          </Link>
+        ))}
+      </section>
+      <Pagination
+        className="my-10"
+        currentPage={currentPage}
+        onPageChange={goToPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

@@ -10,8 +10,9 @@ import Footer from '@/components/Footer/Footer';
 import { getMessages } from 'next-intl/server';
 import { ThemeProviderWrap } from '@/providers/ThemeProviderWrap';
 import { AuthInitializerWithSuspense } from '@/components/Auth/AuthInitializer';
-import { ChatPopup } from '@/components/ChatPopup';
+// import { ChatPopup } from '@/components/ChatPopup';
 import MetricsComponent from '@/components/UI/Metrics/Metrics';
+import { CookiePopup } from '@/components/UI/CookiePopup';
 
 // Оптимизированные динамические импорты с приоритетами загрузки
 const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'), {
@@ -50,14 +51,15 @@ export default async function RootLayout({
               <div className="hidden md:flex md:fixed md:right-0 md:z-50 md:bg-[rgba(22,55,45,0.7)] md:backdrop-blur-[6px] md:top-[150px] md:p-5 md:rounded-tl-[16px] md:rounded-bl-[16px] max-[1024px]:p-2.5">
                 <SocialMedia direction="vertical" gap={20} />
               </div>
-              <TopNav locale={locale} />
+              <TopNav />
               <FavoriteBtn />
               <FavoriteMenu />
               <main className="flex-1">{children}</main>
-              <ClientPopupObserver locale={locale} />
+              <ClientPopupObserver />
               <Footer locale={locale} />
               <CustomSnackBar />
-              <ChatPopup />
+              {/* <ChatPopup /> */}
+              <CookiePopup />
               <MetricsComponent locale={locale} />
             </div>
           </UTMMetricsProvider>

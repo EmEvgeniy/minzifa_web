@@ -1,5 +1,3 @@
-import { DestinationProps } from '@/components/TopNav/_types';
-
 export type AllToursCardType = {
   id: number;
   name: string;
@@ -55,5 +53,3 @@ export type TourType = {
 };
 
 export type TourTypeDataResponse = TourType[];
-
-export type DestinationDataResponse = DestinationProps[];

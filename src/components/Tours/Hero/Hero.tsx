@@ -1,14 +1,13 @@
 import { allTours } from '@/assets/img';
-import { DefaultComponentsProps } from '@/types';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getTranslations } from 'next-intl/server';
-import Image from 'next/image';
 
-export default async function Hero({ locale }: DefaultComponentsProps) {
+export default async function Hero({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'all_tours' });
   return (
     <section className="w-full min-h-[70svh] relative flex items-center justify-center [@media(max-width:1024px)]:min-h-[50svh]">
       <div className="w-full absolute top-0 h-full bg-[rgba(0,0,0,0.35)] z-20" />
-      <Image
+      <ImageWithFallback
         src={allTours}
         alt="all_tours"
         fill

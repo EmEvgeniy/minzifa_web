@@ -1,9 +1,8 @@
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 const TravellersCounter = dynamic(() => import('./TravellersCounter'));
 
-export default async function Travellers({ locale }: DefaultComponentsProps) {
+export default async function Travellers({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'Booking' });
 
   return (

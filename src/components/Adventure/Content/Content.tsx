@@ -2,12 +2,12 @@ import { cr2 } from '@/assets/img';
 
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import MarkdownDescription from '@/components/UI/MarkdownDescription/MarkdownDescription';
 import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
 import { calculateReadingTime, formatted_date } from '@/utils/utils';
 
 import { getTranslations } from 'next-intl/server';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export type ArticleDetail = {
@@ -47,7 +47,7 @@ export default async function Content({
       </div>
       <div className="w-full bg-[#16372D] h-[650px] rounded-[16px] shadow-2xl relative overflow-hidden max-[1024px]:h-[450px] max-[550px]:h-[300px]">
         {articleDetail?.media?.file && (
-          <Image
+          <ImageWithFallback
             src={articleDetail.media.file}
             alt={articleDetail.media.alt || 'image'}
             fill
@@ -89,21 +89,13 @@ export default async function Content({
 
             <div className="flex flex-col gap-5 max-[1024px]:hidden">
               {tours?.map((el: BestSellersPackagesCardType) => (
-                <BestSellersPackagesCard
-                  key={el.id}
-                  slide={el}
-                  locale={locale}
-                  days={t('all_tours.days')}
-                  from={t('all_tours.from')}
-                  view_itinerary={t('all_tours.view_itinerary')}
-                  byRequest={t('all_tours.byRequest')}
-                />
+                <BestSellersPackagesCard key={el.id} tour={el} locale={locale} />
               ))}
 
               <Link href={`/${locale}/create-your-trip`}>
                 <div className="h-[450px] w-full bg-[#16372D] relative rounded-[16px] overflow-hidden flex items-center justify-center">
                   <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-                  <Image
+                  <ImageWithFallback
                     src={cr2}
                     alt="cyt"
                     fill

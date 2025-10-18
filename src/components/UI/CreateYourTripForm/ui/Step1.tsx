@@ -1,10 +1,10 @@
 'use client';
 import { cn } from '@/utils/utils';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import MonthYearSelect from './MonthSelect';
 import { useQuizStore } from '@/store/quizStore';
 import { StepProps } from '../DescForm';
+import ImageWithFallback from '../../ImageWithFallback/ImageWithFallback';
 
 const buttons = [
   { id: 1, title: 'Central Asia', icon: '/camel.svg' },
@@ -50,7 +50,7 @@ const Step1 = ({ errors = {}, clearError }: StepProps) => {
                 active === el.id && 'bg-[#27A430] text-white',
               )}
             >
-              <Image
+              <ImageWithFallback
                 src={el.icon}
                 alt={el.title}
                 width={28}

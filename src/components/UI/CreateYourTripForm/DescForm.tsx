@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode, useCallback, useState } from 'react';
-import Image from 'next/image';
 import anna from '@/assets/img/CreateYourTrip.jpg'; // заменишь на свой createYourTrip.jpg
 import { motion, AnimatePresence } from 'framer-motion';
 import Step1 from './ui/Step1';
@@ -9,12 +8,12 @@ import Step2 from './ui/Step2';
 import Step3 from './ui/Step3';
 import Step4 from './ui/Step4';
 import { cn } from '@/utils/utils';
-import { IoIosCloseCircle } from 'react-icons/io';
 import { QuizFormData, useQuizStore } from '@/store/quizStore';
 import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '../CustomSnackBar/store';
 import { useRouter } from 'next/navigation';
 import { useMetricsStore } from '@/store/useMetricsStore';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 type DescFormProps = {
   className?: string;
@@ -170,15 +169,9 @@ export default function QuizForm({ className, popupClose, locale }: DescFormProp
   return (
     <div className={cn('w-full', className)}>
       <div className="grid grid-cols-[300px_1fr] gap-4 max-[920px]:grid-cols-1 max-[920px]:gap-0 ">
-        <div
-          className="hidden max-[920px]:block absolute top-3 right-2 z-30 hover:scale-105 active:scale-105 transition"
-          onClick={popupClose}
-        >
-          <IoIosCloseCircle className="text-[30px] text-[#EEEEEE]" />
-        </div>
         {/* Левая часть */}
         <div className="relative rounded-[16px] overflow-hidden min-h-[540px] bg-gray-200 max-[920px]:rounded-b-[0px] max-[920px]:min-h-[180px]">
-          <Image
+          <ImageWithFallback
             src={anna}
             alt="Anna Smirnova"
             fill

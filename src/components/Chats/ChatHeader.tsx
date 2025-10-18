@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaArrowLeft, FaComments } from 'react-icons/fa';
-import Image from 'next/image';
 import { IChat } from '@/types';
+import ImageWithFallback from '../UI/ImageWithFallback/ImageWithFallback';
 
 interface ChatHeaderProps {
   chat: IChat;
@@ -23,7 +23,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ chat, isMobile, onBack }
 
       <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-xl border-3 border-white/20">
         {chat.tourist?.avatar?.file ? (
-          <Image
+          <ImageWithFallback
             src={chat.tourist.avatar.file}
             alt={chat.tourist.avatar.alt_text || 'Avatar'}
             width={50}

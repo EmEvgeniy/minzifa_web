@@ -165,16 +165,16 @@
   },
   "all_tours": {
     "title": "Все туры",
-    "f_top_btn": "Сбросить все фильтры",
-    "pl": "Цена",
-    "pl2": "Длительность",
-    "pl3": "Времена года:",
-    "pl4": "Комфортабельное размещение",
-    "pl5": "Тип Тура",
-    "pl6": "Направление",
-    "pl7": "Тип приключения",
+    "reset_filter_btn": "Сбросить все фильтры",
+    "filter_price_title": "Цена",
+    "filter_duration_title": "Длительность",
+    "filter_season_title": "Времена года:",
+    "filter_accomodation_title": "Комфортабельное размещение",
+    "filter_tour_type_title": "Тип Тура",
+    "filter_destination_title": "Направление",
+    "filter_type_title": "Тип приключения",
     "from": "От",
-    "before": "До",
+    "to": "До",
     "seasons": [
       {
         "title": "Зима",
@@ -227,11 +227,11 @@
     ],
     "sort": [
       {
-        "title": "Новейший",
+        "title": "Новые",
         "value": "newest"
       },
       {
-        "title": "Самый старый",
+        "title": "Старые",
         "value": "oldest"
       },
       {
@@ -826,8 +826,11 @@
     }
   },
   "Tour": {
+    "breadcrumbs": {
+      "all_tours": "Все туры"
+    },
     "facts": {
-      "duration": "Кол-во дней",
+      "duration": "Длительность",
       "days": "{days} дней",
       "group_size": "Размер группы",
       "hotels": "Отели",
@@ -837,9 +840,9 @@
       "button": "Посмотреть {count} фото"
     },
     "itinerary": {
-      "title": "Программа тура",
-      "expanded": "Развернуть всё",
-      "closed": "Свернуть всё",
+      "title": "Маршрут",
+      "expanded": "Развернуть все",
+      "closed": "Закрыть все",
       "accomodation": "Проживание",
       "meals": "Питание"
     },
@@ -855,18 +858,18 @@
         "guide": "Гид",
         "additional_service": "Дополнительные услуги",
         "airway_tickets": "Авиабилеты",
-        "off-plan meals": "Питание вне программы",
+        "off-plan meals": "Питание вне плана",
         "visa": "Виза",
         "insurance": "Страховка",
         "personal_expenses": "Личные расходы"
       },
-      "hint": "Обратите внимание: трансфер из аэропорта осуществляется местным перевозчиком, водитель может не говорить по-английски."
+      "hint": "Обратите внимание, что для трансфера из аэропорта используется местный поставщик, ваш водитель может не говорить по-английски."
     },
     "hotel": {
       "title": "Проживание",
       "card": {
-        "day": "С {from} по {to} день",
-        "location": "Локация",
+        "day": "День {from} до {to}",
+        "location": "Расположение",
         "category": "Категория",
         "nights": "Ночей",
         "facilities": "Удобства",
@@ -876,51 +879,59 @@
     },
     "booking": {
       "from": "от",
-      "per_tourist": "на туриста за {days} дней",
+      "per_tourist": "за туриста на {days} дней",
       "travellers": "Путешественники",
-      "button": "Занять моё место"
+      "button": "Забронировать без риска",
+      "private_btn": "Запросить индивидуальный тур",
+      "per_person": "за человека"
     },
     "private_tour": {
       "free_consultation": "Бесплатная консультация",
-      "tour_private": {
-        "title": "Оставить заявку",
-        "date": "Предпочтительная дата",
-        "date_required": "Выберите дату",
-        "travellers": "Количество человек",
-        "travellers_label": "Путешественники",
-        "travellers_invalid": "Введите корректное число",
-        "travellers_min": "Минимум 1 человек",
-        "travellers_max": "Слишком много человек",
-        "price_option": "Вариант цены",
-        "price_placeholder": "Выберите вариант цены",
-        "wishes": "Пожелания (необязательно)",
-        "wishes_placeholder": "Напишите ваши пожелания...",
-        "submit": "Submit an application"
-      },
+      "per_tourist": "Цена за туриста на {days} дней",
       "comfort": {
-        "title": "Уровень комфорта",
-        "moderate": "Moderate Comfort",
-        "enhanced": "Enhanced Comfort",
-        "ultimate": "Ultimate Comfort"
+        "title": "Комфортабельное проживание",
+        "moderate": "Умеренный комфорт",
+        "enhanced": "Повышенный комфорт",
+        "ultimate": "Максимальный комфорт",
+        "hint": "Вы пока ничего не оплачиваете"
+      },
+      "open_form": {
+        "title": "Выберите дату и начните настраивать путешествие"
       },
       "forms": {
+        "title": "Запросить индивидуальный тур",
+        "subtitle": "Отправьте заявку, чтобы организовать тур только для вас и ваших близких",
+        "personal_data": "Мы свяжемся с вами через WhatsApp.",
+        "personal_data_required": "Пожалуйста, введите свои персональные данные",
+        "date": "Выберите дату",
+        "date_required": "Пожалуйста, выберите дату",
+        "travellers": "Количество путешественников",
+        "travellers_label": "Путешественники",
+        "travellers_invalid": "Введите корректное число",
+        "travellers_min": "Минимум 1 путешественник",
+        "travellers_max": "Слишком много путешественников",
+        "price": "Комфортабельное проживание",
+        "price_placeholder": "Выберите вариант цены",
+        "wishes": "Ваши пожелания (по желанию)",
+        "wishes_placeholder": "Напишите ваши пожелания...",
         "name": "Имя",
         "name_placeholder": "Ваше имя",
-        "name_required": "Введите имя",
-        "email": "Email",
+        "name_required": "Пожалуйста, введите ваше имя",
+        "email": "Электронная почта",
         "email_placeholder": "Ваш email",
         "email_invalid": "Некорректный email",
-        "phone": "Телефон",
+        "phone": "Номер телефона",
         "phone_placeholder": "Ваш телефон",
-        "phone_required": "Введите номер телефона"
+        "phone_required": "Введите номер телефона",
+        "submit": "Отправить заявку"
       }
     },
     "prices": {
       "title": "Даты и доступность",
-      "info": "Цены могут измениться в любое время",
+      "info": "Цены могут изменяться в любое время",
       "best_price": "Лучшая цена",
       "dates": "Даты",
-      "number": "Количество мест",
+      "number": "Мест",
       "pp": "Цена за человека",
       "seats": "{count} мест",
       "no_results": "Нет результатов",
@@ -932,6 +943,17 @@
       "button": "Получить бесплатную консультацию"
     },
     "free_consultation": "Бесплатная консультация"
+  },
+  "forms": {
+    "name": "Имя",
+    "name_placeholder": "Ваше имя",
+    "name_required": "Введите имя",
+    "email": "Email",
+    "email_placeholder": "Ваш email",
+    "email_invalid": "Некорректный email",
+    "phone": "Телефон",
+    "phone_placeholder": "Ваш телефон",
+    "phone_required": "Введите номер телефона"
   },
   "FreeForm": {
     "title": "Бесплатная консультация",
@@ -1194,5 +1216,21 @@
     "form_sent": "Заявка отправлена! Переключаемся на чат...",
     "manager_greeting": "Здравствуйте! Я менеджер поддержки. Чем могу помочь?",
     "manager_response": "Спасибо за сообщение. Мы скоро ответим."
+  },
+  "cookies": {
+    "title": "Мы используем файлы cookie",
+    "description": "Этот сайт использует файлы cookie для улучшения работы сайта и анализа трафика. Продолжая использовать наш сайт, вы соглашаетесь с использованием файлов cookie.",
+    "accept": "Принять все",
+    "decline": "Отклонить",
+    "settings": "Настройки",
+    "essential": "Обязательные",
+    "essential_description": "Необходимы для корректной работы сайта",
+    "analytics": "Аналитика",
+    "analytics_description": "Помогают нам улучшать сайт",
+    "marketing": "Маркетинг",
+    "marketing_description": "Используются для показа релевантной рекламы",
+    "save": "Сохранить настройки",
+    "policy": "Политика использования cookie",
+    "back": "Назад"
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaComments } from 'react-icons/fa';
-import Image from 'next/image';
 import { IChat } from '@/types';
+import ImageWithFallback from '../UI/ImageWithFallback/ImageWithFallback';
 
 interface ChatListItemProps {
   chat: IChat;
@@ -26,7 +26,7 @@ export const ChatListItem: React.FC<ChatListItemProps> = ({ chat, isSelected, on
           )}
           <div className="w-12 h-12 bg-gradient-to-br from-green-800 to-green-900 rounded-full flex items-center justify-center shadow-md border-2 border-white">
             {chat.tourist?.avatar?.file ? (
-              <Image
+              <ImageWithFallback
                 src={chat.tourist.avatar.file}
                 alt={chat.tourist.avatar.alt_text || 'Avatar'}
                 width={44}

@@ -48,6 +48,7 @@ export default async function page({ params }: DefaultPageProps) {
   const categories = (await apiGet(`categories?locale=${locale}`, {
     next: { revalidate: 60 },
   })) as ArticleCategory[];
+
   const menu = t.raw('articles.sort') as { title: string; value: string }[];
   const all_categories: string = t.raw('articles.all_categories');
 

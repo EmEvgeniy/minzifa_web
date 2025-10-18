@@ -1,29 +1,47 @@
 'use client';
 
+import React, { memo } from 'react';
 import { useLocale } from 'next-intl';
 import { FormattedPriceProps } from './_types';
-import React from 'react';
 
-export const FormattedPrice = ({
-  price,
-  currency = 'USD',
-  className = '',
-  minimumFractionDigits = 0,
-  maximumFractionDigits = 2,
-  as = 'span',
-}: FormattedPriceProps) => {
-  const locale = useLocale();
-  const formatted = price?.toLocaleString(locale, {
-    style: 'currency',
-    currency,
-    minimumFractionDigits,
-    maximumFractionDigits,
-  });
+const FormattedPrice = memo(
+  ({
+    price,
+    currency = 'USD',
+    className = '',
+    minimumFractionDigits = 0,
+    maximumFractionDigits = 2,
+    as = 'span',
+    returnAsString = false,
+  }: FormattedPriceProps) => {
+    const locale = useLocale();
+    const numericPrice = Number(price);
 
-  if (typeof price !== 'number' || isNaN(price)) {
-    // console.error("Invalid price value provided to FormattedPrice:", price);
-    return React.createElement(as, { className }, '');
-  }
+    if (isNaN(numericPrice)) {
+      return returnAsString ? '' : React.createElement(as, { className }, '');
+    }
 
-  return React.createElement(as, { className }, formatted);
-};
+    let formatted = '';
+
+    try {
+      formatted = numericPrice.toLocaleString(locale, {
+        style: 'currency',
+        currency,
+        minimumFractionDigits,
+        maximumFractionDigits,
+      });
+    } catch {
+      formatted = `${numericPrice} ${currency}`;
+    }
+
+    if (returnAsString) {
+      return formatted;
+    }
+
+    return React.createElement(as, { className }, formatted);
+  },
+);
+
+FormattedPrice.displayName = 'FormattedPrice';
+
+export default FormattedPrice;

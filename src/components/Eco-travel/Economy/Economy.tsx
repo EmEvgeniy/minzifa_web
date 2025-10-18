@@ -1,7 +1,7 @@
 import { economy_icon } from '@/assets/icons';
 import { economy, economy_1, economy_2 } from '@/assets/img';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 
 const MobileSlider = dynamic(() => import('./MobileSlider'));
 
@@ -17,9 +17,14 @@ export default function Economy({
   return (
     <section className="w-full bg-[#16372D] relative">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-      <Image src={economy} alt="background" fill className=" object-cover absolute top-0" />
+      <ImageWithFallback
+        src={economy}
+        alt="background"
+        fill
+        className=" object-cover absolute top-0"
+      />
       <div className="relative z-30 container flex flex-col items-center gap-5 text-white py-[70px]">
-        <Image
+        <ImageWithFallback
           src={economy_icon}
           alt="icon"
           width={65}
@@ -33,7 +38,7 @@ export default function Economy({
         <div className="grid grid-cols-4 gap-5 items-center pt-[30px] max-[1024px]:hidden">
           {block.slice(0, 4).map((el, i) =>
             el.img === 'true' ? (
-              <Image
+              <ImageWithFallback
                 src={economy_1}
                 alt="child"
                 width={280}
@@ -56,7 +61,7 @@ export default function Economy({
           <div className="col-span-4 grid grid-cols-3 gap-5 place-items-center max-[1024px]:hidden">
             {block.slice(-3).map((el, i) =>
               el.img === 'true' ? (
-                <Image
+                <ImageWithFallback
                   src={economy_2}
                   alt="child"
                   width={280}

@@ -1,33 +1,43 @@
-import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
-import Link from 'next/link';
-import { Tour } from '../_types';
-import { getTranslations } from 'next-intl/server';
+'use client';
 
-export default async function MobileBtn({ locale, tour }: { locale: string; tour: Tour }) {
-  const t = await getTranslations({ locale, namespace: 'Tour' });
+import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
+import { Tour } from '../_types';
+import { useGroupTourBooking } from '@/hooks/useGroupTourBooking';
+import { useTranslations } from 'next-intl';
+import Button from '@/components/UI/Button/Button';
+import { usePrivateTourFormStore } from '@/store/privateTourFormStore';
+
+export default function MobileBtn({ locale, tour }: { locale: string; tour: Tour }) {
+  const t = useTranslations('Tour');
+
+  const { selectedPrice, handleBooking } = useGroupTourBooking({ tour, locale });
+
+  const { setPopup } = usePrivateTourFormStore();
+
+  const price =
+    tour?.tour_type === 'group'
+      ? selectedPrice?.price_for_double
+      : tour?.prices?.price_for_3_hotels;
 
   return (
     <div className="container  bg-[#16372D] sticky bottom-0 z-50 text-white py-5 w-full hidden items-center justify-between max-[920px]:flex gap-5">
       <div className="text-base w-full flex flex-col">
-        {t('prices.pp')}{' '}
         <FormattedPrice
-          price={
-            tour?.prices?.price_for_3_hotels ||
-            tour?.prices?.price_for_4_hotels ||
-            tour?.prices?.price_for_5_hotels ||
-            0
-          }
+          price={price}
           currency={tour?.prices?.valute || 'UZS'}
           className="text-[16px] font-semibold"
           as={'span'}
         />
+        {t('booking.per_person')}
       </div>
-      <Link
-        href={`/${locale}/booking/${tour?.slug}`}
-        className="text-center w-full rounded-4xl bg-[#27A430] text-white px-4 py-2 max-w-[150px] cursor-pointer transition-all duration-300 hover:bg-[#208B28]"
+      <Button
+        to={`/${locale}/booking/${tour?.slug}`}
+        color='primary'
+        className='w-full'
+        onClick={tour?.tour_type === 'group' ? () => handleBooking() : () => setPopup(true)}
       >
         {t('booking.button', { count: 1 })}
-      </Link>
+      </Button>
     </div>
   );
 }

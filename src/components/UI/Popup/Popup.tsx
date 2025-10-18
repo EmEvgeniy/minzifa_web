@@ -1,85 +1,82 @@
 'use client';
 import { cn } from '@/utils/utils';
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 
 type PopupType = {
   open: boolean;
   handleClose: () => void;
-  content: ReactNode;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
+  content?: ReactNode | ReactElement;
+  locale?: string;
   className?: string;
-  locale: string;
+  hasBackground?: boolean;
+  showTimesButton?: boolean;
+  timesButton?: ReactNode | ReactElement;
 };
 
 export const Popup: FC<PopupType> = ({
   open,
   handleClose,
   content,
-  maxWidth = 'lg',
   className = '',
-  locale,
+  showTimesButton = true,
+  timesButton,
 }) => {
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setIsVisible(true);
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+      const timer = setTimeout(() => setIsVisible(false), 300);
+      return () => clearTimeout(timer);
     }
+  }, [open]);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) handleClose();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      handleClose();
-    }
+    if (e.key === 'Escape') handleClose();
   };
 
-  if (!open) return null;
-
-  const maxWidthClasses = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-  };
+  if (!isVisible) return null;
 
   return (
     <>
-      {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4"
+        className={cn(
+          'fixed inset-0 z-50 backdrop-blur-md w-full h-full flex items-center justify-center',
+          'transition-opacity duration-300',
+          open ? 'bg-black/50 opacity-100' : 'bg-black/50 opacity-0',
+        )}
         onClick={handleBackdropClick}
         onKeyDown={handleKeyDown}
       >
-        {/* Popup Content */}
         <div
           className={cn(
-            'relative bg-white rounded-lg shadow-xl w-full',
-            maxWidthClasses[maxWidth],
-            locale === 'en' && 'bg-transparent shadow-none',
+            'relative transition-all duration-300 ease-out',
+            open ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 pointer-events-none',
             className,
           )}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close Button for Russian locale */}
-          {locale === 'ru' && (
-            <div className="absolute top-2 right-2 z-10">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="text-gray-500 hover:text-gray-700 transition-colors p-1"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-          )}
-
-          {/* Content */}
-          <div className="p-0">{content}</div>
+          {timesButton ||
+            (showTimesButton && (
+              <div className={'relative text-right'}>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="cursor-pointer text-white hover:text-gray-700 transition-colors p-3"
+                >
+                  <FaTimes size={24} />
+                </button>
+              </div>
+            ))}
+          {content}
         </div>
       </div>
     </>

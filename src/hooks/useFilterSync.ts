@@ -1,22 +1,24 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect, useCallback, useMemo, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { useFilterStore } from '@/store/toursFilterStore';
+import useDebouncedValue from './useDebouncedValue';
+import {
+  isRangeFilterActive,
+  calculateActiveFiltersCount,
+  hasFilterStateChanged,
+} from '@/utils/filters';
 
-/**
- * Хук для синхронизации фильтров между URL параметрами и store
- * Обеспечивает двустороннюю синхронизацию: изменения в store попадают в URL и наоборот
- */
 export const useFilterSync = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const {
     prices,
     durations,
     seasons,
     hotels,
+    tourType,
     tourTypes,
     destinations,
     sort,
@@ -25,6 +27,7 @@ export const useFilterSync = () => {
     setDurations,
     setSeasons,
     setHotels,
+    setTourType,
     setTourTypes,
     setDestinations,
     setSort,
@@ -32,34 +35,60 @@ export const useFilterSync = () => {
     buildFilterQuery,
   } = useFilterStore();
 
-  // Функция для извлечения фильтров из URL параметров
-  const extractFiltersFromURL = useCallback((params: URLSearchParams) => {
-    const urlPrices = params.getAll('prices[]').map(Number);
-    const urlDurations = params.getAll('days[]').map(Number);
-    const urlSeasons = params.getAll('seasons[]');
-    const urlHotels = params.getAll('hotels[]');
-    const urlTourTypes = params.getAll('types[]');
-    const urlDestinations = params.getAll('destinations[]');
-    const urlSort = params.get('sort');
-    const urlPage = params.get('page');
+  const initializedRef = useRef(false);
+  const previousSortRef = useRef(sort);
 
-    return {
-      prices: urlPrices.length >= 2 ? urlPrices : [0, 20000],
-      durations: urlDurations.length >= 2 ? urlDurations : [1, 31],
-      seasons: urlSeasons,
-      hotels: urlHotels,
-      tourTypes: urlTourTypes,
-      destinations: urlDestinations,
-      sort: urlSort || 'newest',
-      page: urlPage || '1',
-    };
-  }, []);
+  const extractFiltersFromURL = useCallback(
+    (params: URLSearchParams) => {
+      const urlPrices = params.getAll('prices[]').map(Number);
+      const urlDurations = params.getAll('days[]').map(Number);
+      const urlSeasons = params.getAll('seasons[]');
+      const urlHotels = params.getAll('hotels[]');
+      const urlTourType = params.getAll('tour_type[]');
+      const urlTourTypes = params.getAll('types[]');
+      const urlDestinations = params.getAll('destinations[]');
+      const urlSort = params.get('sort');
+      const urlPage = params.get('page');
 
-  // Функция для обновления URL без перезагрузки страницы
+      return {
+        prices: urlPrices.length >= 2 ? urlPrices : [0, 20000],
+        durations: urlDurations.length >= 2 ? urlDurations : [1, 31],
+        seasons: urlSeasons,
+        hotels: urlHotels,
+        tourType: urlTourType,
+        tourTypes: urlTourTypes,
+        destinations: urlDestinations,
+        sort: urlSort || 'newest',
+        page: urlPage || '1',
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      prices,
+      durations,
+      seasons,
+      hotels,
+      tourType,
+      tourTypes,
+      destinations,
+      sort,
+      page,
+      setPrices,
+      setDurations,
+      setSeasons,
+      setHotels,
+      setTourType,
+      setTourTypes,
+      setDestinations,
+      setSort,
+      setPage,
+    ],
+  );
+
   const updateURL = useCallback(
     (newParams: URLSearchParams) => {
-      const newURL = `${pathname}?${newParams.toString()}`;
-      // Используем replaceState для обновления URL без навигации
+      const newURL = `${pathname}${newParams.toString() ? `?${newParams.toString()}` : ''}`;
+
       if (typeof window !== 'undefined') {
         window.history.replaceState({}, '', newURL);
       }
@@ -67,92 +96,146 @@ export const useFilterSync = () => {
     [pathname],
   );
 
-  // Синхронизация store с URL параметрами при монтировании
+  const updateRangeFilter = useCallback(
+    (
+      filterName: string,
+      currentValues: readonly number[],
+      urlValues: readonly number[],
+      setter: (values: [number, number], resetPage?: boolean) => void,
+    ) => {
+      if (isRangeFilterActive(currentValues, urlValues)) {
+        setter(urlValues as [number, number], false);
+      }
+    },
+    [],
+  );
+
+  const updateArrayFilter = useCallback(
+    (
+      filterName: string,
+      currentValues: string[],
+      urlValues: string[],
+      setter: (value: string, resetPage?: boolean) => void,
+    ) => {
+      if (currentValues.length > 0 || urlValues.length > 0) {
+        // Очищаем существующие значения
+        currentValues.forEach((value: string) => setter(value, false));
+        // Устанавливаем новые значения из URL
+        urlValues.forEach((value: string) => setter(value, false));
+      }
+    },
+    [],
+  );
+
   useEffect(() => {
-    const urlFilters = extractFiltersFromURL(searchParams);
+    // Используем более надежный способ получения URL параметров
+    if (typeof window === 'undefined') return;
 
-    // Обновляем store на основе URL параметров
-    setPrices(urlFilters.prices as [number, number]);
-    setDurations(urlFilters.durations as [number, number]);
+    const urlParams = new URLSearchParams(window.location.search);
 
-    // Очищаем существующие значения перед установкой новых
-    useFilterStore.setState({
-      seasons: [],
-      hotels: [],
-      tourTypes: [],
-      destinations: [],
-    });
+    const urlFilters = extractFiltersFromURL(urlParams);
 
-    urlFilters.seasons.forEach((season: string) => setSeasons(season));
-    urlFilters.hotels.forEach((hotel: string) => setHotels(hotel));
-    urlFilters.tourTypes.forEach((type: string) => setTourTypes(type));
-    urlFilters.destinations.forEach((destination: string) => setDestinations(destination));
+    // Проверяем, нужно ли обновлять фильтры из URL
+    const currentState = {
+      prices,
+      durations,
+      seasons,
+      hotels,
+      tourType,
+      tourTypes,
+      destinations,
+      sort,
+      page,
+    };
+    const needsUpdate = hasFilterStateChanged(currentState, urlFilters, page);
 
-    if (urlFilters.page !== '1') {
-      setPage(urlFilters.page);
+    if (needsUpdate && !initializedRef.current) {
+      updateRangeFilter('prices', prices, urlFilters.prices, setPrices);
+      updateRangeFilter('durations', durations, urlFilters.durations, setDurations);
+
+      updateArrayFilter('seasons', seasons, urlFilters.seasons, setSeasons);
+      updateArrayFilter('hotels', hotels, urlFilters.hotels, setHotels);
+      updateArrayFilter('tourType', tourType, urlFilters.tourType, setTourType);
+      updateArrayFilter('tourTypes', tourTypes, urlFilters.tourTypes, setTourTypes);
+      updateArrayFilter('destinations', destinations, urlFilters.destinations, setDestinations);
+
+      if (urlFilters.sort !== sort) {
+        setSort(urlFilters.sort, false);
+      }
+
+      if (urlFilters.page !== (typeof page === 'string' ? page : page.toString())) {
+        setPage(urlFilters.page);
+      }
     }
 
-    if (urlFilters.sort !== 'newest') {
-      setSort(urlFilters.sort);
-    }
-  }, [
-    extractFiltersFromURL,
-    searchParams,
-    setPrices,
-    setDurations,
-    setSeasons,
-    setHotels,
-    setTourTypes,
-    setDestinations,
-    setPage,
-    setSort,
-  ]); // Выполняется только при монтировании
+    initializedRef.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Синхронизация store изменений с URL
+  const filterParams = useMemo(
+    () => ({
+      prices,
+      durations,
+      seasons,
+      hotels,
+      tourType,
+      tourTypes,
+      destinations,
+      sort,
+      page,
+    }),
+    [prices, durations, seasons, hotels, tourType, tourTypes, destinations, sort, page],
+  );
+
+  const debouncedFilterParams = useDebouncedValue(filterParams, 100);
+
   useEffect(() => {
     const queryString = buildFilterQuery();
 
     if (queryString) {
       const newParams = new URLSearchParams(queryString);
 
-      // На странице дестинации удаляем destinations параметр из URL
-      // кроме currentDestination который используется для фильтрации
       if (pathname.includes('/destination/')) {
         newParams.delete('destinations[]');
       }
 
       updateURL(newParams);
     } else {
-      // Если нет активных фильтров, очищаем URL
       updateURL(new URLSearchParams());
     }
-  }, [
-    prices,
-    durations,
-    seasons,
-    hotels,
-    tourTypes,
-    destinations,
-    sort,
-    page,
-    buildFilterQuery,
-    updateURL,
-    pathname,
-  ]);
+  }, [debouncedFilterParams, buildFilterQuery, updateURL, pathname]);
 
-  // Возвращаем текущие параметры фильтрации для использования в API запросах
+  // Правильная логика сброса страницы только при изменении сортировки
+  useEffect(() => {
+    if (!initializedRef.current) return;
+
+    // Сбрасываем страницу на 1 только если сортировка реально изменилась
+    if (previousSortRef.current !== sort && sort !== 'newest') {
+      setPage(1);
+    }
+
+    previousSortRef.current = sort;
+  }, [sort, setPage]);
+
+  // Эта логика была удалена - сброс страницы должен происходить только при реальном изменении сортировки
+
+  const hasActiveFilters = useMemo(() => {
+    const currentState = {
+      prices,
+      durations,
+      seasons,
+      hotels,
+      tourType,
+      tourTypes,
+      destinations,
+      sort,
+      page,
+    };
+    return calculateActiveFiltersCount(currentState) > 0;
+  }, [prices, durations, seasons, hotels, tourType, tourTypes, destinations, sort, page]);
+
   return {
     filterQuery: buildFilterQuery(),
-    hasActiveFilters: !!(
-      prices[0] !== 0 ||
-      prices[1] !== 20000 ||
-      durations[0] !== 1 ||
-      durations[1] !== 31 ||
-      seasons.length > 0 ||
-      hotels.length > 0 ||
-      tourTypes.length > 0 ||
-      destinations.length > 0 ||
-      sort !== 'newest'
-    ),
+    hasActiveFilters,
   };
 };

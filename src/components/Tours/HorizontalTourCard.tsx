@@ -8,22 +8,9 @@ import { Fallback_Image } from '@/assets/img';
 type HorizontalTourCardProps = {
   tour: AllToursCardType;
   locale: string;
-  days: string;
-  from: string;
-  location: string;
-  view_itinerary: string;
-  byRequest: string;
 };
 
-export default function HorizontalTourCard({
-  tour,
-  locale,
-  days,
-  from,
-  location,
-  byRequest,
-  view_itinerary,
-}: HorizontalTourCardProps) {
+export default function HorizontalTourCard({ tour, locale }: HorizontalTourCardProps) {
   const t = useTranslations();
 
   // Функция для получения человеко-читаемого типа тура
@@ -76,7 +63,7 @@ export default function HorizontalTourCard({
           <div className="flex flex-row items-start gap-6 shrink-0">
             {/* Дни */}
             <div className="flex flex-col items-end gap-1 text-right">
-              <span className="text-custom-gray-500 text-sm">{days}</span>
+              <span className="text-custom-gray-500 text-sm">{t('all_tours.days')}</span>
               <span className="text-custom-green-900 text-xl font-bold">{tour.days}</span>
             </div>
 
@@ -85,7 +72,7 @@ export default function HorizontalTourCard({
 
             {/* Цена */}
             <div className="flex flex-col items-end gap-1 text-right">
-              <span className="text-custom-gray-500 text-sm">{from}</span>
+              <span className="text-custom-gray-500 text-sm">{t('all_tours.from')}</span>
               <span className="text-custom-green-900 text-xl font-bold">
                 {t(`currencies.${tour?.valute}`) || tour?.valute} {tour.price}
               </span>
@@ -99,7 +86,7 @@ export default function HorizontalTourCard({
           <div className="flex items-center justify-between text-base font-medium text-gray-900">
             {/* Дни */}
             <div className="flex items-center gap-1">
-              <span>{days}:</span>
+              <span>{t('all_tours.days')}:</span>
               <span className="text-custom-green-900 font-bold text-xl">{tour.days}</span>
             </div>
 
@@ -110,13 +97,13 @@ export default function HorizontalTourCard({
             <div className="flex items-center gap-1">
               {tour.price ? (
                 <>
-                  <span>{from}:</span>
+                  <span>{t('all_tours.from')}:</span>
                   <span className="text-custom-green-900 font-bold text-xl">
                     {t(`currencies.${tour?.valute}`) || tour?.valute} {tour.price}
                   </span>
                 </>
               ) : (
-                <span className="text-custom-gray-500">{byRequest}</span>
+                <span className="text-custom-gray-500">{t('all_tours.byRequest')}</span>
               )}
             </div>
           </div>
@@ -134,7 +121,7 @@ export default function HorizontalTourCard({
             <IoLocationOutline size={28} />
           </div>
           <div className="ml-2">
-            <h5 className="text-md text-gray-900">{location}</h5>
+            <h5 className="text-md text-gray-900">{t('all_tours.location')}</h5>
             <p className="truncate overflow-hidden font-normal text-[#9B9B9B] max-w-[250px] sm:max-w-[400px]">
               {tour.destination.name}
             </p>
@@ -146,7 +133,7 @@ export default function HorizontalTourCard({
           className="mt-3 bg-[#27A430] w-full text-center rounded-[12px] py-[10px] shadow-2xl text-white text-sm sm:text-base transition-all hover:bg-[#66B93E] active:bg-[#27A430]"
           href={`/${locale}/${tour.destination.slug}/${tour.slug}`}
         >
-          {view_itinerary}
+          {t('all_tours.view_itinerary')}
         </Link>
       </div>
     </div>

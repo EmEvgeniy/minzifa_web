@@ -17,7 +17,7 @@ export default async function TourItinerary({
   if (!itineraries) return null;
 
   return (
-    <div className="flex flex-col gap-5 col-start-1">
+    <div className="flex flex-col gap-5 md:col-start-1">
       <div className="flex flex-row items-center justify-between">
         <h2 className="text-4xl font-semibold max-[920px]:text-[30px] max-[550px]:text-[24px]">
           {t('itinerary.title')}

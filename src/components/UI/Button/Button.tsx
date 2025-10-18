@@ -1,146 +1,124 @@
-import React from 'react';
-import { cn } from '@/utils/utils';
+'use client';
+
+import React, { forwardRef, ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { cn } from '@/utils';
 
-interface BaseButtonProps {
-  children: React.ReactNode;
-  className?: string;
-  disabled?: boolean;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  isLoading?: boolean;
-}
-
-interface ButtonProps extends BaseButtonProps {
-  onClick?: () => void;
+interface ButtonProps {
+  children?: ReactNode;
   type?: 'button' | 'submit' | 'reset';
+  color?: 'primary' | 'secondary' | 'red' | 'gray' | 'yellow' | 'light' | 'white' | 'soft' | 'link';
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  onClick?: ((e?: React.MouseEvent) => void) | (() => void);
+  className?: string;
+  as?: 'button' | typeof Link;
+  to?: string;
+  target?: string;
+  disabled?: boolean;
+  active?: boolean;
 }
 
-interface ButtonLinkProps extends BaseButtonProps {
-  href: string;
-  locale?: string;
-  external?: boolean;
-}
-
-const buttonVariants = {
-  primary: 'bg-[#16372D] text-white hover:bg-[#194D3D] active:bg-[#16372D] shadow-2xl',
-  secondary: 'bg-gray-500 text-white hover:bg-gray-600 active:bg-gray-500',
-  outline: 'border-2 border-[#16372D] text-[#16372D] hover:bg-[#16372D] hover:text-white',
-  ghost: 'text-[#16372D] hover:bg-gray-100',
-};
-
-const buttonSizes = {
-  sm: 'px-4 py-2 text-sm min-h-[36px]',
-  md: 'px-6 py-[14px] text-[16px] min-h-[48px]',
-  lg: 'px-8 py-4 text-lg min-h-[56px]',
-};
-
-/**
- * Переиспользуемый компонент кнопки
- * Поддерживает разные варианты стилей, размеры и состояния загрузки
- */
-export const Button: React.FC<ButtonProps> = ({
+export default function Button({
   children,
-  className,
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
-  isLoading = false,
+  type,
+  color = 'primary',
+  leftIcon,
+  rightIcon,
   onClick,
-  type = 'button',
-  ...props
-}) => {
-  const baseClasses =
-    'inline-flex items-center justify-center rounded-[16px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#16372D] focus:ring-offset-2';
-
-  const classes = cn(
-    baseClasses,
-    buttonVariants[variant],
-    buttonSizes[size],
-    disabled || isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
-    className,
-  );
-
-  return (
-    <button
-      type={type}
-      className={classes}
-      onClick={isLoading ? undefined : onClick}
-      disabled={disabled || isLoading}
-      {...props}
-    >
-      {isLoading ? (
-        <>
-          <svg
-            className="animate-spin -ml-1 mr-3 h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
-          Загрузка...
-        </>
-      ) : (
-        children
-      )}
-    </button>
-  );
-};
-
-/**
- * Кнопка-ссылка для навигации
- */
-export const ButtonLink: React.FC<ButtonLinkProps> = ({
-  children,
-  href,
-  locale,
-  external = false,
   className,
-  variant = 'primary',
-  size = 'md',
+  as = 'button',
+  to,
+  target,
   disabled = false,
-  ...props
-}) => {
-  const baseClasses =
-    'inline-flex items-center justify-center rounded-[16px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#16372D] focus:ring-offset-2';
+  active = false,
+}: ButtonProps) {
+  const baseStyles = cn(
+    'flex items-center cursor-pointer justify-center gap-2 rounded-2xl px-4 py-2 font-medium transition-all duration-300',
+    'hover:opacity-95 active:scale-97',
+    {
+      'bg-[#27A430] text-white hover:bg-[#239C3A]': color === 'primary' && !active,
+      'bg-[#16372D] text-white': color === 'primary' && active,
 
-  const classes = cn(
-    baseClasses,
-    buttonVariants[variant],
-    buttonSizes[size],
-    disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+      'bg-[#16372D] text-white hover:bg-[#1E4C3F]': color === 'secondary' && !active,
+      'bg-[#27A430] text-white': color === 'secondary' && active,
+
+      'bg-red-500 text-white hover:bg-red-600': color === 'red' && !active,
+      'bg-red-700 text-white': color === 'red' && active,
+
+      'bg-gray-500 text-white hover:bg-gray-600': color === 'gray' && !active,
+      'bg-gray-700 text-white': color === 'gray' && active,
+
+      'bg-yellow-400 text-gray-900 hover:bg-yellow-500': color === 'yellow' && !active,
+      'bg-yellow-600 text-gray-900': color === 'yellow' && active,
+
+      'bg-gray-100 text-gray-900 hover:bg-gray-200': color === 'light' && !active,
+      'bg-gray-300 text-gray-900': color === 'light' && active,
+
+      'bg-white text-[#16372D] border border-gray-300 hover:bg-gray-100':
+        color === 'white' && !active,
+      'bg-gray-100 text-[#16372D] border border-gray-300': color === 'white' && active,
+
+      'bg-transparent text-[#16372D] hover:bg-[#E6F2EC]': color === 'soft' && !active,
+      'bg-[#E6F2EC] text-[#16372D] border border-[#27A430]': color === 'soft' && active,
+
+      // ✅ Новый стиль — текстовая "ссылка"
+      'bg-transparent text-black px-0 py-0 font-normal hover:underline hover:text-gray-700':
+        color === 'link' && !disabled,
+
+      'opacity-50 cursor-not-allowed': disabled,
+    },
     className,
   );
 
-  const linkHref = locale ? `/${locale}${href}` : href;
+  const content = (
+    <>
+      {leftIcon && <span className="shrink-0">{leftIcon}</span>}
+      {children}
+      {rightIcon && <span className="shrink-0">{rightIcon}</span>}
+    </>
+  );
 
-  if (external) {
+  if (as === 'button') {
     return (
-      <a href={linkHref} className={classes} target="_blank" rel="noopener noreferrer" {...props}>
-        {children}
-      </a>
+      <motion.button
+        type={type}
+        onClick={(e) => !disabled && onClick && onClick(e)}
+        className={baseStyles}
+        disabled={disabled}
+        whileHover={{ scale: disabled || color === 'link' ? 1 : 1.01 }}
+        whileTap={{ scale: disabled || color === 'link' ? 1 : 0.97 }}
+      >
+        {content}
+      </motion.button>
     );
   }
 
-  return (
-    <Link href={linkHref} className={classes} {...props}>
-      {children}
-    </Link>
+  const MotionLink = motion.create(
+    forwardRef<HTMLAnchorElement, React.ComponentProps<typeof Link>>(
+      function MotionLinkComponent({ href, children, ...props }, ref) {
+        return (
+          <Link href={href || '#'} ref={ref} {...props}>
+            {children}
+          </Link>
+        );
+      },
+    ),
   );
-};
 
-// Экспортируем компоненты
-export default Button;
+  MotionLink.displayName = 'MotionLink';
+
+  return (
+    <MotionLink
+      href={to || '#'}
+      target={target}
+      onClick={(e) => !disabled && onClick && onClick(e)}
+      className={baseStyles}
+      whileHover={{ scale: disabled || color === 'link' ? 1 : 1.01 }}
+      whileTap={{ scale: disabled || color === 'link' ? 1 : 0.97 }}
+    >
+      {content}
+    </MotionLink>
+  );
+}

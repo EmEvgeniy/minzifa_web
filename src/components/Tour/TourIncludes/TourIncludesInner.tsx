@@ -4,7 +4,6 @@ import {
   CustomAccordionDetails,
   CustomAccordionSummary,
 } from '@/components/UI/CustomAccordion/CustomAccordion';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Include } from '../_types';
 import AccomodationIcon from '@/assets/icons/includes_icons/Accomodation.svg';
@@ -14,6 +13,7 @@ import TicketIcon from '@/assets/icons/includes_icons/Ticket.svg';
 import GuideIcon from '@/assets/icons/includes_icons/Guide.svg';
 import AdditionalIcon from '@/assets/icons/includes_icons/Add_ring_light.svg';
 import ExcludeIcon from '@/assets/icons/includes_icons/exclude.svg';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 const icons: { [key: string]: string } = {
   accommodation: AccomodationIcon,
@@ -84,12 +84,13 @@ function TourIncludesInner({
                   <div key={include.id}>
                     <CustomAccordionSummary className="rounded-none">
                       <div className="flex flex-row gap-3 items-center text-base font-semibold">
-                        <Image
+                        <ImageWithFallback
                           width={28}
                           height={28}
                           alt={include.category}
                           src={index === 0 ? icons[include.category] : icons.exclude}
                           loading="lazy"
+                          className="w-5 h-5 md:w-6 md:h-6"
                         />
                         {pl3[include.category as keyof typeof pl3]}
                       </div>

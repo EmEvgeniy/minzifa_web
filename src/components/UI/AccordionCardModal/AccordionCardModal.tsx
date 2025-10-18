@@ -3,13 +3,13 @@ import { Hotel, TourImage } from '@/components/Tour/_types';
 import TourDescription from '@/components/UI/MarkdownDescription/MarkdownDescription';
 import { useTranslations } from 'next-intl';
 import { FaXmark } from 'react-icons/fa6';
-import { Navigation } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import Image from 'next/image';
-
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
+import { Popup } from '../Popup';
+import { NextButton, PrevButton } from '../EmblaCarousel/EmblaCarouselArrowButtons';
+import { EmblaCarousel } from '../EmblaCarousel';
+import { EmblaCarouselType } from 'embla-carousel';
+import { useState } from 'react';
+import { usePrevNextButtons } from '../EmblaCarousel/usePrevNextButtons';
 
 interface AccordionModalProps {
   hotel: Hotel | null;
@@ -19,17 +19,18 @@ interface AccordionModalProps {
 
 export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: AccordionModalProps) => {
   const t = useTranslations('Tour');
+  const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
+  const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
+    usePrevNextButtons(emblaApi);
+  if (!hotel) return null;
+
   return (
-    hotel &&
-    openModal && (
-      <div
-        onClick={() => setOpenModal(false)}
-        className="fixed top-0 left-0 w-full h-full bg-black/50 z-50 flex items-center justify-center"
-      >
-        <div
-          className="bg-white p-5 rounded-2xl shadow-md min-w-[300px] lg:min-w-[830px] max-w-[830px] relative"
-          onClick={(e) => e.stopPropagation()}
-        >
+    <Popup
+      open={openModal}
+      handleClose={() => setOpenModal(false)}
+      showTimesButton={false}
+      content={
+        <div className="bg-white p-5 rounded-2xl shadow-md min-w-[300px] lg:min-w-[830px] max-w-[830px] mx-auto relative">
           <div>
             <h2 className="text-2xl font-semibold">{hotel.name}</h2>
             <div className="grid grid-cols-3 text-lg">
@@ -119,33 +120,40 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
                   </div>
                 )}
               </div>
-              {hotel.gallery && (
-                <Swiper
-                  navigation={true}
-                  slidesPerView={1}
-                  loop={true}
-                  modules={[Navigation]}
-                  className="w-full h-full flex-1/2"
-                >
-                  {hotel.gallery.map((image: TourImage) => (
-                    <SwiperSlide
-                      key={image.id}
-                      className="flex items-center justify-center w-full h-full overflow-hidden rounded-lg"
-                    >
-                      {
-                        <Image
+              {hotel.gallery && hotel.gallery.length > 0 && (
+                <div className="w-full h-full flex-1/2 flex items-center justify-center overflow-hidden rounded-lg">
+
+
+                  <EmblaCarousel<TourImage>
+                    slides={hotel.gallery}
+                    onInit={setEmblaApi}
+                    options={{
+                      loop: true,
+                    }}
+                    renderSlide={(gallery: TourImage) => (
+                      <div key={gallery.id} className="flex-[0_0_100%]">
+                        <ImageWithFallback
                           width={800}
                           height={600}
-                          loading="lazy"
-                          quality={100}
-                          src={image.file}
-                          alt={image.alt_text}
-                          className="w-full h-full object-cover"
+                          src={gallery?.file}
+                          alt={gallery?.alt_text || ''}
+                          className="w-full h-full max-w-[800px] max-h-[600px] mx-auto rounded-2xl"
                         />
-                      }
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                      </div>
+                    )}
+                  />
+
+                  <PrevButton
+                    onClick={onPrevButtonClick}
+                    disabled={prevBtnDisabled}
+                    className="absolute top-1/2 left-0 text-white text-4xl"
+                  />
+                  <NextButton
+                    onClick={onNextButtonClick}
+                    disabled={nextBtnDisabled}
+                    className="absolute top-1/2 right-0 text-white text-4xl"
+                  />
+                </div>
               )}
             </div>
             <hr className="border-black/10 my-3.5" />
@@ -158,7 +166,7 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
             <FaXmark size={20} />
           </button>
         </div>
-      </div>
-    )
+      }
+    />
   );
 };

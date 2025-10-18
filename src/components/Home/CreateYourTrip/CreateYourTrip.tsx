@@ -1,16 +1,15 @@
 import { cyt } from '@/assets/img';
-import { DefaultComponentsProps } from '@/types';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getTranslations } from 'next-intl/server';
-import Image from 'next/image';
 import Link from 'next/link';
 
-export default async function CreateYourTrip({ locale }: DefaultComponentsProps) {
+export default async function CreateYourTrip({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
   return (
     <section className="w-full relative">
       <div className="absolute inset-0 bg-[#16372DB2] w-full h-full opacity-70 z-10" />
-      <Image
+      <ImageWithFallback
         src={cyt}
         alt="create_your_trip"
         fill

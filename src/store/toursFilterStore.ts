@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { calculateActiveFiltersCount } from '@/utils/filters';
 
 type FilterStoreData = {
   prices: number[];
@@ -12,8 +13,8 @@ type FilterStoreData = {
   sort: string;
   page: number | string;
   isLoading: boolean;
-  // Состояние аккордеонов фильтра
   expandedFilters: Record<string, boolean>;
+  activeFiltersCount: number;
   setPrices: (prices: number[], resetPage?: boolean) => void;
   setDurations: (durations: number[], resetPage?: boolean) => void;
   setSeasons: (season: string, resetPage?: boolean) => void;
@@ -26,6 +27,7 @@ type FilterStoreData = {
   setPage: (page: number | string) => void;
   setIsLoading: (isLoading: boolean) => void;
   setExpandedFilter: (filterKey: string, expanded: boolean) => void;
+  updateActiveFiltersCount: () => void;
   resetFilters: () => void;
   buildFilterQuery: () => string;
 };
@@ -43,51 +45,146 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
   page: '1',
   isLoading: true,
   expandedFilters: {},
-  setPrices: (prices, resetPage = false) =>
-    set(() => ({
-      prices: prices,
-      ...(resetPage && { page: 1 }),
-    })),
-  setDurations: (durations, resetPage = false) =>
-    set(() => ({
-      durations: durations,
-      ...(resetPage && { page: 1 }),
-    })),
+  activeFiltersCount: 0,
+  setPrices: (prices, resetPage = true) =>
+    set((state) => {
+      const newPrices = prices;
+      const hasPriceChanged = newPrices[0] !== state.prices[0] || newPrices[1] !== state.prices[1];
+
+      if (!hasPriceChanged && resetPage) {
+        return { page: 1 };
+      }
+
+      // Используем helper функцию для пересчета активных фильтров
+      const newActiveFiltersCount = hasPriceChanged
+        ? calculateActiveFiltersCount({ ...state, prices: newPrices })
+        : state.activeFiltersCount;
+
+      return {
+        prices: newPrices,
+        ...(resetPage && { page: 1 }),
+        ...(hasPriceChanged && { activeFiltersCount: newActiveFiltersCount }),
+      };
+    }),
+  setDurations: (durations, resetPage = true) =>
+    set((state) => {
+      const newDurations = durations;
+      const hasDurationChanged =
+        newDurations[0] !== state.durations[0] || newDurations[1] !== state.durations[1];
+
+      if (!hasDurationChanged && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = hasDurationChanged
+        ? calculateActiveFiltersCount({ ...state, durations: newDurations })
+        : state.activeFiltersCount;
+
+      return {
+        durations: newDurations,
+        ...(resetPage && { page: 1 }),
+        ...(hasDurationChanged && { activeFiltersCount: newActiveFiltersCount }),
+      };
+    }),
   setSeasons: (season: string, resetPage = true) =>
-    set((state) => ({
-      seasons: state.seasons.includes(season)
+    set((state) => {
+      const newSeasons = state.seasons.includes(season)
         ? state.seasons.filter((v) => v !== season)
-        : [...state.seasons, season],
-      ...(resetPage && { page: 1 }),
-    })),
+        : [...state.seasons, season];
+
+      if (JSON.stringify(newSeasons) === JSON.stringify(state.seasons) && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = calculateActiveFiltersCount({ ...state, seasons: newSeasons });
+
+      return {
+        seasons: newSeasons,
+        ...(resetPage && { page: 1 }),
+        activeFiltersCount: newActiveFiltersCount,
+      };
+    }),
   setHotels: (hotel: string, resetPage = true) =>
-    set((state) => ({
-      hotels: state.hotels.includes(hotel)
+    set((state) => {
+      const newHotels = state.hotels.includes(hotel)
         ? state.hotels.filter((v) => v !== hotel)
-        : [...state.hotels, hotel],
-      ...(resetPage && { page: 1 }),
-    })),
+        : [...state.hotels, hotel];
+
+      if (JSON.stringify(newHotels) === JSON.stringify(state.hotels) && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = calculateActiveFiltersCount({ ...state, hotels: newHotels });
+
+      return {
+        hotels: newHotels,
+        ...(resetPage && { page: 1 }),
+        activeFiltersCount: newActiveFiltersCount,
+      };
+    }),
   setTourType: (type: string, resetPage = true) =>
-    set((state) => ({
-      tourType: state.tourType.includes(type)
+    set((state) => {
+      const newTourType = state.tourType.includes(type)
         ? state.tourType.filter((v) => v !== type)
-        : [...state.tourType, type],
-      ...(resetPage && { page: 1 }),
-    })),
+        : [...state.tourType, type];
+
+      if (JSON.stringify(newTourType) === JSON.stringify(state.tourType) && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = calculateActiveFiltersCount({
+        ...state,
+        tourType: newTourType,
+      });
+
+      return {
+        tourType: newTourType,
+        ...(resetPage && { page: 1 }),
+        activeFiltersCount: newActiveFiltersCount,
+      };
+    }),
   setTourTypes: (type: string, resetPage = true) =>
-    set((state) => ({
-      tourTypes: state.tourTypes.includes(type)
+    set((state) => {
+      const newTourTypes = state.tourTypes.includes(type)
         ? state.tourTypes.filter((v) => v !== type)
-        : [...state.tourTypes, type],
-      ...(resetPage && { page: 1 }),
-    })),
+        : [...state.tourTypes, type];
+
+      if (JSON.stringify(newTourTypes) === JSON.stringify(state.tourTypes) && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = calculateActiveFiltersCount({
+        ...state,
+        tourTypes: newTourTypes,
+      });
+
+      return {
+        tourTypes: newTourTypes,
+        ...(resetPage && { page: 1 }),
+        activeFiltersCount: newActiveFiltersCount,
+      };
+    }),
   setDestinations: (destination: string, resetPage = true) =>
-    set((state) => ({
-      destinations: state.destinations.includes(destination)
+    set((state) => {
+      const newDestinations = state.destinations.includes(destination)
         ? state.destinations.filter((v) => v !== destination)
-        : [...state.destinations, destination],
-      ...(resetPage && { page: 1 }),
-    })),
+        : [...state.destinations, destination];
+
+      if (JSON.stringify(newDestinations) === JSON.stringify(state.destinations) && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = calculateActiveFiltersCount({
+        ...state,
+        destinations: newDestinations,
+      });
+
+      return {
+        destinations: newDestinations,
+        ...(resetPage && { page: 1 }),
+        activeFiltersCount: newActiveFiltersCount,
+      };
+    }),
   setCurrentDestination: (destination: string | null, resetPage = true) =>
     set(() => ({
       currentDestination: destination,
@@ -107,6 +204,10 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
         [filterKey]: expanded,
       },
     })),
+  updateActiveFiltersCount: () =>
+    set((state) => ({
+      activeFiltersCount: calculateActiveFiltersCount(state),
+    })),
   resetFilters: () =>
     set({
       prices: [0, 20000],
@@ -120,6 +221,7 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
       sort: 'newest',
       page: 1,
       isLoading: false,
+      activeFiltersCount: 0,
     }),
   buildFilterQuery: () => {
     const {
@@ -177,10 +279,13 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
       params.append('sort', sort);
     }
 
-    if (page !== '1') {
-      params.append('page', page.toString());
+    if (page !== '1' && page !== 1) {
+      const pageValue = typeof page === 'string' ? page : String(page);
+      params.append('page', pageValue);
     }
 
-    return params.toString();
+    const queryString = params.toString();
+
+    return queryString;
   },
 }));

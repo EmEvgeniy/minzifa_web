@@ -3,11 +3,10 @@ import { useState } from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { useLocale, useTranslations } from 'next-intl';
 import { NavItemType } from './_types';
-import Image from 'next/image';
-import { logo } from '@/assets/icons';
 
 import { useRouter } from 'next/navigation';
 import SocialMedia from '../UI/SocialMedia/SocialMedia';
+import Logo from '../UI/Logo/Logo';
 
 export const MobileHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +37,7 @@ export const MobileHeader = () => {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm bg-opacity-50 z-40"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -49,13 +48,13 @@ export const MobileHeader = () => {
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="p-5 h-full flex flex-col">
+        <div className="w-full h-full flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <Image src={logo} alt="mobile logo" width={150} height={57} />
+          <div className="flex items-center justify-between border-b-2 border-white/70 p-5 mb-5">
+            <Logo locale={locale} className="w-[200px]" />
             <button
               onClick={() => setIsOpen(false)}
-              className="text-white hover:text-gray-300 transition-colors p-2"
+              className="text-white hover:text-gray-300 transition-colors"
               aria-label="Close menu"
             >
               <HiX size={24} />
@@ -63,13 +62,13 @@ export const MobileHeader = () => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1">
+          <nav className="border-b-2 border-white/70 flex-grow">
             <ul className="space-y-2">
               {menu.map((item) => (
                 <li key={item.link}>
                   <button
                     onClick={() => handleNavClick(item.link)}
-                    className="w-full text-left text-white hover:bg-white/10 px-4 py-3 rounded-lg transition-colors text-lg"
+                    className="w-full text-left text-white hover:bg-white/10 px-5 py-3 transition-colors text-lg"
                   >
                     {item.title}
                   </button>
@@ -79,8 +78,8 @@ export const MobileHeader = () => {
           </nav>
 
           {/* Social Media */}
-          <div className="mt-auto">
-            <SocialMedia className="justify-center" />
+          <div className="p-5">
+            <SocialMedia className="justify-between" iconSize={18} />
           </div>
         </div>
       </div>

@@ -27,10 +27,6 @@ interface BestSellersSkeletonProps {
   count?: number;
 }
 
-/**
- * Skeleton компонент для карточек Best Sellers
- * Имитирует структуру карточки Best Sellers во время загрузки
- */
 export const BestSellersSkeleton: React.FC<BestSellersSkeletonProps> = ({ count = 4 }) => {
   return (
     <div className="flex flex-col gap-4 w-full">

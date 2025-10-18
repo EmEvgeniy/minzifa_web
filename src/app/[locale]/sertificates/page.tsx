@@ -4,11 +4,11 @@ import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import Image from 'next/image';
 
 import Img1 from '@/assets/img/sertificates/01.jpg';
 import Img2 from '@/assets/img/sertificates/02.jpg';
 import Img3 from '@/assets/img/sertificates/03.jpg';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -48,7 +48,7 @@ export default async function page({ params }: DefaultPageProps) {
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {images.map((image, index) => (
-          <Image key={index} src={image.src} alt={image.alt} />
+          <ImageWithFallback key={index} src={image.src} alt={image.alt} />
         ))}
       </div>
     </section>

@@ -1,7 +1,7 @@
 'use client';
 
 import { usePostMutation } from '@/api/post.api';
-import { Button } from '@/components/UI/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { useLocale, useTranslations } from 'next-intl';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { useRouter } from 'next/navigation';
@@ -141,13 +141,7 @@ export const Form = () => {
         </div>
 
         {/* Кнопка */}
-        <Button
-          variant="secondary"
-          size="lg"
-          type="submit"
-          disabled={!isValid || isPending}
-          className="w-full"
-        >
+        <Button color="secondary" type="submit" disabled={!isValid || isPending} className="w-full">
           {t('contact_us.btn')}
         </Button>
       </form>

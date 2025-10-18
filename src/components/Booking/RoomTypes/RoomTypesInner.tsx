@@ -1,7 +1,7 @@
 'use client';
 
 import { Dropdown } from '@/components/UI/Dropdown/Dropdown';
-import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
+import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
 import { RoomType, RoomTypes, useBookingStore } from '@/store/bookingStore';
 import { useEffect, useRef } from 'react';
 
@@ -31,8 +31,7 @@ function RoomTypesInner({ title }: Props) {
     if (!bookingData?.room_types) return;
 
     const totalRoomsSelected =
-      (bookingData.room_types.standart || 0) +
-      (bookingData.room_types.single || 0);
+      (bookingData.room_types.standart || 0) + (bookingData.room_types.single || 0);
 
     if (travellersCount !== prevTravellers || totalRoomsSelected > travellersCount) {
       setBookingData({
@@ -86,18 +85,20 @@ function RoomTypesInner({ title }: Props) {
         return (
           <div key={roomType} className="md:flex flex-col gap-5 rounded-2xl">
             <div
-              className={'relative rounded-2xl grid grid-cols-1 md:grid-cols-3 items-center bg-white transition-all duration-300 p-5 max-[550px]:grid-cols-1 max-[550px]:justify-items-center max-[550px]:gap-2'}
+              className={
+                'relative rounded-2xl grid grid-cols-1 md:grid-cols-3 items-center bg-white transition-all duration-300 p-5 max-[550px]:grid-cols-1 max-[550px]:justify-items-center max-[550px]:gap-2'
+              }
             >
               <span className="text-base font-normal flex flex-col">
-                <span className='text-base font-semibold'>{roomTitle}</span>
-                <span className='text-xs text-gray-500'>{roomHint}</span>
+                <span className="text-base font-semibold">{roomTitle}</span>
+                <span className="text-xs text-gray-500">{roomHint}</span>
               </span>
-              <span className='text-base font-normal flex flex-col text-center'>
+              <span className="text-base font-normal flex flex-col text-center">
                 <FormattedPrice
-                  className='text-base font-semibold'
+                  className="text-base font-semibold"
                   price={getFormattedRoomPrice(roomType)}
                 />
-                <span className='text-xs text-gray-500'>{title.pt}</span>
+                <span className="text-xs text-gray-500">{title.pt}</span>
               </span>
               <Dropdown
                 value={String(currentCount)}

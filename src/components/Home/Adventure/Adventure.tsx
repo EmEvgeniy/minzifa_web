@@ -1,11 +1,10 @@
 import dynamic from 'next/dynamic';
 import { getTranslations } from 'next-intl/server';
-import { DefaultComponentsProps } from '@/types';
 import { AdventureCardType } from '@/components/UI/AdventureCard/_types';
 import { apiGet } from '@/utils/serverApi';
 const AdventureCard = dynamic(() => import('@/components/UI/AdventureCard/AdventureCard'));
 
-export default async function Adventure({ locale }: DefaultComponentsProps) {
+export default async function Adventure({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
   const data = (await apiGet(`types?main_page=1&limit=12&page=1&perPage=12&locale=${locale}`, {

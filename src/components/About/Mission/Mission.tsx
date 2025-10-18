@@ -1,7 +1,6 @@
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 
-export default async function Mission({ locale }: DefaultComponentsProps) {
+export default async function Mission({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'about' });
 
   return (

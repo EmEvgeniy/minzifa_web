@@ -1,6 +1,6 @@
 import { articles } from '@/assets/img';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import Image from 'next/image';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 export default async function Hero({
   title,
@@ -16,7 +16,7 @@ export default async function Hero({
   return (
     <section className="w-full relative h-[70svh] max-[768px]:h-[60svh]">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-      <Image
+      <ImageWithFallback
         src={articles}
         alt="articles_hero"
         fill

@@ -4,11 +4,8 @@ import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import { getAnalyticsConfig } from '@/utils/config';
 
-interface MetricsProps {
-  locale?: string;
-}
 
-export default function Metrics({ locale = 'en' }: MetricsProps) {
+export default function Metrics({ locale }: { locale: string }) {
   const isRussian = locale === 'ru';
   const isEnglish = locale === 'en';
   const [shouldLoadAnalytics, setShouldLoadAnalytics] = useState(false);
@@ -64,10 +61,9 @@ export default function Metrics({ locale = 'en' }: MetricsProps) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          ${
-            isRussian
-              ? `gtag('config', 'AW-16625384260');`
-              : `gtag('config', '${analyticsConfig.gaId}');`
+          ${isRussian
+            ? `gtag('config', 'AW-16625384260');`
+            : `gtag('config', '${analyticsConfig.gaId}');`
           }
 
           gtag('config', 'AW-301071748');

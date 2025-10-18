@@ -1,11 +1,12 @@
+import dynamic from 'next/dynamic';
+
 import Link from 'next/link';
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
-import dynamic from 'next/dynamic';
 import { apiGet } from '@/utils/serverApi';
-const WrapperMobile = dynamic(() => import('./Wrapper.mobile'));
+
 const ArticleCard = dynamic(() => import('@/components/UI/ArticleCard/ArticleCard'));
+const WrapperMobile = dynamic(() => import('./Wrapper.mobile'));
 
 type ArticlesData = {
   data: ArticleCardType[];
@@ -19,7 +20,7 @@ type ArticlesData = {
   };
 };
 
-export default async function Articles({ locale }: DefaultComponentsProps) {
+export default async function Articles({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
   const data = (await apiGet(`articles?limit=3&page=1&perPage=3&locale=${locale}`, {
@@ -31,9 +32,7 @@ export default async function Articles({ locale }: DefaultComponentsProps) {
   return (
     <section className="container pb-[70px] w-full">
       <div className="flex flex-col gap-10 items-start w-full">
-        <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px] ">
-          {t('articles_title')}
-        </h5>
+        <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('articles_title')}</h5>
         <div className="grid grid-cols-3 w-full gap-5 [@media(max-width:768px)]:hidden">
           {data?.data.map((el: ArticleCardType) => (
             <ArticleCard key={el.id} article={el} locale={locale} />

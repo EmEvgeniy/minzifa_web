@@ -10,8 +10,7 @@ import { contacts } from '@/store/contacts';
 import { useTranslations } from 'next-intl';
 import { NavItemType } from './_types';
 import Logo from '../UI/Logo/Logo';
-import { DefaultComponentsProps } from '@/types';
-import { Button } from '@/components/UI/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { useAuthStore } from '@/store';
 import { RiUserLine } from 'react-icons/ri';
 import { AuthPopup } from '../Auth/AuthPopup';
@@ -27,7 +26,7 @@ const buttonClasses = {
 const dropdownClasses =
   'absolute top-full right-0 mt-2 bg-[rgba(22,55,45,0.9)] backdrop-blur-[6px] border border-white/10 rounded-lg shadow-lg min-w-[200px] z-50';
 
-export default function Desktop({ locale }: DefaultComponentsProps) {
+export default function Desktop({ locale }: { locale: string }) {
   const t = useTranslations();
   const navItems = t.raw('navigation.nav') as NavItemType[];
 
@@ -64,7 +63,7 @@ export default function Desktop({ locale }: DefaultComponentsProps) {
   return (
     <header className="px-20 w-full fixed top-10 left-1/2 -translate-x-1/2 [@media(max-width:1024px)]:hidden flex items-center justify-between gap-5 z-50">
       <div className="bg-[rgba(22,55,45,0.7)] backdrop-blur-[6px] w-full py-5 px-5 rounded-[20px] flex items-center justify-between">
-        <Logo locale={locale} />
+        <Logo locale={locale} className="w-[200px]" />
         <NavWrapper>
           <Nav menu={navItems} locale={locale} />
         </NavWrapper>
@@ -104,12 +103,7 @@ export default function Desktop({ locale }: DefaultComponentsProps) {
               </div>
             </>
           ) : (
-            <Button
-              variant="secondary"
-              size="sm"
-              className={buttonClasses.login}
-              onClick={handleLogin}
-            >
+            <Button className={buttonClasses.login} onClick={handleLogin}>
               <RiUserLine size={20} />
               {t('auth.nav.login')}
             </Button>

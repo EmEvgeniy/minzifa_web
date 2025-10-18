@@ -2,14 +2,14 @@
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import { RiSearch2Line } from 'react-icons/ri';
-import { DestinationBlockProps } from '../Destinations/_types';
+import { DestinationCard } from '../Destinations/_types';
 
 export default function HeroSearch({
   data,
   locale,
   pl,
 }: {
-  data: DestinationBlockProps[];
+  data: DestinationCard[];
   locale: string;
   pl: string;
 }) {

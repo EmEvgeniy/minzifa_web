@@ -1,77 +1,100 @@
 /**
- * Утилиты для API вызовов в серверных компонентах Next.js
- * Использует встроенный fetch API с правильной конфигурацией кеширования
+ * Универсальные API-утилиты для серверных компонентов Next.js
+ * Типобезопасная работа с fetch (без any)
  */
 
-/**
- * GET запрос к API для серверных компонентов
- * @param endpoint - API endpoint (без базового URL)
- * @param options - дополнительные опции fetch
- * @returns Promise с данными
- */
-export async function apiGet<T = unknown>(endpoint: string, options?: RequestInit): Promise<T> {
-  // Получаем базовый URL из переменных окружения
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1';
+export class ApiError<T = unknown> extends Error {
+  public readonly status: number;
+  public readonly statusText: string;
+  public readonly url: string;
+  public readonly data?: T;
 
-  // Если endpoint уже содержит полный URL, используем его как есть
-  const url = endpoint.startsWith('http') ? endpoint : `${baseUrl}/${endpoint.replace(/^\//, '')}`;
-
-  try {
-    const response = await fetch(url, {
-      // Настройки Next.js для кеширования
-      next: { revalidate: 300 }, // 5 минут кеширования по умолчанию
-      headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers,
-      },
-      ...options,
-    });
-
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText} for ${url}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('API Request failed:', error);
-    throw error;
+  constructor(status: number, statusText: string, url: string, data?: T) {
+    super(`API Error ${status}: ${statusText} for ${url}`);
+    this.status = status;
+    this.statusText = statusText;
+    this.url = url;
+    this.data = data;
   }
 }
 
-/**
- * POST запрос к API для серверных компонентов
- * @param endpoint - API endpoint
- * @param data - данные для отправки
- * @param options - дополнительные опции fetch
- * @returns Promise с ответом
- */
-export async function apiPost<T = unknown>(
-  endpoint: string,
-  data?: unknown,
-  options?: RequestInit,
-): Promise<T> {
+function buildApiUrl(endpoint: string): string {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1';
-  const url = endpoint.startsWith('http') ? endpoint : `${baseUrl}/${endpoint.replace(/^\//, '')}`;
+  return endpoint.startsWith('http') ? endpoint : `${baseUrl}/${endpoint.replace(/^\/+/, '')}`;
+}
 
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      next: { revalidate: 0 }, // Не кешировать POST запросы
-      headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers,
-      },
-      body: data ? JSON.stringify(data) : undefined,
-      ...options,
-    });
+type ApiRequestOptions<B = unknown> = Omit<RequestInit, 'body' | 'method'> & {
+  body?: B;
+  revalidate?: number;
+};
 
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText} for ${url}`);
-    }
+/**
+ * Универсальная функция для API-запросов
+ */
+async function apiRequest<TResponse, TBody = unknown>(
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
+  endpoint: string,
+  options?: ApiRequestOptions<TBody>,
+): Promise<TResponse> {
+  const url = buildApiUrl(endpoint);
+  const { body, headers, revalidate, ...rest } = options ?? {};
 
-    return await response.json();
-  } catch (error) {
-    console.error('API POST Request failed:', error);
-    throw error;
+  const response = await fetch(url, {
+    method,
+    next: revalidate !== undefined ? { revalidate } : undefined,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    body: body ? JSON.stringify(body) : undefined,
+    ...rest,
+  });
+
+  const isJson = response.headers.get('content-type')?.includes('application/json');
+
+  if (!response.ok) {
+    const errorData = isJson ? await response.json().catch(() => undefined) : undefined;
+    throw new ApiError(response.status, response.statusText, url, errorData);
   }
+
+  return (isJson ? await response.json() : undefined) as TResponse;
+}
+
+/**
+ * Типобезопасный GET-запрос
+ */
+export function apiGet<TResponse>(
+  endpoint: string,
+  options?: ApiRequestOptions,
+): Promise<TResponse> {
+  return apiRequest<TResponse>('GET', endpoint, { ...options, revalidate: 300 });
+}
+
+/**
+ * Типобезопасный POST-запрос
+ */
+export function apiPost<TResponse, TBody = unknown>(
+  endpoint: string,
+  body?: TBody,
+  options?: ApiRequestOptions<TBody>,
+): Promise<TResponse> {
+  return apiRequest<TResponse, TBody>('POST', endpoint, { ...options, body, revalidate: 0 });
+}
+
+/**
+ * PUT / PATCH / DELETE при желании можно реализовать аналогично
+ */
+export function apiPut<TResponse, TBody = unknown>(
+  endpoint: string,
+  body?: TBody,
+  options?: ApiRequestOptions<TBody>,
+): Promise<TResponse> {
+  return apiRequest<TResponse, TBody>('PUT', endpoint, { ...options, body, revalidate: 0 });
+}
+
+export function apiDelete<TResponse>(
+  endpoint: string,
+  options?: ApiRequestOptions,
+): Promise<TResponse> {
+  return apiRequest<TResponse>('DELETE', endpoint, { ...options, revalidate: 0 });
 }

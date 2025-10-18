@@ -6,7 +6,7 @@ export type TourPriceOption = {
 };
 
 export type TourPrivateFormData = {
-  date: string | null;
+  date?: string | null;
   travellers: number;
   priceOption?: string | number | null;
   wishes: string;

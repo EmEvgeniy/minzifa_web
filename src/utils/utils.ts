@@ -28,8 +28,15 @@ export function formatted_date(date: string, locale: string, formatType: string 
 
 export function calculateReadingTime(text: string, averageReadingSpeed: number = 1500) {
   const textLength = text.length;
-  const minutes = textLength / averageReadingSpeed * 0.2;
+  const minutes = (textLength / averageReadingSpeed) * 0.2;
   return Math.ceil(minutes);
 }
 
-export const makeMultiParam = (key: string, values: (string | number)[]) => values.length ? values.map(val => `${key}[]=${val}`) : [];
+export const makeMultiParam = (key: string, values: (string | number)[]) =>
+  values.length ? values.map((val) => `${key}[]=${val}`) : [];
+
+export const calculateEndDate = (startDate: Date, days: number) => {
+  const endDate = new Date(startDate);
+  endDate.setDate(startDate.getDate() + days);
+  return endDate;
+};

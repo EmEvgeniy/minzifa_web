@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Banner from '@/assets/img/FreeConBanner.jpg';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -13,6 +12,7 @@ import { useMetricsStore } from '@/store/useMetricsStore';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 const schema = z.object({
   name: z.string().min(5, 'Required'),
@@ -84,7 +84,7 @@ export default function FreeConsultationForm({ className }: { className?: string
               maskRepeat: 'no-repeat',
             }}
           />
-          <Image
+          <ImageWithFallback
             src={Banner}
             quality={100}
             width={585}

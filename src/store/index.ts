@@ -1,19 +1,16 @@
-// Store hooks
 export { useAuthStore } from './useAuthStore';
 export { useBookingStore } from './bookingStore';
 export { useChatsStore } from './chatsStore';
 export { useQuizStore } from './quizStore';
 export { useMetricsStore } from './useMetricsStore';
 export { useFilterStore } from './toursFilterStore';
-export { useTourPrivateModalStore } from './useTourPrivateModalStore';
+export { useCookieStore } from './useCookieStore';
 
-// Store data
 export { contacts } from './contacts';
 
-// Types
 export type { AuthState } from './useAuthStore';
+export type { CookieState, CookiePreferences, CookieConsent } from './useCookieStore';
 
-// Re-export types for convenience
 export type {
   ITourist,
   IOrder,

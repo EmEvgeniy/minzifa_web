@@ -1,8 +1,6 @@
 import { useGetQuery } from '@/api/get.api';
-import {
-  DestinationDataResponse,
-  TourTypeDataResponse,
-} from '@/components/Tours/MainSection/_types';
+import { DestinationResponse } from '@/types/Destination';
+import { TourTypeResponse } from '@/types/TourType';
 
 interface UseFilterDataProps {
   locale: string;
@@ -13,7 +11,7 @@ export function useFilterData({ locale }: UseFilterDataProps) {
     data: tourTypesData,
     isLoading: tourTypesLoading,
     error: tourTypesError,
-  } = useGetQuery<TourTypeDataResponse>({
+  } = useGetQuery<TourTypeResponse>({
     key: ['tour-types', locale],
     page: '',
     perPage: '',
@@ -26,7 +24,7 @@ export function useFilterData({ locale }: UseFilterDataProps) {
     data: destinationsData,
     isLoading: destinationsLoading,
     error: destinationsError,
-  } = useGetQuery<DestinationDataResponse>({
+  } = useGetQuery<DestinationResponse>({
     key: ['destinations', locale],
     page: '',
     perPage: '',

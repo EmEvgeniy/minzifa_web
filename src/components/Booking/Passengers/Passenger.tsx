@@ -6,6 +6,8 @@ import { Passenger as PassengerType, useBookingStore } from '@/store/bookingStor
 import { useEffect, useMemo } from 'react';
 import { PhoneInputComp } from '@/components/UI';
 import { cn } from '@/utils/utils';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
+import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 
 // Оптимизированные константы вынесены вне компонента для лучшей производительности
 const salutations: string[] = ['Mr.', 'Ms.', 'Mrs.', 'Miss'];
@@ -96,7 +98,6 @@ export const Passenger = ({
 
     const updatedPassengers = [...(bookingData.passengers || [])];
 
-    // Только если пассажир с таким индексом не существует — создаём нового
     if (!updatedPassengers[index]) {
       updatedPassengers[index] = defaultPassenger;
       setBookingData({
@@ -104,20 +105,20 @@ export const Passenger = ({
         passengers: updatedPassengers,
       });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Оптимизированный компонент для информационных подсказок
   const InfoHints = () => (
     <div className="bg-[#C5DCD3]/50 rounded-2xl px-2.5 py-5 flex flex-row items-center gap-2 max-[768px]:text-[12px]">
       <div className="w-[30px] h-[30px] flex items-center justify-center text-blue-600">
-        <svg fill="currentColor" viewBox="0 0 20 20" width="30" height="30">
-          <path
-            fillRule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <ImageWithFallback
+          width={100}
+          height={100}
+          src={IconInfo}
+          alt="Minzifa Travel"
+          className="w-full h-full object-contain"
+        />
       </div>
       {hints.map((el) => (
         <p key={el}>{el}</p>
@@ -266,10 +267,10 @@ export const Passenger = ({
             className={cn(
               'block text-sm font-medium text-gray-700',
               sendStatus &&
-                !bookingData?.passengers?.[index]?.birth_date?.month &&
-                !bookingData?.passengers?.[index]?.birth_date?.day &&
-                !bookingData?.passengers?.[index]?.birth_date?.year &&
-                'text-red-500',
+              !bookingData?.passengers?.[index]?.birth_date?.month &&
+              !bookingData?.passengers?.[index]?.birth_date?.day &&
+              !bookingData?.passengers?.[index]?.birth_date?.year &&
+              'text-red-500',
             )}
           >
             {`${t('passenger.date_of_birth')}:*`}

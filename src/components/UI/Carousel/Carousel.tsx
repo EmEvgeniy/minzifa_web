@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { BestSellersPackagesCardType } from '../BestSellersPackagesCard/_types';
-import Image from 'next/image';
 import { apiGet } from '../../../utils/serverApi';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 async function Carousel({ locale }: { locale: string }) {
   const data = (await apiGet(`tours?all=1&locale=${locale}`, {
@@ -32,7 +32,7 @@ async function Carousel({ locale }: { locale: string }) {
                 </p>
                 <div className="absolute inset-0 bg-black opacity-30 z-1 h-full" />
                 {product?.photo?.file && (
-                  <Image
+                  <ImageWithFallback
                     src={product.photo.file}
                     alt={product.photo.alt_text || 'Image'}
                     fill

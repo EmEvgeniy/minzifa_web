@@ -1,8 +1,7 @@
-import { DefaultComponentsProps } from '@/types';
 import { FormTop } from './FormTop';
 import { getTranslations } from 'next-intl/server';
 
-export default async function CreateYourTripFormWrapper({ locale }: DefaultComponentsProps) {
+export default async function CreateYourTripFormWrapper({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'create-your-trip' });
 
   return (

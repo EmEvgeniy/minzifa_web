@@ -5,14 +5,6 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { apiGet } from '../../../../utils/serverApi';
 
-type PageData = {
-  seo_metadata?: {
-    title?: string;
-    description?: string;
-    keywords?: string;
-  };
-};
-
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
 };
@@ -23,16 +15,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = (await params).locale;
-  const pagePath = `/${locale}/booking-tour`;
-
-  const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
-    next: { revalidate: 300 },
-  })) as PageData;
 
   return {
-    title: data?.seo_metadata?.title,
-    description: data?.seo_metadata?.description,
-    keywords: data?.seo_metadata?.keywords,
+    title: locale === 'en' ? 'Booking' : 'Бронирование',
+    description: locale === 'en' ? 'Booking' : 'Бронирование',
+    keywords: locale === 'en' ? 'Booking' : 'Бронирование',
   };
 }
 

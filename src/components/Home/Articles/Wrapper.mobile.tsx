@@ -1,10 +1,11 @@
 'use client';
 
-import { Slider, SliderBtns } from '@/components/UI';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import ArticleCard from '@/components/UI/ArticleCard/ArticleCard';
-import { ReactNode, useRef, useState } from 'react';
-import { SwiperClass } from 'swiper/react';
+import { ReactNode, useState } from 'react';
+import { EmblaCarouselType } from 'embla-carousel';
+import EmblaCarousel from '@/components/UI/EmblaCarousel/EmblaCarousel';
+import { ECArrowWrapper } from '@/components/UI/EmblaCarousel/EmblaCarouselArrowButtons';
 
 interface DataResponse {
   data: ArticleCardType[];
@@ -12,45 +13,25 @@ interface DataResponse {
   locale: string;
 }
 
-export default function WrapperMobile({ data, btn, locale }: DataResponse) {
-  const swiperRef = useRef<SwiperClass | null>(null);
-  const [isBeginning, setIsBeginning] = useState<boolean>(true);
-  const [isEnd, setIsEnd] = useState<boolean>(false);
-
-  const handleSlideChange = (swiper: SwiperClass): void => {
-    setIsBeginning(swiper.isBeginning);
-    setIsEnd(swiper.isEnd);
-  };
+export default function WrapperMobileEmbla({ data, btn, locale }: DataResponse) {
+  const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
 
   return (
     <div className="w-full hidden [@media(max-width:768px)]:block">
-      <Slider
-        slides={data || []}
-        swiperRef={swiperRef}
-        isBeginning={isBeginning}
-        isEnd={isEnd}
-        setIsBeginning={setIsBeginning}
-        setIsEnd={setIsEnd}
-        handleSlideChange={handleSlideChange}
-        breakpoints={{
-          320: { slidesPerView: 1.2, spaceBetween: 16 },
-          550: { slidesPerView: 2.2 },
-          768: { slidesPerView: 3.2 },
-          1024: { slidesPerView: 4.4 },
-        }}
-        renderCard={(slide: ArticleCardType) => (
-          <ArticleCard key={slide.id} article={slide} locale={locale} />
+      <EmblaCarousel<ArticleCardType>
+        slides={data}
+        onInit={setEmblaApi}
+        renderSlide={(slide: ArticleCardType) => (
+          <div key={slide.id} className='flex-[0_0_80%]'>
+            <ArticleCard article={slide} locale={locale} />
+          </div>
         )}
+        className="gap-5"
       />
 
-      <div className="flex items-center w-full justify-between gap-5">
-        {btn}
-        <SliderBtns
-          swiperRef={swiperRef}
-          isBeginning={isBeginning}
-          isEnd={isEnd}
-          variant={'primary'}
-        />
+      <div className="w-full flex flex-wrap items-center justify-between gap-3 mt-5">
+        <div className="flex-shrink">{btn}</div>
+        <ECArrowWrapper emblaApi={emblaApi} variant='dark' />
       </div>
     </div>
   );

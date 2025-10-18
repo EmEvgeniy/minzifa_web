@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { RegistrationFormType, registrationSchema } from '../../validation/registrationSchema';
 import { useAuthStore } from '../../store/useAuthStore';
-import { Button } from '@/components/UI/Button/Button';
+import Button from '@/components/UI/Button/Button';
 
 interface RegistrationPageProps {
   locale: string;
@@ -143,13 +143,7 @@ export const RegistrationPage = ({ locale }: RegistrationPageProps) => {
               </div>
             )}
 
-            <Button
-              type="submit"
-              variant="secondary"
-              size="lg"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Загрузка...' : t('createAccount')}
             </Button>
           </form>

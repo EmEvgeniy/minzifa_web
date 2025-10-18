@@ -54,7 +54,7 @@ export const createBookingData = (
     payment_type: 'cash',
     payment_status: 'pending',
     single_price: selectedPrice.price_for_single,
-    currency: selectedPrice.valute,
+    currency: tour.prices.valute,
     total_seats: selectedPrice.tour_total_seats,
   };
 };
@@ -80,7 +80,7 @@ export const createBookingParams = (
     payment_type: 'cash',
     payment_status: 'pending',
     single_price: selectedPrice.price_for_single.toString(),
-    currency: selectedPrice.valute,
+    currency: tour.prices.valute,
     total_seats: selectedPrice.tour_total_seats.toString(),
   });
 };
@@ -91,10 +91,11 @@ export const createBookingParams = (
 export const createPrivateTourPriceOptions = (
   prices: GroupPrice[],
   locale: string,
+  currency: string = 'USD',
 ): Array<{ value: number; label: string }> => {
   return (prices || []).map((p) => ({
     value: p.price_for_double,
-    label: `${formatted_date(p.date_start, locale)} — ${p.valute} ${p.price_for_double}`,
+    label: `${formatted_date(p.date_start, locale)} — ${currency} ${p.price_for_double}`,
   }));
 };
 

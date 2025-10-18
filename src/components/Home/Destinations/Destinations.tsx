@@ -1,19 +1,18 @@
 import { destinations } from '@/assets/img';
-import Image from 'next/image';
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 import { apiGet } from '../../../utils/serverApi';
-import { DestinationBlockProps } from './_types';
+import { DestinationCard } from './_types';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 const Wrapper = dynamic(() => import('./Wrapper'));
 
-export default async function Destinations({ locale }: DefaultComponentsProps) {
+export default async function Destinations({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
   const data = (await apiGet(`destinations?main_page=1&locale=${locale}`, {
     next: { revalidate: 60 * 5 },
-  })) as DestinationBlockProps[];
+  })) as DestinationCard[];
 
   return (
     <section className="relative w-full h-full min-h-[577px] mt-[70px] [@media(max-width:768px)]:mt-[30px]">
@@ -28,7 +27,7 @@ export default async function Destinations({ locale }: DefaultComponentsProps) {
           maskRepeat: 'no-repeat',
         }}
       />
-      <Image
+      <ImageWithFallback
         src={destinations || ''}
         alt="destinations"
         fill

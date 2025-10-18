@@ -1,14 +1,16 @@
-export const dynamic = 'force-dynamic';
+import dynamic from 'next/dynamic';
+
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
-import Hero from '@/components/About/Hero/Hero';
-import Info from '@/components/About/Info/Info';
-import Info2 from '@/components/About/Info2/Info2';
-import Mission from '@/components/About/Mission/Mission';
-import Values from '@/components/About/Values/Values';
-import Reviews from '@/components/UI/Reviews/Reviews';
-import Destinations from '@/components/Home/Destinations/Destinations';
 import { apiGet } from '@/utils/serverApi';
+
+const Hero = dynamic(() => import('@/components/About/Hero/Hero'));
+const Info = dynamic(() => import('@/components/About/Info/Info'));
+const Info2 = dynamic(() => import('@/components/About/Info2/Info2'));
+const Mission = dynamic(() => import('@/components/About/Mission/Mission'));
+const Values = dynamic(() => import('@/components/About/Values/Values'));
+const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews'));
+const Destinations = dynamic(() => import('@/components/Home/Destinations/Destinations'));
 
 type PageData = {
   seo_metadata?: {

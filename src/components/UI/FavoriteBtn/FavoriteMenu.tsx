@@ -63,14 +63,7 @@ function FavoriteMenu() {
             {tours.length
               ? tours.map((tour: BestSellersPackagesCardType, i) => (
                   <div key={i} className="mb-4">
-                    <BestSellersPackagesCard
-                      slide={tour}
-                      locale={locale}
-                      days={t('all_tours.days')}
-                      from={t('all_tours.from')}
-                      view_itinerary={t('all_tours.view_itinerary')}
-                      byRequest={t('all_tours.byRequest')}
-                    />
+                    <BestSellersPackagesCard tour={tour} locale={locale} />
                   </div>
                 ))
               : null}

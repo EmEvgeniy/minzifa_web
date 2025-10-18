@@ -1,7 +1,7 @@
 'use client';
 
 import { Controller } from 'react-hook-form';
-import { Button } from '@/components/UI/Button/Button';
+import Button from '@/components/UI/Button/Button';
 import { IoChatbubbleEllipses } from 'react-icons/io5';
 import { MdClose } from 'react-icons/md';
 import { PhoneInputComp } from '@/components/UI';
@@ -35,9 +35,9 @@ export const ChatPopup = () => {
       <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50">
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-gradient-to-br from-[#16372d] to-[#0f2921] hover:from-[#0f2921] hover:to-[#16372d] text-white rounded-full p-3 md:p-5 shadow-2xl transition-all duration-300 hover:scale-110 hover:shadow-3xl cursor-pointer"
+          className="bg-gradient-to-br from-[#27A430] to-[#44DB4E] hover:from-[#1b7521] hover:to-[#31a039] text-white rounded-full p-5 md:p-3 shadow-2xl transition-all duration-300 hover:scale-110 hover:shadow-3xl cursor-pointer"
         >
-          <IoChatbubbleEllipses size={24} className="md:w-5 md:h-5" />
+          <IoChatbubbleEllipses size={30} className="w-8 h-8 md:w-6 md:h-6" />
         </button>
       </div>
     );
@@ -159,13 +159,7 @@ export const ChatPopup = () => {
                 </div>
 
                 {/* Submit */}
-                <Button
-                  type="submit"
-                  variant="secondary"
-                  size="lg"
-                  className="w-full"
-                  disabled={!isValid || isPending}
-                >
+                <Button type="submit" className="w-full" disabled={!isValid || isPending}>
                   {isPending ? (
                     <div className="flex items-center justify-center">
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>

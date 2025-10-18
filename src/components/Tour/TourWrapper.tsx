@@ -1,11 +1,12 @@
+import dynamic from 'next/dynamic';
 import { Tour } from './_types';
 import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
-import dynamic from 'next/dynamic';
 import TourTitle from './TourTitle/TourTitle';
 import { redirect } from 'next/navigation';
 import Breadcrumbs from '../UI/Breadcrumbs/Breadcrumbs';
 import { getTranslations } from 'next-intl/server';
 import { getApiUrl } from '@/utils/config';
+
 const Reviews = dynamic(() => import('../UI/Reviews/Reviews'));
 const TourHighlights = dynamic(() => import('./TourHighlights/TourHighlights'));
 const TourGallery = dynamic(() => import('./TourGallery/TourGallery'));
@@ -13,19 +14,19 @@ const TourFacts = dynamic(() => import('./TourFacts/TourFacts'));
 const TourDescription = dynamic(() => import('../UI/MarkdownDescription/MarkdownDescription'));
 const TourItinerary = dynamic(() => import('./TourItinerary/TourItinerary'));
 const TourAccomodation = dynamic(() => import('./TourAccomodation/TourAccomodation'));
-const TourByRequest = dynamic(() => import('./TourByRequest/TourByRequest'));
-const TourPrivateModal = dynamic(() => import('./TourPrivateModal/TourPrivateModal'));
 const FreeConsultationForm = dynamic(
   () => import('../UI/FreeConsultationForm/FreeConsultationForm'),
 );
 const TourIncludes = dynamic(() => import('./TourIncludes/TourIncludes'));
-const TourBooking = dynamic(() => import('./TourBooking/TourBooking'));
-const TourPrices = dynamic(() => import('./TourPrices/TourPrices'));
+const TourBookingWrapper = dynamic(() => import('./TourBooking/TourBookingWrapper'));
+const TourPricesContainer = dynamic(() => import('./TourPrices/TourPricesContainer'));
 const MobileBtn = dynamic(() => import('./MobileBtn/MobileBtn'));
 const DescForm = dynamic(() => import('./../UI/CreateYourTripForm/DescForm'));
+const TourPrivateModal = dynamic(() => import('./TourPrivateModal/TourPrivateModal'));
+const Transport = dynamic(() => import('./Transport/Transport'));
 
 export default async function TourWrapper({ locale, slug }: { locale: string; slug: string }) {
-  const t = await getTranslations({ locale });
+  const t = await getTranslations({ locale, namespace: 'Tour' });
 
   const tourData = (await fetch(getApiUrl(`tours/${slug}?locale=${locale}`), {
     next: { revalidate: 60 * 20 },
@@ -37,31 +38,33 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
     tourData?.gallery.unshift(tourData?.photo);
   }
 
-  const isIndividual = tourData?.tour_type === 'individual';
-
   return (
     <div className="w-full min-h-[200vh]">
-      <div className="container pt-[150px] flex flex-col gap-10 max-[920px]:pt-[100px]">
+      <div className={"container !px-0 pt-[150px] flex flex-col gap-10 max-[920px]:pt-[56px]"}>
         <Breadcrumbs
           locale={locale}
           link={{ title: t('breadcrumbs.all_tours'), link: `/${locale}/tours` }}
           link2={{ title: tourData.name, link: '' }}
+          mainStyle='hidden md:block'
         />
         <div className="w-full block max-[920px]:hidden">
           <TourTitle title={tourData?.name} />
         </div>
-        <TourGallery images={tourData?.gallery} tourName={tourData?.name} locale={locale} />
-        <div className="w-full hidden max-[920px]:block">
+        <TourGallery images={tourData?.gallery} />
+        <div className="w-full hidden container max-[920px]:block">
           <TourTitle title={tourData?.name} />
         </div>
-        <div className="grid grid-flow-row-dense  grid-cols-[1fr_445px] max-[920px]:grid-cols-1 gap-5 max-[920px]:gap-0">
-          <div className="flex flex-col gap-5 w-full">
+        <div className={"container md:!px-0 md:grid md:grid-flow-row-dense md:grid-cols-[720px_370px] md:justify-between md:gap-5"}>
+          <div className="flex flex-col gap-5 w-full h-full">
             <TourFacts facts={tourData?.facts} locale={locale} />
             <TourDescription
               subtitle={tourData?.subtitle}
               description={tourData?.description}
-              className="col-start-1 max-[920px]:gap-5 max-[920px]:py-5"
+              className="md:col-start-1 max-[920px]:gap-5 max-[920px]:py-5"
             />
+          </div>
+          <div className='md:hidden'>
+            <TourBookingWrapper tour={tourData} />
           </div>
           <TourHighlights highlights={tourData?.hightlights} />
           <TourItinerary itineraries={tourData?.itineraries} locale={locale} />
@@ -69,18 +72,13 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
             <FreeConsultationForm />
           </div>
           <TourIncludes includes={tourData?.includes} locale={locale} />
-          {tourData?.prices?.data?.length ? (
-            <TourBooking
-              prices={tourData?.prices?.data}
-              className="z-30 max-[920px]:hidden"
-              tour={tourData}
-            />
-          ) : (
-            <TourByRequest locale={locale} tour={tourData} />
-          )}
+          <TourAccomodation hotels={tourData.hotels} locale={locale} />
+          <div className={'hidden md:block sticky top-36 z-30'}>
+            <TourBookingWrapper tour={tourData} />
+          </div>
+          <Transport locale={locale} />
         </div>
-        <TourAccomodation hotels={tourData.hotels} locale={locale} />
-        <TourPrices tour={tourData} />
+        <TourPricesContainer tour={tourData} />
         <Reviews locale={locale} />
         {locale === 'en' ? (
           <DescForm className="mb-10" locale="en" />
@@ -89,7 +87,7 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
         )}
       </div>
       <MobileBtn locale={locale} tour={tourData} />
-      <TourPrivateModal locale={locale} isIndividual={isIndividual} />
+      <TourPrivateModal locale={locale} tour={tourData} />
     </div>
   );
 }

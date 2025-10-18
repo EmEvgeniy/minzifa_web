@@ -1,7 +1,7 @@
 import { car, eco_icon3, guide, heart, location } from '@/assets/icons';
 import { eco_block } from '@/assets/img';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 const MobileSlider = dynamic(() => import('./MobileSlider'));
 
 export default async function Environment({
@@ -17,9 +17,14 @@ export default async function Environment({
 }) {
   return (
     <section className="relative bg-[#16372D] w-full h-full py-[40px]">
-      <Image src={eco_block} alt="environment" fill className=" object-cover absolute top-0" />
+      <ImageWithFallback
+        src={eco_block}
+        alt="environment"
+        fill
+        className=" object-cover absolute top-0"
+      />
       <div className="container h-full py-[40px] relative z-20 text-white flex flex-col items-center gap-8 max-[500px]:gap-5">
-        <Image
+        <ImageWithFallback
           src={eco_icon3}
           alt="icon"
           width={65}
@@ -39,7 +44,7 @@ export default async function Environment({
               key={i}
               className="bg-[#FFFFFFCC] opacity-80 backdrop-blur-[6px] w-full h-full rounded-[16px] shadow-2xl p-5 flex flex-col items-center gap-5 text-[#16372D] text-center"
             >
-              <Image
+              <ImageWithFallback
                 src={i == 0 ? car : i == 1 ? heart : i == 2 ? guide : location}
                 alt="icon2"
                 width={50}

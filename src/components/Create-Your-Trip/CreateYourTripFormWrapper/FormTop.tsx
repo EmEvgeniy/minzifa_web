@@ -3,12 +3,12 @@ import { useLocale, useTranslations } from 'next-intl';
 import React, { useCallback, useState } from 'react';
 import { FaStar, FaPlus, FaMinus } from 'react-icons/fa';
 import { useGetQuery } from '@/api/get.api';
-import { DestinationBlockProps } from '@/components/Home/Destinations/_types';
-import Image from 'next/image';
+import { DestinationCard } from '@/components/Home/Destinations/_types';
 import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '@/components/UI';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 interface SubscribeFormRequest {
   hotel_type: string;
@@ -58,7 +58,7 @@ export const FormTop = () => {
   const lang = useLocale();
   const { setMessage, setError } = useSnackStore((state) => state);
 
-  const { data, isSuccess } = useGetQuery<{ data: DestinationBlockProps[] }>({
+  const { data, isSuccess } = useGetQuery<{ data: DestinationCard[] }>({
     key: ['destinations_form_create'],
     page: '',
     perPage: '',
@@ -207,7 +207,7 @@ export const FormTop = () => {
 
     return (
       <div className="w-full flex items-center justify-between gap-5 flex-wrap">
-        {data.data.slice(0, 6).map((el: DestinationBlockProps) => {
+        {data.data.slice(0, 6).map((el: DestinationCard) => {
           const isChecked = formData.destinations.includes(el.name);
 
           return (
@@ -234,7 +234,7 @@ export const FormTop = () => {
               />
               <p className="flex items-center gap-2 overflow-hidden p-2">
                 {el.icon.file && (
-                  <Image
+                  <ImageWithFallback
                     src={el.icon.file}
                     alt={el.icon.alt_text || 'image'}
                     width={23}

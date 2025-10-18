@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuthStore } from '../../store/useAuthStore';
 import { loginSchema, LoginFormType } from '../../validation/loginSchema';
 import { RegistrationFormType, registrationSchema } from '../../validation/registrationSchema';
-import { Button } from '@/components/UI/Button/Button';
+import Button from '@/components/UI/Button/Button';
 
 interface AuthPopupProps {
   open: boolean;
@@ -140,13 +140,7 @@ export const AuthPopup = ({ open, onClose }: AuthPopupProps) => {
               </div>
             )}
 
-            <Button
-              type="submit"
-              variant="secondary"
-              size="lg"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Загрузка...' : t('auth.login.signIn')}
             </Button>
           </form>
@@ -228,13 +222,7 @@ export const AuthPopup = ({ open, onClose }: AuthPopupProps) => {
               </div>
             )}
 
-            <Button
-              type="submit"
-              variant="secondary"
-              size="lg"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Загрузка...' : t('auth.register.createAccount')}
             </Button>
           </form>

@@ -1,10 +1,13 @@
 export const dynamic = 'force-dynamic';
 
+import { apiGet } from '@/api';
 import Hero from '@/components/Tours/Hero/Hero';
+import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_types';
 import MainSection from '@/components/Tours/MainSection/MainSection';
 import MobileMenu from '@/components/Tours/MobileMenu/MobileMenu';
-import { DefaultPageProps } from '@/types';
+import { DefaultPageProps, PaginatedData } from '@/types';
 import { Metadata } from 'next';
+import { DestinationCard } from '@/components/Home/Destinations/_types';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -49,13 +52,34 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   };
 }
 
-export default async function Tours({ params }: DefaultPageProps) {
+export default async function Tours({
+  params,
+}: DefaultPageProps & {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const { locale } = await params;
+
+  const initTours = (await apiGet(`tours?locale=${locale}&perPage=10`, {
+    next: { revalidate: 60 * 20 },
+  })) as PaginatedData<AllToursCardType>;
+
+  const initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`, {
+    next: { revalidate: 60 * 20 },
+  })) as DestinationCard[];
+
+  const initTourTypes = (await apiGet(`types?locale=${locale}&all=1`, {
+    next: { revalidate: 60 * 20 },
+  })) as TourType[];
 
   return (
     <section className="w-full relative">
       <Hero locale={locale} />
-      <MainSection locale={locale} />
+      <MainSection
+        locale={locale}
+        initTours={initTours}
+        initDestinations={initDestinations}
+        initTourTypes={initTourTypes}
+      />
       <MobileMenu locale={locale} />
     </section>
   );

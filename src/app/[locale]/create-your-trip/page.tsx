@@ -1,13 +1,12 @@
 export const dynamic = 'force-dynamic';
 import { create } from '@/assets/img';
 
-import Image from 'next/image';
-
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
 import { SeoMetadata } from '@/components/Tour/_types';
 import CreateYourTripFormWrapper from '@/components/Create-Your-Trip/CreateYourTripFormWrapper/CreateYourTripFormWrapper';
 import { apiGet } from '../../../utils/serverApi';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -34,12 +33,10 @@ export default async function page({ params }: DefaultPageProps) {
   return (
     <section className="bg-[#16372D] w-full h-full min-h-[90svh] relative flex items-center">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-      <Image
+      <ImageWithFallback
         src={create}
         alt="background-image"
-        fill
         className="absolute top-0 object-cover"
-        loading="lazy"
       />
       <CreateYourTripFormWrapper locale={locale} />
     </section>

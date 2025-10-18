@@ -1,17 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { logo } from '@/assets/icons';
-import { DefaultComponentsProps } from '@/types';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
+import { cn } from '@/utils';
 
-export default function Logo({ locale }: DefaultComponentsProps) {
+export default function Logo({
+  locale,
+  wrapperClassName,
+  className,
+}: {
+  locale: string;
+  wrapperClassName?: string;
+  className?: string;
+}) {
   return (
-    <Link
-      href={`/${locale}`}
-      className="max-w-[200px] w-full flex items-center justify-center h-full max-h-[32px] cursor-pointer"
-    >
-      <Image src={logo} alt="logo" className="w-full h-full object-cover" priority />
+    <Link href={`/${locale}`} className={cn('cursor-pointer', wrapperClassName)}>
+      <ImageWithFallback
+        src={logo}
+        alt="Minzifa Travel"
+        width={160}
+        height={30}
+        className={className}
+        priority
+      />
     </Link>
   );
 }

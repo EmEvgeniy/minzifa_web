@@ -1,9 +1,8 @@
 import { destination } from '@/assets/img';
-import { DefaultComponentsProps } from '@/types';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getTranslations } from 'next-intl/server';
-import Image from 'next/image';
 
-export default async function Info({ locale }: DefaultComponentsProps) {
+export default async function Info({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'about' });
   const statistic = t.raw('statistic') as { title: string; text: string }[];
 
@@ -11,18 +10,19 @@ export default async function Info({ locale }: DefaultComponentsProps) {
     <section className="container py-[48px] flex flex-col gap-10">
       <div className="grid grid-cols-2 gap-4 max-[1024px]:grid-cols-1 ">
         <div className="md:col-span-1 text-[#16372D]">
-          <h1 className="text-custom-green-900 mb-8 text-[52px] leading-tight tracking-tight  max-[1024px]:text-[35px] max-[768px]:text-[24px] max-[768px]:font-semibold">
+          <h2 className="text-custom-green-900 mb-8 text-[42px] leading-tight tracking-tight  max-[1024px]:text-[35px] max-[768px]:text-[24px] max-[768px]:font-semibold">
             {t('title_2')}
-          </h1>
+          </h2>
           <p className="text-custom-green-900 mb-6 text-lg flex flex-col gap-2 max-[768px]:text-[18px]">
-            <span>{t('text_2')}</span>
-            <span className="w-full h-[0.5px] bg-black" />
-            <span>{t('text_3')}</span>
+            {t('text_2')}
+          </p>
+          <p className="text-custom-green-900 mb-6 text-lg flex flex-col gap-2 max-[768px]:text-[18px]">
+            {t('text_3')}
           </p>
         </div>
         <div className="sm:col-span-1 sm:mt-0 rounded-[16px] overflow-hidden">
-          <Image
-            className="rounded-one-six aspect-[4/3] w-full"
+          <ImageWithFallback
+            className="rounded-2xl aspect-[4/3] w-full"
             src={destination}
             alt="peripherals"
             loading="lazy"

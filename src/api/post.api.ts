@@ -20,7 +20,6 @@ export function usePostMutation<
   return useMutation<TData, TError, MutationParams<TVariables>>({
     mutationKey: [...key],
     mutationFn: async ({ obj, endpoint }) => {
-      // Используем только endpoint, getApiUrl() добавит базовый URL из переменной окружения
       const response = await axios.post<TData>(getApiUrl(endpoint), {
         ...obj,
       });

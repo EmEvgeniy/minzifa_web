@@ -6,9 +6,9 @@ import {
 } from '@/components/UI/CustomAccordion/CustomAccordion';
 import IconUser from '@/assets/icons/booking/user.svg';
 import { Passenger } from './Passenger';
-import Image from 'next/image';
 import { useBookingStore } from '@/store/bookingStore';
 import { useEffect, useState } from 'react';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 function PassengersInner({ passenger, hints }: { passenger: string; hints: string[] }) {
   const { bookingData } = useBookingStore((state) => state);
@@ -35,7 +35,13 @@ function PassengersInner({ passenger, hints }: { passenger: string; hints: strin
           <div key={index}>
             <CustomAccordionSummary className="bg-white p-5 w-full flex flex-row gap-3 items-center text-base">
               <div className="flex items-center gap-4">
-                <Image src={IconUser} alt="" />
+                <ImageWithFallback
+                  src={IconUser}
+                  width={100}
+                  height={100}
+                  alt="Minzifa Travel"
+                  className="w-6 h-6"
+                />
                 <p className="flex items-center gap-1.5">
                   <span>{passenger}</span>
                   <span>{index + 1}</span>

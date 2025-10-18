@@ -1,7 +1,7 @@
 import { DestinationData } from '@/app/[locale]/destination/[slug]/_types';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getTranslations } from 'next-intl/server';
-import Image from 'next/image';
 
 export default async function Hero({
   destination,
@@ -16,7 +16,7 @@ export default async function Hero({
     <section className="min-h-[90svh] bg-[#16372D] w-full relative  items-center justify-center flex flex-col">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
       {destination?.media?.file && (
-        <Image
+        <ImageWithFallback
           src={destination?.media?.file}
           alt="bg"
           fill
@@ -35,7 +35,13 @@ export default async function Hero({
       <div className="relative z-30 container flex flex-col items-center justify-center gap-5 text-white">
         <div className="w-[100px] h-[100px] border-white border-dashed border-1 rounded-full p-3">
           {destination?.icon?.file && (
-            <Image src={destination?.icon?.file} alt="icon" width={100} height={100} className='invert' />
+            <ImageWithFallback
+              src={destination?.icon?.file}
+              alt="icon"
+              width={100}
+              height={100}
+              className="invert"
+            />
           )}
         </div>
         <h1 className="text-[56px] font-title max-[1024px]:text-[35px] max-[550px]:text-[30px]">

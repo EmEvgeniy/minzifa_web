@@ -1,59 +1,57 @@
 'use client';
-import { useRef, useState } from 'react';
+
+import { useState } from 'react';
 import { Hotel } from '../_types';
-import { SwiperClass } from 'swiper/react';
-import { Slider, SliderBtns } from '@/components/UI';
 import { AccomodationCard } from '@/components/UI/AccomodationCard/AccomodationCard';
 import { AccordionCardModal } from '@/components/UI/AccordionCardModal/AccordionCardModal';
+import { EmblaCarouselType } from 'embla-carousel';
+import { EmblaCarousel } from '@/components/UI/EmblaCarousel';
+import { ECArrowWrapper } from '@/components/UI/EmblaCarousel/EmblaCarouselArrowButtons';
 
-function TourAccomodationInner({ hotels }: { hotels: Hotel[] }) {
+function TourAccomodationInnerEmbla({ hotels }: { hotels: Hotel[] }) {
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
   const [openModal, setOpenModal] = useState(false);
 
-  const swiperRef = useRef<SwiperClass | null>(null);
-  const [isBeginning, setIsBeginning] = useState<boolean>(true);
-  const [isEnd, setIsEnd] = useState<boolean>(false);
+  const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
 
-  const handleSlideChange = (swiper: SwiperClass): void => {
-    setIsBeginning(swiper.isBeginning);
-    setIsEnd(swiper.isEnd);
-  };
   return (
-    <>
-      <Slider
-        slides={hotels}
-        swiperRef={swiperRef}
-        isBeginning={isBeginning}
-        isEnd={isEnd}
-        setIsBeginning={setIsBeginning}
-        setIsEnd={setIsEnd}
-        handleSlideChange={handleSlideChange}
-        breakpoints={{
-          320: { slidesPerView: 1, spaceBetween: 16 },
-          550: { slidesPerView: 2 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        }}
-        renderCard={(hotel: Hotel) => (
-          <AccomodationCard
-            hotel={hotel}
-            openModal={openModal}
-            setOpenModal={setOpenModal}
-            setSelectedHotel={setSelectedHotel}
+    <div className="max-w-[720px]">
+      {hotels.length > 2 ? (
+        <>
+          <EmblaCarousel<Hotel>
+            slides={hotels}
+            onInit={setEmblaApi}
+            className="gap-4 "
+            renderSlide={(hotel: Hotel) => (
+              <AccomodationCard
+                key={hotel.id}
+                hotel={hotel}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                setSelectedHotel={setSelectedHotel}
+              />
+            )}
           />
-        )}
-      />
+
+          <ECArrowWrapper emblaApi={emblaApi} />
+        </>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {hotels.map((hotel) => (
+            <AccomodationCard
+              key={hotel.id}
+              hotel={hotel}
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              setSelectedHotel={setSelectedHotel}
+            />
+          ))}
+        </div>
+      )}
 
       <AccordionCardModal hotel={selectedHotel} openModal={openModal} setOpenModal={setOpenModal} />
-
-      <SliderBtns
-        swiperRef={swiperRef}
-        isBeginning={isBeginning}
-        isEnd={isEnd}
-        variant={'secondary'}
-      />
-    </>
+    </div>
   );
 }
 
-export default TourAccomodationInner;
+export default TourAccomodationInnerEmbla;

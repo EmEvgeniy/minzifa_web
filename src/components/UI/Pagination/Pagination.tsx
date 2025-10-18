@@ -13,7 +13,7 @@ type PaginationProps = {
   className?: string;
   showFirstLast?: boolean;
   showPrevNext?: boolean;
-  locale?: string;
+  showDoubleArrows?: boolean;
   labels?: {
     first?: string;
     last?: string;
@@ -29,18 +29,9 @@ export default function Pagination({
   className = '',
   showFirstLast = true,
   showPrevNext = true,
-  locale = 'ru',
+  showDoubleArrows = true,
   labels,
 }: PaginationProps) {
-  // Стандартные переводы
-  const defaultLabels = {
-    first: locale === 'en' ? 'First' : 'Первая',
-    last: locale === 'en' ? 'Last' : 'Последняя',
-    previous: locale === 'en' ? 'Previous' : 'Предыдущая',
-    next: locale === 'en' ? 'Next' : 'Следующая',
-  };
-
-  const finalLabels = { ...defaultLabels, ...labels };
   if (!totalPages || totalPages <= 1) return null;
 
   const handlePageChange = (event: React.MouseEvent<HTMLButtonElement>, page: number) => {
@@ -53,12 +44,10 @@ export default function Pagination({
     const maxVisible = 5;
 
     if (totalPages <= maxVisible) {
-      // Показать все страницы если их мало
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Логика для показа ограниченного количества страниц
       if (currentPage <= 3) {
         pages.push(1, 2, 3, 4, 5);
       } else if (currentPage >= totalPages - 2) {
@@ -86,13 +75,13 @@ export default function Pagination({
 
   return (
     <div className={`flex items-center justify-center gap-2 mt-8 ${className}`}>
-      {showFirstLast && (
+      {showDoubleArrows && (
         <button
           type="button"
           onClick={(e) => handlePageChange(e, 1)}
           disabled={currentPage === 1}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-          title={finalLabels.first}
+          title={labels?.first}
         >
           <FaAngleDoubleLeft className="w-4 h-4" />
         </button>
@@ -104,7 +93,7 @@ export default function Pagination({
           onClick={(e) => handlePageChange(e, currentPage - 1)}
           disabled={currentPage === 1}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-          title={finalLabels.previous}
+          title={labels?.previous}
         >
           <FaChevronLeft className="w-4 h-4" />
         </button>
@@ -112,25 +101,25 @@ export default function Pagination({
 
       <div className="flex items-center gap-1">{renderPageNumbers()}</div>
 
-      {showPrevNext && (
+      {showFirstLast && (
         <button
           type="button"
           onClick={(e) => handlePageChange(e, currentPage + 1)}
           disabled={currentPage === totalPages}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-          title={finalLabels.next}
+          title={labels?.next}
         >
           <FaChevronRight className="w-4 h-4" />
         </button>
       )}
 
-      {showFirstLast && (
+      {showDoubleArrows && (
         <button
           type="button"
           onClick={(e) => handlePageChange(e, totalPages)}
           disabled={currentPage === totalPages}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
-          title={finalLabels.last}
+          title={labels?.last}
         >
           <FaAngleDoubleRight className="w-4 h-4" />
         </button>

@@ -4,16 +4,17 @@ import { useEffect, useRef } from 'react';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
 import { Popup } from '@/components';
 import { useLayoutStore } from './layoutStore';
-import { DefaultComponentsProps } from '@/types';
 import EnForm from '@/components/UI/CreateYourTripForm/EnForm';
 import { useParams, usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
 
-export default function ClientPopupObserver({ locale }: DefaultComponentsProps) {
+export default function ClientPopupObserver() {
   const footerRef = useRef<HTMLDivElement>(null);
 
   const pathname = usePathname();
   const params = useParams();
-  
+  const locale = useLocale();
+
   const isThankYouPage = pathname === `/${locale}/thank-you`;
   const isBookingPage = pathname === `/${locale}/booking/${params?.tour}`;
 
@@ -54,22 +55,24 @@ export default function ClientPopupObserver({ locale }: DefaultComponentsProps) 
     };
   }, [shownByScroll, setOpen, markShownByScroll]);
 
-  return (!isThankYouPage && !isBookingPage) && (
-    <>
-      <div ref={footerRef} />
-      <Popup
-        open={open}
-        locale={locale}
-        handleClose={() => setOpen(false)}
-        content={
-          locale === 'en' ? (
-            <EnForm popupClose={() => setOpen(false)} />
-          ) : (
-            <ConsultationQuiz popupClose={() => setOpen(false)} />
-          )
-        }
-        maxWidth="md"
-      />
-    </>
+  return (
+    !isThankYouPage &&
+    !isBookingPage && (
+      <>
+        <div ref={footerRef} />
+        <Popup
+          open={open}
+          locale={locale}
+          handleClose={() => setOpen(false)}
+          content={
+            locale === 'en' ? (
+              <EnForm popupClose={() => setOpen(false)} />
+            ) : (
+              <ConsultationQuiz popupClose={() => setOpen(false)} />
+            )
+          }
+        />
+      </>
+    )
   );
 }
