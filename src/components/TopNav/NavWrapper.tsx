@@ -4,20 +4,21 @@ import { useNavStore } from './store';
 import { useGetQuery } from '@/api/get.api';
 import Link from 'next/link';
 import { DestinationProps } from './_types';
-import Image from 'next/image';
 import { useLocale } from 'next-intl';
+import ImageWithFallback from '../UI/ImageWithFallback/ImageWithFallback';
 
 export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
   const index = useNavStore((state) => state.index);
   const setActiveIndex = useNavStore((state) => state.setIndex);
   const locale = useLocale();
+
   const { data, isSuccess } = useGetQuery<DestinationProps[]>({
     key: ['destinations_top'],
     page: '',
     perPage: '',
     url: 'destinations',
     searchItem: '',
-    additionalParam: '&show_in_menu=1',
+    additionalParam: `&show_in_menu=1&locale=${locale}`,
   });
 
   return (
@@ -28,7 +29,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
     >
       {children}
       <AnimatePresence>
-        {index !== null && data?.length && (
+        {index !== null && data && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -47,7 +48,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
               className="flex flex-col gap-5 py-2 overflow-hidden overflow-y-auto h-full max-h-[300px]"
             >
               {isSuccess &&
-                data.map((el: DestinationProps) => (
+                data?.map((el: DestinationProps) => (
                   <Link
                     href={`/${locale}/destination/${el.slug}`}
                     key={el.id}
@@ -55,11 +56,12 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
                     className="flex items-center justify-start px-2 w-full gap-3 hover:bg-gray-300 rounded-2xl py-2 "
                   >
                     {el.icon?.file && (
-                      <Image
+                      <ImageWithFallback
                         src={el.icon?.file || ''}
                         alt={el.icon?.alt_text || 'img'}
-                        width={43}
-                        height={43}
+                        width={800}
+                        height={800}
+                        className="w-[37px] h-[30px]"
                       />
                     )}
                     <span className="text-xl">{el.name}</span>

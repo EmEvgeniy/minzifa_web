@@ -1,7 +1,7 @@
 'use client';
 import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
-import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
+import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
 import { BookingTourData, useBookingStore } from '@/store/bookingStore';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
@@ -59,7 +59,7 @@ export default function MobileBtn({ locale, btn }: { locale: string; btn: string
     if (!isPending) {
       mutate({
         obj: bookingData,
-        http: 'forms/booking',
+        endpoint: 'forms/booking',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

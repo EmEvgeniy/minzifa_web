@@ -1,11 +1,10 @@
-import { info } from '@/assets/img';
-import Image from 'next/image';
+import { TravelChoice_Black } from '@/assets/img';
 import { FaStar } from 'react-icons/fa6';
 import ReviewsInner from './ReviewsInner';
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
-export default async function Reviews({ locale }: DefaultComponentsProps) {
+export default async function Reviews({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'reviews' });
 
   const rating = 5.0;
@@ -42,7 +41,13 @@ export default async function Reviews({ locale }: DefaultComponentsProps) {
             </div>
           </div>
         </div>
-        <Image src={info} alt="info_img" width={611} height={97} className="object-cover" />
+        <ImageWithFallback
+          src={TravelChoice_Black}
+          alt="info_img"
+          width={611}
+          height={97}
+          className="object-cover"
+        />
       </div>
 
       <ReviewsInner />

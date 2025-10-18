@@ -1,8 +1,17 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { DefaultPageProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
+import { apiGet } from '../../../utils/serverApi';
+
+type PageData = {
+  seo_metadata?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+  };
+};
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -10,11 +19,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/term-and-conditions-of-booking-tours`;
-  
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const pagePath = `/${locale}/term-and-conditions-of-booking-tours`;
+
+  const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
+    next: { revalidate: 300 },
+  })) as PageData;
 
   return {
     title: data?.seo_metadata?.title,

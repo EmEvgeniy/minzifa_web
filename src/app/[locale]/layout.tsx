@@ -1,7 +1,6 @@
 import './globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { QueryProvider } from '@/providers/QueryProvider';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { CustomSnackBar } from '@/components/UI/CustomSnackBar';
 import { UTMMetricsProvider } from '@/providers/UTMMetricsProvider';
 import dynamic from 'next/dynamic';
@@ -10,10 +9,23 @@ import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
 import Footer from '@/components/Footer/Footer';
 import { getMessages } from 'next-intl/server';
 import { ThemeProviderWrap } from '@/providers/ThemeProviderWrap';
+import { AuthInitializerWithSuspense } from '@/components/Auth/AuthInitializer';
+// import { ChatPopup } from '@/components/ChatPopup';
+import MetricsComponent from '@/components/UI/Metrics/Metrics';
+import { CookiePopup } from '@/components/UI/CookiePopup';
 
-const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'));
-const FavoriteBtn = dynamic(() => import('@/components/UI/FavoriteBtn/FavoriteBtn'));
-const FavoriteMenu = dynamic(() => import('@/components/UI/FavoriteBtn/FavoriteMenu'));
+// Оптимизированные динамические импорты с приоритетами загрузки
+const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'), {
+  loading: () => null,
+});
+
+const FavoriteBtn = dynamic(() => import('@/components/UI/FavoriteBtn/FavoriteBtn'), {
+  loading: () => null,
+});
+
+const FavoriteMenu = dynamic(() => import('@/components/UI/FavoriteBtn/FavoriteMenu'), {
+  loading: () => null,
+});
 
 export async function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -32,24 +44,26 @@ export default async function RootLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <QueryProvider>
-        <AppRouterCacheProvider>
-          <ThemeProviderWrap>
-            <UTMMetricsProvider>
-              <div className="flex flex-col h-full min-h-[100vh] w-full relative font-text">
-                <div className="hidden md:flex md:fixed md:right-0 md:z-50 md:bg-[rgba(22,55,45,0.7)] md:backdrop-blur-[6px] md:top-[150px] md:p-5 md:rounded-tl-[16px] md:rounded-bl-[16px] max-[1024px]:p-2.5">
-                  <SocialMedia direction="vertical" gap={20} />
-                </div>
-                <TopNav locale={locale} />
-                <FavoriteBtn />
-                <FavoriteMenu />
-                <main className="flex-1">{children}</main>
-                <ClientPopupObserver locale={locale} />
-                <Footer locale={locale} />
-                <CustomSnackBar />
+        <ThemeProviderWrap>
+          <UTMMetricsProvider>
+            <div className="flex flex-col h-full min-h-[100vh] w-full relative font-text">
+              <AuthInitializerWithSuspense />
+              <div className="hidden md:flex md:fixed md:right-0 md:z-50 md:bg-[rgba(22,55,45,0.7)] md:backdrop-blur-[6px] md:top-[150px] md:p-5 md:rounded-tl-[16px] md:rounded-bl-[16px] max-[1024px]:p-2.5">
+                <SocialMedia direction="vertical" gap={20} />
               </div>
-            </UTMMetricsProvider>
-          </ThemeProviderWrap>
-        </AppRouterCacheProvider>
+              <TopNav />
+              <FavoriteBtn />
+              <FavoriteMenu />
+              <main className="flex-1">{children}</main>
+              <ClientPopupObserver />
+              <Footer locale={locale} />
+              <CustomSnackBar />
+              {/* <ChatPopup /> */}
+              <CookiePopup />
+              <MetricsComponent locale={locale} />
+            </div>
+          </UTMMetricsProvider>
+        </ThemeProviderWrap>
       </QueryProvider>
     </NextIntlClientProvider>
   );

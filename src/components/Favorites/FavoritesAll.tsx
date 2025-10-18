@@ -1,26 +1,21 @@
 'use client';
+
 import { useGetQuery } from '@/api/get.api';
 import { useTranslations } from 'next-intl';
 import { BestSellersPackagesCardType } from '../UI/BestSellersPackagesCard/_types';
-import { useRef, useState } from 'react';
-import { SwiperClass } from 'swiper/react';
 import Link from 'next/link';
-import { Slider, SliderBtns } from '../UI';
 import BestSellersPackagesCard from '../UI/BestSellersPackagesCard/BestSellersPackagesCard';
 import Loader from '../UI/Loader/Loader';
+import { EmblaCarousel } from '../UI/EmblaCarousel';
+import { ECArrowWrapper } from '../UI/EmblaCarousel/EmblaCarouselArrowButtons';
+import { EmblaCarouselType } from 'embla-carousel';
+import { useState } from 'react';
 
 function FavoritesAll({ locale }: { locale: string }) {
   const t = useTranslations();
-  const swiperRef = useRef<SwiperClass | null>(null);
-  const [isBeginning, setIsBeginning] = useState<boolean>(true);
-  const [isEnd, setIsEnd] = useState<boolean>(false);
+  const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
 
-  const handleSlideChange = (swiper: SwiperClass): void => {
-    setIsBeginning(swiper.isBeginning);
-    setIsEnd(swiper.isEnd);
-  };
-
-  const { data, isLoading } = useGetQuery<BestSellersPackagesCardType[]>({
+  const { data, isLoading } = useGetQuery<{ data: BestSellersPackagesCardType[] }>({
     key: ['all_favorites'],
     page: '',
     perPage: '',
@@ -42,24 +37,12 @@ function FavoritesAll({ locale }: { locale: string }) {
         {locale === 'en' ? 'Our tours for you' : 'Наши туры для вас'}
       </h2>
       <div className="min-h-[520px] [@media(max-width:1024px)]:min-h-[450px] [@media(max-width:450px)]:min-h-[350px]">
-        {data?.length && (
-          <Slider
-            slides={data}
-            swiperRef={swiperRef}
-            isBeginning={isBeginning}
-            isEnd={isEnd}
-            setIsBeginning={setIsBeginning}
-            setIsEnd={setIsEnd}
-            handleSlideChange={handleSlideChange}
-            renderCard={(slide: BestSellersPackagesCardType) => (
-              <BestSellersPackagesCard
-                slide={slide}
-                locale={locale}
-                days={t('all_tours.days')}
-                from={t('all_tours.from')}
-                view_itinerary={t('all_tours.view_itinerary')}
-                byRequest={t('all_tours.byRequest')}
-              />
+        {data?.data?.length && (
+          <EmblaCarousel
+            slides={data.data}
+            onInit={setEmblaApi}
+            renderSlide={(tour: BestSellersPackagesCardType) => (
+              <BestSellersPackagesCard tour={tour} locale={locale} />
             )}
           />
         )}
@@ -71,12 +54,7 @@ function FavoritesAll({ locale }: { locale: string }) {
         >
           {t('best_sellers_btns')}
         </Link>
-        <SliderBtns
-          swiperRef={swiperRef}
-          isBeginning={isBeginning}
-          isEnd={isEnd}
-          variant={'primary'}
-        />
+        <ECArrowWrapper emblaApi={emblaApi} />
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import IconUser from '../../../assets/icons/booking/user.svg';
 import IconShield from '../../../assets/icons/booking/Chield_check_light.svg';
 import IconCalendar from '../../../assets/icons/booking/calendar.svg';
@@ -11,13 +10,14 @@ import IconAirLanding from '../../../assets/icons/booking/air-landing.svg';
 import { useLocale, useTranslations } from 'next-intl';
 import { BookingTourData, useBookingStore } from '@/store/bookingStore';
 import Link from 'next/link';
-import { FormattedPrice } from '@/components/UI/FormattedPrice/FormattedPrice';
+import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
 import { useCallback, useEffect, useState } from 'react';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { usePostMutation } from '@/api/post.api';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Tour } from '@/components/Tour/_types';
 import { useMetricsStore } from '@/store/useMetricsStore';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 export default function BookingInfo({ tour }: { tour: Tour }) {
   const t = useTranslations('Booking');
@@ -59,6 +59,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
     },
   );
+
   const isAllPassengersValid = (bookingData.passengers ?? []).every((p) => {
     return (
       p.first_name?.trim() &&
@@ -88,7 +89,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
           deposit: (bookingData.deposit ?? 0).toString(),
           total_price: (bookingData.total_price ?? 0).toString(),
         },
-        http: 'forms/booking',
+        endpoint: 'forms/booking',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,12 +100,19 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
       <hr className="border-gray-300" />
 
       <div className="bg-[#87EEC7] text-center text-sm rounded-lg px-2.5 py-5 flex flex-row items-center justify-center gap-2">
-        <Image src={IconShield} alt="icon" width={24} height={24} loading={'lazy'} />
+        <ImageWithFallback
+          src={IconShield}
+          alt="icon"
+          width={24}
+          height={24}
+          loading={'lazy'}
+          className="w-6 h-6"
+        />
         <div className="text-md">{t('booking_info.guarantee')}</div>
       </div>
       <hr className="border-gray-300" />
       <div className="grid grid-cols-1 md:grid-cols-[124px_1fr] gap-3 space-y-2">
-        <Image
+        <ImageWithFallback
           width={124}
           height={124}
           src={tour?.gallery?.[0]?.file ?? 'https://placehold.co/124x124?text=Minzifa Travel'}
@@ -117,7 +125,13 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
           <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
             <div className="flex items-center gap-1">
               <span>
-                <Image src={IconCalendar} alt="" />
+                <ImageWithFallback
+                  width={100}
+                  height={100}
+                  src={IconCalendar}
+                  alt="Minzifa Travel"
+                  className="w-full h-full object-contain"
+                />
               </span>
               <span>
                 {t('booking_info.days', { days: tour?.days || tour?.itineraries.length || 1 })}
@@ -125,7 +139,13 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
             </div>
             <div className="flex items-center gap-1">
               <span>
-                <Image src={IconLocation} alt="" />
+                <ImageWithFallback
+                  width={100}
+                  height={100}
+                  src={IconLocation}
+                  alt="Minzifa Travel"
+                  className="w-full h-full object-contain"
+                />
               </span>{' '}
               <span>
                 {t('booking_info.countries', { countries: tour?.destinations.length || 0 })}
@@ -142,7 +162,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2">
             <span>
-              <Image src={IconAirDeparture} alt="" />
+              <ImageWithFallback src={IconAirDeparture} alt="" />
             </span>{' '}
             {t('booking_info.start_trip')}
           </span>
@@ -151,7 +171,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2">
             <span>
-              <Image src={IconAirLanding} alt="" />
+              <ImageWithFallback src={IconAirLanding} alt="" />
             </span>
             {t('booking_info.end_trip')}
           </span>
@@ -160,7 +180,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2">
             <span>
-              <Image src={IconUser} alt="" />
+              <ImageWithFallback src={IconUser} alt="" />
             </span>
             {t('booking_info.travellers')}
           </span>
@@ -174,7 +194,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
         <span className="text-xl">{t('booking_info.deposit')}</span>
         <FormattedPrice
           price={bookingData?.deposit ?? 0}
-          currency={bookingData?.currency}
+          currency={bookingData?.currency || 'USD'}
           className="text-xl"
         />
       </div>
@@ -185,7 +205,7 @@ export default function BookingInfo({ tour }: { tour: Tour }) {
         <span className="text-lg">Total (USD)</span>
         <FormattedPrice
           price={bookingData?.total_price ?? 0}
-          currency={bookingData?.currency}
+          currency={bookingData?.currency || 'USD'}
           className="text-3xl"
         />
       </div>

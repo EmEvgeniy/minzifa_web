@@ -1,11 +1,15 @@
-import Desctop from './Desctop';
-import Mobile from './Mobile';
-import { DefaultComponentsProps } from '@/types';
+'use client';
 
-export default async function TopNav({ locale }: DefaultComponentsProps) {
+import { useLocale } from 'next-intl';
+import Desktop from './Desktop';
+import Mobile from './Mobile';
+
+export default function TopNav() {
+  const locale = useLocale();
+
   return (
     <div className="w-full">
-      <Desctop locale={locale} />
+      <Desktop locale={locale} />
       <Mobile locale={locale} />
     </div>
   );

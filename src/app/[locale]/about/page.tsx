@@ -1,13 +1,24 @@
-export const dynamic = 'force-static';
+import dynamic from 'next/dynamic';
+
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
-import Hero from '@/components/About/Hero/Hero';
-import Info from '@/components/About/Info/Info';
-import Info2 from '@/components/About/Info2/Info2';
-import Mission from '@/components/About/Mission/Mission';
-import Values from '@/components/About/Values/Values';
-import Reviews from '@/components/UI/Reviews/Reviews';
-import Destinations from '@/components/Home/Destinations/Destinations';
+import { apiGet } from '@/utils/serverApi';
+
+const Hero = dynamic(() => import('@/components/About/Hero/Hero'));
+const Info = dynamic(() => import('@/components/About/Info/Info'));
+const Info2 = dynamic(() => import('@/components/About/Info2/Info2'));
+const Mission = dynamic(() => import('@/components/About/Mission/Mission'));
+const Values = dynamic(() => import('@/components/About/Values/Values'));
+const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews'));
+const Destinations = dynamic(() => import('@/components/Home/Destinations/Destinations'));
+
+type PageData = {
+  seo_metadata?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+  };
+};
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -15,11 +26,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/about`;
+  const pagePath = `/${locale}/about`;
 
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
+    next: { revalidate: 300 },
+  })) as PageData;
 
   return {
     title: data?.seo_metadata?.title,

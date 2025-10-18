@@ -30,7 +30,7 @@ export const LangBtn = () => {
   }, []);
 
   return (
-    <div ref={ref} className="relative max-w-fit cursor-pointer">
+    <div ref={ref} className="relative cursor-pointer">
       <button
         onClick={() => setActive((prev) => !prev)}
         className="flex items-center gap-1 text-[16px] text-white focus:outline-none cursor-pointer"

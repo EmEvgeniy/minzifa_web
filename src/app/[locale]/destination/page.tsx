@@ -1,10 +1,20 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 import { Main } from '@/components/Destination';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import { DefaultPageProps } from '@/types';
+import { DefaultPageProps, PaginatedData } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { apiGet } from '../../../utils/serverApi';
+import { DestinationCard } from '@/components/Home/Destinations/_types';
+
+type PageData = {
+  seo_metadata?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+  };
+};
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -14,9 +24,9 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const slug = `https://minzifatravel.com/${locale}/destination`;
 
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const data = (await apiGet(`pages?page=${slug}`, {
+    next: { revalidate: 300 },
+  })) as PageData;
 
   return {
     title: data?.seo_metadata?.title,
@@ -25,17 +35,26 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   };
 }
 
-export default async function page({ params }: DefaultPageProps) {
+export default async function page({ params, searchParams }: DefaultPageProps) {
   const { locale } = await params;
+  const sp = await searchParams;
   const t = await getTranslations({ locale });
+  const currentPage = Number(sp?.page) || 1;
+
+  const destinations = (await apiGet(
+    `destinations?locale=${locale}&perPage=24&page=${currentPage}`,
+    {
+      next: { revalidate: 60 * 5 },
+    },
+  )) as PaginatedData<DestinationCard>;
 
   return (
-    <section
-      className="container flex flex-col items-start gap-8 justify-center min-h-[50svh] h-full py-[150px] 
-  max-[768px]:py-[100px] max-[500px]:pt-[100px] "
-    >
+    <section className="container mt-[100px] md:mt-[150px] flex flex-col gap-5">
       <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.destination') }} />
-      <Main />
+      <h1 className="text-[56px] max-[1024px]:text-[42px] max-[768px]:text-[35px] max-[768px]:font-semibold font-title">
+        {t('breadcrumbs.destination')}
+      </h1>
+      <Main destinations={destinations} currentPage={currentPage} />
     </section>
   );
 }

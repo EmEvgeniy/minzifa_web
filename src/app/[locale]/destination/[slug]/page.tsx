@@ -1,13 +1,16 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 import type { Metadata } from 'next';
 import { DestinationData } from './_types';
 import Hero from '@/components/Destination/Hero/Hero';
-import Tours from '@/components/Destination/Tours/Tours';
+import ToursSection from '@/components/Tours/ToursSection/ToursSection';
 import Reviews from '@/components/UI/Reviews/Reviews';
 import Articles from '@/components/Home/Articles/Articles';
-import { getTranslations } from 'next-intl/server';
-import Filter from '@/components/Tours/MainSection/Filter';
+import MobileMenu from '@/components/Tours/MobileMenu/MobileMenu';
+import { apiGet } from '../../../../utils/serverApi';
+import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_types';
+import { DestinationCard } from '@/components/Home/Destinations/_types';
+import { PaginatedData } from '@/types';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -17,9 +20,9 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
 
-  const destination: DestinationData = await fetch(
-    `https://api.minzifatravel.com/api/v1/destinations/${slug}?locale=${locale}`,
-  ).then((res) => res.json());
+  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`, {
+    next: { revalidate: 60 * 20 },
+  })) as DestinationData;
 
   return {
     title: destination?.seo_metadata?.title,
@@ -30,40 +33,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function page({ params }: Props) {
   const { slug, locale } = await params;
-  const t = await getTranslations({ locale });
 
-  const destination: DestinationData = await fetch(
-    `https://api.minzifatravel.com/api/v1/destinations/${slug}?locale=${locale}`,
-  ).then((res) => res.json());
+  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`, {
+    next: { revalidate: 60 * 20 },
+  })) as DestinationData;
 
-  const menu = t.raw('all_tours.sort') as { title: string; value: string }[];
+  const initTours = (await apiGet(`tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`, {
+    next: { revalidate: 60 * 20 },
+  })) as PaginatedData<AllToursCardType>;
+
+  const initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`, {
+    next: { revalidate: 60 * 20 },
+  })) as DestinationCard[];
+
+  const initTourTypes = (await apiGet(`types?locale=${locale}&all=1`, {
+    next: { revalidate: 60 * 20 },
+  })) as TourType[];
 
   return (
     <>
       <Hero destination={destination} locale={locale} />
-      <div className="container py-[70px] w-full grid max-[1024px]:grid-cols-1 grid-cols-[300px_1fr] items-start justify-between gap-7">
-        <div className="block [@media(max-width:1024px)]:hidden">
-          <Filter
-            locale={locale}
-            showFilter={['price', 'duration', 'seasons', 'hotels', 'tourType']}
-          />
-        </div>
-        <Tours
+      <div className="container py-[70px] w-full">
+        <ToursSection
           locale={locale}
-          days={t('all_tours.days')}
-          from={t('all_tours.from')}
-          view_itinerary={t('all_tours.view_itinerary')}
-          byRequest={t('all_tours.byRequest')}
-          location={t('all_tours.location')}
           destination={destination}
-          menu={menu}
-          showing={t('all_tours.showing')}
-          out={t('all_tours.out')}
-          nf={t('all_tours.not_found')}
+          showFilter={['price', 'duration', 'seasons', 'hotels', 'tourType']}
+          initTours={initTours}
+          initDestinations={initDestinations}
+          initTourTypes={initTourTypes}
         />
       </div>
       <Reviews locale={locale} />
       <Articles locale={locale} />
+      <MobileMenu locale={locale} />
     </>
   );
 }

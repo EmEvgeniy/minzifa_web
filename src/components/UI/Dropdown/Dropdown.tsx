@@ -1,181 +1,228 @@
 'use client';
 
 import React, {
-    createContext,
-    useContext,
-    useState,
-    useEffect,
-    useRef,
-    ReactNode,
-    useMemo,
-    useCallback,
-} from "react";
-import { DropdownContextType, DropdownDetailsProps, DropdownProps, DropdownSummaryProps } from "./_types";
-import { cn } from "@/utils/utils";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
+import { cn } from '@/utils/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  DropdownContextType,
+  DropdownDetailsProps,
+  DropdownItemProps,
+  DropdownProps,
+  DropdownSummaryProps,
+} from './_types';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 
 const DropdownContext = createContext<DropdownContextType | undefined>(undefined);
 
-export const Dropdown = ({
-    children,
-    className,
-    value,
-    onChange,
-    options,
-    placeholder = "Выберите...",
-}: DropdownProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [internalValue, setInternalValue] = useState<string | number | undefined>(value);
-    const ref = useRef<HTMLDivElement>(null);
+export function Dropdown<T extends Record<string, unknown>>({
+  children,
+  className,
+  summaryClassName,
+  detailsClassName,
+  value,
+  onChange,
+  options = [],
+  placeholder = '',
+  labelKey = 'label' as keyof T & string,
+  valueKey = 'value' as keyof T & string,
+  getLabel,
+  getValue,
+}: DropdownProps<T>) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [internalValue, setInternalValue] = useState<string | number | undefined>(value);
+  const ref = useRef<HTMLDivElement>(null);
 
-    const toggle = (val?: boolean) =>
-        setIsOpen(prev => (typeof val === "boolean" ? val : !prev));
+  const toggle = useCallback((state?: boolean) => {
+    setIsOpen((prev) => (typeof state === 'boolean' ? state : !prev));
+  }, []);
 
-    const handleChange = useCallback((val: string | number) => {
-        setInternalValue(val);
-        onChange?.(val);
+  const resolveValue = useCallback(
+    (opt: T | string | number | null | undefined): string | number | undefined => {
+      if (opt == null) return undefined;
+      if (typeof opt !== 'object') return String(opt);
+      if (getValue) return getValue(opt);
+      const v = opt[valueKey];
+      return v !== undefined ? String(v) : undefined;
+    },
+    [getValue, valueKey],
+  );
+
+  const resolveLabel = useCallback(
+    (opt: T | string | number | null | undefined): string => {
+      if (opt == null) return '';
+      if (typeof opt !== 'object') return String(opt);
+      if (getLabel) return getLabel(opt);
+      const l = opt[labelKey] ?? resolveValue(opt);
+      return l !== undefined ? String(l) : '';
+    },
+    [getLabel, labelKey, resolveValue],
+  );
+
+  const handleChange = useCallback(
+    (val: string | number | undefined) => {
+      setInternalValue(val);
+      onChange?.(val);
+      setIsOpen(false);
+    },
+    [onChange],
+  );
+
+  useEffect(() => {
+    setInternalValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         setIsOpen(false);
-    }, [onChange]);
+      }
+    };
 
-    useEffect(() => {
-        setInternalValue(value);
-    }, [value]);
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
 
-    useEffect(() => {
-        if (typeof window === "undefined") return;
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
 
-        const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        };
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
 
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+  const contextValue = useMemo(
+    () => ({
+      isOpen,
+      toggle,
+      value: internalValue,
+      onChange: handleChange,
+    }),
+    [isOpen, internalValue, handleChange, toggle],
+  );
 
-    const contextValue = useMemo(() => ({
-        isOpen,
-        toggle,
-        value: internalValue,
-        onChange: handleChange,
-    }), [isOpen, internalValue, handleChange]);
+  return (
+    <DropdownContext.Provider value={contextValue}>
+      <div ref={ref} className={cn('relative inline-block w-full', className)}>
+        {typeof children === 'function' ? children({ isOpen, toggle, value: internalValue }) : children || (
+          <>
+            <DropdownSummary className={summaryClassName}>
+              <div className="flex justify-between items-center gap-3">
+                <span>{placeholder}</span>
+                <span>{isOpen ? <FaChevronUp /> : <FaChevronDown />}</span>
+              </div>
+            </DropdownSummary>
 
-    return (
-        <DropdownContext.Provider value={contextValue}>
-            <div ref={ref} className={cn("relative inline-block w-full", className)}>
-                {children ? (
-                    children
-                ) : (
-                    <>
-                        <DropdownSummary>
-                            {(ctx) => (
-                                <div className="flex justify-between items-center">
-                                    <span>
-                                        {options?.find(opt => opt?.value === internalValue)?.label || placeholder}
-                                    </span>
-                                    {ctx.isOpen ? <FaChevronUp /> : <FaChevronDown />}
-                                </div>
-                            )}
-                        </DropdownSummary>
-                        <DropdownDetails>
-                            {options?.map((opt) => (
-                                <DropdownItem
-                                    key={opt?.value}
-                                    onClick={() => handleChange(opt.value)}
-                                >
-                                    {opt?.label}
-                                </DropdownItem>
-                            ))}
-                        </DropdownDetails>
-                    </>
-                )}
-            </div>
-        </DropdownContext.Provider>
-    );
-};
+            <DropdownDetails className={detailsClassName}>
+              {options.map((opt, idx) => {
+                const optValue = resolveValue(opt);
+                const label = resolveLabel(opt);
+                const key = String(optValue ?? idx);
+
+                return (
+                  <DropdownItem key={key} onClick={() => handleChange(optValue)}>
+                    {label}
+                  </DropdownItem>
+                );
+              })}
+            </DropdownDetails>
+          </>
+        )}
+      </div>
+    </DropdownContext.Provider>
+  );
+}
 
 export const DropdownSummary = ({ children, className }: DropdownSummaryProps) => {
-    const context = useContext(DropdownContext);
-    if (!context) throw new Error("DropdownSummary must be used within a Dropdown");
+  const context = useContext(DropdownContext);
+  if (!context) throw new Error('DropdownSummary must be used within a Dropdown');
 
-    const content = useMemo(() => {
-        return typeof children === "function"
-            ? children({ isOpen: context.isOpen, toggle: context.toggle })
-            : children;
-    }, [children, context.isOpen, context.toggle]);
+  const rendered = useMemo(() => {
+    if (typeof children === 'function') {
+      return children({ isOpen: context.isOpen, toggle: context.toggle });
+    }
+    return children;
+  }, [children, context.isOpen, context.toggle]);
 
-    return (
-        <div
-            onClick={(e) => {
-                e.stopPropagation();
-                context.toggle();
-            }}
-            onKeyDown={(e) => e.key === "Enter" && context.toggle()}
-            tabIndex={0}
-            role="button"
-            aria-expanded={context.isOpen}
-            className={cn("cursor-pointer select-none outline-none", className)}
-        >
-            {content}
-        </div>
-    );
+  return (
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        context.toggle();
+      }}
+      onKeyDown={(e) => e.key === 'Enter' && context.toggle()}
+      tabIndex={0}
+      role="button"
+      aria-expanded={context.isOpen}
+      className={cn('cursor-pointer select-none outline-none', className)}
+    >
+      {rendered}
+    </div>
+  );
 };
 
 
 export const DropdownDetails = ({ children, className }: DropdownDetailsProps) => {
-    const context = useContext(DropdownContext);
-    if (!context) throw new Error("DropdownDetails must be used within a Dropdown");
+  const context = useContext(DropdownContext);
+  if (!context) throw new Error('DropdownDetails must be used within a Dropdown');
 
-    const content = typeof children === "function"
-        ? children({ isOpen: context.isOpen, toggle: context.toggle })
-        : children;
+  const rendered = useMemo(() => {
+    if (typeof children === 'function') {
+      return children({ isOpen: context.isOpen, toggle: context.toggle });
+    }
+    return children;
+  }, [children, context.isOpen, context.toggle]);
 
-    return context.isOpen ? (
-        <AnimatePresence>
-            <motion.div
-                key="dropdown-content"
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
-                role="menu"
-                className={cn(
-                    "absolute left-0 mt-2 w-full rounded-md bg-white shadow-lg border border-gray-200 z-10",
-                    className
-                )}
-            >
-                {content}
-            </motion.div>
-        </AnimatePresence>
-    ) : null;
+  return (
+    <AnimatePresence>
+      {context.isOpen && (
+        <motion.div
+          key="dropdown-content"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.25, ease: 'easeInOut' }}
+          role="menu"
+          className={cn(
+            'absolute left-0 mt-2 rounded-md bg-white shadow-lg border border-gray-200 z-30',
+            className,
+          )}
+        >
+          {rendered}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 };
 
-export const DropdownItem = ({
-    children,
-    onClick,
-    className = '',
-}: {
-    children: ReactNode;
-    onClick: () => void;
-    className?: string;
-}) => {
-    const context = useContext(DropdownContext);
 
-    return (
-        <div
-            onClick={(e) => {
-                e.stopPropagation(); // важно
-                onClick();
-                context?.toggle(false); // закрытие после выбора
-            }}
-            role="menuitem"
-            className={cn(className, "cursor-pointer px-4 py-2 hover:bg-gray-100")}
-        >
-            {children}
-        </div>
-    );
+export const DropdownItem = ({ children, onClick, className }: DropdownItemProps) => {
+  const context = useContext(DropdownContext);
+
+  return (
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+        context?.toggle(false);
+      }}
+      role="menuitem"
+      className={cn(
+        'cursor-pointer px-4 py-2 hover:bg-gray-100 transition-colors',
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 };

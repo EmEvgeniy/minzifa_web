@@ -28,11 +28,8 @@ export default async function Breadcrumbs({
   const t = await getTranslations({ locale, namespace: 'breadcrumbs' });
 
   return (
-    <nav
-      aria-label="breadcrumb"
-      className={cn('block [@media(max-width:768px)]:hidden', mainStyle)}
-    >
-      <ul className={cn(containerClasses, 'list-none flex items-center')}>
+    <nav aria-label="breadcrumb" className={cn('block', mainStyle)}>
+      <ul className={cn(containerClasses, 'list-none flex items-center flex-wrap')}>
         <li className={cn(listClasses)}>
           <Link href={`/${locale}`}>{homeElement ?? t('home')}</Link>
         </li>

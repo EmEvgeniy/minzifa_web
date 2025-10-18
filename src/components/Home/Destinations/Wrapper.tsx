@@ -1,55 +1,33 @@
 'use client';
 
-import { Slider, SliderBtns } from '@/components/UI';
-import React, { useRef, useState } from 'react';
-import { SwiperClass } from 'swiper/react';
-import { DestinationBlockProps } from './_types';
+import React, { useState } from 'react';
+import { DestinationCard } from './_types';
 import Link from 'next/link';
-import Image from 'next/image';
+import { EmblaCarouselType } from 'embla-carousel';
+import EmblaCarousel from '@/components/UI/EmblaCarousel/EmblaCarousel';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
+import { ECArrowWrapper } from '@/components/UI/EmblaCarousel/EmblaCarouselArrowButtons';
 
-export default function Wrapper({
-  data,
-  locale,
-}: {
-  data: DestinationBlockProps[];
-  locale: string;
-}) {
-  const swiperRef = useRef<SwiperClass | null>(null);
-  const [isBeginning, setIsBeginning] = useState<boolean>(true);
-  const [isEnd, setIsEnd] = useState<boolean>(false);
-
-  const handleSlideChange = (swiper: SwiperClass): void => {
-    setIsBeginning(swiper.isBeginning);
-    setIsEnd(swiper.isEnd);
-  };
+export default function Wrapper({ data, locale }: { data: DestinationCard[]; locale: string }) {
+  const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
 
   return (
     <>
       <div className="container-right">
-        <Slider
-          slides={data || []}
-          swiperRef={swiperRef}
-          isBeginning={isBeginning}
-          isEnd={isEnd}
-          setIsBeginning={setIsBeginning}
-          setIsEnd={setIsEnd}
-          handleSlideChange={handleSlideChange}
-          breakpoints={{
-            320: { slidesPerView: 1.2, spaceBetween: 16 },
-            550: { slidesPerView: 2.2 },
-            768: { slidesPerView: 3.2 },
-            1024: { slidesPerView: 4.4 },
-          }}
-          renderCard={(slide: DestinationBlockProps) => (
-            <Link href={`/${locale}/destination/${slide.slug}`}>
-              <div className="w-full h-full max-w-full min-h-[275px] rounded-[16px] bg-white opacity-80 text-center flex flex-col items-center justify-center text-xl font-semibold p-5 [@media(max-width:768px)]:min-h-[200px]">
+        <EmblaCarousel<DestinationCard>
+          slides={data}
+          onInit={setEmblaApi}
+          className="gap-2.5 lg:gap-5"
+          renderSlide={(slide: DestinationCard) => (
+            <Link href={`/${locale}/destination/${slide.slug}`} className="flex-1" key={slide?.id}>
+              <div className="w-[170px] h-[234px] lg:w-[275px] lg:h-[275px] rounded-[16px] bg-white opacity-80 text-center flex flex-col items-center justify-center text-xl font-semibold p-5 [@media(max-width:768px)]:min-h-[200px]">
                 {slide.icon.file && (
-                  <Image
+                  <ImageWithFallback
                     src={slide.icon.file ? slide.icon.file : ''}
                     alt={slide.icon.alt_text ? slide.icon.alt_text : 'image'}
                     width={150}
                     height={150}
-                    className="w-[150px] h-[150px] object-cover [@media(max-width:768px)]:w-[90px] [@media(max-width:768px)]:h-[90px]"
+                    className="w-[150px] h-[150px] object-cover mb-3"
                   />
                 )}
                 <h2 className="text-2xl font-normal [@media(max-width:768px)]:text-[18px]">
@@ -63,12 +41,7 @@ export default function Wrapper({
           )}
         />
 
-        <SliderBtns
-          swiperRef={swiperRef}
-          isBeginning={isBeginning}
-          isEnd={isEnd}
-          variant={'secondary'}
-        />
+        <ECArrowWrapper emblaApi={emblaApi} />
       </div>
     </>
   );

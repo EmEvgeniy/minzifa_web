@@ -36,7 +36,7 @@ export const FooterRight = () => {
       if (!isPending) {
         mutate({
           obj: { email: email },
-          http: 'forms/subscribes',
+          endpoint: 'forms/subscribes',
         });
       }
     },

@@ -1,11 +1,11 @@
-import { circle, circle2 } from '@/assets/img';
-import Image from 'next/image';
-import { DefaultComponentsProps } from '@/types';
-import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
+
+import { circle, circle2 } from '@/assets/img';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
+import { getTranslations } from 'next-intl/server';
 const MobileSlider = dynamic(() => import('./MobileSlider'));
 
-export default async function Values({ locale }: DefaultComponentsProps) {
+export default async function Values({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'about' });
   const values = t.raw('values') as {
     title: string;
@@ -18,10 +18,10 @@ export default async function Values({ locale }: DefaultComponentsProps) {
   return (
     <section className="bg-[#16372D] w-full py-[70px] mb-10">
       <div className="container text-white flex flex-col gap-5">
-        <h5 className="text-[42px] max-[1024px]:text-[35px] max-[768px]:text-[30px]  max-[768px]:text-center ">
+        <h5 className="text-[42px] max-[1024px]:text-[35px] max-[768px]:text-[30px]  max-[768px]:text-left ">
           {t('values_title')}
         </h5>
-        <p className="flex flex-col gap-1 text-[18px] max-[768px]:text-[16px] max-[768px]:text-center ">
+        <p className="flex flex-col gap-1 text-[18px] max-[768px]:text-[16px] max-[768px]:text-left ">
           <span>{t('values_text')}</span>
           <span>{t('values_text2')}</span>
         </p>
@@ -33,7 +33,7 @@ export default async function Values({ locale }: DefaultComponentsProps) {
                 className="flex aspect-square h-[285px] w-full items-center justify-center overflow-hidden"
                 key={id}
               >
-                <Image
+                <ImageWithFallback
                   src={id === 2 ? circle : circle2}
                   className="aspect-square  rounded-full object-cover h-[250px] w-[250px]"
                   width={200}

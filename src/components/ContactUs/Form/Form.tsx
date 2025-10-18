@@ -1,7 +1,7 @@
 'use client';
 
 import { usePostMutation } from '@/api/post.api';
-import { Button, Checkbox, FormControlLabel } from '@mui/material';
+import Button from '@/components/UI/Button/Button';
 import { useLocale, useTranslations } from 'next-intl';
 import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 import { useRouter } from 'next/navigation';
@@ -46,24 +46,24 @@ export const Form = () => {
       setMessage(
         lang === 'en'
           ? 'Your request has been successfully sent.'
-          : 'Ваша заявка была успешно отправлена'
+          : 'Ваша заявка была успешно отправлена',
       );
       router.push(`/${lang}/thank-you`);
     },
     () => {
       setError(lang === 'en' ? 'Some error was happened' : 'Произошла ошибка');
-    }
+    },
   );
 
   const onSubmit = (data: ContactFormType) => {
-    mutate({ obj: { ...data, ...metrics }, http: 'forms/contact-us' });
+    mutate({ obj: { ...data, ...metrics }, endpoint: 'forms/contact-us' });
   };
 
   const inputClasses = (hasError?: boolean) =>
     cn(
       'focus:ring-primary-500 focus:border-primary-500 block w-full rounded-[18px] border p-4 text-sm text-gray-900 shadow-sm bg-gray-50',
       'h-[55px]', // фиксированная высота
-      hasError && 'border-red-500 focus:border-red-500 focus:ring-red-500'
+      hasError && 'border-red-500 focus:border-red-500 focus:ring-red-500',
     );
 
   return (
@@ -72,10 +72,7 @@ export const Form = () => {
         {t('contact_us.form_title')}
       </h2>
 
-      <form
-        className="space-y-6 max-[768px]:space-y-5"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="space-y-6 max-[768px]:space-y-5" onSubmit={handleSubmit(onSubmit)}>
         {/* Имя */}
         <div>
           <input
@@ -84,9 +81,7 @@ export const Form = () => {
             className={inputClasses(!!errors.name)}
             placeholder={t('contact_us.pl')}
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-          )}
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
         </div>
 
         {/* Email */}
@@ -97,9 +92,7 @@ export const Form = () => {
             className={inputClasses(!!errors.email)}
             placeholder={t('contact_us.pl2')}
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
         </div>
 
         {/* Телефон */}
@@ -108,9 +101,7 @@ export const Form = () => {
             value={watch('phone')}
             onChange={(value) => setValue('phone', value, { shouldValidate: true })}
           />
-          {errors.phone && (
-            <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
-          )}
+          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
         </div>
 
         {/* Сообщение */}
@@ -121,9 +112,7 @@ export const Form = () => {
             className={cn(inputClasses(!!errors.message), 'resize-none h-[100px]')}
             placeholder={t('contact_us.pl4')}
           />
-          {errors.message && (
-            <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
-          )}
+          {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>}
         </div>
 
         {/* Checkbox */}
@@ -132,29 +121,27 @@ export const Form = () => {
             name="agree"
             control={control}
             render={({ field }) => (
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} color="primary" />}
-                label={
-                  <span className="text-white text-sm">
-                    {t('contact_us.pl5')} <span>{t('contact_us.pr')}</span>
-                  </span>
-                }
-              />
+              <label className="flex items-start gap-3 text-white text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  name={field.name}
+                  checked={Boolean(field.value)}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  className="mt-0.5 w-4 h-4 text-[#27A430] bg-gray-100 border-gray-300 rounded focus:ring-[#27A430] focus:ring-2"
+                />
+                <span>
+                  {t('contact_us.pl5')}{' '}
+                  <span className="text-[#27A430] underline">{t('contact_us.pr')}</span>
+                </span>
+              </label>
             )}
           />
-          {errors.agree && (
-            <p className="text-red-500 text-sm mt-1">{errors.agree.message}</p>
-          )}
+          {errors.agree && <p className="text-red-500 text-sm mt-1">{errors.agree.message}</p>}
         </div>
 
         {/* Кнопка */}
-        <Button
-          variant="contained"
-          color="secondary"
-          type="submit"
-          disabled={!isValid || isPending}
-          sx={{ width: '100%', borderRadius: '16px', minHeight: 45 }}
-        >
+        <Button color="secondary" type="submit" disabled={!isValid || isPending} className="w-full">
           {t('contact_us.btn')}
         </Button>
       </form>

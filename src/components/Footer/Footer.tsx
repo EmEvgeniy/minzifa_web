@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import FooterLeft from './FooterLeft';
 import FooterMiddle from './FooterMiddle';
 
-export default async function Footer({ locale }: DefaultComponentsProps) {
+export default async function Footer({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'footer' });
   const pl = t.raw('pl') as { link: string; title: string };
 

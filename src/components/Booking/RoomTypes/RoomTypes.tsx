@@ -1,8 +1,7 @@
-import { DefaultComponentsProps } from '@/types';
 import RoomTypesInner from './RoomTypesInner';
 import { getTranslations } from 'next-intl/server';
 
-export default async function RoomTypes({ locale }: DefaultComponentsProps) {
+export default async function RoomTypes({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'Booking' });
   const roomTypes = t.raw('roomTypes') as {
     title: string;

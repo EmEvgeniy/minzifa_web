@@ -3,7 +3,6 @@
 import createYourTrip from '@/assets/img/CreateYourTrip.jpg';
 import { cn } from '@/utils/utils';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePostMutation } from '@/api/post.api';
@@ -12,6 +11,7 @@ import { CreateYourTripFormProps, CreateYourTripFormRequest, QuestionData } from
 import { useRouter } from 'next/navigation';
 import { useMetricsStore } from '@/store/useMetricsStore';
 import { PhoneInputComp } from '../PhoneInput';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYourTripFormProps) => {
   const t = useTranslations('CreateYourTripForm');
@@ -211,7 +211,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     if (!isPending) {
       mutate({
         obj: { ...formData, ...metrics },
-        http: `forms/create-my-trip-quiz?locale=${locale}`,
+        endpoint: `forms/create-my-trip-quiz?locale=${locale}`,
       });
     }
   };
@@ -226,7 +226,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     >
       <div className="p-5 bg-[#eff8ef] w-full h-full grid grid-cols-[100px_1fr] md:grid-cols-1 gap-3">
         <div className="w-full h-full max-w-[100px] max-h-[100px] md:max-h-[240px] md:max-w-[240px] overflow-hidden rounded-full md:rounded-2xl mb-3">
-          <Image
+          <ImageWithFallback
             src={createYourTrip}
             alt="create your trip"
             width={500}

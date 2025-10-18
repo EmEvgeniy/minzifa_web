@@ -4,7 +4,7 @@ export default function TourHighlights({ highlights }: { highlights: Highlights 
   if (!highlights || highlights?.content?.length === 0) return null;
 
   return (
-    <div className="my-6 col-start-1 ">
+    <div className="my-6 md:col-start-1">
       <h2 className="text-4xl font-semibold mb-4 max-[920px]:text-[30px] max-[550px]:text-[24px]">
         {highlights.title}
       </h2>

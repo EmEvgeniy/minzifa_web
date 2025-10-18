@@ -1,4 +1,5 @@
-export type DestinationBlockProps = {
+export type DestinationCard = {
+  id: number;
   name: string;
   slug: string;
   tours_count: number;

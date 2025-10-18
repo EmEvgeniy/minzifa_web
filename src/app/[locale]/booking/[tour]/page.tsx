@@ -1,8 +1,9 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 import BookingFormPage from '@/components/Booking/BookingFormPage';
 import { Tour } from '@/components/Tour/_types';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { apiGet } from '../../../../utils/serverApi';
 
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
@@ -14,29 +15,22 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/booking-tour`;
-
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
 
   return {
-    title: data?.seo_metadata?.title,
-    description: data?.seo_metadata?.description,
-    keywords: data?.seo_metadata?.keywords,
+    title: locale === 'en' ? 'Booking' : 'Бронирование',
+    description: locale === 'en' ? 'Booking' : 'Бронирование',
+    keywords: locale === 'en' ? 'Booking' : 'Бронирование',
   };
 }
 
 export default async function Booking({ params }: Props) {
   const { tour, locale } = await params;
 
-  const res = await fetch(`https://api.minzifatravel.com/api/v1/tours/${tour}?locale=${locale}`, {
+  const tourData = (await apiGet(`tours/${tour}?locale=${locale}`, {
     next: { revalidate: 60 * 20 },
-  });
+  })) as Tour;
 
-  if (!res.ok) redirect(`/${locale}`);
-
-  const tourData: Tour = await res.json();
+  if (!tourData?.id) redirect(`/${locale}`);
 
   return <BookingFormPage tourData={tourData} locale={locale} />;
 }

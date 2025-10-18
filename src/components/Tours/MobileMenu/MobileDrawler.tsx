@@ -1,45 +1,61 @@
 'use client';
-import { Drawer } from '@mui/material';
 import { useMobFilterStore } from './store';
 import { FaChevronLeft } from 'react-icons/fa6';
-
-import { KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 function MobileDrawler({ btn, elem }: { btn: string; elem: ReactNode }) {
   const { setOpen, open } = useMobFilterStore((s) => s);
 
-  const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as KeyboardEvent).key === 'Tab' || (event as KeyboardEvent).key === 'Shift')
-    ) {
-      return;
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
     }
-    setOpen(open);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      handleClose();
+    }
   };
 
   return (
-    <Drawer
-      PaperProps={{
-        sx: {
-          height: '90vh', // Set height to 90% of viewport height
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
-          overflowX: 'hidden',
-        },
-      }}
-      anchor={'bottom'}
-      open={open}
-      onClose={toggleDrawer(false)}
-    >
-      <div className="p-2.5 w-full  relative h-screen">
-        <div className="w-full px-[10px] py-[20px] border-b-1 flex items-center sticky top-0 z-20 bg-white">
-          <FaChevronLeft className="text-[]" onClick={toggleDrawer(false)} />
-          <p className="text-center w-full text-[18px] font-semibold">{btn}</p>
+    <>
+      {/* Backdrop */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity"
+          onClick={handleBackdropClick}
+          onKeyDown={handleKeyDown}
+        />
+      )}
+
+      {/* Bottom Drawer */}
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+          open ? 'translate-y-0' : 'translate-y-full'
+        }`}
+        style={{ maxHeight: '90vh' }}
+      >
+        {/* Header */}
+        <div className="w-full px-4 py-5 border-b border-gray-200 flex items-center sticky top-0 bg-white rounded-t-2xl">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="text-gray-600 hover:text-gray-800 transition-colors"
+          >
+            <FaChevronLeft size={20} />
+          </button>
+          <p className="text-center w-full text-lg font-semibold text-gray-800">{btn}</p>
         </div>
-        <div className=" overflow-y-scroll h-screen py-[10px]">{elem}</div>
+
+        {/* Content */}
+        <div className="overflow-y-auto max-h-[calc(90vh-80px)] p-4">{elem}</div>
       </div>
-    </Drawer>
+    </>
   );
 }
 

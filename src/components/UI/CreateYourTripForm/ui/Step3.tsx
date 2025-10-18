@@ -1,7 +1,7 @@
 import { useQuizStore } from '@/store/quizStore';
 import { cn } from '@/utils/utils';
-import Image from 'next/image';
 import { StepProps } from '../DescForm';
+import ImageWithFallback from '../../ImageWithFallback/ImageWithFallback';
 
 const buttons = [
   { id: 1, title: '3 stars', icon: '/3.svg' },
@@ -10,7 +10,11 @@ const buttons = [
 ];
 
 const Step3 = ({ errors = {}, clearError }: StepProps) => {
-  const { formData: { budget, accomodation }, setBudget, setAccomodation } = useQuizStore();
+  const {
+    formData: { budget, accomodation },
+    setBudget,
+    setAccomodation,
+  } = useQuizStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -37,9 +41,9 @@ const Step3 = ({ errors = {}, clearError }: StepProps) => {
           value={budget}
           onChange={handleChange}
           className={cn(
-            "w-full max-w-[350px] bg-white outline-none rounded-[16px] px-3 py-3 border-2",
-            errors?.budget ? "border-red-500" : "border-[#E2E2E2]",
-            "max-[650px]:max-w-full"
+            'w-full max-w-[350px] bg-white outline-none rounded-[16px] px-3 py-3 border-2',
+            errors?.budget ? 'border-red-500' : 'border-[#E2E2E2]',
+            'max-[650px]:max-w-full',
           )}
           placeholder="Enter your budget (e.g. 1000 / 8000+)"
         />
@@ -60,7 +64,7 @@ const Step3 = ({ errors = {}, clearError }: StepProps) => {
                 accomodation === el.title ? 'bg-[#27A430] border-[#27A430]' : 'border-[#E2E2E2]',
               )}
             >
-              <Image
+              <ImageWithFallback
                 src={el.icon}
                 width={120}
                 height={40}

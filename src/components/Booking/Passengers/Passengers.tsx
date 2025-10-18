@@ -1,8 +1,7 @@
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import PassengersInner from './PassengersInner';
 
-export default async function Passengers({ locale }: DefaultComponentsProps) {
+export default async function Passengers({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'Booking' });
   const hints = t.raw('passenger.passenger_hint') as string[];
 

@@ -1,7 +1,7 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 import { nf, person } from '@/assets/img';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getLocale } from 'next-intl/server';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -18,12 +18,11 @@ export default async function NotFoundPage({ params }: { params: { locale: strin
 
   return (
     <section className="relative w-full h-[100vh] overflow-hidden">
-      <Image src={nf} alt="nf" fill className="object-contain object-bottom" loading="lazy" />
-      <Image
+      <ImageWithFallback src={nf} alt="nf" className="object-contain object-bottom" />
+      <ImageWithFallback
         src={person}
         alt="nf"
         width={0}
-        loading="lazy"
         className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 object-contain max-w-[600px]"
       />
       <div className="flex items-center justify-start flex-col relative z-10 h-full py-[100px] gap-5">

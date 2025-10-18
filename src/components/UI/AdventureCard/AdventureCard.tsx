@@ -1,24 +1,24 @@
 import type { AdventureCardType } from './_types';
-import Image from 'next/image';
 import Link from 'next/link';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 type Props = {
   type: AdventureCardType;
   locale: string;
 };
 
-export default function AdventureCard({ type, locale }: Props) {
+export default async function AdventureCard({ type, locale }: Props) {
   return (
     <Link
       href={`/${locale}/tours`}
       className="rounded-[16px] bg-cover bg-center w-full aspect-square bg-white shadow-sm flex flex-col justify-center items-center relative overflow-hidden cursor-pointer"
     >
       {type?.media?.file && (
-        <Image
+        <ImageWithFallback
           src={type?.media?.file}
-          fill
           className="absolute  w-full h-full  object-cover"
           alt={type?.media?.alt_text || 'adventure'}
+          fill
         />
       )}
       {/* Накладка */}
@@ -28,7 +28,8 @@ export default function AdventureCard({ type, locale }: Props) {
           {type.name}
         </p>
         <span className="mb-3 font-normal text-base text-custom-green-900 rounded-full bg-[#CFDFD9] opacity-70  px-2 py-1 [@media(max-width:425px)]:text-[12px]">
-          {type.tours_count} tours
+          {type.tours_count}{' '}
+          {locale === 'en' ? (type.tours_count === 1 ? 'tour' : 'tours') : 'туров'}
         </span>
       </div>
     </Link>

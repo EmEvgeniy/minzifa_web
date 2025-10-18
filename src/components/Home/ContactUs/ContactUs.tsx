@@ -1,15 +1,15 @@
 import { contact } from '@/assets/img';
-import Image from 'next/image';
 import IconPhone from '@/assets/icons/phone.svg';
 import IconWhatsapp from '@/assets/icons/Vector (5).svg';
 import IconEnvelope from '@/assets/icons/question.svg';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { contacts } from '@/store/contacts';
-import { DefaultComponentsProps } from '@/types';
 import { getTranslations } from 'next-intl/server';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
+import Image from 'next/image';
 
-export default async function ContactUs({ locale }: DefaultComponentsProps) {
+export default async function ContactUs({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
   const contactItems = [
@@ -68,7 +68,7 @@ export default async function ContactUs({ locale }: DefaultComponentsProps) {
           </div>
         </div>
         <div className="relative w-[50%] h-[420px] [@media(max-width:1024px)]:w-full [@media(max-width:1024px)]:h-[300px]">
-          <Image
+          <ImageWithFallback
             src={contact}
             alt="contact-us"
             fill

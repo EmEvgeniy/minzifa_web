@@ -1,7 +1,6 @@
 'use client';
 
 import { ReactNode, useCallback, useState } from 'react';
-import Image from 'next/image';
 import anna from '@/assets/img/CreateYourTrip.jpg'; // заменишь на свой createYourTrip.jpg
 import { motion, AnimatePresence } from 'framer-motion';
 import Step1 from './ui/Step1';
@@ -9,18 +8,18 @@ import Step2 from './ui/Step2';
 import Step3 from './ui/Step3';
 import Step4 from './ui/Step4';
 import { cn } from '@/utils/utils';
-import { IoIosCloseCircle } from 'react-icons/io';
 import { QuizFormData, useQuizStore } from '@/store/quizStore';
 import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '../CustomSnackBar/store';
 import { useRouter } from 'next/navigation';
 import { useMetricsStore } from '@/store/useMetricsStore';
+import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 type DescFormProps = {
   className?: string;
   popupClose?: () => void;
   locale?: string;
-}
+};
 
 type Step = {
   bubbleText: string;
@@ -103,33 +102,41 @@ export default function QuizForm({ className, popupClose, locale }: DescFormProp
   );
 
   /** Валидация текущего шага */
-  const validateStep = useCallback((stepIndex: number) => {
-    const newErrors: { [key: string]: string } = {};
+  const validateStep = useCallback(
+    (stepIndex: number) => {
+      const newErrors: { [key: string]: string } = {};
 
-    if (stepIndex === 0) {
-      if (!formData.whereGo.trim()) newErrors.whereGo = 'Please select your destination.';
-      if (!formData.whenGo.trim()) newErrors.whenGo = 'Please select your travel month.';
-    }
-    if (stepIndex === 1) {
-      if (!formData.howManyPeople.trim()) newErrors.howManyPeople = 'Please select the number of people.';
-      if (!formData.howManyDays.trim()) newErrors.howManyDays = 'Please enter the number of days.';
-    }
-    if (stepIndex === 2) {
-      if (!formData.budget.trim()) newErrors.budget = 'Please select your budget.';
-      if (!formData.accomodation.trim()) newErrors.accomodation = 'Please select accommodation type.';
-    }
-    if (stepIndex === 3) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
+      if (stepIndex === 0) {
+        if (!formData.whereGo.trim()) newErrors.whereGo = 'Please select your destination.';
+        if (!formData.whenGo.trim()) newErrors.whenGo = 'Please select your travel month.';
+      }
+      if (stepIndex === 1) {
+        if (!formData.howManyPeople.trim())
+          newErrors.howManyPeople = 'Please select the number of people.';
+        if (!formData.howManyDays.trim())
+          newErrors.howManyDays = 'Please enter the number of days.';
+      }
+      if (stepIndex === 2) {
+        if (!formData.budget.trim()) newErrors.budget = 'Please select your budget.';
+        if (!formData.accomodation.trim())
+          newErrors.accomodation = 'Please select accommodation type.';
+      }
+      if (stepIndex === 3) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
 
-      if (!formData.name.trim()) newErrors.name = 'Please enter your name.';
-      if (!emailRegex.test(formData.email)) newErrors.email = 'Please enter a valid email address.';
-      if (!phoneRegex.test(formData.phone)) newErrors.phone = 'Please enter a valid phone number.';
-    }
+        if (!formData.name.trim()) newErrors.name = 'Please enter your name.';
+        if (!emailRegex.test(formData.email))
+          newErrors.email = 'Please enter a valid email address.';
+        if (!phoneRegex.test(formData.phone))
+          newErrors.phone = 'Please enter a valid phone number.';
+      }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  }, [formData]);
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    },
+    [formData],
+  );
 
   /** Следующий шаг с проверкой */
   const nextStep = useCallback(() => {
@@ -154,23 +161,23 @@ export default function QuizForm({ className, popupClose, locale }: DescFormProp
     if (!isPending) {
       mutate({
         obj: { ...formData, ...metrics },
-        http: `forms/quiz-form?locale=${locale}`,
+        endpoint: `forms/quiz-form?locale=${locale}`,
       });
     }
-  }
+  };
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn('w-full', className)}>
       <div className="grid grid-cols-[300px_1fr] gap-4 max-[920px]:grid-cols-1 max-[920px]:gap-0 ">
-        <div
-          className="hidden max-[920px]:block absolute top-3 right-2 z-30 hover:scale-105 active:scale-105 transition"
-          onClick={popupClose}
-        >
-          <IoIosCloseCircle className="text-[30px] text-[#EEEEEE]" />
-        </div>
         {/* Левая часть */}
         <div className="relative rounded-[16px] overflow-hidden min-h-[540px] bg-gray-200 max-[920px]:rounded-b-[0px] max-[920px]:min-h-[180px]">
-          <Image src={anna} alt="Anna Smirnova" fill className="object-cover" />
+          <ImageWithFallback
+            src={anna}
+            alt="Anna Smirnova"
+            fill
+            sizes="(max-width: 920px) 100vw, 300px"
+            className="object-cover"
+          />
           {/* Облачко */}
           <div className="bg-white absolute top-[50px] left-1/2 -translate-x-1/2 rounded-[300px] p-5 w-[calc(100%-40px)] max-w-[250px] shadow max-[920px]:left-2 max-[920px]:-translate-x-0 max-[550px]:max-w-[150px] max-[400px]:max-w-[130px] max-[920px]:top-2  max-[920px]:rounded-t-[30px] max-[920px]:rounded-l-[30px] max-[920px]:rounded-br-[0px]">
             <p className="text-sm max-[550px]:text-[10px]">{steps[currentStep].bubbleText}</p>
@@ -185,7 +192,11 @@ export default function QuizForm({ className, popupClose, locale }: DescFormProp
         </div>
 
         {/* Правая часть */}
-        <div className={"bg-white rounded-[16px] p-5 flex flex-col justify-between min-h-[540px] max-[920px]:flex-col-reverse gap-5 max-[920px]:min-h-full max-[920px]:rounded-b-[16px] max-[920px]:rounded-t-[0px] max-[920px]:bg-white max-[650px]:px-2.5"}>
+        <div
+          className={
+            'bg-white rounded-[16px] p-5 flex flex-col justify-between min-h-[540px] max-[920px]:flex-col-reverse gap-5 max-[920px]:min-h-full max-[920px]:rounded-b-[16px] max-[920px]:rounded-t-[0px] max-[920px]:bg-white max-[650px]:px-2.5'
+          }
+        >
           {/* Прогресс-бар */}
           <div className="flex gap-2 mb-5">
             {steps.map((_, i) => (

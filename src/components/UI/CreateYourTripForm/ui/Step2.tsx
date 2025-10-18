@@ -1,8 +1,8 @@
 import { useQuizStore } from '@/store/quizStore';
 import { cn } from '@/utils/utils';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { StepProps } from '../DescForm';
+import ImageWithFallback from '../../ImageWithFallback/ImageWithFallback';
 
 const buttons = [
   { id: 1, title: 'Solo', icon: '/Type=Solo.svg' },
@@ -17,7 +17,7 @@ const Step2 = ({ errors = {}, clearError }: StepProps) => {
   const {
     formData: { howManyDays },
     setHowManyPeople,
-    setHowManyDays
+    setHowManyDays,
   } = useQuizStore();
 
   const handleClickPeople = (id: number) => {
@@ -49,7 +49,7 @@ const Step2 = ({ errors = {}, clearError }: StepProps) => {
         <div
           className={cn(
             'flex items-center justify-between gap-2 w-full max-[620px]:grid max-[620px]:grid-cols-2',
-            errors.howManyPeople && 'border border-red-500 rounded-xl p-2'
+            errors.howManyPeople && 'border border-red-500 rounded-xl p-2',
           )}
         >
           {buttons.map((el) => (
@@ -58,26 +58,24 @@ const Step2 = ({ errors = {}, clearError }: StepProps) => {
               onClick={() => handleClickPeople(el.id)}
               className={cn(
                 'group flex flex-col w-full items-center justify-center bg-white hover:bg-[#1e7e24] hover:text-white duration-300 transition-all rounded-2xl shadow-xl p-4 cursor-pointer border-[#E2E2E2] border-[0.3px]',
-                active === el.id && 'bg-[#27A430] text-white'
+                active === el.id && 'bg-[#27A430] text-white',
               )}
             >
-              <Image
+              <ImageWithFallback
                 src={el.icon}
                 width={28}
                 height={28}
                 alt={el.title}
                 className={cn(
                   'mb-2 group-hover:invert-100 group-hover:brightness-0',
-                  active === el.id && 'icon-white'
+                  active === el.id && 'icon-white',
                 )}
               />
               <span className="text-sm font-medium">{el.title}</span>
             </button>
           ))}
         </div>
-        {errors.howManyPeople && (
-          <p className="text-red-500 text-sm">{errors.howManyPeople}</p>
-        )}
+        {errors.howManyPeople && <p className="text-red-500 text-sm">{errors.howManyPeople}</p>}
       </div>
 
       {/* DAYS */}
@@ -92,13 +90,11 @@ const Step2 = ({ errors = {}, clearError }: StepProps) => {
           onChange={handleChange}
           className={cn(
             'w-full max-w-[300px] bg-white outline-none rounded-[16px] px-3 py-2 border-2 max-[650px]:max-w-full',
-            errors.howManyDays ? 'border-red-500' : 'border-[#E2E2E2]'
+            errors.howManyDays ? 'border-red-500' : 'border-[#E2E2E2]',
           )}
           placeholder="For how many days?"
         />
-        {errors.howManyDays && (
-          <p className="text-red-500 text-sm">{errors.howManyDays}</p>
-        )}
+        {errors.howManyDays && <p className="text-red-500 text-sm">{errors.howManyDays}</p>}
       </div>
     </div>
   );

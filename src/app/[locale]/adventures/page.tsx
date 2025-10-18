@@ -1,10 +1,19 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import Hero from '@/components/Adventures/Hero/Hero';
 import ArticlesMain from '@/components/Adventures/ArticlesMain/ArticlesMain';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
+import { apiGet } from '../../../utils/serverApi';
+
+type PageData = {
+  seo_metadata?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+  };
+};
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -12,11 +21,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/adventures`;
+  const pagePath = `/${locale}/adventures`;
 
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
+    next: { revalidate: 300 },
+  })) as PageData;
 
   return {
     title: data?.seo_metadata?.title,
@@ -36,7 +45,10 @@ export default async function page({ params }: DefaultPageProps) {
   const { locale } = await params;
   const t = await getTranslations({ locale });
 
-  const categories: ArticleCategory[] = await fetch(`https://api.minzifatravel.com/api/v1/categories?locale=${locale}`, { next: { revalidate: 60 } }).then((res) => res.json());
+  const categories = (await apiGet(`categories?locale=${locale}`, {
+    next: { revalidate: 60 },
+  })) as ArticleCategory[];
+
   const menu = t.raw('articles.sort') as { title: string; value: string }[];
   const all_categories: string = t.raw('articles.all_categories');
 

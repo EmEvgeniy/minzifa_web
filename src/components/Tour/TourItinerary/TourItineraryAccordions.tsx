@@ -6,9 +6,9 @@ import {
 } from '@/components/UI/CustomAccordion/CustomAccordion';
 import { Fragment } from 'react';
 import TourDescription from '../../UI/MarkdownDescription/MarkdownDescription';
-import Image from 'next/image';
 import { Itinerary } from '../_types';
 import { useItineraryStore } from './store';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 type TourItineraryAccordionsProps = {
   itineraries: Itinerary[];
@@ -42,7 +42,7 @@ function TourItineraryAccordions({ itineraries, pl, pl2 }: TourItineraryAccordio
             <div className="mb-5 grid grid-cols-1 gap-1.5 md:grid-cols-3 overflow-hidden rounded-2xl ">
               {itinerary.gallery.length > 0 &&
                 itinerary.gallery.map((image) => (
-                  <Image
+                  <ImageWithFallback
                     width={800}
                     height={800}
                     loading={'lazy'}

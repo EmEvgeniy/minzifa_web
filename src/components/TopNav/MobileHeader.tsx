@@ -1,69 +1,88 @@
 'use client';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Drawer, IconButton } from '@mui/material';
+import { HiMenu, HiX } from 'react-icons/hi';
 import { useLocale, useTranslations } from 'next-intl';
 import { NavItemType } from './_types';
-import Image from 'next/image';
-import { logo } from '@/assets/icons';
 
 import { useRouter } from 'next/navigation';
 import SocialMedia from '../UI/SocialMedia/SocialMedia';
+import Logo from '../UI/Logo/Logo';
 
 export const MobileHeader = () => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations();
   const menu = t.raw('navigation.nav') as NavItemType[];
   const locale = useLocale();
   const router = useRouter();
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
-  const DrawerList = (
-    <Box
-      sx={{
-        width: 250,
-        backgroundColor: '#16372D',
-        height: '100%',
-        padding: '20px 10px',
-      }}
-      role="presentation"
-    >
-      <Image src={logo} alt="mobile logo" width={200} height={76} className="px-[10px]" />
-      <List className="text-white " sx={{ marginTop: 2 }}>
-        {menu.map((text) => (
-          <ListItem key={text.link} disablePadding>
-            <ListItemButton
-              onClick={() => {
-                router.push(`/${locale}/${text.link}`);
-                toggleDrawer(false)();
-              }}
-            >
-              <ListItemText primary={text.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <SocialMedia className="px-[10px] pt-[10px]" />
-    </Box>
-  );
+  const handleNavClick = (link: string) => {
+    router.push(`/${locale}/${link}`);
+    setIsOpen(false);
+  };
 
   return (
     <>
-      <IconButton onClick={toggleDrawer(true)} aria-label="delete">
-        <MenuIcon className="text-white" />
-      </IconButton>
+      <button
+        onClick={toggleMenu}
+        className="text-white hover:text-gray-300 transition-colors p-2"
+        aria-label="Toggle menu"
+      >
+        <HiMenu size={24} />
+      </button>
 
-      <Drawer open={open} onClose={toggleDrawer(false)}>
-        {DrawerList}
-      </Drawer>
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm bg-opacity-50 z-40"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Side Menu */}
+      <div
+        className={`fixed top-0 left-0 h-full w-80 bg-[#16372D] z-50 transform transition-transform duration-300 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="w-full h-full flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b-2 border-white/70 p-5 mb-5">
+            <Logo locale={locale} className="w-[200px]" />
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-white hover:text-gray-300 transition-colors"
+              aria-label="Close menu"
+            >
+              <HiX size={24} />
+            </button>
+          </div>
+
+          {/* Navigation */}
+          <nav className="border-b-2 border-white/70 flex-grow">
+            <ul className="space-y-2">
+              {menu.map((item) => (
+                <li key={item.link}>
+                  <button
+                    onClick={() => handleNavClick(item.link)}
+                    className="w-full text-left text-white hover:bg-white/10 px-5 py-3 transition-colors text-lg"
+                  >
+                    {item.title}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Social Media */}
+          <div className="p-5">
+            <SocialMedia className="justify-between" iconSize={18} />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

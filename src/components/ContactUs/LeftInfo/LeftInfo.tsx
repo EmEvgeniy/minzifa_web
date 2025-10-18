@@ -3,9 +3,8 @@ import { contacts } from '@/store/contacts';
 import Link from 'next/link';
 import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
 import { getTranslations } from 'next-intl/server';
-import { DefaultComponentsProps } from '@/types';
 
-export default async function LeftInfo({ locale }: DefaultComponentsProps) {
+export default async function LeftInfo({ locale }: { locale: string }) {
   const t = await getTranslations({ locale });
 
   return (

@@ -1,7 +1,16 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 import Main from "@/components/company's-sustainable-development-policy/Main/Main";
 import { Metadata } from 'next';
+import { apiGet } from '../../../utils/serverApi';
+
+type PageData = {
+  seo_metadata?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+  };
+};
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -13,11 +22,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/company-sustainable-development-policy`;
-  
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const pagePath = `/${locale}/company-sustainable-development-policy`;
+
+  const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
+    next: { revalidate: 300 },
+  })) as PageData;
 
   return {
     title: data?.seo_metadata?.title,

@@ -1,23 +1,16 @@
-import { about_hero, reviews_white } from '@/assets/img';
+import { about_hero, TravelChoice_White } from '@/assets/img';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import { DefaultComponentsProps } from '@/types';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getTranslations } from 'next-intl/server';
-import Image from 'next/image';
 import React from 'react';
 
-export default async function Hero({ locale }: DefaultComponentsProps) {
+export default async function Hero({ locale }: { locale: string }) {
   const t = await getTranslations({ locale });
 
   return (
     <section className="w-full relative min-h-[90svh] flex items-center justify-center max-[1024px]:min-h-[70svh]">
       <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />
-      <Image
-        src={about_hero}
-        alt="hero_about"
-        fill
-        className="object-cover absolute top-0 z-10"
-        loading="lazy"
-      />
+      <ImageWithFallback src={about_hero} alt="hero_about" fill quality={75} loading="lazy" />
       <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
         <Breadcrumbs
           mainStyle="text-white "
@@ -34,14 +27,7 @@ export default async function Hero({ locale }: DefaultComponentsProps) {
           {t('about.text')}
         </p>
         <div>
-          <Image
-            width={0}
-            height={0}
-            className="h-auto w-auto"
-            src={reviews_white}
-            alt="Logo"
-            loading="lazy"
-          />
+          <ImageWithFallback src={TravelChoice_White} alt="Logo" loading="lazy" />
         </div>
       </div>
     </section>

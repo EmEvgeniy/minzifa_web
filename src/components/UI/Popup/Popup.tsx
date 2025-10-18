@@ -1,85 +1,84 @@
 'use client';
 import { cn } from '@/utils/utils';
-import { Breakpoint, Dialog, DialogContent, IconButton, Slide, styled } from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import React, { FC, ReactNode } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
-
-const CustomDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(0),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
+import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 
 type PopupType = {
   open: boolean;
   handleClose: () => void;
-  content: ReactNode;
-  maxWidth?: Breakpoint;
+  content?: ReactNode | ReactElement;
+  locale?: string;
   className?: string;
-  locale: string;
+  hasBackground?: boolean;
+  showTimesButton?: boolean;
+  timesButton?: ReactNode | ReactElement;
 };
-
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 export const Popup: FC<PopupType> = ({
   open,
   handleClose,
   content,
-  maxWidth = 'lg',
   className = '',
-  locale,
+  showTimesButton = true,
+  timesButton,
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setIsVisible(true);
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+      const timer = setTimeout(() => setIsVisible(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) handleClose();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') handleClose();
+  };
+
+  if (!isVisible) return null;
+
   return (
     <>
-      <CustomDialog
-        open={open}
-        slots={{
-          transition: Transition,
-        }}
-        fullWidth
-        maxWidth={maxWidth}
-        keepMounted
-        sx={{
-          '& .MuiPaper-root': {
-            backgroundColor: locale === 'en' ? 'transparent' : 'white',
-            boxShadow: locale === 'en' ? 'none' : 'inherit',
-          },
-        }}
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-        className={cn(className, 'bg-transparent')}
-      >
-        {locale === 'ru' && (
-          <div
-            className={cn(
-              'relative w-full h-full md:absolute md:top-0 md:right-0 md:w-fit md:h-fit bg-white  flex justify-end p-2',
-            )}
-          >
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              sx={(theme) => ({
-                color: theme.palette.grey[500],
-              })}
-            >
-              <CloseIcon />
-            </IconButton>
-          </div>
+      <div
+        className={cn(
+          'fixed inset-0 z-50 backdrop-blur-md w-full h-full flex items-center justify-center',
+          'transition-opacity duration-300',
+          open ? 'bg-black/50 opacity-100' : 'bg-black/50 opacity-0',
         )}
-        <DialogContent>{content}</DialogContent>
-      </CustomDialog>
+        onClick={handleBackdropClick}
+        onKeyDown={handleKeyDown}
+      >
+        <div
+          className={cn(
+            'relative transition-all duration-300 ease-out',
+            open ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 pointer-events-none',
+            className,
+          )}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {timesButton ||
+            (showTimesButton && (
+              <div className={'relative text-right'}>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="cursor-pointer text-white hover:text-gray-700 transition-colors p-3"
+                >
+                  <FaTimes size={24} />
+                </button>
+              </div>
+            ))}
+          {content}
+        </div>
+      </div>
     </>
   );
 };

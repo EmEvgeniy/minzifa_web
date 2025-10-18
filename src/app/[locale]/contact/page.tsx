@@ -1,14 +1,16 @@
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 import { contact_us } from '@/assets/img';
 import { Form } from '@/components/ContactUs';
-import Image from 'next/image';
 import React from 'react';
 import { Metadata } from 'next';
 import LeftInfo from '@/components/ContactUs/LeftInfo/LeftInfo';
 import { DefaultPageProps } from '@/types';
+import { SeoMetadata } from '@/components/Tour/_types';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { getTranslations } from 'next-intl/server';
+import { apiGet } from '../../../utils/serverApi';
+import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -16,11 +18,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const locale = (await params).locale;
-  const slug = `https://minzifatravel.com/${locale}/contact`;
+  const pagePath = `/${locale}/contact`;
 
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${slug}`,
-  ).then((res) => res.json());
+  const data = await apiGet<{ seo_metadata?: SeoMetadata }>(
+    `pages?page=${encodeURIComponent(pagePath)}`,
+  );
 
   return {
     title: data?.seo_metadata?.title,
@@ -31,16 +33,14 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
 export default async function page({ params }: DefaultPageProps) {
   const { locale } = await params;
-  const t = await getTranslations();
+  const t = await getTranslations({ locale });
 
   return (
     <section className="bg-[#16372D] w-full relative min-h-[90svh] h-full flex items-center justify-center py-[150px] max-[1024px]:min-h-[100svh] max-[768px]:py-[100px]">
-      <Image
+      <ImageWithFallback
         src={contact_us}
-        fill
         alt="contact_us"
         className=" object-cover absolute top-0 z-10"
-        loading="lazy"
       />
       <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
         <Breadcrumbs

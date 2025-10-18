@@ -1,57 +1,33 @@
 'use client';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { FaChevronDown } from 'react-icons/fa6';
-import { useState } from 'react';
-import { useFilterStore } from './store';
-import { useRouter } from 'next/navigation';
 
-function TourViewBtn({ menu }: { menu: { title: string; value: string }[] }) {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+import { useFilterStore } from '@/store';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { Dropdown } from '@/components/UI/Dropdown/Dropdown';
+
+export default function TourViewBtn({ className }: { className?: string }) {
+  const t = useTranslations('all_tours');
+
+  const menu = t.raw('sort') as { title: string; value: string | undefined }[];
+
   const { sort, setSort, buildFilterQuery } = useFilterStore((state) => state);
-  const open = Boolean(anchorEl);
   const router = useRouter();
 
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = (value: string) => {
-    setSort(value);
-    setAnchorEl(null);
+  const handleSelect = (value: string | undefined) => {
+    setSort(value as string);
     router.replace(`?${buildFilterQuery().toString()}`, { scroll: false });
   };
 
   return (
-    <>
-      {' '}
-      <p
-        onClick={handleClick}
-        className="flex items-center justify-center gap-3 text-[#16372D] cursor-pointer"
-      >
-        <span className="text-[16px]">
-          {menu.find((el) => el.value === sort)?.title || menu[0].title}
-        </span>
-        <FaChevronDown
-          className={`transition-transform duration-300 ${open ? 'rotate-180' : 'rotate-0'}`}
-        />
-      </p>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        sx={{ '& .MuiPaper-root': { borderRadius: '16px' } }}
-        onClose={() => handleClose(sort)}
-      >
-        {menu.map((el) => (
-          <MenuItem key={el.value} onClick={() => handleClose(el.value)}>
-            {el.title}
-          </MenuItem>
-        ))}
-      </Menu>
-    </>
+    <Dropdown
+      options={menu}
+      value={sort}
+      placeholder={menu.find((el) => el.value === sort)?.title || menu[0].title}
+      onChange={(value) => handleSelect(value as string)}
+      className={className}
+      detailsClassName="min-w-[200px] max-w-[400px] right-0 left-auto"
+      labelKey="title"
+      valueKey="value"
+    />
   );
 }
-
-export default TourViewBtn;

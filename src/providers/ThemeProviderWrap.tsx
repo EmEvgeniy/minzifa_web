@@ -1,26 +1,8 @@
 'use client';
-import { ThemeProvider, createTheme } from '@mui/material';
 import { ReactNode } from 'react';
 
-const defaultTheme = createTheme({
-  typography: {
-    fontFamily: ['Inter', 'sans-serif'].join(','),
-  },
-  palette: {
-    primary: {
-      light: '#194D3D',
-      main: '#16372D',
-      dark: '#1B3C32',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#27A430',
-      main: '#27A430',
-      dark: '#208B28',
-      contrastText: '#fff',
-    },
-  },
-});
+// Оптимизированный ThemeProvider без Material-UI
+// Просто возвращает children без дополнительной обертки
 export const ThemeProviderWrap = ({ children }: { children: ReactNode }) => {
-  return <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>;
+  return <>{children}</>;
 };
