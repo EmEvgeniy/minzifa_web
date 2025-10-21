@@ -35,6 +35,8 @@ import reviews_white from './reviews_white.svg';
 
 import TravelChoice_Black from './TravelChoice_Black.svg';
 import TravelChoice_White from './TravelChoice_White.svg';
+import VerticalTravelChoice_White from './vertical white.svg';
+import VerticalTravelChoice_Black from './Vertical Black.svg';
 import Fallback_Image from './fallback-image.png';
 import PrivatePriceIcon from './private_price_icon.svg';
 
@@ -75,6 +77,8 @@ export {
   reviews_white,
   TravelChoice_Black,
   TravelChoice_White,
+  VerticalTravelChoice_White,
+  VerticalTravelChoice_Black,
   Fallback_Image,
   PrivatePriceIcon,
 };

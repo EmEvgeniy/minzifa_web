@@ -108,9 +108,9 @@
   },
   "footer": {
     "title": "Contacts",
-    "text": "Minzifa Travel is a website with tours in Uzbekistan and Central Asia from travel experts with 20 years of experience.",
-    "text2": "We welcome you warmly and joyfully and invite you to amazing, colorful and memorable journeys along the great Silk Road.",
-    "text3": "Want to discuss in detail? contact us.",
+    "text": "Minzifa Travel offers expertly crafted tours across Uzbekistan and Central Asia, created by travel professionals with over 20 years of experience.",
+    "text2": "We warmly welcome you to discover the magic, colors, and unforgettable beauty of the Great Silk Road.",
+    "text3": "Ready to plan your next adventure? Contact us today — we’d love to discuss the details!",
     "Menu_title": "Menu",
     "Menu": [
       {
@@ -847,9 +847,9 @@
       "meals": "Meals"
     },
     "includes": {
-      "title": "Included in the price",
-      "include": "Included",
-      "exclude": "Optional activities",
+      "title": "Price included",
+      "include": "Inclusions",
+      "exclude": "What is extra",
       "categories": {
         "accommodation": "Accomodation",
         "meals": "Meals",
@@ -857,7 +857,7 @@
         "tickets": "Tickets",
         "guide": "Guide",
         "additional_service": "Additional Service",
-        "airway_tickets": "Airway Tickets",
+        "airway_tickets": "Airways Tickets",
         "off-plan meals": "Off-plan Meals",
         "visa": "Visa",
         "insurance": "Insurance",
@@ -866,7 +866,7 @@
       "hint": "Please note that we use a local supplier for your arrival airport transfer, your driver may not speak English."
     },
     "hotel": {
-      "title": "Accomodation",
+      "title": "Accommodation",
       "card": {
         "day": "Day {from} to {to}",
         "location": "Location",

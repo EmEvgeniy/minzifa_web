@@ -7,7 +7,7 @@ import { AuthPopup } from '@/components/Auth/AuthPopup';
 import { ChatList, ChatWindow } from './index';
 
 export default function ChatsClient() {
-  const { isAuthenticated, checkAuth } = useAuthStore();
+  const { isAuthenticated, checkAuth, openAuthPopup } = useAuthStore();
   const {
     chats,
     selectedChat,
@@ -20,7 +20,6 @@ export default function ChatsClient() {
     handleChatSelect,
   } = useChats();
 
-  const [authPopupOpen, setAuthPopupOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
@@ -38,12 +37,12 @@ export default function ChatsClient() {
     }
 
     if (!isAuthenticated) {
-      setAuthPopupOpen(true);
+      openAuthPopup();
     } else {
       // Загружаем чаты только если пользователь аутентифицирован
       fetchChats();
     }
-  }, [isAuthenticated, authChecked, fetchChats]);
+  }, [isAuthenticated, authChecked, fetchChats, openAuthPopup]);
 
   // Если еще идет проверка аутентификации или загрузка
   if (isLoading || !authChecked) {
@@ -60,7 +59,7 @@ export default function ChatsClient() {
 
   // Если пользователь не аутентифицирован
   if (!isAuthenticated) {
-    return <AuthPopup open={authPopupOpen} onClose={() => setAuthPopupOpen(false)} />;
+    return <AuthPopup />;
   }
 
   return (

@@ -32,19 +32,19 @@ export const ChatPopup = () => {
 
   if (!isOpen) {
     return (
-      <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50">
+      <div className="fixed bottom-24 right-2 md:bottom-8 md:right-8 z-40">
         <button
           onClick={() => setIsOpen(true)}
           className="bg-gradient-to-br from-[#27A430] to-[#44DB4E] hover:from-[#1b7521] hover:to-[#31a039] text-white rounded-full p-5 md:p-3 shadow-2xl transition-all duration-300 hover:scale-110 hover:shadow-3xl cursor-pointer"
         >
-          <IoChatbubbleEllipses size={30} className="w-8 h-8 md:w-6 md:h-6" />
+          <IoChatbubbleEllipses size={30} className="w-6 h-6 md:w-6 md:h-6" />
         </button>
       </div>
     );
   }
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-50">
+    <div className="fixed bottom-24 right-4 md:bottom-8 md:right-8 z-40">
       <div className="bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl shadow-2xl w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-[420px] md:h-[520px] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#16372d] via-[#1a3d32] to-[#16372d] text-white p-4 md:p-6 rounded-t-2xl flex items-center justify-between shadow-lg">

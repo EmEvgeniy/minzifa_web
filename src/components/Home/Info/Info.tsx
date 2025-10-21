@@ -1,5 +1,4 @@
-import { tripadvisor_mobile } from '@/assets/icons';
-import { TravelChoice_Black, lr } from '@/assets/img';
+import { TravelChoice_Black, VerticalTravelChoice_Black, lr } from '@/assets/img';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getTranslations } from 'next-intl/server';
 
@@ -40,7 +39,7 @@ export default async function Info({ locale }: { locale: string }) {
           className="object-cover block [@media(max-width:768px)]:hidden"
         />
         <ImageWithFallback
-          src={tripadvisor_mobile}
+          src={VerticalTravelChoice_Black}
           alt="info_img"
           width={250}
           height={97}

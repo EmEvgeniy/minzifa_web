@@ -11,7 +11,7 @@ export default function ChatPage() {
   const params = useParams();
   const chatId = params.id as string;
 
-  const { isAuthenticated, checkAuth } = useAuthStore();
+  const { isAuthenticated, checkAuth, openAuthPopup } = useAuthStore();
   const {
     selectedChat,
     messageInput,
@@ -23,7 +23,6 @@ export default function ChatPage() {
     fetchChat,
   } = useChats();
 
-  const [authPopupOpen, setAuthPopupOpen] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
@@ -39,12 +38,12 @@ export default function ChatPage() {
     if (!authChecked) return;
 
     if (!isAuthenticated) {
-      setAuthPopupOpen(true);
+      openAuthPopup();
     } else if (chatId) {
       // Fetch specific chat
       fetchChat(parseInt(chatId));
     }
-  }, [isAuthenticated, authChecked, chatId, fetchChat]);
+  }, [isAuthenticated, authChecked, chatId, fetchChat, openAuthPopup]);
 
   if (isLoading) {
     return (
@@ -55,7 +54,7 @@ export default function ChatPage() {
   }
 
   if (!isAuthenticated) {
-    return <AuthPopup open={authPopupOpen} onClose={() => setAuthPopupOpen(false)} />;
+    return <AuthPopup />;
   }
 
   if (!selectedChat) {

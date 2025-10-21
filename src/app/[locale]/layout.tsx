@@ -10,9 +10,10 @@ import Footer from '@/components/Footer/Footer';
 import { getMessages } from 'next-intl/server';
 import { ThemeProviderWrap } from '@/providers/ThemeProviderWrap';
 import { AuthInitializerWithSuspense } from '@/components/Auth/AuthInitializer';
-// import { ChatPopup } from '@/components/ChatPopup';
+import { ChatPopup } from '@/components/ChatPopup';
 import MetricsComponent from '@/components/UI/Metrics/Metrics';
 import { CookiePopup } from '@/components/UI/CookiePopup';
+import { AuthPopup } from '@/components/Auth/AuthPopup';
 
 // Оптимизированные динамические импорты с приоритетами загрузки
 const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'), {
@@ -57,10 +58,11 @@ export default async function RootLayout({
               <main className="flex-1">{children}</main>
               <ClientPopupObserver />
               <Footer locale={locale} />
-              <CustomSnackBar />
-              {/* <ChatPopup /> */}
-              <CookiePopup />
               <MetricsComponent locale={locale} />
+              <AuthPopup />
+              <CustomSnackBar />
+              <ChatPopup />
+              <CookiePopup />
             </div>
           </UTMMetricsProvider>
         </ThemeProviderWrap>

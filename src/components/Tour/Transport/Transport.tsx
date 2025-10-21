@@ -12,7 +12,7 @@ export default async function Transport({ locale }: { locale: string }) {
                 <div className="bg-[#EDEDED] table-header-group">
                     <div className="table-row font-semibold uppercase text-base">
                         <div className="table-cell p-4">{locale === 'en' ? 'Group size' : 'Размер группы'}</div>
-                        <div className="table-cell p-4">{locale === 'en' ? 'Name of transport' : 'Название транспорта'}</div>
+                        <div className="table-cell p-4">{locale === 'en' ? 'Type of transport' : 'Тип транспорта'}</div>
                     </div>
                 </div>
                 <div className="table-row-group text-lg font-normal">

@@ -48,7 +48,7 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
     <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
       <h2 className='text-base font-medium'>{t('private_tour.comfort.title')}</h2>
 
-      {comfortOptions.map(({ key, stars, price }) => (
+      {comfortOptions.map(({ key, stars, price }) => price && (
         <div
           key={key}
           aria-selected={formData.price === price}

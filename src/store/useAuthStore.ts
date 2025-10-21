@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import axios from 'axios';
 import { privateAxios } from '@/api/axios';
 import { IMediaData } from '@/components/Auth/_types';
+import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
 
 export interface ITourist {
   id: number;
@@ -21,6 +22,9 @@ export interface AuthState {
   isLoading: boolean;
   error: string | null;
 
+  // UI State
+  authPopupOpen: boolean;
+
   // Actions
   login: (email: string, password: string) => Promise<void>;
   register: (
@@ -35,6 +39,10 @@ export interface AuthState {
   setLoading: (loading: boolean) => void;
   removeToken: () => void;
   removeUser: () => void;
+
+  // UI Actions
+  openAuthPopup: () => void;
+  closeAuthPopup: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -46,13 +54,14 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
       error: null,
+      authPopupOpen: false,
 
       // Actions
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
 
         try {
-          const response = await privateAxios.post('/api/v1/auth/login', {
+          const response = await privateAxios.post('/auth/login', {
             email,
             password,
           });
@@ -93,17 +102,20 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
 
         try {
-          const response = await privateAxios.post('/api/v1/auth/register', {
+          const response = await privateAxios.post('/auth/register', {
             name,
             email,
             password,
             password_confirmation: confirmPassword,
           });
 
-          const { token, user } = response.data;
+          const { message, user, token } = response.data;
 
           // Устанавливаем токен в cookies
           document.cookie = `auth-token=${token}; path=/; max-age=86400; samesite=lax`;
+
+          // Показываем сообщение об успехе через CustomSnackBar
+          useSnackStore.getState().setMessage(message, 'success');
 
           // Сохраняем токен в store (persist middleware сохранит его автоматически)
           set({
@@ -188,6 +200,10 @@ export const useAuthStore = create<AuthState>()(
 
       removeToken: () => set({ token: null }),
       removeUser: () => set({ user: null }),
+
+      // UI Actions
+      openAuthPopup: () => set({ authPopupOpen: true }),
+      closeAuthPopup: () => set({ authPopupOpen: false }),
     }),
     {
       name: 'auth-storage', // ключ для localStorage

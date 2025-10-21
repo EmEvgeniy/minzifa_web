@@ -13,7 +13,6 @@ import Logo from '../UI/Logo/Logo';
 import Button from '@/components/UI/Button/Button';
 import { useAuthStore } from '@/store';
 import { RiUserLine } from 'react-icons/ri';
-import { AuthPopup } from '../Auth/AuthPopup';
 
 // Кастомные стили для кнопок
 const buttonClasses = {
@@ -33,16 +32,14 @@ export default function Desktop({ locale }: { locale: string }) {
   const wa = contacts?.social_media?.find((item) => item.name === 'WhatsApp');
   const whatsappLink = wa?.url?.[locale] || '#';
 
-  const { user, isAuthenticated } = useAuthStore();
-  const [authPopupOpen, setAuthPopupOpen] = useState(false);
+  const { user, isAuthenticated, openAuthPopup } = useAuthStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const open = isDropdownOpen;
 
-  const handleLogin = () => setAuthPopupOpen(true);
+  const handleLogin = () => openAuthPopup();
   const handleLogout = () => useAuthStore.getState().logout();
-  const handleAuthPopupClose = () => setAuthPopupOpen(false);
   const handleMenuClick = () => setIsDropdownOpen(!isDropdownOpen);
   const handleMenuClose = () => setIsDropdownOpen(false);
 
@@ -120,7 +117,6 @@ export default function Desktop({ locale }: { locale: string }) {
         <span className="text-[18px] font-semibold">Whatsapp</span>
       </Link>
 
-      <AuthPopup open={authPopupOpen} onClose={handleAuthPopupClose} />
     </header>
   );
 }
