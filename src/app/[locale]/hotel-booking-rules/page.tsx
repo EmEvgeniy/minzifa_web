@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import { DefaultPageProps } from '@/types';
-import { SeoMetadata } from '@/components/Tour/_types';
+import { DefaultPageProps, ISeoMetadata } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { apiGet } from '../../../utils/serverApi';
@@ -14,7 +13,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}/hotel-booking-rules`;
 
-  const data = await apiGet<{ seo_metadata?: SeoMetadata }>(
+  const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
     `pages?page=${encodeURIComponent(pagePath)}`,
   );
 

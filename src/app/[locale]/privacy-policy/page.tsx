@@ -2,8 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import { DefaultPageProps } from '@/types';
-import { SeoMetadata } from '@/components/Tour/_types';
+import { DefaultPageProps, ISeoMetadata } from '@/types';
 import { getTranslations } from 'next-intl/server';
 import Markdown from 'markdown-to-jsx';
 import { apiGet } from '../../../utils/serverApi';
@@ -16,7 +15,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}/privacy-policy`;
 
-  const data = await apiGet<{ seo_metadata?: SeoMetadata }>(
+  const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
     `pages?page=${encodeURIComponent(pagePath)}`,
   );
 
