@@ -29,7 +29,7 @@ export default function Economy({
           alt="icon"
           width={65}
           height={65}
-          className="max-[550px]:w-[35px]"
+          className="w-[65px] h-[65px]"
         />
         <h6 className="text-[42px] max-w-[70%] text-center max-[1024px]:text-[35px]  max-[1024px]:max-w-full max-[550px]:text-[24px]">
           {title}

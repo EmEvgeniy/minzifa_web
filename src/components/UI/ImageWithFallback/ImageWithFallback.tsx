@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image, { ImageProps, StaticImageData } from 'next/image';
 import { cn } from '@/utils/utils';
 import { Fallback_Image } from '@/assets/img';
 
-interface ImageWithFallbackProps extends ImageProps {
+interface ImageWithFallbackProps
+  extends Omit<ImageProps, 'src'> {
   src: string | StaticImageData;
   fallbackSrc?: string | StaticImageData;
   showLoader?: boolean;
@@ -19,27 +20,31 @@ export const ImageWithFallback = ({
 }: ImageWithFallbackProps) => {
 
   const [isLoading, setIsLoading] = useState(true);
-  const [initSrc, setInitSrc] = useState(src);
+  const [currentSrc, setCurrentSrc] = useState<string | StaticImageData>(src);
 
   const shouldBlur = showLoader && !props.priority && isLoading;
 
-  const handleLoad = () => {
+  const handleComplete = () => setIsLoading(false);
+
+  const handleError = () => {
+    setCurrentSrc(fallbackSrc || Fallback_Image);
     setIsLoading(false);
   };
 
-  const handleError = () => {
-    setInitSrc(fallbackSrc || Fallback_Image);
-    setIsLoading(false);
-  };
+  useEffect(() => {
+    setCurrentSrc(src);
+    setIsLoading(true);
+  }, [src]);
 
   return (
     <Image
       {...props}
+      key={currentSrc.toString()}
       quality={70}
       loading='lazy'
-      src={initSrc}
+      src={currentSrc}
       alt={props.alt || 'Minzifa Travel'}
-      onLoad={handleLoad}
+      onLoad={handleComplete}
       onError={handleError}
       className={cn(
         'object-cover w-full h-full transition-all duration-500 ease-in-out',

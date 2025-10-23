@@ -21,21 +21,21 @@ export default async function Environment({
         src={eco_block}
         alt="environment"
         fill
-        className=" object-cover absolute top-0"
+        className="object-cover absolute top-0"
       />
-      <div className="container h-full py-[40px] relative z-20 text-white flex flex-col items-center gap-8 max-[500px]:gap-5">
+      <div className="container w-full h-full py-[40px] relative z-20 text-white flex flex-col items-center gap-8 max-[500px]:gap-5">
         <ImageWithFallback
           src={eco_icon3}
           alt="icon"
           width={65}
           height={65}
-          className="max-[1024px]:w-[40px]"
+          className="w-[65px] h-[65px]"
         />
-        <h5 className="text-[42px] text-center max-w-[70%] flex flex-col items-center max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[500px]:text-[24px]">
-          <span>{title}</span>
-          <span>{subTitle}</span>
-        </h5>
-        <p className="text-[20px] max-w-[70%] text-center max-[500px]:text-[16px] max-[500px]:max-w-full">
+        <h2 className="text-[42px] text-center flex flex-col items-center max-[1024px]:text-[35px] max-[1024px]:max-w-full max-[500px]:text-[24px]">
+          <span className='uppercase'>{title}</span>
+          {subTitle}
+        </h2>
+        <p className="text-[20px] text-center max-[500px]:text-[16px] max-[500px]:max-w-full">
           {subTitle2}
         </p>
         <div className="grid grid-cols-2 w-full h-full gap-5 pt-[30px] max-[500px]:hidden">
@@ -49,7 +49,7 @@ export default async function Environment({
                 alt="icon2"
                 width={50}
                 height={50}
-                className="w-[50px] h-[50px]"
+                className="w-[50px] h-[50px] object-contain"
               />
               <p className="text-[20px]">{el.title}</p>
               <p className="text-[16px]">{el.text}</p>

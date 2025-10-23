@@ -425,16 +425,24 @@
     "pr": "Privacy Policy"
   },
   "eco": {
-    "title": "RESPONSIBLE",
-    "title2": "CONSCIOUS TRAVEL",
+    "title": "Responsible Conscious Travel",
     "team": {
       "title": "We are Minzifa Travel team",
-      "text": "We think it’s all about the experience. And we want you to see things you’ve never seen before. We want you to experience feelings you’ve never had before. And it could be something world-famous; it could be something only a few locals know about; or it could be something known only to a handful of locals We create experiences that will surprise and delight you at every turn.",
-      "text2": "We believe that time is precious. From the moment you start planning to the moment you return, we’re there to help you every second of your vacation. Our travel experts have the knowledge that comes through archaic literature and fruitless internet searches. This means you can spend your time enjoying the experiences we create for you instead of searching for them yourself.",
-      "text3": "We believe in freedom. No matter what kind of vacation you’re on, it’s your space and your time to feel free That’s our job, we make your travel dreams come true",
-      "text4": "And we believe that every person is unique. No two people are alike, so no two vacations are alike. We are very happy about it – you are interesting to us, so we create for you a unique, one-of-a-kind vacation that won’t be like any other.",
-      "text5": "We sincerely believe that responsible travel is the only way to the future of travel. Together we can make this world a better place.",
-      "text6": "For us, it’s not just a job, but a job we love, which gives us great pleasure. We are very happy to live in this country with such a rich culture and amazing nature. We think that travel can have a positive impact on both the destination and the traveler."
+      "content": [
+        "We think it’s all about the experience. And we want you to see things you’ve never seen before. We want you to experience feelings you’ve never had before. And it could be something world-famous; it could be something only a few locals know about; or it could be something known only to a handful of locals We create experiences that will surprise and delight you at every turn.",
+        "We believe that time is precious. From the moment you start planning to the moment you return, we’re there to help you every second of your vacation. Our travel experts have the knowledge that comes through archaic literature and fruitless internet searches. This means you can spend your time enjoying the experiences we create for you instead of searching for them yourself.",
+        "We believe in freedom. No matter what kind of vacation you’re on, it’s your space and your time to feel free That’s our job, we make your travel dreams come true",
+        "And we believe that every person is unique. No two people are alike, so no two vacations are alike. We are very happy about it – you are interesting to us, so we create for you a unique, one-of-a-kind vacation that won’t be like any other.",
+        "We sincerely believe that responsible travel is the only way to the future of travel. Together we can make this world a better place.",
+        "For us, it’s not just a job, but a job we love, which gives us great pleasure. We are very happy to live in this country with such a rich culture and amazing nature. We think that travel can have a positive impact on both the destination and the traveler."
+      ]
+    },
+    "mission": {
+      "title": "OUR MISSION.",
+      "content": [
+        "The mission of Minzifa Travel is to create unforgettable and responsible journeys that reveal the beauty of Central Asia. We offer enriching experiences that foster cultural understanding and support local communities.",
+        "We are committed to sustainable tourism by preserving the region’s natural and cultural heritage, minimizing our environmental footprint, and educating our clients on responsible behavior. Minzifa Travel believes that responsible travel promotes peace and well-being for future generations."
+      ]
     },
     "block": [
       {
@@ -454,17 +462,14 @@
         "text": "We are committed to supporting local communities."
       }
     ],
-    "mission": {
-      "title": "OUR MISSION.",
-      "text": "The mission of Minzifa Travel is to create unforgettable and responsible journeys that reveal the beauty of Central Asia. We offer enriching experiences that foster cultural understanding and support local communities.",
-      "text2": "We are committed to sustainable tourism by preserving the region’s natural and cultural heritage, minimizing our environmental footprint, and educating our clients on responsible behavior. Minzifa Travel believes that responsible travel promotes peace and well-being for future generations."
-    },
     "env": {
       "title": "RESPECTING THE DIRECTIONS OF AND LOCAL CULTURES",
       "sub_title": "We foster a positive and meaningful exchange between our company, our travelers and the local places we visit.",
-      "text": "We strive to work closely with local communities to create an authentic, diverse and respectful Central Asian experience for your travelers.Our activities and tours are conducted with respect for artistic, archaeological and cultural heritage.",
-      "text2": "Our goal is to highlight the diversity and richness of culture and heritage in destinations. There is genuine and respectful interaction between travelers and the local community.",
-      "text3": "We portray destinations fairly and respectfully in our messaging and marketing materials. Our cultural experiences are developed in direct collaboration with the community"
+      "content": [
+        "We strive to work closely with local communities to create an authentic, diverse and respectful Central Asian experience for your travelers.Our activities and tours are conducted with respect for artistic, archaeological and cultural heritage.",
+        "Our goal is to highlight the diversity and richness of culture and heritage in destinations. There is genuine and respectful interaction between travelers and the local community.",
+        "We portray destinations fairly and respectfully in our messaging and marketing materials. Our cultural experiences are developed in direct collaboration with the community"
+      ]
     },
     "environment": {
       "title": "WE CARE ABOUT THE ENVIRONMENT",
@@ -843,7 +848,7 @@
       "title": "Itinerary",
       "expanded": "Expand all",
       "closed": "Close all",
-      "accomodation": "Accomodation",
+      "accomodation": "Accommodation",
       "meals": "Meals"
     },
     "includes": {
@@ -851,12 +856,12 @@
       "include": "Inclusions",
       "exclude": "What is extra",
       "categories": {
-        "accommodation": "Accomodation",
+        "accommodation": "Accommodation",
         "meals": "Meals",
         "transfer": "Transfers",
         "tickets": "Tickets",
         "guide": "Guide",
-        "additional_service": "Additional Service",
+        "additional_service": "Tour taxes",
         "airway_tickets": "Airways Tickets",
         "off-plan meals": "Off-plan Meals",
         "visa": "Visa",

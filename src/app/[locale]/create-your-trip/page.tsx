@@ -2,8 +2,7 @@ export const dynamic = 'force-dynamic';
 import { create } from '@/assets/img';
 
 import { Metadata } from 'next';
-import { DefaultPageProps } from '@/types';
-import { SeoMetadata } from '@/components/Tour/_types';
+import { DefaultPageProps, ISeoMetadata } from '@/types';
 import CreateYourTripFormWrapper from '@/components/Create-Your-Trip/CreateYourTripFormWrapper/CreateYourTripFormWrapper';
 import { apiGet } from '../../../utils/serverApi';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
@@ -16,7 +15,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}/create-your-trip`;
 
-  const data = await apiGet<{ seo_metadata?: SeoMetadata }>(
+  const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
     `pages?page=${encodeURIComponent(pagePath)}`,
   );
 

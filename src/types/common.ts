@@ -1,5 +1,11 @@
 // Общие базовые типы, используемые по всему приложению
 
+export interface ISeoMetadata {
+  title: string;
+  description: string;
+  keywords: string;
+}
+
 export interface IMediaData {
   id: number;
   file: string | null;

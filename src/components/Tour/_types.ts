@@ -1,3 +1,5 @@
+import { ISeoMetadata } from '@/types';
+
 export type TourImage = {
   id: number;
   file: string;
@@ -17,12 +19,6 @@ export type Facts = {
     hotels: string;
     transport: string;
   };
-};
-
-export type SeoMetadata = {
-  title: string;
-  description: string;
-  keywords: string;
 };
 
 export type Season = {
@@ -129,7 +125,7 @@ export type Tour = {
   description: string;
   hightlights: Highlights;
   facts: Facts;
-  seo_metadata: SeoMetadata;
+  seo_metadata: ISeoMetadata;
   slug: string;
   photo: TourImage;
   gallery: TourImage[];

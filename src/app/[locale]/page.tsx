@@ -1,9 +1,8 @@
 import dynamic from 'next/dynamic';
 
 import { Metadata } from 'next';
-import { DefaultPageProps } from '@/types';
+import { DefaultPageProps, ISeoMetadata } from '@/types';
 import { apiGet } from '@/utils/serverApi';
-import { SeoMetadata } from '@/components/Tour/_types';
 
 const Hero = dynamic(() => import('@/components/Home/Hero/Hero'));
 const Info = dynamic(() => import('@/components/Home/Info/Info'));
@@ -24,7 +23,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}`;
 
-  const data = await apiGet<{ seo_metadata?: SeoMetadata }>(
+  const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
     `pages/?page=${encodeURIComponent(pagePath)}`,
   );
 
