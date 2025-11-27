@@ -5,7 +5,7 @@ import { FaStar, FaPlus, FaMinus } from 'react-icons/fa';
 import { useGetQuery } from '@/api/get.api';
 import { DestinationCard } from '@/components/Home/Destinations/_types';
 import { usePostMutation } from '@/api/post.api';
-import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
+import { useSnackStore } from '@/store/useSnackStore';
 import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '@/components/UI';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
@@ -122,9 +122,8 @@ export const FormTop = () => {
         {hotelOptions.map((option) => (
           <label
             key={option.value}
-            className={`bg-white rounded-[16px] flex-1 min-h-[55px] flex items-center justify-center cursor-pointer transition-colors ${
-              formData.hotel_type === option.value ? 'bg-[#16372D] text-white' : 'hover:bg-gray-50'
-            }`}
+            className={`bg-white rounded-[16px] flex-1 min-h-[55px] flex items-center justify-center cursor-pointer transition-colors ${formData.hotel_type === option.value ? 'bg-[#16372D] text-white' : 'hover:bg-gray-50'
+              }`}
           >
             <input
               type="radio"
@@ -213,9 +212,8 @@ export const FormTop = () => {
           return (
             <label
               key={el.name}
-              className={`bg-white rounded-[16px] flex-1 min-h-[55px] flex items-center justify-center cursor-pointer transition-colors ${
-                isChecked ? 'bg-[#16372D] text-white' : 'hover:bg-gray-50'
-              }`}
+              className={`bg-white rounded-[16px] flex-1 min-h-[55px] flex items-center justify-center cursor-pointer transition-colors ${isChecked ? 'bg-[#16372D] text-white' : 'hover:bg-gray-50'
+                }`}
             >
               <input
                 type="checkbox"
@@ -266,11 +264,10 @@ export const FormTop = () => {
           <button
             key={type}
             type="button"
-            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
-              formData.travellers_type === type
-                ? 'bg-[#27A430] text-white border-[#27A430]'
-                : 'border-gray-300 hover:border-[#27A430]'
-            }`}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${formData.travellers_type === type
+              ? 'bg-[#27A430] text-white border-[#27A430]'
+              : 'border-gray-300 hover:border-[#27A430]'
+              }`}
             onClick={() => setFormData((prev) => ({ ...prev, travellers_type: type }))}
           >
             {type}

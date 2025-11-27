@@ -27,7 +27,7 @@ export const AccomodationCard = ({
       }}
       className="flex-[0_0_80%] md:flex-[0_0_50%] md:max-w-[350px] w-full h-full rounded-2xl bg-white overflow-hidden"
     >
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col">
         {hotel.gallery.length > 0 && (
           <div className="w-full h-full aspect-[4/3]">
             <ImageWithFallback
@@ -39,13 +39,14 @@ export const AccomodationCard = ({
             />
           </div>
         )}
-        <div className="p-5 flex flex-col">
-          <h2 className="text-2xl font-normal mb-3.5 truncate">{hotel?.name}</h2>
-          <hr className="border-black/10 mb-3.5" />
-          <div className="grid grid-cols-3 gap-3">
-            <div className="flex flex-col gap-1">
+        <div className="p-4 flex flex-col gap-3">
+          <h2 className="text-xl font-normal truncate">{hotel?.name}</h2>
+          <hr className="border-black/10" />
+          <div className="grid grid-cols-2 gap-5">
+
+            <div className="flex flex-col gap-1 text-sm col-span-2">
               {t('hotel.card.location')}
-              <div className="flex flex-row gap-2 items-center text-base font-normal">
+              <div className="flex flex-row gap-2 items-center text-sm font-normal">
                 <svg
                   width="15"
                   height="20"
@@ -58,12 +59,12 @@ export const AccomodationCard = ({
                     stroke="#111111"
                   />
                 </svg>
-                {hotel?.city}
+                {hotel?.country}, {hotel?.city}
               </div>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 text-sm">
               {t('hotel.card.category')}
-              <div className="flex flex-row gap-2 items-center text-base font-normal">
+              <div className="flex flex-row gap-2 items-center text-sm font-normal">
                 <svg
                   width="18"
                   height="18"
@@ -79,9 +80,9 @@ export const AccomodationCard = ({
                 {hotel.hotel_type}
               </div>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 text-sm">
               {t('hotel.card.nights')}
-              <div className="flex flex-row gap-2 items-center text-base font-normal">
+              <div className="flex flex-row gap-2 items-center text-sm font-normal">
                 <svg
                   width="18"
                   height="18"

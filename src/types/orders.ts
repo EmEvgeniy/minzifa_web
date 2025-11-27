@@ -47,11 +47,10 @@ export interface IOrderCard {
 }
 
 export interface INote {
-  message?: {
-    formName: string;
-    formData: unknown;
+  formData: {
+    form_name: string;
+    form_data: unknown;
   };
-  note?: string | null;
 }
 
 export interface IInvoiceData {
@@ -76,10 +75,12 @@ export interface IOrder {
   order_name: string;
   status: OrderStatusEnum;
   notes?: INote;
-  chat_id: number;
+  chat_id?: number;
   created_at: Date;
   updated_at: Date;
   tour_detail: IOrderTourDetailData;
   tourist: import('./auth').ITourist;
   manager: import('@/components/Auth/_types').IManager;
+  invoice?: IInvoiceData;
+  form_name?: string;
 }

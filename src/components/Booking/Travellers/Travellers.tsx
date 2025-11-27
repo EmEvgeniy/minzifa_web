@@ -1,9 +1,13 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { BookingFormType } from '@/validation/bookingFormSchema';
+import { UseFormSetValue } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 const TravellersCounter = dynamic(() => import('./TravellersCounter'));
 
-export default async function Travellers({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'Booking' });
+export default function Travellers({ bookingData, setValue }: { bookingData: BookingFormType; setValue: UseFormSetValue<BookingFormType> }) {
+  const t = useTranslations('Booking');
 
   return (
     <div className="flex flex-col gap-5">
@@ -13,7 +17,7 @@ export default async function Travellers({ locale }: { locale: string }) {
       <div className="grid grid-cols-1">
         <div className="rounded-2xl flex items-center justify-between bg-white p-5">
           <span className="text-lg font-normal">{t('travellers.person')}</span>
-          <TravellersCounter />
+          <TravellersCounter bookingData={bookingData} setValue={setValue} />
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePostMutation } from '@/api/post.api';
-import { useSnackStore } from '../CustomSnackBar/store';
+import { useSnackStore } from '../../../store/useSnackStore';
 import { CreateYourTripFormProps, CreateYourTripFormRequest, QuestionData } from './_types';
 import { useRouter } from 'next/navigation';
 import { useMetricsStore } from '@/store/useMetricsStore';

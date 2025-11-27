@@ -6,8 +6,10 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useMetricsStore } from '@/store/useMetricsStore';
 import { chatPopupFormSchema, ChatPopupFormType } from '@/validation/chatPopupFormSchema';
 import { usePostMutation } from '@/api/post.api';
-import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
+import { useSnackStore } from '@/store/useSnackStore';
 import { IMessage } from '@/types';
+import { useRecaptcha } from './useRecaptcha';
+import { useChats } from './useChats';
 
 export const useChatPopup = () => {
   const t = useTranslations();
@@ -16,9 +18,11 @@ export const useChatPopup = () => {
   const { setMessage, setError } = useSnackStore();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isChatMode] = useState(false);
+  const [isChatMode, setIsChatMode] = useState(false);
   const [messageInput, setMessageInput] = useState('');
   const [messages, setMessages] = useState<IMessage[]>([]);
+
+  const { isReady, getToken } = useRecaptcha();
 
   const schema = chatPopupFormSchema(t);
 
@@ -28,18 +32,19 @@ export const useChatPopup = () => {
     formState: { errors, isValid },
     setValue,
     control,
+    reset,
   } = useForm<ChatPopupFormType>({
     resolver: zodResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
+      name: user?.name || '',
+      email: user?.email || '',
+      phone: user?.phone || '',
       message: '',
+      recaptchaToken: '',
     },
   });
 
-  // Fill form if authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
       setValue('name', user.name || '');
@@ -48,64 +53,52 @@ export const useChatPopup = () => {
     }
   }, [isAuthenticated, user, setValue]);
 
-  const { mutate, isPending } = usePostMutation<{ success: boolean }, { success: boolean }>(
+  const { handleChatSelect, initializeWebSocket } = useChats();
+
+  const { mutate, isPending } = usePostMutation<any>(
     ['chat-popup'],
-    () => {
+    (data) => {
       setMessage(t('chat_popup.form_sent'));
-      setTimeout(() => {
-        setIsOpen(false);
-      }, 3000);
+      if (data?.chats && data.chats.length > 0) {
+        const chat = data.chats[0];
+        handleChatSelect(chat);
+        initializeWebSocket();
+        setIsChatMode(true);
+      } else {
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 3000);
+      }
+      reset();
     },
     () => {
       setError(t('errors.general'));
     },
   );
 
-  const onSubmit = (data: ChatPopupFormType) => {
+  const onSubmit = async (data: ChatPopupFormType) => {
+    if (!isReady) {
+      return;
+    }
+
+    const token = await getToken('chat_popup');
+
+    if (!token) {
+      setError(t('recaptcha.error'));
+      return;
+    }
+
     mutate({
-      obj: { ...data, ...metrics, success: true },
+      obj: {
+        ...data,
+        recaptchaToken: token,
+        ...metrics,
+      },
       endpoint: 'forms/chat-popup',
     });
   };
 
-  const handleSendMessage = () => {
-    if (!messageInput.trim()) return;
-    const newMessage: IMessage = {
-      id: messages.length + 1,
-      chat_id: 1,
-      sender_type: 'App\\Models\\Tourist',
-      sender_id: user?.id || 0,
-      message_type: 'text',
-      message: messageInput,
-      file_path: '',
-      is_read: true,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
-    setMessages([...messages, newMessage]);
-    setMessageInput('');
-    // Mock manager response
-    setTimeout(() => {
-      const managerMessage: IMessage = {
-        id: messages.length + 2,
-        chat_id: 1,
-        sender_type: 'App\\Models\\Manager',
-        sender_id: 1,
-        message_type: 'text',
-        message: t('chat_popup.manager_response'),
-        file_path: '',
-        is_read: true,
-        created_at: new Date(),
-        updated_at: new Date(),
-      };
-      setMessages((prev) => [...prev, managerMessage]);
-    }, 2000);
-  };
-
-  const inputClasses = (hasError?: boolean) =>
-    `focus:ring-green-500 focus:border-green-500 block w-full rounded-lg border p-3 text-sm text-gray-900 shadow-sm bg-white ${
-      hasError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'
-    }`;
+  const { handleSendMessage } = useChats();
 
   return {
     isOpen,
@@ -120,10 +113,9 @@ export const useChatPopup = () => {
     isValid,
     control,
     onSubmit,
-    handleSendMessage,
-    inputClasses,
     isPending,
     t,
     isAuthenticated,
+    handleSendMessage,
   };
 };

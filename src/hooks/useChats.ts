@@ -1,271 +1,338 @@
-import { useEffect, useCallback } from 'react';
-import { privateAxios } from '@/api/axios';
+import { useEffect, useCallback, useRef } from 'react';
 import { useChatsStore } from '@/store/chatsStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { IChat, IMessage } from '@/types';
-import { initCentrifugo, subscribeToChat } from '@/app/CentrifugeClient';
+import { initCentrifugo } from '@/app/CentrifugeClient';
+import axiosInstance from '@/utils/axios';
+import { AUTH_COOKIE_NAME, BASE_API_PATH } from '@/constants';
+import { getCookie } from 'cookies-next';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useChats = () => {
+  const queryClient = useQueryClient();
+  const isInitializingRef = useRef(false);
+  const isInitializedRef = useRef(false);
+
   const {
-    chats,
     selectedChat,
     messageInput,
     currentChatMessages,
     isLoading,
     error,
     centrifuge,
-    subscription,
     setSelectedChat,
     setMessageInput,
     setIsLoading,
     setError,
-    setChats,
     setCurrentChatMessages,
     addMessage,
     setCentrifuge,
     setSubscription,
+    socketId,
+    setSocketId,
+    replaceMessage,
   } = useChatsStore();
 
-  // API Actions
-  const fetchChats = async () => {
-    // Проверяем, что запрос уже не выполняется
-    if (isLoading) {
+  const fetchChat = useCallback(
+    async (chatId: number) => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const token = getCookie(AUTH_COOKIE_NAME);
+
+        if (!token) {
+          throw new Error('No auth token found');
+        }
+
+        const response = await axiosInstance.get(`/chats/${chatId}`);
+
+        const chat = response.data;
+
+        setSelectedChat(chat);
+        setCurrentChatMessages({ data: chat.messages });
+      } catch (error) {
+        console.error('Failed to fetch chat:', error);
+        setError('Failed to load chat');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [setIsLoading, setError, setSelectedChat, setCurrentChatMessages],
+  );
+
+  const sendMessage = useCallback(
+    async (chatId: number, message: string) => {
+      try {
+        const token = getCookie(AUTH_COOKIE_NAME);
+
+        if (!token) {
+          throw new Error('No auth token found');
+        }
+
+        setMessageInput('');
+
+        const response = await axiosInstance.post(
+          `/chats/${chatId}/messages`,
+          {
+            message,
+            message_type: 'text',
+          },
+          {
+            headers: {
+              'X-Socket-Id': socketId,
+            },
+          },
+        );
+
+        addMessage(response.data);
+      } catch (error) {
+        console.error('Failed to send message:', error);
+        setError('Failed to send message');
+      }
+    },
+    [addMessage, setMessageInput, socketId, replaceMessage],
+  );
+
+  const initializeWebSocket = useCallback(async () => {
+    if (isInitializingRef.current || isInitializedRef.current) {
+      return;
+    }
+
+    const currentCentrifuge = useChatsStore.getState().centrifuge;
+    if (currentCentrifuge) {
+      isInitializedRef.current = true;
       return;
     }
 
     try {
-      setIsLoading(true);
-      setError(null);
-
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('auth-token='))
-        ?.split('=')[1];
-
-      console.log('Auth token found:', !!token);
-      console.log('All cookies:', document.cookie);
-
-      if (!token) {
-        console.error('No auth token found in cookies');
-        throw new Error('No auth token found');
-      }
-
-      const response = await privateAxios.get('/api/v1/chats');
-
-      if (response.data && response.data.data) {
-        // API возвращает данные в формате { data: [...] }
-        setChats(response.data);
-      } else if (Array.isArray(response.data)) {
-        // API возвращает массив напрямую, оборачиваем в нужный формат
-        setChats({ data: response.data });
-      } else {
-        setChats({ data: [] });
-      }
-    } catch (error) {
-      console.error('Failed to fetch chats:', error);
-      setError('Failed to load chats');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchChat = async (chatId: number) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('auth-token='))
-        ?.split('=')[1];
-
-      if (!token) {
-        throw new Error('No auth token found');
-      }
-
-      const response = await privateAxios.get(`/api/v1/chats/${chatId}`);
-
-      const chat = response.data;
-      setSelectedChat(chat);
-
-      // Fetch messages separately
-      await fetchChatMessages(chatId);
-    } catch (error) {
-      console.error('Failed to fetch chat:', error);
-      setError('Failed to load chat');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchChatMessages = async (chatId: number) => {
-    try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('auth-token='))
-        ?.split('=')[1];
-
-      if (!token) {
-        throw new Error('No auth token found');
-      }
-
-      const response = await privateAxios.get(`/api/v1/chats/${chatId}/messages`);
-
-      let messages = response.data;
-
-      // Handle different response formats
-      if (messages.data && Array.isArray(messages.data)) {
-        messages = messages.data;
-      } else if (!Array.isArray(messages)) {
-        messages = [];
-      }
-
-      // Ensure messages have proper format
-      const processedMessages = messages.map((msg: IMessage) => ({
-        ...msg,
-        created_at: msg.created_at ? new Date(msg.created_at) : new Date(),
-        updated_at: msg.updated_at ? new Date(msg.updated_at) : new Date(),
-      }));
-
-      setCurrentChatMessages({ data: processedMessages });
-    } catch (error) {
-      console.error('Failed to fetch chat messages:', error);
-      setError('Failed to load messages');
-    }
-  };
-
-  const sendMessage = async (chatId: number, message: string) => {
-    try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('auth-token='))
-        ?.split('=')[1];
-
-      if (!token) {
-        throw new Error('No auth token found');
-      }
-
-      // Create temporary message for immediate UI update
-      const tempMessage: IMessage = {
-        id: Date.now(), // Temporary ID
-        chat_id: chatId,
-        sender_type: 'App\\Models\\Tourist', // Assuming current user is tourist
-        sender_id: 0, // Will be set by server
-        message_type: 'text',
-        message: message,
-        file_path: '',
-        is_read: false,
-        created_at: new Date(),
-        updated_at: new Date(),
-      };
-
-      // Add message to UI immediately
-      addMessage(tempMessage);
-
-      await privateAxios.post(`/api/v1/chats/${chatId}/messages`, {
-        message,
-        message_type: 'text',
-      });
-
-      // Clear message input after successful send
-      setMessageInput('');
-    } catch (error) {
-      console.error('Failed to send message:', error);
-      setError('Failed to send message');
-    }
-  };
-
-  // WebSocket Actions
-  const initializeWebSocket = useCallback(async () => {
-    try {
-      // Проверяем, что centrifuge еще не инициализирован
-      if (centrifuge) {
-        return;
-      }
+      isInitializingRef.current = true;
 
       const centrifugeInstance = await initCentrifugo();
       setCentrifuge(centrifugeInstance);
 
-      // Connect to centrifuge
+      centrifugeInstance.on('connected', (ctx) => {
+        setSocketId(ctx.client);
+      });
+
       centrifugeInstance.connect();
+      isInitializedRef.current = true;
     } catch (error) {
       console.error('Failed to initialize WebSocket:', error);
       setError('Failed to initialize WebSocket');
+      isInitializingRef.current = false;
     }
-  }, [centrifuge, setCentrifuge, setError]);
+  }, [setCentrifuge, setError, setSocketId]);
 
-  const unsubscribeFromChat = useCallback(() => {
-    if (subscription) {
-      subscription.unsubscribe();
-      setSubscription(null);
-    }
-  }, [subscription, setSubscription]);
-
-  const subscribeToChatChannel = useCallback(
-    async (chatId: number) => {
-      try {
-        if (!centrifuge) {
-          throw new Error('Centrifuge not initialized');
-        }
-
-        // Проверяем, что уже не подписаны на этот чат
-        if (subscription && selectedChat?.id === chatId) {
-          return;
-        }
-
-        // Unsubscribe from previous subscription if exists
-        unsubscribeFromChat();
-
-        const subscriptionInstance = await subscribeToChat(
-          centrifuge,
-          chatId.toString(),
-          (message: IMessage) => {
-            // Add incoming message to the list
-            addMessage(message);
-          },
-        );
-
-        setSubscription(subscriptionInstance);
-      } catch (error) {
-        console.error('Failed to subscribe to chat:', error);
-        setError('Failed to subscribe to chat');
-      }
-    },
-    [
-      centrifuge,
-      subscription,
-      selectedChat?.id,
-      setSubscription,
-      setError,
-      addMessage,
-      unsubscribeFromChat,
-    ],
-  );
-
-  // Initialize WebSocket on mount if authenticated
   useEffect(() => {
-    const initWebSocket = async () => {
-      if (!centrifuge) {
-        await initializeWebSocket();
+    if (!selectedChat || !centrifuge) return;
+
+    let isCancelled = false;
+    let sub: any = null;
+
+    const setupSubscription = async () => {
+      try {
+        const channel = `chat#${selectedChat.id}`;
+
+        // 1. Cleanup existing subscription if any
+        const existingSub = centrifuge.getSubscription(channel);
+        if (existingSub) {
+          await existingSub.unsubscribe();
+          centrifuge.removeSubscription(existingSub);
+        }
+
+        if (isCancelled) return;
+
+        // 2. Get token
+        const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/subscribe`, {
+          channel,
+        });
+
+        if (isCancelled) return;
+
+        if (!data.token) {
+          throw new Error('Не удалось получить токен подписки для канала');
+        }
+
+        // 3. Double check existing subscription before creating new one
+        // (in case another effect created one while we were fetching token)
+        const currentSub = centrifuge.getSubscription(channel);
+        if (currentSub) {
+          await currentSub.unsubscribe();
+          centrifuge.removeSubscription(currentSub);
+        }
+
+        // 4. Create subscription
+        sub = centrifuge.newSubscription(channel, {
+          token: data.token,
+        });
+
+        // 5. Setup listeners
+        sub.on('publication', (ctx: any) => {
+          const message = ctx.data || ctx;
+          addMessage(message);
+        });
+
+        sub.on('error', (ctx: any) => {
+          console.error(`Subscription error for channel ${channel}:`, ctx);
+        });
+
+        // 6. Subscribe
+        if (!isCancelled) {
+          await sub.subscribe();
+          setSubscription(sub);
+        } else {
+          // If cancelled during setup, ensure we clean up
+          centrifuge.removeSubscription(sub);
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          console.error('Failed to subscribe to chat:', error);
+          setError('Failed to subscribe to chat');
+        }
       }
     };
 
-    initWebSocket();
-  }, [centrifuge, initializeWebSocket]);
-
-  // Subscribe to chat when selectedChat changes
-  useEffect(() => {
-    if (selectedChat && centrifuge) {
-      subscribeToChatChannel(selectedChat.id);
-    }
+    setupSubscription();
 
     return () => {
-      unsubscribeFromChat();
+      isCancelled = true;
+      if (sub) {
+        sub.unsubscribe();
+        if (centrifuge) {
+          centrifuge.removeSubscription(sub);
+        }
+      } else {
+        // If sub is not yet assigned (still setting up), we try to find it by channel and remove
+        // This covers the case where we created it but haven't assigned to 'sub' var yet
+        // although our isCancelled checks should prevent this, it's a safety net
+        if (selectedChat && centrifuge) {
+          const channel = `chat#${selectedChat.id}`;
+          const existing = centrifuge.getSubscription(channel);
+          if (existing) {
+            existing.unsubscribe();
+            centrifuge.removeSubscription(existing);
+          }
+        }
+      }
+      setSubscription(null);
     };
-  }, [selectedChat, centrifuge, subscribeToChatChannel, unsubscribeFromChat]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedChat?.id, centrifuge, setSubscription, setError, addMessage]);
 
-  const handleChatSelect = (chat: IChat) => {
+  // Personal channel subscription for global updates
+  useEffect(() => {
+    const user = useAuthStore.getState().user;
+    if (!user || !centrifuge) return;
+
+    let isCancelled = false;
+    let sub: any = null;
+
+    const setupPersonalSubscription = async () => {
+      try {
+        const channel = `personal#${user.id}`;
+
+        // 1. Cleanup existing subscription if any
+        const existingSub = centrifuge.getSubscription(channel);
+        if (existingSub) {
+          await existingSub.unsubscribe();
+          centrifuge.removeSubscription(existingSub);
+        }
+
+        if (isCancelled) return;
+
+        // 2. Get token
+        const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/subscribe`, {
+          channel,
+        });
+
+        if (isCancelled) return;
+
+        if (!data.token) {
+          throw new Error('Не удалось получить токен подписки для личного канала');
+        }
+
+        // 3. Double check existing subscription
+        const currentSub = centrifuge.getSubscription(channel);
+        if (currentSub) {
+          await currentSub.unsubscribe();
+          centrifuge.removeSubscription(currentSub);
+        }
+
+        // 4. Create subscription
+        sub = centrifuge.newSubscription(channel, {
+          token: data.token,
+        });
+
+        // 5. Setup listeners
+        sub.on('publication', (ctx: any) => {
+          const message = ctx.data || ctx;
+
+          // Update React Query cache to move chat to top and update last message
+          queryClient.setQueryData(['chats'], (oldData: any) => {
+            if (!oldData?.pages) return oldData;
+
+            const newPages = oldData.pages.map((page: any) => ({
+              ...page,
+              data: page.data.map((chat: IChat) => {
+                if (chat.id === message.chat_id) {
+                  return {
+                    ...chat,
+                    last_message: message,
+                    updated_at: message.created_at, // Update timestamp to sort by it
+                  };
+                }
+                return chat;
+              }),
+            }));
+
+            // Sort chats: the one with new message goes first
+            // Note: This is a simplified sort, ideally we should re-sort the whole list
+            // But since we have pagination, we might just want to update the specific chat
+            // For now, let's just update the content. Re-sorting might be complex with infinite scroll.
+
+            return { ...oldData, pages: newPages };
+          });
+
+          // If this message is for the currently selected chat, we don't need to do anything
+          // because the chat subscription handles it.
+          // But if we wanted to be safe, we could deduplicate in addMessage.
+        });
+
+        sub.on('error', (ctx: any) => {
+          console.error(`Subscription error for channel ${channel}:`, ctx);
+        });
+
+        // 6. Subscribe
+        if (!isCancelled) {
+          await sub.subscribe();
+        } else {
+          centrifuge.removeSubscription(sub);
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          console.error('Failed to subscribe to personal channel:', error);
+        }
+      }
+    };
+
+    setupPersonalSubscription();
+
+    return () => {
+      isCancelled = true;
+      if (sub) {
+        sub.unsubscribe();
+        if (centrifuge) {
+          centrifuge.removeSubscription(sub);
+        }
+      }
+    };
+  }, [centrifuge]);
+
+  const handleChatSelect = (chat: IChat | null) => {
+    if (selectedChat?.id === chat?.id) return;
     setSelectedChat(chat);
-    fetchChat(chat.id);
+    if (chat) fetchChat(chat.id);
   };
 
   const handleSendMessage = () => {
@@ -279,7 +346,6 @@ export const useChats = () => {
 
   return {
     // Data
-    chats,
     selectedChat,
     messageInput,
     currentChatMessages,
@@ -287,8 +353,8 @@ export const useChats = () => {
     error,
 
     // Actions
-    fetchChats,
     fetchChat,
+    initializeWebSocket,
     handleChatSelect,
     setMessageInput,
     handleSendMessage,

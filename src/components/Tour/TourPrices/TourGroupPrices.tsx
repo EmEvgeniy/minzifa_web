@@ -5,7 +5,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import { PriceFilter } from '@/components/Tour/TourPrices/components/group/PriceFilter';
 import { date_end, formatted_date } from '@/utils';
 import { useState } from 'react';
-import { useBookingStore } from '@/store';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
@@ -26,8 +25,6 @@ export default function TourGroupPrices({ tour }: { tour: Tour }) {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
-  const { setBookingData } = useBookingStore((state) => state);
-
   const filteredPrices = tour?.prices?.data?.filter((price) => {
     const date = new Date(price.date_start);
     const yearMatches = selectedYear === null || date.getFullYear() === selectedYear;
@@ -44,21 +41,21 @@ export default function TourGroupPrices({ tour }: { tour: Tour }) {
     travellers: string,
   ) => {
     if (!tour || !selectedPrice) return;
-    setBookingData({
-      passengers: [],
-      tour_name: tour.name,
-      tour_start: formatted_date(selectedPrice.date_start, locale),
-      tour_end: date_end(selectedPrice.date_start, locale, tour.days),
-      travellers_count: String(travellers),
-      tour_price: selectedPrice.price_for_double,
-      deposit: totalPrice * 0.15,
-      total_price: totalPrice,
-      payment_type: 'cash',
-      payment_status: 'pending',
-      single_price: selectedPrice.price_for_single,
-      currency: valute,
-      total_seats: selectedPrice.tour_total_seats,
-    });
+    // setBookingData({
+    //   passengers: [],
+    //   tour_name: tour.name,
+    //   tour_start: formatted_date(selectedPrice.date_start, locale),
+    //   tour_end: date_end(selectedPrice.date_start, locale, tour.days),
+    //   travellers_count: String(travellers),
+    //   tour_price: selectedPrice.price_for_double,
+    //   deposit: totalPrice * 0.15,
+    //   total_price: totalPrice,
+    //   payment_type: 'cash',
+    //   payment_status: 'pending',
+    //   single_price: selectedPrice.price_for_single,
+    //   currency: valute,
+    //   total_seats: selectedPrice.tour_total_seats,
+    // });
     const params = new URLSearchParams({
       tour_name: tour.name,
       tour_start: formatted_date(selectedPrice.date_start, locale),

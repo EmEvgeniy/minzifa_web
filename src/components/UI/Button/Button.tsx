@@ -1,124 +1,117 @@
 'use client';
 
 import React, { forwardRef, ReactNode } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { cn } from '@/utils';
 
-interface ButtonProps {
+type ButtonVariants =
+  | 'primary'
+  | 'secondary'
+  | 'red'
+  | 'gray'
+  | 'yellow'
+  | 'light'
+  | 'white'
+  | 'soft'
+  | 'link';
+
+interface BaseProps {
   children?: ReactNode;
-  type?: 'button' | 'submit' | 'reset';
-  color?: 'primary' | 'secondary' | 'red' | 'gray' | 'yellow' | 'light' | 'white' | 'soft' | 'link';
+  color?: ButtonVariants;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-  onClick?: ((e?: React.MouseEvent) => void) | (() => void);
   className?: string;
-  as?: 'button' | typeof Link;
-  to?: string;
-  target?: string;
   disabled?: boolean;
   active?: boolean;
 }
 
-export default function Button({
-  children,
-  type,
-  color = 'primary',
-  leftIcon,
-  rightIcon,
-  onClick,
-  className,
-  as = 'button',
-  to,
-  target,
-  disabled = false,
-  active = false,
-}: ButtonProps) {
-  const baseStyles = cn(
-    'flex items-center cursor-pointer justify-center gap-2 rounded-2xl px-4 py-2 font-medium transition-all duration-300',
-    'hover:opacity-95 active:scale-97',
-    {
-      'bg-[#27A430] text-white hover:bg-[#239C3A]': color === 'primary' && !active,
-      'bg-[#16372D] text-white': color === 'primary' && active,
+type ButtonAsButton = BaseProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    to?: undefined;
+  };
 
-      'bg-[#16372D] text-white hover:bg-[#1E4C3F]': color === 'secondary' && !active,
-      'bg-[#27A430] text-white': color === 'secondary' && active,
+type ButtonAsLink = BaseProps &
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    to: string;
+  };
 
-      'bg-red-500 text-white hover:bg-red-600': color === 'red' && !active,
-      'bg-red-700 text-white': color === 'red' && active,
+type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-      'bg-gray-500 text-white hover:bg-gray-600': color === 'gray' && !active,
-      'bg-gray-700 text-white': color === 'gray' && active,
+const colorStyles: Record<ButtonVariants, string> = {
+  primary: 'bg-[#27A430] text-white hover:bg-[#239C3A]',
+  secondary: 'bg-[#16372D] text-white hover:bg-[#0F2A21]',
+  red: 'bg-red-600 text-white hover:bg-red-700',
+  gray: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+  yellow: 'bg-yellow-400 text-black hover:bg-yellow-500',
+  light: 'bg-gray-100 text-gray-900 hover:bg-gray-200',
+  white: 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50',
+  soft: 'bg-green-100 text-green-800 hover:bg-green-200',
+  link: 'bg-transparent text-gray-700 hover:text-[#1F8A2D]',
+};
 
-      'bg-yellow-400 text-gray-900 hover:bg-yellow-500': color === 'yellow' && !active,
-      'bg-yellow-600 text-gray-900': color === 'yellow' && active,
+const activeStyles: Record<ButtonVariants, string> = {
+  primary: 'bg-[#16372D] text-white',
+  secondary: 'bg-[#0F2A21] text-white',
+  red: 'bg-red-800 text-white',
+  gray: 'bg-gray-400 text-white',
+  yellow: 'bg-yellow-600 text-black',
+  light: 'bg-gray-200 text-gray-900',
+  white: 'bg-gray-100 text-gray-800',
+  soft: 'bg-green-200 text-green-900',
+  link: 'text-gray-900',
+};
 
-      'bg-gray-100 text-gray-900 hover:bg-gray-200': color === 'light' && !active,
-      'bg-gray-300 text-gray-900': color === 'light' && active,
+const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+  ({ children, color = 'primary', leftIcon, rightIcon, className, disabled = false, active = false, to, type, ...props }, ref) => {
+    const isLink = typeof to === 'string';
 
-      'bg-white text-[#16372D] border border-gray-300 hover:bg-gray-100':
-        color === 'white' && !active,
-      'bg-gray-100 text-[#16372D] border border-gray-300': color === 'white' && active,
+    const currentColor = active ? activeStyles[color] : colorStyles[color];
 
-      'bg-transparent text-[#16372D] hover:bg-[#E6F2EC]': color === 'soft' && !active,
-      'bg-[#E6F2EC] text-[#16372D] border border-[#27A430]': color === 'soft' && active,
+    const baseStyles = cn(
+      'flex items-center justify-center gap-2 rounded-2xl px-5 py-4 font-medium select-none transition cursor-pointer',
+      'focus:outline-none',
+      currentColor,
+      {
+        'opacity-50 cursor-not-allowed pointer-events-none': disabled,
+      },
+      className
+    );
 
-      // ✅ Новый стиль — текстовая "ссылка"
-      'bg-transparent text-black px-0 py-0 font-normal hover:underline hover:text-gray-700':
-        color === 'link' && !disabled,
+    const content = (
+      <>
+        {leftIcon && <span>{leftIcon}</span>}
+        {children}
+        {rightIcon && <span>{rightIcon}</span>}
+      </>
+    );
 
-      'opacity-50 cursor-not-allowed': disabled,
-    },
-    className,
-  );
+    if (isLink) {
+      return (
+        <Link
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          href={to}
+          className={baseStyles}
+          aria-disabled={disabled}
+          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        >
+          {content}
+        </Link>
+      );
+    }
 
-  const content = (
-    <>
-      {leftIcon && <span className="shrink-0">{leftIcon}</span>}
-      {children}
-      {rightIcon && <span className="shrink-0">{rightIcon}</span>}
-    </>
-  );
-
-  if (as === 'button') {
     return (
-      <motion.button
-        type={type}
-        onClick={(e) => !disabled && onClick && onClick(e)}
-        className={baseStyles}
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type={(type as ButtonAsButton['type']) ?? 'button'}
         disabled={disabled}
-        whileHover={{ scale: disabled || color === 'link' ? 1 : 1.01 }}
-        whileTap={{ scale: disabled || color === 'link' ? 1 : 0.97 }}
+        className={baseStyles}
+        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {content}
-      </motion.button>
+      </button>
     );
   }
+);
 
-  const MotionLink = motion.create(
-    forwardRef<HTMLAnchorElement, React.ComponentProps<typeof Link>>(
-      function MotionLinkComponent({ href, children, ...props }, ref) {
-        return (
-          <Link href={href || '#'} ref={ref} {...props}>
-            {children}
-          </Link>
-        );
-      },
-    ),
-  );
-
-  MotionLink.displayName = 'MotionLink';
-
-  return (
-    <MotionLink
-      href={to || '#'}
-      target={target}
-      onClick={(e) => !disabled && onClick && onClick(e)}
-      className={baseStyles}
-      whileHover={{ scale: disabled || color === 'link' ? 1 : 1.01 }}
-      whileTap={{ scale: disabled || color === 'link' ? 1 : 0.97 }}
-    >
-      {content}
-    </MotionLink>
-  );
-}
+Button.displayName = 'Button';
+export default Button;

@@ -13,7 +13,7 @@ export default async function Hero({ locale }: { locale: string }) {
       <ImageWithFallback src={about_hero} alt="hero_about" fill quality={75} loading="lazy" />
       <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
         <Breadcrumbs
-          mainStyle="text-white "
+          className="text-white "
           listClasses="text-white"
           locale={locale}
           link={{ link: '', title: t('breadcrumbs.about') }}

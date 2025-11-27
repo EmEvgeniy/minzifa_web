@@ -1,7 +1,5 @@
-export const dynamic = 'force-dynamic';
-
 import { contact_us } from '@/assets/img';
-import { Form } from '@/components/ContactUs';
+import { ContactForm } from '@/components/ContactUs';
 import React from 'react';
 import { Metadata } from 'next';
 import LeftInfo from '@/components/ContactUs/LeftInfo/LeftInfo';
@@ -39,11 +37,12 @@ export default async function page({ params }: DefaultPageProps) {
       <ImageWithFallback
         src={contact_us}
         alt="contact_us"
+        priority
         className=" object-cover absolute top-0 z-10"
       />
       <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
         <Breadcrumbs
-          mainStyle="text-white "
+          className="text-white "
           listClasses="text-white"
           locale={locale}
           link={{ link: '', title: t('breadcrumbs.contact') }}
@@ -53,7 +52,7 @@ export default async function page({ params }: DefaultPageProps) {
       <div className="container flex items-start justify-between gap-5 w-full relative z-30 h-full max-[768px]:flex-col max-[768px]:items-center max-[768px]:justify-center mt-[50px]">
         <LeftInfo locale={locale} />
         <div className="w-full block max-[768px]:hidden">
-          <Form />
+          <ContactForm />
         </div>
       </div>
     </section>

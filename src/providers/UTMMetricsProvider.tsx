@@ -52,7 +52,7 @@ export const UTMMetricsProvider = ({ children }: { children: ReactNode }) => {
     const storageKey = 'utm_metrics';
 
     useEffect(() => {
-        if (typeof window === 'undefined') return; // SSR-safe
+        if (typeof window === 'undefined') return;
 
         const stored = sessionStorage.getItem(storageKey);
 

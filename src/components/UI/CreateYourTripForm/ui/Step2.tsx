@@ -1,42 +1,35 @@
-import { useQuizStore } from '@/store/quizStore';
-import { cn } from '@/utils/utils';
-import { useEffect, useState } from 'react';
-import { StepProps } from '../DescForm';
-import ImageWithFallback from '../../ImageWithFallback/ImageWithFallback';
+'use client';
 
-const buttons = [
+import { cn } from '@/utils/utils';
+import { useEffect } from 'react';
+import { StepProps } from '../QuizForm';
+import ImageWithFallback from '../../ImageWithFallback/ImageWithFallback';
+import { Input } from '../../Form';
+import { Controller } from 'react-hook-form';
+
+type TravellerType = {
+  id: number;
+  title: string;
+  icon: string;
+}
+
+const buttons: TravellerType[] = [
   { id: 1, title: 'Solo', icon: '/Type=Solo.svg' },
   { id: 2, title: 'Couple', icon: '/Type=Couple.svg' },
   { id: 3, title: 'Family', icon: '/Type=Family.svg' },
   { id: 4, title: 'Friends', icon: '/Type=Friend.svg' },
 ];
 
-const Step2 = ({ errors = {}, clearError }: StepProps) => {
-  const [active, setActive] = useState(1);
-
-  const {
-    formData: { howManyDays },
-    setHowManyPeople,
-    setHowManyDays,
-  } = useQuizStore();
-
-  const handleClickPeople = (id: number) => {
-    setActive(id);
-    setHowManyPeople(buttons[id - 1].title);
-    if (clearError) clearError('howManyPeople');
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setHowManyDays(value);
-      if (clearError) clearError('howManyDays');
-    }
+const Step2 = ({ control, errors, setValue }: StepProps) => {
+  const handleClickPeople = (TravellerType: TravellerType) => {
+    setValue?.('howManyPeople', TravellerType.title);
   };
 
   useEffect(() => {
-    setHowManyPeople(buttons[0].title);
-  }, [setHowManyPeople]);
+    if (buttons) {
+      setValue?.('howManyPeople', buttons[0].title);
+    }
+  }, [setValue]);
 
   return (
     <div className="w-full h-full flex flex-col gap-10 justify-center">
@@ -48,34 +41,40 @@ const Step2 = ({ errors = {}, clearError }: StepProps) => {
 
         <div
           className={cn(
-            'flex items-center justify-between gap-2 w-full max-[620px]:grid max-[620px]:grid-cols-2',
-            errors.howManyPeople && 'border border-red-500 rounded-xl p-2',
+            'grid grid-cols-2 md:grid-cols-4 gap-2'
           )}
         >
           {buttons.map((el) => (
-            <button
+            <Controller
               key={el.id}
-              onClick={() => handleClickPeople(el.id)}
-              className={cn(
-                'group flex flex-col w-full items-center justify-center bg-white hover:bg-[#1e7e24] hover:text-white duration-300 transition-all rounded-2xl shadow-xl p-4 cursor-pointer border-[#E2E2E2] border-[0.3px]',
-                active === el.id && 'bg-[#27A430] text-white',
+              control={control}
+              name="howManyPeople"
+              defaultValue={buttons[0].title}
+              render={({ field }) => (
+                <button
+                  onClick={() => handleClickPeople(el)}
+                  className={cn(
+                    'group flex flex-col items-center justify-center bg-white hover:bg-[#1e7e24] hover:text-white duration-300 transition-all rounded-2xl shadow-xl p-4 cursor-pointer border-[#E2E2E2] border-[0.3px]',
+                    field.value === el.title && 'bg-[#27A430] text-white',
+                  )}
+                >
+                  <ImageWithFallback
+                    src={el.icon}
+                    alt={el.title}
+                    width={100}
+                    height={100}
+                    priority
+                    className={cn(
+                      'mb-2 group-hover:invert-100 group-hover:brightness-0 w-[28px] h-[28px] object-contain',
+                      field.value === el.title && 'icon-white',
+                    )}
+                  />
+                  <span className="text-sm font-medium">{el.title}</span>
+                </button>
               )}
-            >
-              <ImageWithFallback
-                src={el.icon}
-                width={28}
-                height={28}
-                alt={el.title}
-                className={cn(
-                  'mb-2 group-hover:invert-100 group-hover:brightness-0',
-                  active === el.id && 'icon-white',
-                )}
-              />
-              <span className="text-sm font-medium">{el.title}</span>
-            </button>
+            />
           ))}
         </div>
-        {errors.howManyPeople && <p className="text-red-500 text-sm">{errors.howManyPeople}</p>}
       </div>
 
       {/* DAYS */}
@@ -83,18 +82,19 @@ const Step2 = ({ errors = {}, clearError }: StepProps) => {
         <h2 className="text-left text-xl font-semibold max-[620px]:text-[14px]">
           How many days are you willing to commit to yourself?
         </h2>
-        <input
-          inputMode="numeric"
-          pattern="[0-9]*"
-          value={howManyDays}
-          onChange={handleChange}
-          className={cn(
-            'w-full max-w-[300px] bg-white outline-none rounded-[16px] px-3 py-2 border-2 max-[650px]:max-w-full',
-            errors.howManyDays ? 'border-red-500' : 'border-[#E2E2E2]',
+        <Controller
+          control={control}
+          name="howManyDays"
+          render={({ field }) => (
+            <Input
+              value={field.value}
+              onChange={field.onChange}
+              error={errors?.howManyDays}
+              placeholder="For how many days?"
+              wrapperClassName="max-w-[300px]"
+            />
           )}
-          placeholder="For how many days?"
         />
-        {errors.howManyDays && <p className="text-red-500 text-sm">{errors.howManyDays}</p>}
       </div>
     </div>
   );

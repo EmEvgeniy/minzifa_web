@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GroupPrice, Tour } from '@/components/Tour/_types';
-import { useBookingStore } from '@/store/bookingStore';
-import { createBookingData, createBookingParams } from '@/components/Tour/TourBooking/bookingUtils';
+import { createBookingParams } from '@/components/Tour/TourBooking/bookingUtils';
 
 interface UseGroupTourBookingProps {
   tour: Tour;
@@ -13,7 +12,6 @@ export const useGroupTourBooking = ({ tour, locale }: UseGroupTourBookingProps) 
   const prices = tour?.prices;
 
   const router = useRouter();
-  const { setBookingData } = useBookingStore((s) => s);
 
   const [travellers, setTravellers] = useState(1);
   const [selectedPrice, setSelectedPrice] = useState<GroupPrice | undefined>();
@@ -49,8 +47,8 @@ export const useGroupTourBooking = ({ tour, locale }: UseGroupTourBookingProps) 
   const handleBooking = () => {
     if (!tour || !selectedPrice) return;
 
-    const bookingData = createBookingData(tour, selectedPrice, totalPrice, travellers, locale);
-    setBookingData(bookingData);
+    // const bookingData = createBookingData(tour, selectedPrice, totalPrice, travellers, locale);
+    // setBookingData(bookingData);
 
     const params = createBookingParams(tour, selectedPrice, totalPrice, travellers, locale);
     router.push(`/${locale}/booking/${tour.slug}?${params.toString()}`);

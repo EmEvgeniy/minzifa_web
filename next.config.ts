@@ -26,16 +26,19 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: 'localhost',
       },
-      {
-        protocol: 'http',
-        hostname: '192.168.0.101',
-      },
     ],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  allowedDevOrigins: ['local-origin.dev', '*.local-origin.dev', '192.168.0.101'],
+  async rewrites() {
+    return [
+      {
+        source: '/.well-known/:path*',
+        destination: '/404',
+      },
+    ];
+  },
 };
 
 export default withBundleAnalyzer(withNextIntl(nextConfig));

@@ -12,7 +12,7 @@ type TBreadCrumbProps = {
   locale: string;
   link?: { title: string; link: string };
   link2?: { title: string; link: string };
-  mainStyle?: string;
+  className?: string;
 };
 
 export default async function Breadcrumbs({
@@ -23,12 +23,12 @@ export default async function Breadcrumbs({
   listClasses = 'text-[#16372D] hover:underline',
   link,
   link2,
-  mainStyle,
+  className,
 }: TBreadCrumbProps) {
   const t = await getTranslations({ locale, namespace: 'breadcrumbs' });
 
   return (
-    <nav aria-label="breadcrumb" className={cn('block', mainStyle)}>
+    <nav aria-label="breadcrumb" className={cn('block', className)}>
       <ul className={cn(containerClasses, 'list-none flex items-center flex-wrap')}>
         <li className={cn(listClasses)}>
           <Link href={`/${locale}`}>{homeElement ?? t('home')}</Link>
@@ -39,10 +39,12 @@ export default async function Breadcrumbs({
             {separator}
             {!link2 ? (
               <p>{link.title}</p>
-            ) : (
+            ) : link.link ? (
               <Link className={cn(listClasses)} href={link.link}>
                 {link.title}
               </Link>
+            ) : (
+              <p>{link.title}</p>
             )}
             {link2 && separator}
           </li>

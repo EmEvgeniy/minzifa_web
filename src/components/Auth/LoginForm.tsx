@@ -3,51 +3,77 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { useAuthStore } from '../../store/useAuthStore';
-import { loginSchema, LoginFormType } from '../../validation/loginSchema';
+import { usePostMutation } from '@/api/post.api';
+import { useSnackStore } from '@/store/useSnackStore';
+import { loginSchema, LoginFormType } from '@/validation/loginSchema';
 import Button from '@/components/UI/Button/Button';
 import { Input } from '@/components/UI/Form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useRecaptcha } from '@/hooks';
+import Loader from "@/components/UI/Loader/Loader";
+import { useState } from "react";
+import { ITourist } from '@/types';
+import { useAuthStore } from '@/store';
+import { getCsrfToken } from '@/api/get.api';
 
-interface LoginFormProps {
-    showPassword: boolean;
-    setShowPassword: (show: boolean) => void;
-}
 
-export const LoginForm = ({ showPassword, setShowPassword }: LoginFormProps) => {
+export const LoginForm = () => {
     const t = useTranslations();
-    const { login, isLoading, error } = useAuthStore();
-
-    const form = useForm<LoginFormType>({
+    const { isReady, getToken } = useRecaptcha();
+    const { setMessage, setError } = useSnackStore();
+    const [showPassword, setShowPassword] = useState(false);
+    const { setUser, setAuthPopup } = useAuthStore();
+    const { register, reset, setValue, clearErrors, getValues, formState: { errors, isValid, isLoading }, handleSubmit } = useForm<LoginFormType>({
         resolver: zodResolver(loginSchema(t)),
         defaultValues: {
             email: '',
             password: '',
+            recaptchaToken: '',
         },
     });
 
+    const { mutateAsync, isPending } = usePostMutation(
+        ['auth.login'],
+        async (data: ITourist) => {
+            setUser(data);
+            setAuthPopup(false);
+            setMessage(t('auth.login.success'));
+        },
+        (error) => {
+            console.error(error);
+            setError(t('auth.login.error'));
+            clearErrors();
+            reset({ recaptchaToken: '' });
+        },
+    );
+
     const onSubmit = async (data: LoginFormType) => {
-        try {
-            await login(data.email, data.password);
-        } catch {
-            // Error handled in store
-        }
+        if (!isReady) return;
+        const token = await getToken('login');
+        if (!token) return;
+
+        await getCsrfToken();
+
+        await mutateAsync({
+            obj: { ...data, recaptchaToken: token },
+            endpoint: 'auth/login',
+        });
     };
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
-                {...form.register('email')}
+                {...register('email')}
                 type="email"
                 placeholder={t('auth.login.email')}
-                error={form.formState.errors.email}
+                error={errors.email}
             />
 
             <Input
-                {...form.register('password')}
+                {...register('password')}
                 type={showPassword ? 'text' : 'password'}
                 placeholder={t('auth.login.password')}
-                error={form.formState.errors.password}
+                error={errors.password}
                 endIcon={
                     <Button
                         type="button"
@@ -60,14 +86,8 @@ export const LoginForm = ({ showPassword, setShowPassword }: LoginFormProps) => 
                 }
             />
 
-            {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                    <p className="text-red-600 text-sm">{error}</p>
-                </div>
-            )}
-
-            <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Загрузка...' : t('auth.login.signIn')}
+            <Button type="submit" className="w-full px-3 py-2" disabled={isLoading || isPending || !isValid}>
+                {isLoading || isPending ? <Loader /> : t('auth.login.signIn')}
             </Button>
         </form>
     );

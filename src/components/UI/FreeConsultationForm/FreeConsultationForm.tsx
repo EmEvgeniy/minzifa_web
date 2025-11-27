@@ -4,50 +4,49 @@ import Banner from '@/assets/img/FreeConBanner.jpg';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { cn } from '@/utils/utils';
-import { useSnackStore } from '../CustomSnackBar/store';
+import { useSnackStore } from '../../../store/useSnackStore';
 import { usePostMutation } from '@/api/post.api';
 import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '../PhoneInput';
 import { useMetricsStore } from '@/store/useMetricsStore';
-import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
-
-const schema = z.object({
-  name: z.string().min(5, 'Required'),
-  email: z.string().email('Invalid email'),
-  phone: z.string().min(8, 'Required'),
-  message: z.string().optional(),
-});
-
-type FreeForm = z.infer<typeof schema>;
+import { freeConsultationFormSchema, FreeConsultationFormType } from '@/validation/freeConsultationFormSchema';
+import { Checkbox, Input, Textarea } from '../Form';
+import Button from '../Button/Button';
+import { useAuthStore } from '@/store';
 
 export default function FreeConsultationForm({ className }: { className?: string }) {
-  const t = useTranslations('FreeForm');
+  const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const { metrics } = useMetricsStore();
   const { setMessage, setError } = useSnackStore((state) => state);
+  const { isReady, getToken } = useRecaptcha();
+  const { user } = useAuthStore();
+  const schema = freeConsultationFormSchema(t);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     watch,
-  } = useForm<FreeForm>({
+  } = useForm<FreeConsultationFormType>({
     resolver: zodResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
+      name: user?.name || '',
+      email: user?.email || '',
+      phone: user?.phone || '',
       message: '',
+      agree: false,
     },
   });
 
-  const { mutate, isPending } = usePostMutation<FreeForm, FreeForm>(
+  const { mutate, isPending } = usePostMutation<FreeConsultationFormType, FreeConsultationFormType>(
     ['subscribe-form'],
     () => {
       setMessage(locale == 'en' ? 'Your request was submitted!' : 'Ваш запрос был отправлен!');
@@ -55,12 +54,29 @@ export default function FreeConsultationForm({ className }: { className?: string
     },
     () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
-      setMessage('');
     },
   );
 
-  const onSubmit = (data: FreeForm) => {
-    mutate({ obj: { ...data, ...metrics }, endpoint: 'forms/free-consultation' });
+  const onSubmit = async (data: FreeConsultationFormType) => {
+    if (!isReady) {
+      return;
+    }
+
+    const token = await getToken('free_consultation');
+
+    if (!token) {
+      setError(locale == 'en' ? 'Failed to verify reCAPTCHA. Please try again.' : 'Не удалось верифицировать reCAPTCHA. Пожалуйста, попробуйте еще раз.');
+      return;
+    }
+
+    await mutate({
+      obj: {
+        ...data,
+        recaptchaToken: token,
+        ...metrics
+      },
+      endpoint: 'forms/free-consultation'
+    });
   };
 
   return (
@@ -86,7 +102,6 @@ export default function FreeConsultationForm({ className }: { className?: string
           />
           <ImageWithFallback
             src={Banner}
-            quality={100}
             width={585}
             height={536}
             alt={'Minzifa Travel'}
@@ -95,51 +110,52 @@ export default function FreeConsultationForm({ className }: { className?: string
         </div>
         <div className="flex flex-col gap-5 w-full max-w-[434px] p-5 mx-auto my-8 max-[768px]:max-w-full max-[768px]:gap-8 max-[550px]:p-3">
           <h2 className="text-4xl font-semibold text-white max-[768px]:text-[35px] max-[550px]:text-[24px] max-[550px]:text-center">
-            {t('title')}
+            {t('FreeForm.title')}
           </h2>
-          <input
+          <Input
             {...register('name')}
-            className={cn(
-              'bg-white w-full text-black rounded-2xl py-[18px] px-2.5',
-              errors.name && 'bg-red-400 text-white',
-            )}
-            placeholder={t('name')}
+            error={errors.name}
+            placeholder={t('FreeForm.name')}
+            className='px-5 py-4'
           />
-          <input
+          <Input
             {...register('email')}
-            className={cn(
-              'bg-white w-full text-black rounded-2xl py-[18px] px-2.5',
-              errors.email && 'bg-red-400 text-white',
-            )}
-            placeholder={t('email')}
+            error={errors.email}
+            placeholder={t('FreeForm.email')}
+            className='px-5 py-4'
           />
-          <PhoneInputComp value={watch('phone')} onChange={(value) => setValue('phone', value)} />
-          <textarea
+          <PhoneInputComp
+            value={watch('phone')}
+            onChange={(value) => setValue('phone', value)}
+            error={errors.phone}
+            inputClass='!px-5 !py-4 !pl-10'
+          />
+          <Textarea
             {...register('message')}
-            className={cn(
-              'bg-white w-full min-h-[145px] text-black rounded-2xl py-[18px] px-2.5',
-              errors.message && 'bg-red-400 text-white',
-            )}
-            placeholder={t('wishes')}
+            error={errors.message}
+            className='px-5 py-4'
+            placeholder={t('FreeForm.wishes')}
           />
-          <button
-            disabled={!isValid || isPending}
-            className={cn(
-              'bg-[#27A430] text-white font-semibold text-base rounded-2xl py-4',
-              (!isValid || isPending) && 'bg-gray-300 touch-none',
+          <Checkbox
+            checked={watch('agree')}
+            onChange={(e) => setValue('agree', e.target.checked)}
+            label={(
+              <div className='text-xs text-white w-full'>
+                {t('FreeForm.checkbox.0')}{' '}
+                <Link href={`/${locale}/privacy-policy`} className="text-[#27A430]">
+                  {t('FreeForm.checkbox.1')}
+                </Link>
+              </div>
             )}
+          />
+          <Button
+            type="submit"
+            disabled={!isReady || isPending || watch('agree') === false}
+            color='primary'
+            className='px-5 py-4'
           >
-            {t('button')}
-          </button>
-          <div className="flex flex-row gap-2 mx-auto max-[768px]:text-[10px]">
-            <input type="checkbox" id="checkbox" />
-            <label htmlFor={'checkbox'} className="text-white text-base font-normal text-[12px]">
-              {t('checkbox.0')}{' '}
-              <Link href={`/${locale}/privacy-policy`} className="text-[#27A430]">
-                {t('checkbox.1')}
-              </Link>
-            </label>
-          </div>
+            {t('FreeForm.button')}
+          </Button>
         </div>
       </div>
     </form>

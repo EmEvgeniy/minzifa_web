@@ -1,4 +1,6 @@
-// Типы для системы чатов и сообщений
+import { IManager } from '@/components/Auth/_types';
+import { ITourist } from './auth';
+import { IOrder } from './orders';
 
 export enum ChatTypeEnum {
   SUPPORT = 'support',
@@ -14,25 +16,23 @@ export enum ChatStatusEnum {
 
 export interface IMessage {
   id: number;
+  sender: IManager | ITourist;
+  sender_type: 'Manager' | 'Tourist';
   chat_id: number;
-  sender_type: 'App\\Models\\Manager' | 'App\\Models\\Tourist';
-  sender_id: number;
   message_type: 'text' | 'image' | 'video' | 'file';
   message: string;
   file_path: string;
   is_read: boolean;
   created_at: Date;
-  updated_at: Date;
 }
 
 export interface IChat {
   id: number;
-  tourist: import('./auth').ITourist;
-  manager: import('@/components/Auth/_types').IManager;
-  order: import('./orders').IOrder;
+  tourist: ITourist;
+  manager: IManager;
+  order: IOrder;
   chat_type: ChatTypeEnum;
   status: ChatStatusEnum;
-  last_message_at: Date;
   has_unread_messages: boolean;
   created_at: Date;
   updated_at: Date;

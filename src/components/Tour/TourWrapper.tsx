@@ -5,7 +5,7 @@ import TourTitle from './TourTitle/TourTitle';
 import { redirect } from 'next/navigation';
 import Breadcrumbs from '../UI/Breadcrumbs/Breadcrumbs';
 import { getTranslations } from 'next-intl/server';
-import { getApiUrl } from '@/utils/config';
+import { apiGet } from '@/utils';
 
 const Reviews = dynamic(() => import('../UI/Reviews/Reviews'));
 const TourHighlights = dynamic(() => import('./TourHighlights/TourHighlights'));
@@ -21,16 +21,16 @@ const TourIncludes = dynamic(() => import('./TourIncludes/TourIncludes'));
 const TourBookingWrapper = dynamic(() => import('./TourBooking/TourBookingWrapper'));
 const TourPricesContainer = dynamic(() => import('./TourPrices/TourPricesContainer'));
 const MobileBtn = dynamic(() => import('./MobileBtn/MobileBtn'));
-const DescForm = dynamic(() => import('./../UI/CreateYourTripForm/DescForm'));
+const QuizForm = dynamic(() => import('../UI/CreateYourTripForm/QuizForm'));
 const TourPrivateModal = dynamic(() => import('./TourPrivateModal/TourPrivateModal'));
 const Transport = dynamic(() => import('./Transport/Transport'));
 
 export default async function TourWrapper({ locale, slug }: { locale: string; slug: string }) {
   const t = await getTranslations({ locale, namespace: 'Tour' });
 
-  const tourData = (await fetch(getApiUrl(`tours/${slug}?locale=${locale}`), {
-    next: { revalidate: 60 * 20 },
-  }).then((res) => res.json())) as Tour;
+  const tourData = await apiGet<Tour>(`tours/${slug}?locale=${locale}`, {
+    next: { revalidate: 60 * 24 },
+  });
 
   if (!tourData?.id) redirect(`/${locale}`);
 
@@ -45,7 +45,7 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
           locale={locale}
           link={{ title: t('breadcrumbs.all_tours'), link: `/${locale}/tours` }}
           link2={{ title: tourData.name, link: '' }}
-          mainStyle='hidden md:block'
+          className='hidden md:block'
         />
         <div className="w-full block max-[920px]:hidden">
           <TourTitle title={tourData?.name} />
@@ -72,19 +72,21 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
             <FreeConsultationForm />
           </div>
           <TourIncludes includes={tourData?.includes} locale={locale} />
-          <TourAccomodation hotels={tourData.hotels} locale={locale} />
+          <TourAccomodation hotels={tourData?.hotels} locale={locale} />
           <div className={'hidden md:block sticky top-36 z-30'}>
             <TourBookingWrapper tour={tourData} />
           </div>
-          <Transport locale={locale} />
+          <Transport locale={locale} transports={tourData?.transports} />
         </div>
         <TourPricesContainer tour={tourData} />
         <Reviews locale={locale} />
-        {locale === 'en' ? (
-          <DescForm className="mb-10" locale="en" />
-        ) : (
-          <CreateYourTripForm className="mb-10" locale={locale} />
-        )}
+        <div className='container'>
+          {locale === 'en' ? (
+            <QuizForm className="mb-10 flex justify-center" locale="en" />
+          ) : (
+            <CreateYourTripForm className="mb-10" locale={locale} />
+          )}
+        </div>
       </div>
       <MobileBtn locale={locale} tour={tourData} />
       <TourPrivateModal locale={locale} tour={tourData} />

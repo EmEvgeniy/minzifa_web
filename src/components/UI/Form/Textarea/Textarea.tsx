@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useRef, useId } from 'react';
 import { FieldError } from 'react-hook-form';
 import { cn } from '@/utils';
 import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWraper';
@@ -10,6 +10,7 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
   error?: FieldError;
   helperText?: string;
   fullWidth?: boolean;
+  maxRows?: number;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -20,17 +21,37 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       helperText,
       className,
       fullWidth = true,
-      id,
-      rows = 4,
+      rows = 1,
+      maxRows = 4,
       ...props
     },
     ref,
   ) => {
-    const textareaId = id
-      ?? (label
-        ? `textarea-${label.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`
-        : `textarea-${Date.now()}`
-      );
+    const generatedID = useId();
+    const textareaID = props?.id ? `${props.id}-${generatedID}` : generatedID;
+
+    const innerRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const setRefs = (el: HTMLTextAreaElement) => {
+      innerRef.current = el;
+      if (typeof ref === 'function') ref(el);
+      else if (ref) (ref as React.RefObject<HTMLTextAreaElement | null>).current = el;
+    };
+
+    useEffect(() => {
+      const el = innerRef.current;
+      if (!el) return;
+
+      const lineHeight = 24;
+      const maxHeight = lineHeight * maxRows;
+
+      el.style.height = 'auto';
+      const newHeight = Math.min(el.scrollHeight, maxHeight);
+
+      el.style.height = `${newHeight}px`;
+
+      el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
+    }, [props.value, maxRows]);
 
     return (
       <FormFieldWrapper label={label} error={error} helperText={helperText} fullWidth={fullWidth}>
@@ -44,11 +65,15 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
         >
           <textarea
-            id={textareaId}
-            ref={ref}
+            id={textareaID}
+            ref={setRefs}
             rows={rows}
             className={cn(
-              'w-full bg-transparent outline-none text-gray-900 text-base resize-none placeholder-gray-400 rounded-md disabled:text-gray-400',
+              `
+              w-full bg-transparent outline-none text-gray-900 text-base resize-none 
+              placeholder-gray-400 rounded-md disabled:text-gray-400
+              transition-[height] duration-200 ease-in-out
+            `,
               label ? 'px-3 py-2 pt-6' : 'px-3 py-2',
               className,
             )}

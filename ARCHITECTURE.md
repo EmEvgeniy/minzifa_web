@@ -107,7 +107,7 @@ src/
 import { ITourist, IOrder, PaginatedData } from '@/types';
 
 // Store
-import { useAuthStore, useBookingStore } from '@/store';
+import { useAuthStore } from '@/store';
 
 // API
 import { useGetQuery, usePostMutation, privateAxios } from '@/api';

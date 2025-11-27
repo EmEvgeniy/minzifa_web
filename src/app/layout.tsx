@@ -29,7 +29,7 @@ export default async function RootLayout({
   params: { lang: string };
 }>) {
   return (
-    <html lang={params.lang}>
+    <html lang={params.lang} suppressHydrationWarning>
       <head>
         <meta
           name="google-site-verification"
@@ -37,9 +37,9 @@ export default async function RootLayout({
         />
         <meta name="yandex-verification" content="0cf29f74b98cb00d" />
       </head>
-      <body className={`${TitleFont.variable} ${TextFont.variable}`}>
+      <body className={`${TitleFont.className} ${TextFont.className}`}>
         <ProgressBar />
-        <Metrics locale={params.lang} />
+        <Metrics />
         {children}
       </body>
     </html>

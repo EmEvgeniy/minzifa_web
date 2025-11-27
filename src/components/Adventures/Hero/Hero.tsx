@@ -24,7 +24,7 @@ export default async function Hero({
         className=" object-cover absolute top-0 z-10"
       />
       <div className="relative w-full z-30 text-white container flex flex-col items-start justify-start h-full py-[150px] gap-5">
-        <Breadcrumbs locale={locale} link={link} mainStyle="text-white" listClasses="text-white" />
+        <Breadcrumbs locale={locale} link={link} className="text-white" listClasses="text-white" />
         <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-center">
           <h1 className="text-[56px] max-[1024px]:text-[42px] max-[768px]:text-[35px] max-[768px]:font-semibold font-title">
             {title}

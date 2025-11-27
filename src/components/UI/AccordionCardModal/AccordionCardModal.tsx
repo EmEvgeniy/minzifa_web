@@ -10,14 +10,15 @@ import { EmblaCarousel } from '../EmblaCarousel';
 import { EmblaCarouselType } from 'embla-carousel';
 import { useState } from 'react';
 import { usePrevNextButtons } from '../EmblaCarousel/usePrevNextButtons';
+import Button from '../Button/Button';
 
 interface AccordionModalProps {
   hotel: Hotel | null;
   openModal: boolean;
-  setOpenModal: (show: boolean) => void;
+  setOpenModalAction: (show: boolean) => void;
 }
 
-export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: AccordionModalProps) => {
+export const AccordionCardModal = ({ hotel, openModal, setOpenModalAction }: AccordionModalProps) => {
   const t = useTranslations('Tour');
   const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
@@ -27,16 +28,16 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
   return (
     <Popup
       open={openModal}
-      handleClose={() => setOpenModal(false)}
+      handleCloseAction={() => setOpenModalAction(false)}
       showTimesButton={false}
       content={
-        <div className="bg-white p-5 rounded-2xl shadow-md min-w-[300px] lg:min-w-[830px] max-w-[830px] mx-auto relative">
-          <div>
+        <div className="bg-white p-5 rounded-2xl shadow-md w-full h-full min-w-[300px] lg:min-w-[1000px] max-w-[1000px] mx-auto relative">
+          <div className='flex flex-col gap-3'>
             <h2 className="text-2xl font-semibold">{hotel.name}</h2>
-            <div className="grid grid-cols-3 text-lg">
-              <div className="flex flex-col gap-1">
+            <div className="flex flex-row gap-10 text-lg">
+              <div className="w-full flex flex-col gap-1">
                 {t('hotel.card.location')}
-                <div className="flex flex-row gap-2 items-center text-base font-normal">
+                <div className="flex flex-row gap-2 items-center text-sm font-normal">
                   <svg
                     width="15"
                     height="20"
@@ -52,9 +53,9 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
                   {hotel?.city}
                 </div>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="w-full flex flex-col gap-1">
                 {t('hotel.card.category')}
-                <div className="flex flex-row gap-2 items-center text-base font-normal">
+                <div className="flex flex-row gap-2 items-center text-sm font-normal">
                   <svg
                     width="18"
                     height="18"
@@ -70,9 +71,9 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
                   {hotel.hotel_type}
                 </div>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="w-full flex flex-col gap-1">
                 {t('hotel.card.nights')}
-                <div className="flex flex-row gap-2 items-center text-base font-normal">
+                <div className="flex flex-row gap-2 items-center text-sm font-normal">
                   <svg
                     width="18"
                     height="18"
@@ -91,9 +92,9 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
             </div>
           </div>
           <hr className="border-black/10 my-3.5" />
-          <div className="overflow-y-auto max-h-[400px]">
-            <div className="flex flex-row gap-5 items-start">
-              <div className="flex flex-col gap-5 flex-1/2">
+          <div className="overflow-y-auto max-h-[500px]">
+            <div className="flex flex-col md:flex-row gap-5">
+              <div className="flex flex-col gap-5 flex-1 md:flex-2/3 order-2 md:order-1">
                 <div className="flex flex-row gap-3 items-center">
                   <div className="bg-[#003787] p-2.5 text-white rounded-t-[10px] rounded-br-[10px]">
                     {hotel.rating || '9.5'}
@@ -106,24 +107,20 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
                   </div>
                 </div>
                 {hotel.facilities.length > 0 && (
-                  <div>
-                    <div className="flex flex-col gap-1">
-                      <div className="text-lg font-semibold">{t('hotel.card.facilities')}</div>
-                      <ul className="list-disc list-inside flex flex-col gap-2 text-base font-normal">
-                        {hotel.facilities.map((facility: string) => (
-                          <li key={facility} className="text-base font-normal">
-                            {facility}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="text-base font-semibold">{t('hotel.card.facilities')}</div>
+                    <ul className="list-disc list-inside grid grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-2">
+                      {hotel.facilities.map((facility: string) => (
+                        <li key={facility} className="text-sm font-normal">
+                          {facility}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
               </div>
               {hotel.gallery && hotel.gallery.length > 0 && (
-                <div className="w-full h-full flex-1/2 flex items-center justify-center overflow-hidden rounded-lg">
-
-
+                <div className="flex-1 md:flex-1/3 order-1 md:order-2">
                   <EmblaCarousel<TourImage>
                     slides={hotel.gallery}
                     onInit={setEmblaApi}
@@ -137,34 +134,39 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModal }: Accordion
                           height={600}
                           src={gallery?.file}
                           alt={gallery?.alt_text || ''}
-                          className="w-full h-full max-w-[800px] max-h-[600px] mx-auto rounded-2xl"
+                          className="w-full h-full rounded-2xl"
                         />
                       </div>
                     )}
-                  />
-
-                  <PrevButton
-                    onClick={onPrevButtonClick}
-                    disabled={prevBtnDisabled}
-                    className="absolute top-1/2 left-0 text-white text-4xl"
-                  />
-                  <NextButton
-                    onClick={onNextButtonClick}
-                    disabled={nextBtnDisabled}
-                    className="absolute top-1/2 right-0 text-white text-4xl"
+                    prevIcon={
+                      <PrevButton
+                        onClick={onPrevButtonClick}
+                        disabled={prevBtnDisabled}
+                        className="absolute top-1/2 left-1 text-white bg-foreground/70 hover:bg-foreground/90 text-2xl"
+                      />}
+                    nextIcon={
+                      <NextButton
+                        onClick={onNextButtonClick}
+                        disabled={nextBtnDisabled}
+                        className="absolute top-1/2 right-1 text-white bg-foreground/70 hover:bg-foreground/90 text-2xl"
+                      />
+                    }
                   />
                 </div>
               )}
             </div>
             <hr className="border-black/10 my-3.5" />
-            <TourDescription description={hotel?.description || ''} />
+            <TourDescription
+              description={hotel?.description || ''}
+            />
           </div>
-          <button
-            onClick={() => setOpenModal(false)}
+          <Button
+            onClick={() => setOpenModalAction(false)}
+            color='soft'
             className="cursor-pointer absolute right-0 top-0 p-5"
           >
             <FaXmark size={20} />
-          </button>
+          </Button>
         </div>
       }
     />

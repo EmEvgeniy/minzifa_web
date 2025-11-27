@@ -1,8 +1,12 @@
-import RoomTypesInner from './RoomTypesInner';
-import { getTranslations } from 'next-intl/server';
+'use client';
 
-export default async function RoomTypes({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'Booking' });
+import { UseFormSetValue } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import RoomTypesInner from './RoomTypesInner';
+import { BookingFormType } from '@/validation/bookingFormSchema';
+
+export default function RoomTypes({ bookingData, setValue }: { bookingData: BookingFormType; setValue: UseFormSetValue<BookingFormType> }) {
+  const t = useTranslations('Booking');
   const roomTypes = t.raw('roomTypes') as {
     title: string;
     standart: string;
@@ -17,7 +21,7 @@ export default async function RoomTypes({ locale }: { locale: string }) {
       <h2 className="text-[#16372D] text-3xl max-[768px]:text-[24px] max-[768px]:text-center">
         {t('roomTypes.title')}
       </h2>
-      <RoomTypesInner title={roomTypes} />
+      <RoomTypesInner bookingData={bookingData} title={roomTypes} setValue={setValue} />
     </div>
   );
 }

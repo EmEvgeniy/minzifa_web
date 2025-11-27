@@ -1,8 +1,17 @@
 import ImageWithFallback from "@/components/UI/ImageWithFallback/ImageWithFallback";
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 
-export default async function Transport({ locale }: { locale: string }) {
-    return (
+type TransportProps = {
+    locale: string;
+    transports: {
+        one_two_people: string;
+        six_twelve_people: string;
+        three_five_people: string;
+    }
+}
+
+export default async function Transport({ locale, transports }: TransportProps) {
+    return transports?.one_two_people || transports?.three_five_people || transports?.six_twelve_people ? (
         <div className="col-start-1 flex flex-col gap-5">
             <h2 className="text-4xl font-semibold text-black mb-5 max-[920px]:text-[30px] max-[550px]:text-[24px] max-[550px]:mb-3">
                 {locale === 'en' ? 'Transport' : 'Транспорт'}
@@ -18,15 +27,15 @@ export default async function Transport({ locale }: { locale: string }) {
                 <div className="table-row-group text-lg font-normal">
                     <div className="table-row">
                         <div className="table-cell p-4 border-b border-gray-100">{locale === 'en' ? '1-2 people' : '1-2 человека'}</div>
-                        <div className="table-cell p-4 border-b border-gray-100">Chevrolet Lacetti</div>
+                        <div className="table-cell p-4 border-b border-gray-100">{transports?.one_two_people}</div>
                     </div>
                     <div className="table-row">
                         <div className="table-cell p-4 border-b border-gray-100">{locale === 'en' ? '3-5 people' : '3-5 человек'}</div>
-                        <div className="table-cell p-4 border-b border-gray-100">Hyundai Starex / Toyota Hiace</div>
+                        <div className="table-cell p-4 border-b border-gray-100">{transports?.three_five_people}</div>
                     </div>
                     <div className="table-row">
                         <div className="table-cell p-4">{locale === 'en' ? '6-12 people' : '6-12 человек'}</div>
-                        <div className="table-cell p-4">Mercedes Sprinter</div>
+                        <div className="table-cell p-4">{transports?.six_twelve_people}</div>
                     </div>
                 </div>
             </div>
@@ -42,5 +51,6 @@ export default async function Transport({ locale }: { locale: string }) {
                 <span>{locale === 'en' ? 'At the customer\'s request, it is possible to upgrade the car class and add child seats.' : 'По желанию клиента возможно повышение класса автомобиля и добавление детских сидений.'}</span>
             </div>
         </div >
-    );
+    )
+        : null;
 }

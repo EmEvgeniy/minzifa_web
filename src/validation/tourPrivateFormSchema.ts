@@ -9,4 +9,5 @@ export const tourPrivateFormSchema = (t: (k: string) => string) =>
     name: z.string().min(2, t('private_tour.forms.name_required')),
     email: z.email(t('private_tour.forms.email_invalid')),
     phone: z.string().min(5, t('private_tour.forms.phone_required')),
+    recaptchaToken: z.string().optional(),
   });

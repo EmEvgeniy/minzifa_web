@@ -48,7 +48,7 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
     <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
       <h2 className='text-base font-medium'>{t('private_tour.comfort.title')}</h2>
 
-      {comfortOptions.map(({ key, stars, price }) => price && (
+      {(tour?.prices?.price_for_3_hotels || tour?.prices?.price_for_4_hotels || tour?.prices?.price_for_5_hotels) ? comfortOptions?.map(({ key, stars, price }) => (
         <div
           key={key}
           aria-selected={formData.price === price}
@@ -72,7 +72,7 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
             className="text-lg font-semibold"
           />
         </div>
-      ))}
+      )) : null}
 
       <Button
         onClick={() => setPopup(true)}

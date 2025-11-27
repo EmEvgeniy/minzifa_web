@@ -138,4 +138,9 @@ export type Tour = {
   hotels: Hotel[];
   includes: Include[];
   reviews: Review[];
+  transports: {
+    one_two_people: string;
+    six_twelve_people: string;
+    three_five_people: string;
+  };
 };

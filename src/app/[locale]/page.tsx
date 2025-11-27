@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 import { DefaultPageProps, ISeoMetadata } from '@/types';
 import { apiGet } from '@/utils/serverApi';
+import { cookies } from 'next/headers';
 
 const Hero = dynamic(() => import('@/components/Home/Hero/Hero'));
 const Info = dynamic(() => import('@/components/Home/Info/Info'));

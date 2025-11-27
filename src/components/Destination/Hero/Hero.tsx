@@ -25,7 +25,7 @@ export default async function Hero({
       )}
       <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
         <Breadcrumbs
-          mainStyle="text-white place-self-start w-full"
+          className="text-white place-self-start w-full"
           listClasses="text-white"
           locale={locale}
           link={{ link: `/${locale}/destination`, title: t('breadcrumbs.destination') }}

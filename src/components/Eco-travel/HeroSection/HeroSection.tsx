@@ -24,7 +24,7 @@ export default function HeroSection({ locale, seo_metadata, t }: HeroSectionProp
             />
             <div className="container absolute z-30 top-35 max-[1024px]:top-25 w-full">
                 <Breadcrumbs
-                    mainStyle="text-white"
+                    className="text-white"
                     listClasses="text-white"
                     locale={locale}
                     link={{ link: '', title: t('breadcrumbs.eco') }}

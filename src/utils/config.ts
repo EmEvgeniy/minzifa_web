@@ -30,9 +30,9 @@ function getAppConfig(): AppConfig {
     apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1',
     appUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
     analytics: {
-      gaId: process.env.NEXT_PUBLIC_GA_ID || 'G-M136S4C9GK',
-      yandexId: process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID || '98106769',
-      facebookPixelId: process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || '777577019559963',
+      gaId: process.env.NEXT_PUBLIC_GA_ID as string,
+      yandexId: process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID as string,
+      facebookPixelId: process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID as string,
     },
   };
 

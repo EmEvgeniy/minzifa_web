@@ -18,9 +18,10 @@ import { DropdownField } from '@/components/UI/Form/DropdownField/DropdownField'
 import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
 import { usePostMutation } from '@/api/post.api';
 import { useRouter } from 'next/navigation';
-import { useSnackStore } from '@/components/UI/CustomSnackBar/store';
+import { useSnackStore } from '@/store/useSnackStore';
 import { useMetricsStore } from '@/store';
 import { calculateEndDate } from '@/utils/utils';
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 
 export const Content = ({ tour }: { tour: Tour }) => {
   const t = useTranslations('Tour');
@@ -29,6 +30,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
   const { formData, setFormData, setPopup, resetFormData } = usePrivateTourFormStore();
   const { setMessage, setError } = useSnackStore();
   const { metrics } = useMetricsStore();
+  const { isReady, getToken } = useRecaptcha();
 
   const schema = useMemo(() => tourPrivateFormSchema((key: string) => t(key)), [t]);
 
@@ -58,13 +60,23 @@ export const Content = ({ tour }: { tour: Tour }) => {
     },
   );
 
-  const onSubmit = (formData: PrivateTourFormState['formData']) => {
-    if (formData) {
-      mutate({
-        obj: { ...formData, ...metrics },
-        endpoint: `forms/private-tour-booking?locale=${locale}`,
-      })
+
+  const onSubmit = async (formData: PrivateTourFormState['formData']) => {
+    if (!isReady) {
+      return;
     }
+
+    const token = await getToken('private_tour');
+
+    if (!token) {
+      setError(locale == 'en' ? 'Failed to verify reCAPTCHA. Please try again.' : 'Не удалось верифицировать reCAPTCHA. Пожалуйста, попробуйте еще раз.');
+      return;
+    }
+
+    mutate({
+      obj: { ...formData, recaptchaToken: token, ...metrics },
+      endpoint: `forms/private-tour-booking?locale=${locale}`,
+    })
   };
 
   const valute = tour?.prices?.valute;
@@ -176,8 +188,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
                       }
                     />
                   }
-                  locale={locale}
-                  dateFormat="dd.MM.yy"
+                  locale={locale === 'ru' ? 'ru-RU' : 'en-US'}
                 />
               )}
             />
@@ -204,6 +215,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
                   value={field.value || undefined}
                   onChange={(value) => field.onChange(value)}
                   error={errors.price}
+
                 />
               )}
             />
@@ -236,6 +248,12 @@ export const Content = ({ tour }: { tour: Tour }) => {
             onChange={(value) => setValue('phone', value, { shouldValidate: true })}
           />
         </div>
+
+        {errors.recaptchaToken && (
+          <p className="text-red-500 text-sm mt-1 text-center">
+            {errors.recaptchaToken.message}
+          </p>
+        )}
 
         <Button
           disabled={!isValid}

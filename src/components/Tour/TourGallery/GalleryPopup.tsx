@@ -26,7 +26,7 @@ export default function GalleryPopup({ show, setShow, images }: GallerySliderEmb
   return (
     <Popup
       open={show}
-      handleClose={() => setShow(false)}
+      handleCloseAction={() => setShow(false)}
       className="mt-[100px]"
       hasBackground={false}
       timesButton={

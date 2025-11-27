@@ -1,5 +1,4 @@
 export { useAuthStore } from './useAuthStore';
-export { useBookingStore } from './bookingStore';
 export { useChatsStore } from './chatsStore';
 export { useQuizStore } from './quizStore';
 export { useMetricsStore } from './useMetricsStore';

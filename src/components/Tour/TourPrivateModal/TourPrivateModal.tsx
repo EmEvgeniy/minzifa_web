@@ -16,7 +16,7 @@ export default function TourPrivateModal({ locale, tour }: Props) {
   return (
     <Popup
       open={popup}
-      handleClose={() => setPopup(false)}
+      handleCloseAction={() => setPopup(false)}
       locale={locale}
       content={<Content tour={tour} />}
       showTimesButton={false}

@@ -21,7 +21,7 @@ export const FormFieldWrapper = ({
     fullWidth = true,
     className,
     children,
-    paddingLeft = 'pl-3',
+    paddingLeft = 'pl-5',
 }: FormFieldWrapperProps) => {
     return (
         <div className={cn('relative flex flex-col', fullWidth && 'w-full', className)}>
@@ -29,7 +29,7 @@ export const FormFieldWrapper = ({
                 {label && (
                     <span
                         className={cn(
-                            'absolute top-2 left-0 px-1 text-xs text-gray-500 select-none pointer-events-none z-10',
+                            'absolute top-4 left-0 px-1 text-xs text-gray-500 select-none pointer-events-none z-10',
                             paddingLeft
                         )}
                         aria-hidden

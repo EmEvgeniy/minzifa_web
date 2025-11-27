@@ -4,19 +4,33 @@ export const useDetectCountry = () => {
   const [countryCode, setCountryCode] = useState<string>('uz');
 
   useEffect(() => {
-    const fetchCountry = async () => {
-      try {
-        const res = await fetch('https://ipapi.co/json/');
+    if (typeof window === 'undefined') return;
+
+    const savedCountry = localStorage.getItem('country_code');
+    if (savedCountry) {
+      setCountryCode(savedCountry);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
+
+    fetch('https://ipapi.co/json/', { signal: controller.signal })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Ошибка запроса: ' + res.status);
         const data = await res.json();
         if (data?.country_code) {
-          setCountryCode(data.country_code.toLowerCase());
+          const code = data.country_code.toLowerCase();
+          setCountryCode(code);
+          localStorage.setItem('country_code', code);
         }
-      } catch (error) {
-        console.error('Ошибка получения страны по IP:', error);
-      }
-    };
+      })
+      .catch((err) => {
+        console.warn('Не удалось определить страну:', err.message);
+      })
+      .finally(() => clearTimeout(timeout));
 
-    fetchCountry();
+    return () => controller.abort();
   }, []);
 
   return countryCode;

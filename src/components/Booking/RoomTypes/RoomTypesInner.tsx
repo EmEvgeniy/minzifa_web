@@ -2,12 +2,14 @@
 
 import { Dropdown } from '@/components/UI/Dropdown/Dropdown';
 import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
-import { RoomType, RoomTypes, useBookingStore } from '@/store/bookingStore';
-import { useEffect, useRef } from 'react';
+import { UseFormSetValue } from 'react-hook-form';
+import { RoomType } from '../_types';
+import { BookingFormType } from '@/validation/bookingFormSchema';
 
 const roomTypesAll: RoomType[] = ['standart', 'single'] as const;
 
 type Props = {
+  bookingData: BookingFormType,
   title: {
     title: string;
     standart: string;
@@ -16,55 +18,69 @@ type Props = {
     single_hint: string;
     pt: string;
   };
+  setValue: UseFormSetValue<BookingFormType>;
 };
 
-function RoomTypesInner({ title }: Props) {
-  const { bookingData, setBookingData } = useBookingStore((state) => state);
+function RoomTypesInner({ bookingData, title, setValue }: Props) {
   const travellersCount = Number(bookingData?.travellers_count || 0);
   const single_price = Number(bookingData?.single_price || 0);
   const tour_price = Number(bookingData?.tour_price || 0);
 
-  const prevTravellersRef = useRef<number>(travellersCount);
+  // Check if room_types need reset when travellers decrease
+  // const totalRoomsSelected = (bookingData.room_types?.standart || 0) + (bookingData.room_types?.single || 0);
 
-  useEffect(() => {
-    const prevTravellers = prevTravellersRef.current;
-    if (!bookingData?.room_types) return;
+  // const prevTravellersRef = useRef<number>(travellersCount);
 
-    const totalRoomsSelected =
-      (bookingData.room_types.standart || 0) + (bookingData.room_types.single || 0);
+  // useEffect(() => {
+  //   const prevTravellers = prevTravellersRef.current;
+  //   if (!bookingData?.room_types) return;
 
-    if (travellersCount !== prevTravellers || totalRoomsSelected > travellersCount) {
-      setBookingData({
-        ...bookingData,
-        room_types: {
-          standart: Math.min(travellersCount, 1),
-          single: 0,
-        },
-      });
-    }
+  //   const totalRoomsSelected =
+  //     (bookingData.room_types.standart || 0) + (bookingData.room_types.single || 0);
 
-    prevTravellersRef.current = travellersCount;
-  }, [travellersCount, bookingData, setBookingData]);
+  //   if (travellersCount !== prevTravellers || totalRoomsSelected > travellersCount) {
+  //     setBookingData({
+  //       ...bookingData,
+  //       room_types: {
+  //         standart: Math.min(travellersCount, 1),
+  //         single: 0,
+  //       },
+  //     });
+  //   }
 
-  if (!bookingData?.room_types) return null;
+  //   prevTravellersRef.current = travellersCount;
+  // }, [travellersCount, bookingData, setBookingData]);
+
+  // if (!bookingData?.room_types) return null;
 
   const handleChangeCount = (roomType: RoomType, value: number) => {
-    const updatedRooms: RoomTypes = {
-      ...bookingData.room_types!,
+    const updatedRooms = {
+      ...bookingData?.room_types,
       [roomType]: value,
     };
 
+    // Validate against total travellers after update
+    // const totalRoomsAfterUpdate = (updatedRooms['single'] || 0) + (updatedRooms['standart'] || 0);
+
     const singleRoomsCount = updatedRooms['single'] || 0;
+    const standartRoomsCount = updatedRooms['standart'] || 0;
 
-    const deposit = tour_price * 0.15 * travellersCount + single_price * singleRoomsCount;
-    const total_price = tour_price * travellersCount + single_price * singleRoomsCount;
+    // Ensure total rooms don't exceed travellers count
+    const totalRooms = singleRoomsCount + standartRoomsCount;
+    if (totalRooms > travellersCount) {
+      if (roomType === 'single') {
+        updatedRooms['standart'] = Math.max(0, travellersCount - value);
+      } else {
+        updatedRooms['single'] = Math.max(0, travellersCount - value);
+      }
+    }
 
-    setBookingData({
-      ...bookingData,
-      room_types: updatedRooms,
-      deposit,
-      total_price,
-    });
+    const deposit = tour_price * 0.15 * travellersCount + single_price * (updatedRooms['single'] || 0);
+    const total_price = tour_price * travellersCount + single_price * (updatedRooms['single'] || 0);
+
+    setValue('room_types', updatedRooms);
+    setValue('deposit', deposit);
+    setValue('total_price', total_price);
   };
 
   const getFormattedRoomPrice = (roomType: RoomType): number => {

@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useRef } from 'react';
 
 export default function HeroVideo() {
@@ -17,9 +18,10 @@ export default function HeroVideo() {
 
         video.load();
 
-        video.play().catch((err) => {
-          console.warn('Autoplay blocked:', err);
-        });
+        video.play()
+          .catch((err) => {
+            console.warn('Autoplay blocked:', err);
+          });
 
         observer.disconnect();
       }

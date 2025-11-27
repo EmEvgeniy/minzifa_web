@@ -14,4 +14,9 @@ export interface DropdownFieldProps<T extends Record<string, unknown>> {
   getValue?: (opt: T) => string | number;
   fullWidth?: boolean;
   renderSummary?: (selectedLabel: string | React.ReactNode, isOpen: boolean) => React.ReactNode;
+  summaryClassName?: string;
+  detailsClassName?: string;
+  className?: string;
+  wrapperClassName?: string;
+  icon?: React.ReactNode;
 }

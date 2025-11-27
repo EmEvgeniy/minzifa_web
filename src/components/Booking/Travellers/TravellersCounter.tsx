@@ -1,24 +1,18 @@
 'use client';
 import Counter from '@/components/UI/Counter/Counter';
-import { useBookingStore } from '@/store/bookingStore';
+import { BookingFormType } from '@/validation/bookingFormSchema';
+import { UseFormSetValue } from 'react-hook-form';
 
-function TravellersCounter() {
-  const { bookingData, setBookingData } = useBookingStore((state) => state);
-
+function TravellersCounter({ bookingData, setValue }: { bookingData: BookingFormType; setValue: UseFormSetValue<BookingFormType> }) {
   const handleCount = (value: number) => {
-    const tour_price = bookingData?.tour_price as number;
+    const isDecreasing = value < (bookingData?.travellers_count || 0);
+    setValue('travellers_count', value);
 
-    setBookingData({
-      ...bookingData,
-      room_types: {
-        standart: 1,
-        single: 0,
-      },
-      travellers_count: value,
-      deposit: tour_price * 0.15 * Number(value),
-      total_price: tour_price * Number(value),
-    });
+    // Trigger room_types reset if decreasing
+    if (isDecreasing) {
+    }
   };
+
   return (
     <Counter
       value={bookingData?.travellers_count as number}

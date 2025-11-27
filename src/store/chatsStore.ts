@@ -13,23 +13,24 @@ export interface ChatsStoreData {
   error: string | null;
 
   // Data
-  chats: PaginatedData<IChat>;
   currentChatMessages: PaginatedData<IMessage>;
 
   // WebSocket
   centrifuge: Centrifuge | null;
   subscription: Subscription | null;
+  socketId: string | null;
 
   // Actions
   setSelectedChat: (chat: IChat | null) => void;
   setMessageInput: (message: string) => void;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
-  setChats: (chats: PaginatedData<IChat>) => void;
   setCurrentChatMessages: (messages: PaginatedData<IMessage>) => void;
   addMessage: (message: IMessage) => void;
+  replaceMessage: (tempId: number, newMessage: IMessage) => void;
   setCentrifuge: (centrifuge: Centrifuge | null) => void;
   setSubscription: (subscription: Subscription | null) => void;
+  setSocketId: (socketId: string | null) => void;
 }
 
 export const useChatsStore = create<ChatsStoreData>((set) => ({
@@ -38,25 +39,53 @@ export const useChatsStore = create<ChatsStoreData>((set) => ({
   messageInput: '',
   isLoading: false,
   error: null,
-  chats: { data: [] },
   currentChatMessages: { data: [] },
   centrifuge: null,
   subscription: null,
 
+  socketId: null,
+
   // Actions
-  setSelectedChat: (chat) => set({ selectedChat: chat }),
-  setMessageInput: (message) => set({ messageInput: message }),
-  setIsLoading: (loading) => set({ isLoading: loading }),
-  setError: (error) => set({ error }),
-  setChats: (chats) => set({ chats }),
-  setCurrentChatMessages: (messages) => set({ currentChatMessages: messages }),
-  addMessage: (message) =>
+  setSelectedChat: (chat) => {
+    set({ selectedChat: chat });
+  },
+  setMessageInput: (message) => {
+    set({ messageInput: message });
+  },
+  setIsLoading: (loading) => {
+    set({ isLoading: loading });
+  },
+  setError: (error) => {
+    set({ error });
+  },
+  setCurrentChatMessages: (messages) => {
+    set({ currentChatMessages: messages });
+  },
+  addMessage: (message) => {
     set((state) => ({
       currentChatMessages: {
         ...state.currentChatMessages,
-        data: [...state.currentChatMessages.data, message],
+        data: state.currentChatMessages.data.find((m) => m.id === message.id)
+          ? state.currentChatMessages.data
+          : state.currentChatMessages.data.concat(message),
       },
-    })),
-  setCentrifuge: (centrifuge) => set({ centrifuge }),
-  setSubscription: (subscription) => set({ subscription }),
+    }));
+  },
+  replaceMessage: (tempId: number, newMessage: IMessage) => {
+    set((state) => ({
+      currentChatMessages: {
+        ...state.currentChatMessages,
+        data: state.currentChatMessages.data.map((m) => (m.id === tempId ? newMessage : m)),
+      },
+    }));
+  },
+  setCentrifuge: (centrifuge) => {
+    set({ centrifuge });
+  },
+  setSubscription: (subscription) => {
+    set({ subscription });
+  },
+  setSocketId: (socketId: string | null) => {
+    set({ socketId });
+  },
 }));

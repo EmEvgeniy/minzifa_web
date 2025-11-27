@@ -1,6 +1,5 @@
 /**
  * Универсальные API-утилиты для серверных компонентов Next.js
- * Типобезопасная работа с fetch (без any)
  */
 
 export class ApiError<T = unknown> extends Error {

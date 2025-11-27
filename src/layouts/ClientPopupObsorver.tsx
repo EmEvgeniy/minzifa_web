@@ -2,11 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 import { ConsultationQuiz } from '@/components/UI/ConsultationQuiz/ConsultationQuiz';
-import { Popup } from '@/components';
-import { useLayoutStore } from './layoutStore';
-import EnForm from '@/components/UI/CreateYourTripForm/EnForm';
+import { Popup } from '@/components/UI/Popup/Popup';
+import { useLayoutStore } from '../store/layoutStore';
 import { useParams, usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
+import QuizForm from '@/components/UI/CreateYourTripForm/QuizForm';
+
+const time = 3 * 60 * 1000;
 
 export default function ClientPopupObserver() {
   const footerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +30,7 @@ export default function ClientPopupObserver() {
     const timer = setTimeout(() => {
       setOpen(true);
       markShownByTimer();
-    }, 15000);
+    }, time);
 
     return () => clearTimeout(timer);
   }, [shownByTimer, setOpen, markShownByTimer]);
@@ -63,10 +65,10 @@ export default function ClientPopupObserver() {
         <Popup
           open={open}
           locale={locale}
-          handleClose={() => setOpen(false)}
+          handleCloseAction={() => setOpen(false)}
           content={
             locale === 'en' ? (
-              <EnForm popupClose={() => setOpen(false)} />
+              <QuizForm popupClose={() => setOpen(false)} />
             ) : (
               <ConsultationQuiz popupClose={() => setOpen(false)} />
             )

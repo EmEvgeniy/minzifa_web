@@ -13,4 +13,5 @@ export type TourPrivateFormData = {
   name: string;
   email: string;
   phone: string;
+  recaptchaToken?: string;
 };

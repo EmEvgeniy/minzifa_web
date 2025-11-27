@@ -13,7 +13,6 @@ export default async function Info({ locale }: { locale: string }) {
           alt="lr"
           width={500}
           height={500}
-          loading="lazy"
           className="w-auto h-full absolute top-0 -left-1/2 pointer-events-none block object-cover [@media(max-width:768px)]:hidden"
         />
         <ImageWithFallback
@@ -21,7 +20,6 @@ export default async function Info({ locale }: { locale: string }) {
           alt="lr"
           width={500}
           height={500}
-          loading="lazy"
           className="w-auto h-full absolute bottom-0 -right-1/2 rotate-180 pointer-events-none block object-cover [@media(max-width:768px)]:hidden"
         />
         <h2 className="z-10 text-[42px] text-center max-w-full [@media(max-width:1024px)]:text-[24px] [@media(max-width:1024px)]:text-left">
@@ -33,7 +31,6 @@ export default async function Info({ locale }: { locale: string }) {
         <ImageWithFallback
           src={TravelChoice_Black}
           alt="info_img"
-          loading="lazy"
           width={611}
           height={97}
           className="object-cover block [@media(max-width:768px)]:hidden"
@@ -43,7 +40,6 @@ export default async function Info({ locale }: { locale: string }) {
           alt="info_img"
           width={250}
           height={97}
-          loading="lazy"
           className="object-cover hidden [@media(max-width:768px)]:block"
         />
       </div>

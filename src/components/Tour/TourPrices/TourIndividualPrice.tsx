@@ -38,7 +38,7 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
       <h2 className="text-4xl font-semibold  max-[920px]:text-[24px]">
         {t('private_tour.open_form.title')}
       </h2>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 items-center bg-white rounded-2xl">
         <CustomDatepicker
           startDate={formData.dates[0]}
           endDate={formData.dates[1]}
@@ -48,10 +48,13 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
           monthsShown={isMobile ? 1 : 2}
           selectsRange
           minDate={new Date()}
+          wrapperClassName='pt-5'
         />
-        <Button type="button" onClick={() => setPopup(true)}>
-          {t('private_tour.free_consultation')}
-        </Button>
+        <div className="p-5 w-full">
+          <Button type="button" onClick={() => setPopup(true)} className='w-full'>
+            {t('private_tour.free_consultation')}
+          </Button>
+        </div>
       </div>
     </section>
   );

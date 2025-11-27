@@ -1,81 +1,70 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-import { useAuthStore } from '../../store/useAuthStore';
-import Button from '@/components/UI/Button/Button';
-import { Popup } from '@/components/UI/Popup';
-import { FaTimes } from 'react-icons/fa';
+import { useAuthStore } from '@/store';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/UI/Tabs';
+import { useTranslations } from 'next-intl';
+import { Popup } from '../UI';
+import Button from '../UI/Button/Button';
+import { FaTimes } from 'react-icons/fa';
+import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-export const AuthPopup = () => {
+export function AuthPopup() {
     const t = useTranslations();
-    const [isLogin, setIsLogin] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const searchParams = useSearchParams();
 
-    const { authPopupOpen, closeAuthPopup, isAuthenticated } = useAuthStore();
+    const { authPopup, setAuthPopup } = useAuthStore();
 
-    // Эффект для обработки успешной регистрации
+    // Автоматическое открытие popup при ?require-auth=1
     useEffect(() => {
-        if (isAuthenticated) {
-            setIsLogin(true); // Переключаемся на форму логина после успешной регистрации
+        const requireAuth = searchParams.get('require-auth');
+
+        if (requireAuth === '1') {
+            setAuthPopup(true);
+
+            // Удаляем параметр из URL, чтобы popup не открывался снова
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.delete('require-auth');
+            window.history.replaceState({}, '', newUrl);
         }
-    }, [isAuthenticated]);
+    }, []);
 
     const handleClose = () => {
-        setIsLogin(true);
-        setShowPassword(false);
-        setShowConfirmPassword(false);
-        closeAuthPopup();
+        setAuthPopup(false);
     };
 
-    const popupContent = (
-        <div className="bg-white rounded-2xl p-6 w-full max-w-md">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-[#16372D]">{t('auth.title')}</h2>
-            </div>
-
-            {/* Tab buttons */}
-            <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
-                <Button
-                    onClick={() => setIsLogin(true)}
-                    color={isLogin ? 'white' : 'light'}
-                    className={`flex-1 py-2 px-4 rounded-md text-sm font-medium ${isLogin ? 'text-[#16372D]' : 'text-gray-600 hover:text-gray-900'}`}
-                >
-                    {t('auth.login.title')}
-                </Button>
-                <Button
-                    onClick={() => setIsLogin(false)}
-                    color={!isLogin ? 'white' : 'light'}
-                    className={`flex-1 py-2 px-4 rounded-md text-sm font-medium ${!isLogin ? 'text-[#16372D]' : 'text-gray-600 hover:text-gray-900'}`}
-                >
-                    {t('auth.register.title')}
-                </Button>
-            </div>
-
-            {isLogin ? (
-                <LoginForm
-                    showPassword={showPassword}
-                    setShowPassword={setShowPassword}
-                />
-            ) : (
-                <RegisterForm
-                    showPassword={showPassword}
-                    showConfirmPassword={showConfirmPassword}
-                    setShowPassword={setShowPassword}
-                    setShowConfirmPassword={setShowConfirmPassword}
-                />
-            )}
-        </div>
-    );
+    if (!authPopup) return null;
 
     return (
         <Popup
-            open={authPopupOpen}
-            handleClose={handleClose}
-            content={popupContent}
+            open={authPopup}
+            handleCloseAction={handleClose}
+            content={(
+                <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-bold text-[#16372D]">
+                            {t('auth.title')}
+                        </h2>
+                    </div>
+
+                    <Tabs defaultValue="login" className="w-full">
+                        <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="login">{t('auth.login.title')}</TabsTrigger>
+                            <TabsTrigger value="register">{t('auth.register.title')}</TabsTrigger>
+                        </TabsList>
+
+                        <TabsContent value="login" className="mt-6">
+                            <LoginForm />
+                        </TabsContent>
+
+                        <TabsContent value="register" className="mt-6">
+                            <RegisterForm />
+                        </TabsContent>
+                    </Tabs>
+                </div>
+            )}
             className="w-full max-w-md"
             timesButton={
                 <Button
@@ -88,4 +77,4 @@ export const AuthPopup = () => {
             }
         />
     );
-};
+}

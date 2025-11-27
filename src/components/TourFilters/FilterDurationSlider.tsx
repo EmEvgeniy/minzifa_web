@@ -23,6 +23,7 @@ function FilterDurationSlider() {
     handleInputChange,
     handleSliderClick,
     handleMouseDown,
+    handleTouchStart,
   } = useRangeSlider({
     values: durations,
     setValues: setDurations,
@@ -54,7 +55,7 @@ function FilterDurationSlider() {
           isDragging={isDragging}
           handleSliderClick={handleSliderClick}
           handleMouseDown={handleMouseDown}
-          variant="price"
+          handleTouchStart={handleTouchStart}
         />
       </div>
     </Accordion>

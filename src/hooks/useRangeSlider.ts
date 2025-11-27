@@ -71,9 +71,13 @@ interface UseRangeSliderReturn {
   /** Обработчик изменения значения в поле ввода */
   handleInputChange: (index: number, value: number) => void;
   /** Обработчик клика по треку слайдера */
-  handleSliderClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-  /** Обработчик начала перетаскивания ползунка */
-  handleMouseDown: (thumb: 'min' | 'max') => (event: React.MouseEvent) => void;
+  handleSliderClick: (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+  ) => void;
+  /** Обработчик начала перетаскивания ползунка мышью */
+  handleMouseDown: (thumb: 'min' | 'max') => (event: React.MouseEvent<HTMLDivElement>) => void;
+  /** Обработчик начала перетаскивания ползунка тачем */
+  handleTouchStart: (thumb: 'min' | 'max') => (event: React.TouchEvent<HTMLDivElement>) => void;
 }
 
 /**
@@ -141,11 +145,12 @@ export const useRangeSlider = ({
   );
 
   const handleSliderClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+    (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
       if (!sliderRef.current || isDragging) return;
 
       const rect = sliderRef.current.getBoundingClientRect();
-      const clickX = event.clientX - rect.left;
+      const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+      const clickX = clientX - rect.left;
       const sliderWidth = rect.width;
       const clickPercent = (clickX / sliderWidth) * 100;
       const clickValue = minRange + (clickPercent / 100) * (maxRange - minRange);
@@ -174,6 +179,14 @@ export const useRangeSlider = ({
     [],
   );
 
+  const handleTouchStart = useCallback(
+    (thumb: 'min' | 'max') => (event: React.TouchEvent) => {
+      setIsDragging(thumb);
+      event.preventDefault();
+    },
+    [],
+  );
+
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       if (!isDragging || !sliderRef.current) return;
@@ -192,18 +205,43 @@ export const useRangeSlider = ({
       }
     };
 
+    const handleTouchMove = (event: TouchEvent) => {
+      if (!isDragging || !sliderRef.current) return;
+
+      const rect = sliderRef.current.getBoundingClientRect();
+      const sliderX = event.touches[0].clientX - rect.left;
+      const sliderWidth = rect.width;
+      const percent = Math.max(0, Math.min(100, (sliderX / sliderWidth) * 100));
+      const value = minRange + (percent / 100) * (maxRange - minRange);
+      const roundedValue = Math.round(value / step) * step;
+
+      if (isDragging === 'min') {
+        handleInputChange(0, Math.min(roundedValue, maxVal));
+      } else if (isDragging === 'max') {
+        handleInputChange(1, Math.max(roundedValue, minVal));
+      }
+    };
+
     const handleMouseUp = () => {
+      setIsDragging(null);
+    };
+
+    const handleTouchEnd = () => {
       setIsDragging(null);
     };
 
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleTouchEnd);
     }
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleTouchEnd);
     };
   }, [isDragging, minVal, maxVal, minRange, maxRange, step, handleInputChange]);
 
@@ -218,5 +256,6 @@ export const useRangeSlider = ({
     handleInputChange,
     handleSliderClick,
     handleMouseDown,
+    handleTouchStart,
   };
 };

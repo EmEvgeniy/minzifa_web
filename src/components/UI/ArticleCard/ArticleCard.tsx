@@ -1,5 +1,4 @@
 import type { ArticleCardType } from './_types';
-import Link from 'next/link';
 import Markdown from 'markdown-to-jsx';
 import { ImageWithFallback } from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import Button from '../Button/Button';
@@ -32,7 +31,6 @@ export default function ArticleCard({ article, locale }: Props) {
           {article?.description}
         </Markdown>
         <Button
-          as={Link}
           to={`/${locale}/adventures/` + article.category.slug + '/' + article?.slug}
           color='link'
           className='text-sm'

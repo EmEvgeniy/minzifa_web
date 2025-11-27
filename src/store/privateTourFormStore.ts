@@ -8,6 +8,7 @@ export interface PrivateTourFormData {
   name: string;
   email: string;
   phone: string;
+  recaptchaToken?: string;
 }
 
 export interface PrivateTourFormState {
@@ -30,6 +31,7 @@ const defaultFormData: PrivateTourFormData = {
   name: '',
   email: '',
   phone: '',
+  recaptchaToken: '',
 };
 
 export const usePrivateTourFormStore = create<PrivateTourFormState>((set) => ({

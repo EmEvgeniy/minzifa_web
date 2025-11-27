@@ -5,7 +5,7 @@ import { FaTimes } from 'react-icons/fa';
 
 type PopupType = {
   open: boolean;
-  handleClose: () => void;
+  handleCloseAction: () => void;
   content?: ReactNode | ReactElement;
   locale?: string;
   className?: string;
@@ -16,7 +16,7 @@ type PopupType = {
 
 export const Popup: FC<PopupType> = ({
   open,
-  handleClose,
+  handleCloseAction,
   content,
   className = '',
   showTimesButton = true,
@@ -36,11 +36,11 @@ export const Popup: FC<PopupType> = ({
   }, [open]);
 
   const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) handleClose();
+    if (e.target === e.currentTarget) handleCloseAction();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') handleClose();
+    if (e.key === 'Escape') handleCloseAction();
   };
 
   if (!isVisible) return null;
@@ -69,7 +69,7 @@ export const Popup: FC<PopupType> = ({
               <div className={'relative text-right'}>
                 <button
                   type="button"
-                  onClick={handleClose}
+                  onClick={handleCloseAction}
                   className="cursor-pointer text-white hover:text-gray-700 transition-colors p-3"
                 >
                   <FaTimes size={24} />

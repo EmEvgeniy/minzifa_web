@@ -64,7 +64,6 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
             </div>
             <Button
               to={href}
-              as={Link}
               color="primary"
               className="text-sm md:text-base w-full py-4 px-12 md:p-2.5"
             >

@@ -4,7 +4,7 @@ import { cn } from '@/utils/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { useSnackStore } from '../CustomSnackBar/store';
+import { useSnackStore } from '../../../store/useSnackStore';
 import { usePostMutation } from '@/api/post.api';
 
 import { useRouter } from 'next/navigation';

@@ -21,6 +21,11 @@ export function DropdownField<T extends Record<string, unknown>>({
     getValue,
     fullWidth = true,
     renderSummary,
+    summaryClassName,
+    detailsClassName,
+    className,
+    wrapperClassName,
+    icon,
 }: DropdownFieldProps<T>) {
     const selectedOption = options.find((opt) => {
         const optValue = getValue?.(opt) ?? (opt[valueKey] as string | number | undefined);
@@ -38,7 +43,8 @@ export function DropdownField<T extends Record<string, unknown>>({
             error={error}
             helperText={helperText}
             fullWidth={fullWidth}
-            paddingLeft="pl-3"
+            paddingLeft="pl-4"
+            className={wrapperClassName}
         >
             <Dropdown<T>
                 value={value}
@@ -50,11 +56,12 @@ export function DropdownField<T extends Record<string, unknown>>({
                         ? 'border-red-500'
                         : 'border-gray-300 hover:border-gray-400 focus-within:border-[#27A430] focus-within:ring-2 focus-within:ring-[#27A430]/20',
                     fullWidth && 'w-full',
+                    className,
                 )}
             >
                 <DropdownSummary className={cn(
                     "flex justify-between items-center w-full cursor-pointer text-gray-900 text-base rounded-xl",
-                    label ? 'px-3 py-2 pt-6' : 'px-3 py-2',
+                    label ? 'px-4 py-3 pt-10' : 'px-3 py-2',
                 )}>
                     {({ isOpen }) => {
                         if (renderSummary) {
@@ -62,8 +69,9 @@ export function DropdownField<T extends Record<string, unknown>>({
                         }
 
                         return (
-                            <div className="flex justify-between items-center w-full">
-                                <span className={cn('truncate', !selectedLabel && 'text-gray-400')}>
+                            <div className={cn("flex justify-between items-center w-full")}>
+                                {icon ?? null}
+                                <span className={cn('truncate', summaryClassName, !selectedLabel && 'text-gray-400')}>
                                     {selectedLabel || placeholder}
                                 </span>
                                 {isOpen ? <FaChevronUp /> : <FaChevronDown />}
@@ -72,7 +80,7 @@ export function DropdownField<T extends Record<string, unknown>>({
                     }}
                 </DropdownSummary>
 
-                <DropdownDetails className="absolute left-0 top-full mt-1 w-full rounded-lg bg-white shadow-lg border border-gray-200 z-30 max-h-64 overflow-auto">
+                {<DropdownDetails className={cn("absolute left-0 top-full mt-1 w-full rounded-lg bg-white shadow-lg border border-gray-200 z-30 max-h-64 overflow-auto", detailsClassName)}>
                     {options.map((opt, idx) => {
                         const val = getValue?.(opt) ?? (opt[valueKey] as string | number | undefined);
                         const lbl = getLabel?.(opt) ?? (opt[labelKey] as React.ReactNode);
@@ -91,7 +99,7 @@ export function DropdownField<T extends Record<string, unknown>>({
                             </DropdownItem>
                         );
                     })}
-                </DropdownDetails>
+                </DropdownDetails>}
             </Dropdown>
         </FormFieldWrapper>
     );

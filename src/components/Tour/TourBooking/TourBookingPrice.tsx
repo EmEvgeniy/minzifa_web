@@ -1,10 +1,10 @@
 'use client';
+
 import { Dropdown, DropdownDetails, DropdownSummary } from '@/components/UI/Dropdown/Dropdown';
 import { GroupPrice } from '../_types';
 import { formatted_date } from '@/utils/utils';
 import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
 import IconCalendar from '../../../assets/icons/booking/calendar.svg';
-import { useBookingStore } from '@/store/bookingStore';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { cn } from '@/utils/utils';
 
@@ -27,7 +27,7 @@ function TourBookingPrice({
   travellers,
   setTotalPrice,
 }: TourBookingPriceProps) {
-  const { bookingData, setBookingData } = useBookingStore((s) => s);
+  // const { bookingData, setBookingData } = useBookingStore((s) => s);
 
   // Получаем сегодняшнюю дату в формате "YYYY-MM-DD" (без времени)
   const today = new Date();
@@ -37,13 +37,13 @@ function TourBookingPrice({
     return (
       <input
         type="date"
-        value={bookingData.tour_start || ''}
-        onChange={(e) =>
-          setBookingData({
-            ...bookingData,
-            tour_start: e.target.value,
-          })
-        }
+        // value={bookingData.tour_start || ''}
+        // onChange={(e) =>
+        //   setBookingData({
+        //     ...bookingData,
+        //     tour_start: e.target.value,
+        //   })
+        // }
         className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-[#27A430] focus:border-transparent"
       />
     );

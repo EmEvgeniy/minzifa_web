@@ -1,16 +1,17 @@
 import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useLocale } from 'next-intl';
 import { getApiUrl } from '@/utils/config';
 import { PaginatedData } from '@/types';
+import axiosInstance from '@/utils/axios';
 
 type GetQueryType = {
   key: string[];
-  page: string;
-  perPage: string;
-  url: string;
-  searchItem: string;
-  additionalParam: string;
+  page?: string;
+  perPage?: string;
+  url?: string;
+  searchItem?: string;
+  additionalParam?: string;
+  withLocale?: boolean;
 };
 
 export const useGetQuery = <T = unknown>({
@@ -20,20 +21,28 @@ export const useGetQuery = <T = unknown>({
   url,
   searchItem,
   additionalParam,
+  withLocale = true,
 }: GetQueryType) => {
   const lang = useLocale();
 
   return useQuery<T>({
-    queryKey: [...key, page, perPage, searchItem, additionalParam, lang],
+    queryKey: [...key, page, perPage, searchItem, additionalParam, withLocale ? lang : null],
     queryFn: async () => {
-      const params = new URLSearchParams({ locale: lang });
+      const params = new URLSearchParams();
+
+      if (withLocale) {
+        params.append('locale', lang);
+      }
+
       if (searchItem) params.append('name', searchItem);
+
       if (page && perPage) {
         params.append('page', page);
         params.append('perPage', perPage);
       }
 
-      const endpoint = url.startsWith('/') ? url.slice(1) : url;
+      const endpoint = url?.startsWith('/') ? url.slice(1) : url;
+
       const extra = additionalParam
         ? additionalParam.startsWith('&')
           ? additionalParam
@@ -41,7 +50,8 @@ export const useGetQuery = <T = unknown>({
         : '';
 
       const finalUrl = `${getApiUrl(endpoint)}?${params.toString()}${extra}`;
-      const response = await axios.get(finalUrl);
+      const response = await axiosInstance.get(finalUrl);
+
       return response.data;
     },
   });
@@ -53,6 +63,7 @@ type GetInfiniteQueryType = {
   perPage?: string;
   searchItem?: string;
   additionalParam?: string;
+  withLocale?: boolean;
 };
 
 export const useGetInfiniteQuery = <T = unknown>({
@@ -61,8 +72,14 @@ export const useGetInfiniteQuery = <T = unknown>({
   perPage = '12',
   searchItem = '',
   additionalParam = '',
+  withLocale = true,
 }: GetInfiniteQueryType) => {
   const lang = useLocale();
+
+  const queryKey = [...key, perPage, searchItem, additionalParam];
+  if (withLocale) {
+    queryKey.push(lang); // <--- теперь всегда string
+  }
 
   return useInfiniteQuery<
     PaginatedData<T>,
@@ -71,16 +88,23 @@ export const useGetInfiniteQuery = <T = unknown>({
     string[],
     number
   >({
-    queryKey: [...key, lang, perPage, searchItem, additionalParam],
+    queryKey,
     initialPageParam: 1,
+
     queryFn: async ({ pageParam }) => {
-      const params = new URLSearchParams({ locale: lang });
+      const params = new URLSearchParams();
+
+      if (withLocale) {
+        params.append('locale', lang);
+      }
 
       if (searchItem) params.append('name', searchItem);
+
       params.append('page', pageParam.toString());
       params.append('perPage', perPage);
 
       const endpoint = url.startsWith('/') ? url.slice(1) : url;
+
       const extra = additionalParam
         ? additionalParam.startsWith('&')
           ? additionalParam
@@ -88,14 +112,18 @@ export const useGetInfiniteQuery = <T = unknown>({
         : '';
 
       const finalUrl = `${getApiUrl(endpoint)}?${params.toString()}${extra}`;
-      const response = await axios.get(finalUrl);
+      const response = await axiosInstance.get(finalUrl);
+
       return response.data;
     },
 
     getNextPageParam: (lastPage) => {
       const meta = lastPage?.meta;
       if (!meta) return undefined;
+
       return meta.current_page < meta.last_page ? meta.current_page + 1 : undefined;
     },
   });
 };
+
+export const getCsrfToken = async () => await axiosInstance.get('/csrf-cookie');

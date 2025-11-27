@@ -10,7 +10,7 @@ const Counter: React.FC<CounterProps> = ({
   onChange,
   min = 0,
   max = Infinity,
-  label = 'Travellers',
+  label,
   className,
 }) => {
   const decrement = () => {
@@ -23,9 +23,10 @@ const Counter: React.FC<CounterProps> = ({
 
   return (
     <div className={cn('flex flex-row justify-between items-center', className)}>
-      <span>{label}</span>
+      {label && <span>{label}</span>}
       <div className="flex flex-row gap-2.5 items-center">
         <button
+          type="button"
           className={cn(
             value <= min ? 'disabled:cursor-not-allowed' : 'cursor-pointer',
             'flex items-center justify-center w-10 h-10 bg-[#16372D] text-white rounded-lg disabled:opacity-50',
@@ -37,6 +38,7 @@ const Counter: React.FC<CounterProps> = ({
         </button>
         <span className="min-w-[2rem] text-center">{value}</span>
         <button
+          type="button"
           className="cursor-pointer flex items-center justify-center w-10 h-10 bg-[#16372D] text-white rounded-lg disabled:opacity-50"
           onClick={increment}
           disabled={value >= max}

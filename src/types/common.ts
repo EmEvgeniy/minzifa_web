@@ -36,3 +36,9 @@ export interface PaginatedData<T> {
     total: number;
   } | null;
 }
+
+export interface SidebarLink {
+  route: string;
+  iconName: string;
+  label: string;
+}

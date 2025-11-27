@@ -10,9 +10,8 @@ import {
     FaYoutube,
     FaLinkedin,
     FaReddit,
-    FaX,
     FaVk,
-    FaOdnoklassniki,
+    FaOdnoklassniki, FaXTwitter,
 } from 'react-icons/fa6';
 
 type ContactProps = {
@@ -138,7 +137,7 @@ export const contacts: ContactProps = {
                 en: 'https://x.com/MinzifaTravel',
                 ru: 'https://x.com/MinzifaTravelRu',
             },
-            Icon: FaX,
+            Icon: FaXTwitter,
         },
         {
             name: 'VK',

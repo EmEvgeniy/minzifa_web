@@ -1,18 +1,16 @@
 import dynamic from 'next/dynamic';
 
 import { getTranslations } from 'next-intl/server';
-import { getApiUrl } from '@/utils/config';
 import { DestinationCard } from '../Destinations/_types';
+import { apiGet } from '@/utils';
 
-const HeroSearch = dynamic(() => import('./HeroSearch'));
 const HeroVideo = dynamic(() => import('./HeroVideo'));
+const HeroSearch = dynamic(() => import('./HeroSearch'));
 
 export default async function Hero({ locale }: { locale: string }) {
   const t = await getTranslations({ locale });
 
-  const data = (await fetch(getApiUrl(`destinations?all=1&locale=${locale}`), {
-    next: { revalidate: 60 * 5 },
-  }).then((res) => res.json())) as DestinationCard[];
+  const data = await apiGet<DestinationCard[]>(`destinations?all=1&locale=${locale}`, { next: { revalidate: 60 * 5 } });
 
   return (
     <section className="w-full h-[80svh] relative flex items-center justify-center bg-[#16372D] [@media(max-width:1024px)]:h-[80vh] [@media(max-width:768px)]:h-screen">

@@ -27,6 +27,7 @@ function FilterPriceSlider() {
     handleInputChange,
     handleSliderClick,
     handleMouseDown,
+    handleTouchStart,
   } = useRangeSlider({
     values: prices,
     setValues: setPrices,
@@ -62,7 +63,7 @@ function FilterPriceSlider() {
           isDragging={isDragging}
           handleSliderClick={handleSliderClick}
           handleMouseDown={handleMouseDown}
-          variant="price"
+          handleTouchStart={handleTouchStart}
         />
       </div>
     </Accordion>

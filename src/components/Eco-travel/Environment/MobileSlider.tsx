@@ -16,21 +16,21 @@ export default function MobileSlider({ block }: { block: DataInterface[] }) {
   const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
   return (
     <div className="w-full hidden max-[500px]:block">
-      <div className="container-right">
+      <div>
         <EmblaCarousel
           slides={block}
           onInit={setEmblaApi}
           renderSlide={(el: DataInterface, i) => (
             <div
               key={i}
-              className="bg-[#FFFFFFCC] opacity-80 backdrop-blur-[6px] w-full h-full min-h-[300px] rounded-[16px] shadow-2xl p-5 flex flex-col items-center gap-2 text-[#16372D] text-center"
+              className="flex-[0_0_100%] w-full h-full bg-[#FFFFFFCC] opacity-80 backdrop-blur-[6px] rounded-[16px] shadow-2xl p-5 flex flex-col items-center gap-2 text-[#16372D] text-center"
             >
               <ImageWithFallback
                 src={i == 0 ? car : i == 1 ? heart : i == 2 ? guide : location}
                 alt="icon2"
                 width={50}
                 height={50}
-                className="w-[30px] h-[30px]"
+                className="w-[30px] h-[30px] object-contain"
               />
               <p className="text-[18px]">{el.title}</p>
               <p className="text-[14px]">{el.text}</p>
@@ -38,7 +38,7 @@ export default function MobileSlider({ block }: { block: DataInterface[] }) {
           )}
         />
 
-        <ECArrowWrapper emblaApi={emblaApi} className="max-[500px]:hidden" />
+        <ECArrowWrapper emblaApi={emblaApi} />
       </div>
     </div>
   );

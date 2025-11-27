@@ -1,6 +1,6 @@
 'use client';
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useSnackStore } from './store';
+import { useSnackStore } from '../../../store/useSnackStore';
 import { FaCheckCircle, FaExclamationCircle, FaTimes, FaInfoCircle } from 'react-icons/fa';
 
 /**

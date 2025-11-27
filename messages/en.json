@@ -157,7 +157,7 @@
     "form_text": "to be the first to know about new travel events and get the most favorable conditions",
     "form_b_text": "By submitting the form you accept the terms of data transfer and agree to the privacy policy.",
     "form_pl": "Email",
-    "form_btn": "subscribe",
+    "form_btn": "Subscribe",
     "pl": {
       "link": "privacy_policy",
       "title": "Privacy Policy"
@@ -1016,7 +1016,7 @@
       "end_trip": "End trip",
       "travellers": "Travellers",
       "deposit": "Deposit 20%",
-      "total": "Total (USD)",
+      "total": "Total",
       "accept": "I accept Minzifa Travel <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>"
     },
     "payment_method": {
@@ -1025,6 +1025,8 @@
       "bank_transfer": "Bank transfer",
       "accept_terms": ["I accept Minzifa Travel", "and"]
     },
+    "successMessage": "Your tour was booked!",
+    "errorMessage": "Some error was happened, please try again",
     "button": "Book space"
   },
   "CreateYourTripForm": {
@@ -1108,17 +1110,7 @@
     "subtitle": "We have received your request and have already started processing it.",
     "text": "One of our travel experts will contact you within 24 hours via your preferred method — phone or email — to discuss the details of your trip and offer the best options tailored to your wishes."
   },
-  "errors": {
-    "name_min": "Name must be at least 3 characters",
-    "email_invalid": "Invalid email address",
-    "phone_invalid": "Enter a valid phone number",
-    "message_min": "Message must be at least 10 characters",
-    "agree_required": "You must agree to the terms",
-    "password_required": "Password is required",
-    "password_min": "Password must be at least 6 characters",
-    "confirmPassword_min": "Confirm password must be at least 6 characters",
-    "passwordMismatch": "Passwords do not match"
-  },
+
   "sertificates": {
     "title": "Sertificates",
     "seo_metadata": {
@@ -1149,7 +1141,8 @@
         "title": "Login",
         "description": "Login",
         "keywords": "Login"
-      }
+      },
+      "success": "Login successfully"
     },
     "register": {
       "title": "Create Account",
@@ -1182,9 +1175,15 @@
     "nav": {
       "login": "Login",
       "signUp": "Sign Up",
+      "dashboard": "Dashboard",
       "profile": "Profile",
       "chats": "Chats",
+      "orders": "Orders",
       "logout": "Logout"
+    },
+    "logout": {
+      "success": "You have successfully logged out",
+      "error": "Error logging out"
     }
   },
   "chat": {
@@ -1198,18 +1197,71 @@
     "thankYou": "Thank you for your message! We will respond soon.",
     "title": "Chat",
     "noMessages": "No messages",
-    "messagePlaceholder": "Type a message..."
+    "messagePlaceholder": "Type a message...",
+    "loadingChats": "Loading your chats...",
+    "pleaseWait": "Please wait",
+    "selectChat": "Select a conversation",
+    "selectChatHint": "Click on a chat in the list on the left to start communicating with a support manager",
+    "chatsTitle": "Chats",
+    "activeChatsSubtitle": "Your active conversations",
+    "searchPlaceholder": "Search chats...",
+    "chatCount": "{{count}} {{form}}",
+    "chatForms": {
+      "one": "chat",
+      "few": "chats",
+      "many": "chats"
+    },
+    "noActiveChats": "No active chats",
+    "noChatsHint": "Your conversations with a support manager will appear here",
+    "unknownUser": "Unknown user",
+    "noMessagesInChat": "No messages",
+    "messageNotLoaded": "Message not loaded",
+    "supportManager": "Support manager",
+    "timeUnknown": "Time unknown",
+    "noMessagesYet": "No messages yet",
+    "startConversation": "Start a conversation with a manager",
+    "writeMessage": "Write your message...",
+    "shiftEnterHint": "Shift + Enter for new line",
+    "inputPlaceholder": "Enter message...",
+    "chatHeader": {
+      "actions": "Order view"
+    }
   },
   "chats": {
     "title": "Chats",
-    "noChats": "You have no chats yet"
+    "noChats": "You have no chats yet",
+    "metadata": {
+      "title": "Chats - Minzifa Travel",
+      "description": "Contact our support team through live chat. Get instant help with your travel bookings and inquiries.",
+      "keywords": "customer support, live chat, travel help, booking assistance"
+    }
   },
   "profile": {
     "title": "Profile",
+    "profile": "Profile",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",
-    "editProfile": "Edit Profile"
+    "editProfile": "Edit Profile",
+    "editProfileTitle": "Edit Profile",
+    "save": "Save",
+    "cancel": "Cancel",
+    "updateSuccess": "Profile updated successfully",
+    "orders": "Orders",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "passwordChangeSuccess": "Password changed successfully",
+    "password_same_error": "New password must be different from current password",
+    "avatar": "Avatar",
+    "avatarAlt": "User avatar {name}",
+    "avatarUploadHint": "Choose an image to upload",
+    "avatarUploadFormats": "Supported formats: JPG, PNG, GIF. Maximum size: 5MB",
+    "avatarUploadError": "Avatar upload error",
+    "chats": "Chats",
+    "generalInfo": "General Information",
+    "changePasswordTab": "Change Password"
   },
   "chat_popup": {
     "form_title": "Contact Support",
@@ -1243,5 +1295,120 @@
   },
   "loginPage": {
     "title": "Login Page"
+  },
+
+  "errors": {
+    "name_min": "Name is too short (minimum 2 characters)",
+    "email_invalid": "Invalid email address",
+    "phone_invalid": "Enter a valid phone number",
+    "phone_required": "Phone number is required",
+    "message_min": "Message must be at least 10 characters",
+    "agree_required": "You must agree to the terms",
+    "recaptcha_required": "Please verify that you are not a robot",
+    "password_required": "Password is required",
+    "password_min": "Password must be at least 6 characters",
+    "confirmPassword_min": "Confirm password must be at least 6 characters",
+    "passwordMismatch": "Passwords do not match",
+    "whereGo_required": "Please select a destination",
+    "whenGo_required": "Please select a travel date",
+    "howManyPeople_invalid": "Enter a valid number of people (minimum 1)",
+    "howManyDays_invalid": "Please enter a valid number of days (minimum 1)",
+    "budget_invalid": "Please enter a valid budget (minimum 1)",
+    "accomodation_required": "Please select an accommodation option",
+    "first_passenger_incomplete": "Please complete the first passenger information",
+    "salutation_required": "Salutation is required",
+    "first_name_required": "First name is required",
+    "last_name_required": "Last name is required",
+    "birth_date_required": "Date of birth is required",
+    "gender_required": "Gender is required",
+    "address_required": "Address is required",
+    "province_required": "Province is required",
+    "state_required": "State is required",
+    "postal_code_required": "Postal code is required",
+    "travellers_required": "Number of travellers is required",
+    "passengers_required": "At least one passenger is required",
+    "general": "An error occurred. Please try again.",
+    "terms_required": "Terms acceptance is required",
+    "name_max": "Name is too long (maximum 255 characters)",
+    "file_size_max": "File size is too large (maximum 5MB)",
+    "file_type_invalid": "Invalid file type (only images are allowed)"
+  },
+
+  "orders": {
+    "title": "My Orders",
+    "metadata": {
+      "title": "My Orders",
+      "description": "Here you can view all your orders and their status",
+      "keywords": "orders, my orders, order history"
+    },
+    "subtitle": "Total orders: {count}",
+    "order_name": "Order # {orderName}",
+    "no_manager": "Not assigned",
+    "no_orders": "You don't have any orders yet",
+    "no_orders_description": "When you create an order, it will appear here",
+    "days": "days",
+    "tour_dates": "Tour dates",
+    "tourists": "Tourists",
+    "people": "people",
+    "total_price": "Total price",
+    "created": "Created",
+    "table": {
+      "order_name": "Order name",
+      "status": "Status",
+      "manager": "Manager",
+      "created_at": "Created at"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "total_orders": "Total Orders",
+    "quick_access": "Quick Access",
+    "my_orders": "My Orders",
+    "my_orders_description": "View your order history and current status",
+    "messages": "Messages",
+    "messages_description": "Chat with managers and discuss tour details",
+    "profile": "Profile",
+    "profile_description": "Edit your personal information and account settings"
+  },
+  "order_statuses": {
+    "awaiting_confirmation": "Awaiting confirmation",
+    "awaiting_payment": "Awaiting payment",
+    "payment_confirmed": "Payment confirmed",
+    "tour_conducted": "Tour conducted",
+    "cancelled": "Cancelled"
+  },
+  "order": {
+    "title": "Order # {order}",
+    "subtitle": "Order details",
+    "back": "Back to orders",
+    "source": "Request source",
+    "contact_manager": "Contact manager",
+    "tour_info": "Tour information",
+    "tourist_info": "Tourist information",
+    "manager_info": "Manager information",
+    "price_per_person": "Price per person",
+    "form_data": "Form data",
+    "payment_info": "Payment information",
+    "invoice_number": "Invoice number",
+    "total_amount": "Total amount",
+    "paid_amount": "Paid",
+    "balance": "Balance",
+    "payment_status": "Payment status",
+    "payment_method": "Payment method",
+    "payment_date": "Payment date"
+  },
+  "payment_statuses": {
+    "pending": "Pending",
+    "paid": "Paid",
+    "partially_paid": "Partially paid",
+    "failed": "Failed",
+    "refunded": "Refunded"
+  },
+  "payment_methods": {
+    "bank_transfer": "Bank transfer",
+    "cash": "Cash",
+    "credit_card": "Credit card",
+    "stripe": "Stripe",
+    "paypal": "PayPal"
   }
 }

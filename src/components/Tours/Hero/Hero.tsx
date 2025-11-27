@@ -11,8 +11,8 @@ export default async function Hero({ locale }: { locale: string }) {
         src={allTours}
         alt="all_tours"
         fill
+        priority
         className="absolute top-0 z-10 object-cover"
-        loading="lazy"
       />
       <div className="container relative z-30 h-full">
         <div className="text-white flex items-center justify-center w-full h-full">

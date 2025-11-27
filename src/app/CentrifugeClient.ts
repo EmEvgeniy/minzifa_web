@@ -1,38 +1,23 @@
 import { IMessage } from '@/types';
-import axios, { BASE_API_PATH } from '../api/axios';
 import { Centrifuge, Subscription } from 'centrifuge';
+import { BASE_API_PATH } from '@/constants';
+import axiosInstance from '../utils/axios';
 
 export const initCentrifugo = async (): Promise<Centrifuge> => {
   try {
-    const { data } = await axios.post(`${BASE_API_PATH}/centrifugo/token`);
+    const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/token`);
 
     if (!data.token) {
       throw new Error('Не удалось получить токен для Centrifuge');
     }
 
-    // Хардкод WebSocket URL
-    const wsUrl = 'wss://centrifugo.minzifatravel.com/connection/websocket';
+    const wsUrl = process.env.NEXT_PUBLIC_CENTRIFUGE_URL;
 
-    const centrifuge = new Centrifuge(wsUrl, {
+    const centrifuge = new Centrifuge(wsUrl as string, {
       token: data.token,
     });
 
-    // Обработка ошибок подключения
-    centrifuge.on('connecting', (ctx) => {
-      console.log('Centrifuge connecting:', ctx);
-    });
-
-    centrifuge.on('connected', (ctx) => {
-      console.log('Centrifuge connected:', ctx);
-    });
-
-    centrifuge.on('error', (ctx) => {
-      console.error('Centrifuge connection error:', ctx);
-    });
-
     centrifuge.on('disconnected', (ctx) => {
-      console.log('Centrifuge disconnected:', ctx);
-      // Автоматическое переподключение через 5 секунд с экспоненциальным бэк-оффом
       setTimeout(() => {
         console.log('Attempting to reconnect to Centrifuge...');
         centrifuge.connect();
@@ -54,7 +39,14 @@ export const subscribeToChat = async (
   try {
     const channel = `chat#${chatId}`;
 
-    const { data } = await axios.post(`${BASE_API_PATH}/centrifugo/subscribe`, { channel });
+    const existingSub = centrifuge.getSubscription(channel);
+    if (existingSub) {
+      console.log(`Subscription to ${channel} already exists, removing it first`);
+      await existingSub.unsubscribe();
+      centrifuge.removeSubscription(existingSub);
+    }
+
+    const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/subscribe`, { channel });
 
     if (!data.token) {
       throw new Error('Не удалось получить токен подписки для канала');
@@ -69,7 +61,7 @@ export const subscribeToChat = async (
       try {
         onMessage(ctx.data);
       } catch (error) {
-        console.error('Error handling message:', error);
+        console.error('Error parsing or handling message:', error);
       }
     });
 

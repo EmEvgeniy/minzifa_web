@@ -5,3 +5,4 @@ export * from './BestSellersPackagesCard';
 export * from './Loader';
 export * from './Popup';
 export * from './PhoneInput';
+export * from './Tabs';

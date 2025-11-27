@@ -51,7 +51,7 @@ export const CustomAccordion: React.FC<CustomAccordionProps> = ({
     };
 
     return (
-        <div className={cn("rounded-xl bg-white px-5 overflow-hidden", className)}>
+        <div className={cn("rounded-xl bg-white px-5", className)}>
             {Children.map(Children.toArray(children).filter(isValidElement), (CustomAccordionChild, index) => {
                 const expanded = currentExpandedIndexes.includes(index);
                 const toggleExpanded = () => handleToggle(index);
@@ -122,7 +122,7 @@ export const CustomAccordionDetails: React.FC<CustomAccordionDetailsProps> = ({ 
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.25, ease: "easeInOut" }}
                     className={cn(
-                        `bg-white overflow-hidden transition-all duration-300 ease-in-out`,
+                        `bg-white transition-all duration-300 ease-in-out`,
                         expanded ? 'max-h-full opacity-100 py-5 rounded-b-2xl' : 'max-h-0 opacity-0 p-0 rounded-none',
                         className,
                     )}

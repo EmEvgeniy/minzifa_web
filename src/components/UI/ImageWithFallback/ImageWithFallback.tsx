@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image, { ImageProps, StaticImageData } from 'next/image';
 import { cn } from '@/utils/utils';
 import { Fallback_Image } from '@/assets/img';
 
-interface ImageWithFallbackProps
-  extends Omit<ImageProps, 'src'> {
+interface ImageWithFallbackProps extends Omit<ImageProps, 'src'> {
   src: string | StaticImageData;
   fallbackSrc?: string | StaticImageData;
   showLoader?: boolean;
@@ -18,33 +17,39 @@ export const ImageWithFallback = ({
   showLoader = true,
   ...props
 }: ImageWithFallbackProps) => {
-
-  const [isLoading, setIsLoading] = useState(true);
   const [currentSrc, setCurrentSrc] = useState<string | StaticImageData>(src);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const shouldBlur = showLoader && !props.priority && isLoading;
-
-  const handleComplete = () => setIsLoading(false);
-
-  const handleError = () => {
-    setCurrentSrc(fallbackSrc || Fallback_Image);
-    setIsLoading(false);
-  };
+  const previousSrcRef = useRef(src);
 
   useEffect(() => {
-    setCurrentSrc(src);
-    setIsLoading(true);
+    if (previousSrcRef.current !== src) {
+      previousSrcRef.current = src;
+      setCurrentSrc(src);
+      setIsLoading(true); // выставляем загрузку только если реально изменился src
+    }
   }, [src]);
+
+  const handleLoad = () => setIsLoading(false);
+
+  const handleError = () => {
+    if (currentSrc !== fallbackSrc) {
+      setCurrentSrc(fallbackSrc || Fallback_Image);
+      setIsLoading(false);
+    }
+  };
+
+  const shouldBlur = showLoader && !props.priority && isLoading;
 
   return (
     <Image
       {...props}
-      key={currentSrc.toString()}
-      quality={70}
-      loading='lazy'
+      quality={props?.quality ?? 70}
+      priority={props.priority ?? false}
+      loading={props.priority ? 'eager' : 'lazy'}
       src={currentSrc}
       alt={props.alt || 'Minzifa Travel'}
-      onLoad={handleComplete}
+      onLoad={handleLoad}
       onError={handleError}
       className={cn(
         'object-cover w-full h-full transition-all duration-500 ease-in-out',

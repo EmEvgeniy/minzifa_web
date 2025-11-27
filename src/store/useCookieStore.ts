@@ -35,8 +35,7 @@ const defaultState: CookieConsent = {
 
 export const useCookieStore = create<CookieState>()(
   persist(
-    (set, get) => ({
-      // Initial state
+    (set) => ({
       ...defaultState,
 
       // Actions
@@ -52,9 +51,6 @@ export const useCookieStore = create<CookieState>()(
           hasConsented: true,
           consentDate: new Date().toISOString(),
         });
-
-        // Apply cookies based on preferences
-        applyCookiePreferences(allAccepted);
       },
 
       declineAll: () => {
@@ -69,9 +65,6 @@ export const useCookieStore = create<CookieState>()(
           hasConsented: true,
           consentDate: new Date().toISOString(),
         });
-
-        // Apply cookies based on preferences
-        applyCookiePreferences(declined);
       },
 
       reset: () => {
@@ -81,9 +74,10 @@ export const useCookieStore = create<CookieState>()(
       },
 
       initialize: () => {
-        // This method can be used to initialize cookie settings on app start
-        const { preferences } = get();
-        applyCookiePreferences(preferences);
+        const cookieConsent = localStorage.getItem('cookieConsent');
+        if (cookieConsent) {
+          set(JSON.parse(cookieConsent));
+        }
       },
     }),
     {
@@ -96,20 +90,3 @@ export const useCookieStore = create<CookieState>()(
     },
   ),
 );
-
-// Helper function to apply cookie preferences
-function applyCookiePreferences(preferences: CookiePreferences) {
-  // Essential cookies are always allowed
-  // Here you would typically initialize your analytics and marketing services
-  // based on the user's preferences
-
-  if (preferences.analytics) {
-    // Initialize analytics (Google Analytics, Yandex Metrika, etc.)
-    console.log('Analytics cookies enabled');
-  }
-
-  if (preferences.marketing) {
-    // Initialize marketing cookies (Facebook Pixel, etc.)
-    console.log('Marketing cookies enabled');
-  }
-}

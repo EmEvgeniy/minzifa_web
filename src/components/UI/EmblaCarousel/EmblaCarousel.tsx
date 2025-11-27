@@ -11,9 +11,11 @@ type PropType<T> = {
   options?: EmblaOptionsType;
   onInit?: (api: EmblaCarouselType | undefined) => void; // ✅ добавляем callback
   className?: string;
+  prevIcon?: ReactNode;
+  nextIcon?: ReactNode;
 };
 
-const EmblaCarousel = <T,>({ slides, renderSlide, options, onInit, className }: PropType<T>) => {
+const EmblaCarousel = <T,>({ slides, renderSlide, options, onInit, className, prevIcon, nextIcon }: PropType<T>) => {
   const defaultOptions: EmblaOptionsType = {
     align: 'end',
     slidesToScroll: 'auto',
@@ -28,10 +30,15 @@ const EmblaCarousel = <T,>({ slides, renderSlide, options, onInit, className }: 
 
   return (
     <div className="w-full">
-      <div className="overflow-hidden" ref={viewportRef}>
-        <div className={cn('flex touch-pan-y', className)}>
+      <div className={cn("overflow-hidden", (prevIcon && nextIcon) && 'relative')} ref={viewportRef}>
+        <div className={cn(
+          'flex touch-pan-y',
+          className
+        )}>
           {slides.map((slide, index) => renderSlide(slide, index))}
         </div>
+        {prevIcon}
+        {nextIcon}
       </div>
     </div>
   );

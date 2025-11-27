@@ -9,6 +9,7 @@ import BestSellersSkeleton from './BestSellersSkeleton';
 import { ECArrowWrapper } from '@/components/UI/EmblaCarousel/EmblaCarouselArrowButtons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import Button from '@/components/UI/Button/Button';
 
 type Props = {
   data: BestSellersPackagesCardType[] | null;
@@ -37,12 +38,12 @@ export default function Wrapper({ data, locale }: Props) {
       </div>
 
       <div className="w-full flex items-center justify-between gap-3">
-        <Link
+        <Button
           href={`/${locale}/tours`}
-          className="bg-[#16372D] py-6 px-12 text-base font-semibold text-white rounded-2xl w-[187px] h-[67px] flex items-center justify-center"
+          color="secondary"
         >
           {t('best_sellers_btns')}
-        </Link>
+        </Button>
 
         <ECArrowWrapper emblaApi={emblaApi} className="mt-0" variant="dark" />
       </div>

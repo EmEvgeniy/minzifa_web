@@ -1,12 +1,13 @@
 import { ClassValue } from 'clsx';
 import { FaEnvelope } from 'react-icons/fa6';
+import {CSSProperties, FC} from "react";
 
 export type SocialMediaIcon = {
   name?: string;
   url?: {
     [key: string]: string;
   };
-  Icon?: typeof FaEnvelope | React.FC;
+  Icon?: typeof FaEnvelope | FC;
 };
 
 export type SocialMediaProps = {
@@ -14,9 +15,9 @@ export type SocialMediaProps = {
   direction?: 'horizontal' | 'vertical';
   iconSize?: number;
   withBackground?: boolean;
-  backgroundColor?: React.CSSProperties['backgroundColor'];
+  backgroundColor?: CSSProperties['backgroundColor'];
   gap?: number;
-  iconColor?: React.CSSProperties['color'];
+  iconColor?: CSSProperties['color'];
   className?: ClassValue;
   linkClassName?: ClassValue;
 };

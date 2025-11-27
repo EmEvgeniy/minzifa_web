@@ -1,8 +1,8 @@
-import { Form } from '../Form';
 import { contacts } from '@/store/contacts';
 import Link from 'next/link';
 import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
 import { getTranslations } from 'next-intl/server';
+import { ContactForm } from '../Form';
 
 export default async function LeftInfo({ locale }: { locale: string }) {
   const t = await getTranslations({ locale });
@@ -30,7 +30,7 @@ export default async function LeftInfo({ locale }: { locale: string }) {
         </p>
       </div>
       <div className="hidden max-[768px]:block mx-auto">
-        <Form />
+        <ContactForm />
       </div>
       <div className="w-full h-full max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center">
         <h2 className="mb-2 justify-end text-6xl leading-tight font-bold tracking-tight text-white/70 max-[1024px]:text-[35px]">

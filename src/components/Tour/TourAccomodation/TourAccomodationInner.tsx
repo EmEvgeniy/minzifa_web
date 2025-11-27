@@ -49,7 +49,7 @@ function TourAccomodationInnerEmbla({ hotels }: { hotels: Hotel[] }) {
         </div>
       )}
 
-      <AccordionCardModal hotel={selectedHotel} openModal={openModal} setOpenModal={setOpenModal} />
+      <AccordionCardModal hotel={selectedHotel} openModal={openModal} setOpenModalAction={setOpenModal} />
     </div>
   );
 }
