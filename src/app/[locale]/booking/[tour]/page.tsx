@@ -1,12 +1,17 @@
+export const dynamic = "force-dynamic";
+
 import { Tour } from '@/components/Tour/_types';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { apiGet } from '../../../../utils/serverApi';
 import { getTranslations } from 'next-intl/server';
-import dynamic from 'next/dynamic';
-const Breadcrumbs = dynamic(() => import('@/components/UI/Breadcrumbs/Breadcrumbs'));
-const BookingHeader = dynamic(() => import('@/components/Booking/BookingHeader/BookingHeader'));
-const FormWrapper = dynamic(() => import('@/components/Booking/FormWrapper/FormWrapper'));
+import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
+import BookingHeader from '@/components/Booking/BookingHeader/BookingHeader';
+import FormWrapper from '@/components/Booking/FormWrapper/FormWrapper';
+// import dynamic from 'next/dynamic';
+// const Breadcrumbs = dynamic(() => import('@/components/UI/Breadcrumbs/Breadcrumbs'));
+// const BookingHeader = dynamic(() => import('@/components/Booking/BookingHeader/BookingHeader'));
+// const FormWrapper = dynamic(() => import('@/components/Booking/FormWrapper/FormWrapper'));
 
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
