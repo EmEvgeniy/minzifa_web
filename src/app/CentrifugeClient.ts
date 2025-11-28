@@ -1,11 +1,11 @@
 import { IMessage } from '@/types';
 import { Centrifuge, Subscription } from 'centrifuge';
 import { BASE_API_PATH } from '@/constants';
-import axiosInstance from '../utils/axios';
+import { authAxiosInstance } from '../utils/axios';
 
 export const initCentrifugo = async (): Promise<Centrifuge> => {
   try {
-    const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/token`);
+    const { data } = await authAxiosInstance.post(`/auth/centrifugo/token`);
 
     if (!data.token) {
       throw new Error('Не удалось получить токен для Centrifuge');
@@ -46,7 +46,7 @@ export const subscribeToChat = async (
       centrifuge.removeSubscription(existingSub);
     }
 
-    const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/subscribe`, { channel });
+    const { data } = await authAxiosInstance.post(`/auth/centrifugo/subscribe`, { channel });
 
     if (!data.token) {
       throw new Error('Не удалось получить токен подписки для канала');

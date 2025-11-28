@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { FaCamera, FaTimes, FaSpinner } from 'react-icons/fa';
 import { ITourist } from '@/store';
 import ImageWithFallback from '../UI/ImageWithFallback/ImageWithFallback';
+import Image from 'next/image';
 
 interface AvatarUploadProps {
     user: ITourist;
@@ -61,15 +62,13 @@ export const AvatarUpload = ({
         fileInputRef.current?.click();
     };
 
-    console.log(user.avatar?.file);
-
     return (
         <div className={`flex flex-col items-center space-y-6 ${className}`}>
             <div className="relative group">
                 <div className="relative transition-transform duration-300 hover:scale-105">
-                    {preview || user.avatar?.file ? (
+                    {preview || user?.avatar?.file ? (
                         <ImageWithFallback
-                            src={preview || (user.avatar?.file as string)}
+                            src={preview || (user?.avatar?.file as string)}
                             alt="Avatar preview"
                             className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                             width={128}

@@ -10,6 +10,7 @@ import { ChatsList } from './ChatsList';
 import { useGetInfiniteQuery } from '@/api';
 import Loader from '@/components/UI/Loader/Loader';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useAuthGetInfiniteQuery } from '@/api/get.api';
 
 const Chats = () => {
     const t = useTranslations();
@@ -34,9 +35,9 @@ const Chats = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage
-    } = useGetInfiniteQuery<IChat>({
+    } = useAuthGetInfiniteQuery<IChat>({
         key: ['chats'],
-        url: '/chats',
+        url: '/auth/chats',
         perPage: '10',
         searchItem: searchQuery,
         withLocale: false,
@@ -79,10 +80,10 @@ const Chats = () => {
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-screen pt-[100px]">
+            <div className="container mt-[200px] mb-[50px] mx-auto h-[calc(100vh-200px-50px)] flex items-center justify-center">
                 <Loader />
             </div>
-        );
+        )
     }
 
     return isFetched && chats && (

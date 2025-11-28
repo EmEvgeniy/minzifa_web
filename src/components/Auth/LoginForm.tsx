@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { usePostMutation } from '@/api/post.api';
+import { useAuthPostMutation, usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/store/useSnackStore';
 import { loginSchema, LoginFormType } from '@/validation/loginSchema';
 import Button from '@/components/UI/Button/Button';
@@ -23,7 +23,7 @@ export const LoginForm = () => {
     const { setMessage, setError } = useSnackStore();
     const [showPassword, setShowPassword] = useState(false);
     const { setUser, setAuthPopup } = useAuthStore();
-    const { register, reset, setValue, clearErrors, getValues, formState: { errors, isValid, isLoading }, handleSubmit } = useForm<LoginFormType>({
+    const { register, reset, clearErrors, formState: { errors, isValid, isLoading }, handleSubmit } = useForm<LoginFormType>({
         resolver: zodResolver(loginSchema(t)),
         defaultValues: {
             email: '',
@@ -32,7 +32,7 @@ export const LoginForm = () => {
         },
     });
 
-    const { mutateAsync, isPending } = usePostMutation(
+    const { mutate, isPending } = useAuthPostMutation<ITourist, Record<string, unknown>>(
         ['auth.login'],
         async (data: ITourist) => {
             setUser(data);
@@ -54,7 +54,7 @@ export const LoginForm = () => {
 
         await getCsrfToken();
 
-        await mutateAsync({
+        await mutate({
             obj: { ...data, recaptchaToken: token },
             endpoint: 'auth/login',
         });

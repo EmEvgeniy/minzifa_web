@@ -3,7 +3,6 @@ import { FaChevronLeft, FaComments } from 'react-icons/fa';
 import { IChat } from '@/types';
 import Button from '@/components/UI/Button/Button';
 import { useTranslations } from 'next-intl';
-import { useChatsStore } from '@/store';
 
 interface ChatHeaderProps {
   chat: IChat;
@@ -13,14 +12,12 @@ interface ChatHeaderProps {
 export const ChatHeader: React.FC<ChatHeaderProps> = ({ chat, onBack }) => {
   const t = useTranslations('chat');
 
-  const { setSelectedChat } = useChatsStore();
-
   return (
     <div className='flex flex-col'>
       <div className="p-3 border-b border-gray-200 flex items-center">
         <Button
           onClick={onBack}
-          color='soft'
+          color='link'
         >
           <FaChevronLeft size={16} />
         </Button>
@@ -38,7 +35,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({ chat, onBack }) => {
           <div>
             <Button
               to={`/orders/${chat?.order?.id}`}
-              color="secondary"
+              color="link"
               className="text-sm"
             >
               {t('chatHeader.actions')}

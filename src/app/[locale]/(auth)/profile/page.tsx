@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
 import ProfilePage from '@/components/Auth/Profile/ProfilePage';
 
 export const metadata: Metadata = {

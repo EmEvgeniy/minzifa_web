@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useSearchParams } from 'next/navigation';
-import axiosInstance from '@/utils/axios';
+import { authAxiosInstance } from '@/utils/axios';
 import { AxiosError } from 'axios';
 import { getCsrfToken } from '@/api/get.api';
 
@@ -20,7 +20,7 @@ export function AuthCheckProvider({ children }: AuthCheckProviderProps) {
         const checkSession = async () => {
             try {
                 await getCsrfToken();
-                await axiosInstance.get('/auth/check');
+                await authAxiosInstance.get('/auth/check');
             } catch (e: AxiosError | any) {
                 if (e.response?.status === 401 || e.response?.status === 419) {
                     logout();

@@ -1,9 +1,9 @@
 import { useEffect, useCallback, useRef } from 'react';
 import { useChatsStore } from '@/store/chatsStore';
 import { useAuthStore } from '@/store/useAuthStore';
-import { IChat, IMessage } from '@/types';
+import { IChat } from '@/types';
 import { initCentrifugo } from '@/app/CentrifugeClient';
-import axiosInstance from '@/utils/axios';
+import { authAxiosInstance, axiosInstance } from '@/utils/axios';
 import { AUTH_COOKIE_NAME, BASE_API_PATH } from '@/constants';
 import { getCookie } from 'cookies-next';
 import { useQueryClient } from '@tanstack/react-query';
@@ -45,7 +45,7 @@ export const useChats = () => {
           throw new Error('No auth token found');
         }
 
-        const response = await axiosInstance.get(`/chats/${chatId}`);
+        const response = await authAxiosInstance.get(`/auth/chats/${chatId}`);
 
         const chat = response.data;
 
@@ -72,8 +72,8 @@ export const useChats = () => {
 
         setMessageInput('');
 
-        const response = await axiosInstance.post(
-          `/chats/${chatId}/messages`,
+        const response = await authAxiosInstance.post(
+          `/auth/chats/${chatId}/messages`,
           {
             message,
             message_type: 'text',
@@ -144,7 +144,7 @@ export const useChats = () => {
         if (isCancelled) return;
 
         // 2. Get token
-        const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/subscribe`, {
+        const { data } = await authAxiosInstance.post(`/auth/centrifugo/subscribe`, {
           channel,
         });
 
@@ -242,7 +242,7 @@ export const useChats = () => {
         if (isCancelled) return;
 
         // 2. Get token
-        const { data } = await axiosInstance.post(`${BASE_API_PATH}/centrifugo/subscribe`, {
+        const { data } = await authAxiosInstance.post(`/auth/centrifugo/subscribe`, {
           channel,
         });
 

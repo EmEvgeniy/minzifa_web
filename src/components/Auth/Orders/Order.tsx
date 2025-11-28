@@ -4,29 +4,29 @@ import { IOrder } from "@/types";
 import { getStatusColor } from "@/utils/utils";
 import { formatDate } from "date-fns";
 import { useTranslations } from "next-intl";
-import { useGetQuery } from "@/api";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/UI/Loader/Loader";
 import Button from "@/components/UI/Button/Button";
 import { FaChevronLeft } from "react-icons/fa";
+import { useAuthGetQuery } from "@/api/get.api";
 
 export const Order = () => {
     const t = useTranslations();
     const params = useParams();
     const router = useRouter();
 
-    const { data: order, isFetched, isLoading } = useGetQuery<IOrder>({
+    const { data: order, isFetched, isLoading } = useAuthGetQuery<IOrder>({
         key: ['order'],
-        url: `orders/${params.id}`,
+        url: `/auth/orders/${params.id}`,
         withLocale: false,
     });
 
     if (isLoading) {
         return (
-            <div className="container mt-[200px] mb-[50px] mx-auto h-screen">
+            <div className="container mt-[200px] mb-[50px] mx-auto h-[calc(100vh-200px-50px)] flex items-center justify-center">
                 <Loader />
             </div>
-        );
+        )
     }
 
     // Безопасное извлечение данных
@@ -54,7 +54,7 @@ export const Order = () => {
             {/* Кнопка назад */}
             <div className="mb-6">
                 <Button
-                    color="soft"
+                    color="link"
                     onClick={() => router.push('/orders')}
                     className="flex items-center gap-2"
                 >

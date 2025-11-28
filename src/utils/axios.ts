@@ -1,16 +1,21 @@
 import axios, { AxiosInstance } from 'axios';
 import { getApiUrl } from './config';
 
-const axiosInstance: AxiosInstance = axios.create({
-  baseURL: getApiUrl(),
-  withCredentials: true,
-  withXSRFToken: true,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-  },
-});
+const createAxios = (url?: string | null): AxiosInstance => {
+  return axios.create({
+    baseURL: url ?? getApiUrl(),
+    withCredentials: true,
+    withXSRFToken: true,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+    },
+  });
+};
+
+const axiosInstance = createAxios();
+const authAxiosInstance = createAxios('http://localhost');
 
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -18,13 +23,11 @@ axiosInstance.interceptors.response.use(
     const status = error?.response?.status;
 
     if (status === 401 || status === 419) {
-      console.log(error)
-      // const logout = useAuthStore.getState().logout;
-      // logout();
+      console.log(error);
     }
 
     return Promise.reject(error);
   },
 );
 
-export default axiosInstance;
+export { axiosInstance, authAxiosInstance };

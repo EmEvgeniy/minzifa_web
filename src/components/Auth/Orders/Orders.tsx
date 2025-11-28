@@ -1,31 +1,31 @@
 'use client';
 
 import { IOrder, PaginatedData } from "@/types";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { getStatusColor } from "@/utils/utils";
 import Pagination from "@/components/UI/Pagination";
-import { useGetQuery } from "@/api";
 import { useState } from "react";
 import Loader from "@/components/UI/Loader/Loader";
+import { useAuthGetQuery } from "@/api/get.api";
 
 export const Orders = () => {
     const t = useTranslations();
 
     const [page, setPage] = useState("1");
 
-    const { data: orders, isFetched, isLoading } = useGetQuery<PaginatedData<IOrder>>({
+    const { data: orders, isFetched, isLoading } = useAuthGetQuery<PaginatedData<IOrder>>({
         key: ['orders'],
         page: page,
         perPage: '5',
-        url: 'orders',
+        url: 'auth/orders',
         searchItem: "&sort=newest",
         withLocale: false,
     });
 
     if (isLoading) {
         return (
-            <div className="container mt-[200px] mb-[50px] mx-auto h-screen">
+            <div className="container mt-[200px] mb-[50px] mx-auto h-[calc(100vh-200px-50px)] flex items-center justify-center">
                 <Loader />
             </div>
         )

@@ -7,7 +7,7 @@ import { RiUserLine } from "react-icons/ri";
 import { Dropdown, DropdownDetails, DropdownSummary } from "../UI/Dropdown/Dropdown";
 import { useSnackStore } from "@/store/useSnackStore";
 import { getCsrfToken } from "@/api/get.api";
-import { usePostMutation } from "@/api";
+import { useAuthPostMutation } from "@/api/post.api";
 
 const menu = [
     {
@@ -35,7 +35,7 @@ export default function AuthHeader() {
     const { user, setUser, setIsAuthenticated } = useAuthStore();
     const { setMessage, setError } = useSnackStore();
 
-    const { mutate } = usePostMutation(
+    const { mutate } = useAuthPostMutation(
         ['auth.logout'],
         async () => {
             setUser(null);

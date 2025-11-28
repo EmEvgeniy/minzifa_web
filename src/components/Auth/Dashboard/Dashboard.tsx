@@ -2,19 +2,18 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useGetQuery } from '@/api';
 import { IOrder, PaginatedData } from '@/types';
 import { useTranslations } from 'next-intl';
+import { useAuthGetQuery } from '@/api/get.api';
 
 const Dashboard: React.FC = () => {
     const t = useTranslations('dashboard');
 
-    // Fetch orders to get the total count
-    const { data: orders, isLoading } = useGetQuery<PaginatedData<IOrder>>({
+    const { data: orders, isLoading } = useAuthGetQuery<PaginatedData<IOrder>>({
         key: ['orders'],
         page: '1',
-        perPage: '1', // We only need the count
-        url: 'orders',
+        perPage: '1',
+        url: 'auth/orders',
         withLocale: false,
     });
 
@@ -24,7 +23,6 @@ const Dashboard: React.FC = () => {
         <div className="container mx-auto px-4 py-8 mt-[80px] md:mt-[150px]">
             <h1 className="text-3xl font-bold text-gray-900 mb-8">{t('title')}</h1>
 
-            {/* Stats Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex items-center space-x-4">
                     <div className="p-3 bg-blue-50 rounded-xl">
@@ -43,10 +41,8 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
 
-            {/* Quick Actions Grid */}
             <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('quick_access')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Orders Card */}
                 <Link href="/orders" className="group block">
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-blue-200 hover:-translate-y-1 h-full">
                         <div className="flex items-start justify-between mb-4">
@@ -64,7 +60,6 @@ const Dashboard: React.FC = () => {
                     </div>
                 </Link>
 
-                {/* Chats Card */}
                 <Link href="/chats" className="group block">
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-green-200 hover:-translate-y-1 h-full">
                         <div className="flex items-start justify-between mb-4">
@@ -82,7 +77,6 @@ const Dashboard: React.FC = () => {
                     </div>
                 </Link>
 
-                {/* Profile Card */}
                 <Link href="/profile" className="group block">
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-purple-200 hover:-translate-y-1 h-full">
                         <div className="flex items-start justify-between mb-4">

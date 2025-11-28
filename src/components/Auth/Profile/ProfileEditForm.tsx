@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { usePostMutation } from '@/api/post.api';
+import { useAuthPostMutation, usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/store/useSnackStore';
 import { profileEditSchema, passwordChangeSchema, ProfileEditFormType, PasswordChangeFormType } from '@/validation/profileEditSchema';
 import Button from '@/components/UI/Button/Button';
@@ -12,9 +12,10 @@ import { Input } from '@/components/UI/Form';
 import Loader from '@/components/UI/Loader/Loader';
 import { ITourist, useAuthStore } from '@/store';
 import { AvatarUpload } from '../AvatarUpload';
-import { usePatchMutation } from '@/api/patch.api';
+import { useAuthPatchMutation, usePatchMutation } from '@/api/patch.api';
 import { PhoneInputComp } from '../../UI';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../UI/Tabs';
+import { authAxiosInstance } from '@/utils/axios';
 
 type ProfileUpdateResponse = {
     user: ITourist;
@@ -51,7 +52,7 @@ export const ProfileEditForm = () => {
         },
     });
 
-    const { mutate } = usePatchMutation<ProfileUpdateResponse, ProfileEditFormType>(
+    const { mutate } = useAuthPatchMutation<ProfileUpdateResponse, ProfileEditFormType>(
         ['profile-update'],
         (response) => {
             login(response.user);
@@ -63,7 +64,7 @@ export const ProfileEditForm = () => {
         }
     );
 
-    const { mutate: mutatePassword } = usePostMutation<PasswordChangeResponse, PasswordChangeFormType>(
+    const { mutate: mutatePassword } = useAuthPostMutation<PasswordChangeResponse, PasswordChangeFormType>(
         ['password-change'],
         (response) => {
             setMessage(response.message || t('profile.passwordChangeSuccess'));
@@ -82,20 +83,13 @@ export const ProfileEditForm = () => {
             const formData = new FormData();
             formData.append('avatar', file);
 
-            const response = await fetch('/api/v1/auth/avatar/upload', {
-                method: 'POST',
-                body: formData,
+            const response = await authAxiosInstance.post('/auth/avatar/upload', formData, {
                 headers: {
-                    'Authorization': `Bearer ${document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*\=\s*([^;]*).*$)|^.*$/, "$1")}`,
+                    'Content-Type': 'multipart/form-data',
                 },
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to upload avatar');
-            }
-
-            const result = await response.json();
-            // Update user data with new avatar
+            const result = response.data;
             if (result.user) {
                 login(result.user);
             }
