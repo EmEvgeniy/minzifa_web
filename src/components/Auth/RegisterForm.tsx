@@ -2,13 +2,13 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { useRecaptcha } from '@/hooks/useRecaptcha';
 import { useMetricsStore } from '@/store/useMetricsStore';
 import { useSnackStore } from '@/store/useSnackStore';
-import { usePostMutation } from '@/api/post.api';
+import { useAuthPostMutation } from '@/api/post.api';
 import { RegistrationFormType, registrationSchema } from '@/validation/registrationSchema';
 
 import Button from '@/components/UI/Button/Button';
@@ -43,7 +43,7 @@ export const RegisterForm = () => {
         },
     });
 
-    const { mutate } = usePostMutation(
+    const { mutate } = useAuthPostMutation(
         ['auth.register'],
         async (data: ITourist) => {
             setUser(data);
