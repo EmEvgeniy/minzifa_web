@@ -24,7 +24,6 @@ export function AuthPopup() {
         if (requireAuth === '1') {
             setAuthPopup(true);
 
-            // Удаляем параметр из URL, чтобы popup не открывался снова
             const newUrl = new URL(window.location.href);
             newUrl.searchParams.delete('require-auth');
             window.history.replaceState({}, '', newUrl);

@@ -1,4 +1,5 @@
 'use client';
+
 import { cn } from '@/utils/utils';
 import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
@@ -33,6 +34,10 @@ export const Popup: FC<PopupType> = ({
       const timer = setTimeout(() => setIsVisible(false), 300);
       return () => clearTimeout(timer);
     }
+
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
   }, [open]);
 
   const handleBackdropClick = (e: React.MouseEvent) => {

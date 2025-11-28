@@ -12,23 +12,19 @@ import { usePostMutation } from "@/api";
 const menu = [
     {
         title: 'auth.nav.dashboard',
-        href: '/dashboard',
+        href: 'dashboard',
     },
     {
         title: 'auth.nav.profile',
-        href: '/profile',
+        href: 'profile',
     },
     {
         title: 'auth.nav.orders',
-        href: '/orders',
+        href: 'orders',
     },
     {
         title: 'auth.nav.chats',
-        href: '/chats',
-    },
-    {
-        title: 'auth.nav.logout',
-        href: '/logout',
+        href: 'chats',
     },
 ]
 
@@ -70,7 +66,7 @@ export default function AuthHeader() {
                     {user?.name}
                 </Button>
             </DropdownSummary>
-            <DropdownDetails >
+            <DropdownDetails>
                 {menu.map((item) => (
                     <Button
                         key={item.title}
@@ -80,6 +76,13 @@ export default function AuthHeader() {
                         {t(item.title)}
                     </Button>
                 ))}
+                <Button
+                    color="link"
+                    onClick={logout}
+                    className="w-full"
+                >
+                    {t('auth.nav.logout')}
+                </Button>
             </DropdownDetails>
         </Dropdown>
     )
