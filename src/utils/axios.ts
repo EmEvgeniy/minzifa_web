@@ -15,7 +15,7 @@ const createAxios = (url?: string | null): AxiosInstance => {
 };
 
 const axiosInstance = createAxios();
-const authAxiosInstance = createAxios('http://localhost');
+const authAxiosInstance = createAxios(process.env.NEXT_PUBLIC_API_URL);
 
 axiosInstance.interceptors.response.use(
   (response) => response,

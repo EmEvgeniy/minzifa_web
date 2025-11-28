@@ -27,7 +27,7 @@ function getAppConfig(): AppConfig {
     environment: env,
     isDevelopment: env === 'development',
     isProduction: env === 'production',
-    apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api/v1',
+    apiUrl: `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || 'http://localhost/api/v1',
     appUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
     analytics: {
       gaId: process.env.NEXT_PUBLIC_GA_ID as string,
