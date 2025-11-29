@@ -7,7 +7,6 @@ import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackages
 import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
 import BestSellersSkeleton from './BestSellersSkeleton';
 import { ECArrowWrapper } from '@/components/UI/EmblaCarousel/EmblaCarouselArrowButtons';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import Button from '@/components/UI/Button/Button';
 

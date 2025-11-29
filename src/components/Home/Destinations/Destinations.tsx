@@ -31,7 +31,7 @@ export default async function Destinations({ locale }: { locale: string }) {
         src={destinations || ''}
         alt="destinations"
         fill
-        loading="lazy"
+        priority
         className="absolute top-0 w-full h-full left-0 object-cover"
       />
       <div className="container pt-[70px] pb-[150px] relative z-20 flex flex-col gap-5">

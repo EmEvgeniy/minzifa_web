@@ -19,9 +19,10 @@ export default async function AdventureCard({ type, locale }: Props) {
           className="absolute  w-full h-full  object-cover"
           alt={type?.media?.alt_text || 'adventure'}
           fill
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       )}
-      {/* Накладка */}
       <div className="absolute inset-0 bg-black opacity-30 z-0" />
       <div className="p-5 text-center relative z-1">
         <p className="mb-[10px] font-normal text-2xl text-white [@media(max-width:425px)]:text-[15px]">

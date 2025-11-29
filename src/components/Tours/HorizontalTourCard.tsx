@@ -35,7 +35,6 @@ export default function HorizontalTourCard({ tour, locale }: HorizontalTourCardP
           height={300}
           className="w-full h-full md:max-h-[250px]"
           fallbackSrc={Fallback_Image.src}
-          showLoader={true}
         />
 
         {/* Бейдж типа тура поверх изображения слева */}

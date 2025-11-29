@@ -31,7 +31,6 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
             width={800}
             height={600}
             className="w-full h-full object-cover aspect-[3/3]"
-            showLoader={true}
           />
 
           {/* Бейдж типа тура поверх изображения слева */}

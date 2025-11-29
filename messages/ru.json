@@ -53,6 +53,10 @@
       "envelope": "Свяжитесь по электронной почте",
       "whatsapp": "Свяжитесь с нами по WhatsApp",
       "phone": "Позвоните нам"
+    },
+    "reviews": {
+      "title": "Отзывы и рейтинг",
+      "count": "{count}+ отзывов"
     }
   },
   "search": "Поиск направлений",
@@ -88,14 +92,14 @@
       {
         "link": "contact",
         "title": "Контакты"
+      },
+      {
+        "link": "reviews",
+        "title": "Отзывы"
       }
     ]
   },
   "lang": ["en", "ru"],
-  "Home": {
-    "title": "NextJS i18n Tutorial222",
-    "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
-  },
   "footer": {
     "title": "Контакты",
     "text": "Minzifa Travel — это команда экспертов с более чем 20-летним опытом, предлагающая увлекательные туры по Узбекистану и странам Средней Азии.",
@@ -118,6 +122,10 @@
       {
         "title": "Сертификаты",
         "link": "sertificates"
+      },
+      {
+        "title": "Отзывы",
+        "link": "reviews"
       }
     ],
     "Useful_information_title": "Полезная информация",
@@ -969,10 +977,7 @@
     "button": "Отправить запрос",
     "checkbox": ["Отправляя запрос, вы соглашаетесь с", "Политикой конфиденциальности"]
   },
-  "reviews": {
-    "title": "Отзывы и рейтинг",
-    "count": "{count}+ отзывов"
-  },
+
   "Booking": {
     "travellers": {
       "title": "Сколько путешественников?",
@@ -1404,5 +1409,9 @@
     "credit_card": "Банковская карта",
     "stripe": "Stripe",
     "paypal": "PayPal"
+  },
+  "Reviews": {
+    "title": "Отзывы",
+    "subtitle": "Видео отзывы"
   }
 }

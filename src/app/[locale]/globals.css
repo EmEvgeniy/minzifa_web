@@ -8,6 +8,7 @@
 .icon-white {
   filter: brightness(0) invert(1);
 }
+
 @theme {
   --font-title: 'Unbounded';
   --font-text: 'Inter';
@@ -23,10 +24,12 @@
     --foreground: #16372d;
   }
 }
+
 @keyframes carouselScroll {
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-33.333%);
   }
@@ -35,6 +38,7 @@
 .carousel-track {
   animation: carouselScroll 330s linear infinite;
 }
+
 body {
   @apply bg-background text-foreground font-text;
 }
@@ -44,6 +48,17 @@ body {
 }
 
 #nprogress .bar {
-  background: #10b981 !important; /* зелёный */
+  background: #10b981 !important;
+  /* зелёный */
   height: 3px !important;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }

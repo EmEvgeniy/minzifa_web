@@ -30,7 +30,7 @@ export default function Desktop({ locale }: { locale: string }) {
             className="px-20 w-full fixed top-10 left-1/2 -translate-x-1/2 [@media(max-width:1024px)]:hidden flex items-center justify-between gap-5 z-50">
             <div
                 className="bg-[rgba(22,55,45,0.7)] backdrop-blur-[6px] w-full py-5 px-5 rounded-[20px] flex items-center justify-between">
-                <Logo locale={locale} className="w-[200px]" />
+                <Logo locale={locale} className="w-[200px] md:w-[150px] 2xl:w-[200px]" />
                 <NavWrapper>
                     <Nav menu={navItems} locale={locale} />
                 </NavWrapper>

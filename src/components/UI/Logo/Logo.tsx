@@ -22,7 +22,6 @@ export default function Logo({
         width={160}
         height={30}
         className={className}
-        priority
       />
     </Link>
   );

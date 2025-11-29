@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 export default async function Reviews({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'reviews' });
+  const t = await getTranslations({ locale, namespace: 'home.reviews' });
 
   const rating = 5.0;
   const fullStars = Math.floor(rating);
@@ -46,7 +46,7 @@ export default async function Reviews({ locale }: { locale: string }) {
           alt="info_img"
           width={611}
           height={97}
-          className="object-cover"
+
         />
       </div>
 

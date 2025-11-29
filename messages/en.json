@@ -53,6 +53,10 @@
       "envelope": "Get in touch on E-mail",
       "whatsapp": "Get in touch on WhatsApp",
       "phone": "Call us"
+    },
+    "reviews": {
+      "title": "Ratings & Reviews",
+      "count": "{count}+ reviews"
     }
   },
   "Filters": "Filters",
@@ -80,6 +84,10 @@
       {
         "link": "contact",
         "title": "Contact us"
+      },
+      {
+        "link": "reviews",
+        "title": "Reviews"
       }
     ]
   },
@@ -102,10 +110,6 @@
     "byRequest": "by request"
   },
   "lang": ["en", "ru"],
-  "Home": {
-    "title": "NextJS i18n Tutorial",
-    "description": "Tutorial of how to manipulate i18n based on route path or domain with  Nextjs v15"
-  },
   "footer": {
     "title": "Contacts",
     "text": "Minzifa Travel offers expertly crafted tours across Uzbekistan and Central Asia, created by travel professionals with over 20 years of experience.",
@@ -128,6 +132,10 @@
       {
         "title": "Sertificates",
         "link": "sertificates"
+      },
+      {
+        "title": "Reviews",
+        "link": "reviews"
       }
     ],
     "Useful_information_title": "Useful information",
@@ -969,10 +977,6 @@
     "button": "Send request",
     "checkbox": ["By submitting a request, you agree to the", "Privacy Policy"]
   },
-  "reviews": {
-    "title": "Ratings & Reviews",
-    "count": "{count}+ reviews"
-  },
   "Booking": {
     "travellers": {
       "title": "How many travellers?",
@@ -1410,5 +1414,9 @@
     "credit_card": "Credit card",
     "stripe": "Stripe",
     "paypal": "PayPal"
+  },
+  "Reviews": {
+    "title": "Traveler Reviews & Video Stories",
+    "subtitle": "Video reviews"
   }
 }
