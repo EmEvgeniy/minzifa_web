@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #cfdfd9;
+  --background: #e4eeeb;
   --foreground: #16372d;
 }
 
@@ -20,7 +20,7 @@
   :root {
     --font-title: 'Unbounded';
     --font-text: 'Inter';
-    --background: #cfdfd9;
+    --background: #e4eeeb;
     --foreground: #16372d;
   }
 }

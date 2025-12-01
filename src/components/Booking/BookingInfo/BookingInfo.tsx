@@ -149,14 +149,15 @@ export default function BookingInfo({ bookingData, tour, control }: { bookingDat
               label={t.rich('Booking.booking_info.accept', {
                 terms: (chunks) => (
                   <Link
-                    href={`/${locale}/terms-and-conditions`}
+                    href={`/${locale}/term-and-conditions-of-booking-tours`}
                     className="text-[#009F65] hover:underline"
+                    target='_blank'
                   >
                     {chunks}
                   </Link>
                 ),
                 privacy: (chunks) => (
-                  <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline">
+                  <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
                     {chunks}
                   </Link>
                 ),
