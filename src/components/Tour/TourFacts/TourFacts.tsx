@@ -6,7 +6,7 @@ import AccomodationIcon from '@/assets/icons/booking/accomodation.svg';
 import { getTranslations } from 'next-intl/server';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
-export default async function TourFacts({ facts, locale }: { facts: Facts; locale: string }) {
+export default async function TourFacts({ facts, tour_type, locale }: { facts: Facts; tour_type: string; locale: string }) {
   const t = await getTranslations({ locale, namespace: 'Tour' });
 
   const factsContent: {
@@ -21,7 +21,7 @@ export default async function TourFacts({ facts, locale }: { facts: Facts; local
       },
       {
         icon: IconUser,
-        title: t('facts.group_size'),
+        title: tour_type === 'group' ? t('facts.group_size') : t('facts.private_size'),
         content: facts.content.group_size,
       },
       {

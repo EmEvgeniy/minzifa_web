@@ -56,7 +56,7 @@ export default async function TourWrapper({ locale, slug }: { locale: string; sl
         </div>
         <div className={"container md:!px-0 md:grid md:grid-flow-row-dense md:grid-cols-[720px_370px] md:justify-between md:gap-5"}>
           <div className="flex flex-col gap-5 w-full h-full">
-            <TourFacts facts={tourData?.facts} locale={locale} />
+            <TourFacts facts={tourData?.facts} tour_type={tourData?.tour_type} locale={locale} />
             <TourDescription
               subtitle={tourData?.subtitle}
               description={tourData?.description}

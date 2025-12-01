@@ -846,6 +846,7 @@
       "duration": "Duration",
       "days": "{days} days",
       "group_size": "Group Size",
+      "private_size": "Permissible number of participants",
       "hotels": "Hotels",
       "transport": "Transport"
     },
