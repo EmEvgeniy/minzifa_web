@@ -42,7 +42,7 @@ export default async function page({ params, searchParams }: DefaultPageProps) {
   const currentPage = Number(sp?.page) || 1;
 
   const destinations = (await apiGet(
-    `destinations?locale=${locale}&perPage=24&page=${currentPage}`,
+    `destinations?locale=${locale}&page=${currentPage}&parent=0`,
     {
       next: { revalidate: 60 * 5 },
     },
