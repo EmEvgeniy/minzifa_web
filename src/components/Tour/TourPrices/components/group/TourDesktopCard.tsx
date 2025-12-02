@@ -42,11 +42,11 @@ export const TourDesktopCard: FC<TourDesktopCardType> = ({
       </p>
       <p>{t('prices.seats', { count: price.tour_total_seats })}</p>
       <div className="flex flex-col items-start gap-2.5">
-        {price.is_best_price && (
+        {price.is_best_price ? (
           <p className="text-sm text-[#16372D] bg-[#87EEC7] rounded-lg p-2.5">
             {t('prices.best_price')}
           </p>
-        )}
+        ) : null}
         <div className="flex flex-row gap-2.5 items-end w-full">
           <p className="text-[#333333] text-3xl font-semibold">
             <FormattedPrice price={price.price_for_double} currency={valute} />
