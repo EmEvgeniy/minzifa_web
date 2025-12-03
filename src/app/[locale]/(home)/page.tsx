@@ -84,7 +84,7 @@ export default async function HomePage({ params }: DefaultPageProps) {
       <Adventure locale={locale} />
       <CreateYourTrip locale={locale} />
       <ContactUs locale={locale} />
-      <Reviews locale={locale} />
+      <Reviews />
       <Articles locale={locale} />
     </>
   );

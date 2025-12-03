@@ -1,4 +1,6 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { Include } from '../_types';
 import dynamic from 'next/dynamic';
 
@@ -7,14 +9,8 @@ import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallba
 
 const TourIncludesInner = dynamic(() => import('./TourIncludesInner'));
 
-export default async function TourIncludes({
-  includes,
-  locale,
-}: {
-  includes: Include[] | undefined;
-  locale: string;
-}) {
-  const t = await getTranslations({ locale, namespace: 'Tour' });
+export default function TourIncludes({ includes }: { includes: Include[] | undefined; }) {
+  const t = useTranslations('Tour');
   const categories = t.raw('includes.categories') as {
     accommodation: string;
     meals: string;

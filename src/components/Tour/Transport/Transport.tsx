@@ -1,3 +1,5 @@
+'use client';
+
 import ImageWithFallback from "@/components/UI/ImageWithFallback/ImageWithFallback";
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 
@@ -10,8 +12,8 @@ type TransportProps = {
     }
 }
 
-export default async function Transport({ locale, transports }: TransportProps) {
-    return transports?.one_two_people || transports?.three_five_people || transports?.six_twelve_people ? (
+export default function Transport({ locale, transports }: TransportProps) {
+    return !!(transports?.one_two_people || transports?.three_five_people || transports?.six_twelve_people) && (
         <div className="col-start-1 flex flex-col gap-5">
             <h2 className="text-4xl font-semibold text-black mb-5 max-[920px]:text-[30px] max-[550px]:text-[24px] max-[550px]:mb-3">
                 {locale === 'en' ? 'Transport' : 'Транспорт'}
@@ -51,6 +53,5 @@ export default async function Transport({ locale, transports }: TransportProps) 
                 <span>{locale === 'en' ? 'At the customer\'s request, it is possible to upgrade the car class and add child seats.' : 'По желанию клиента возможно повышение класса автомобиля и добавление детских сидений.'}</span>
             </div>
         </div >
-    )
-        : null;
+    );
 }

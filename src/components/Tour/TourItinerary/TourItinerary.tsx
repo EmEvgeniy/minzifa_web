@@ -1,18 +1,14 @@
+'use client';
+
 import { Itinerary } from '../_types';
 import dynamic from 'next/dynamic';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 
 const TourItineraryBtn = dynamic(() => import('./TourItineraryBtn'));
 const TourItineraryAccordions = dynamic(() => import('./TourItineraryAccordions'));
 
-export default async function TourItinerary({
-  itineraries,
-  locale,
-}: {
-  itineraries: Itinerary[] | undefined;
-  locale: string;
-}) {
-  const t = await getTranslations({ locale, namespace: 'Tour' });
+export default function TourItinerary({ itineraries }: { itineraries: Itinerary[] | undefined; }) {
+  const t = useTranslations('Tour');
 
   if (!itineraries) return null;
 

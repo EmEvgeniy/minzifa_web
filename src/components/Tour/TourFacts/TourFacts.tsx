@@ -1,13 +1,15 @@
+'use client';
+
 import { Facts } from '../_types';
 import IconCalendar from '@/assets/icons/booking/calendar.svg';
 import IconUser from '@/assets/icons/booking/user.svg';
 import IconLocation from '@/assets/icons/booking/location.svg';
 import AccomodationIcon from '@/assets/icons/booking/accomodation.svg';
-import { getTranslations } from 'next-intl/server';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
+import { useTranslations } from 'next-intl';
 
-export default async function TourFacts({ facts, tour_type, locale }: { facts: Facts; tour_type: string; locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'Tour' });
+export default function TourFacts({ facts, tour_type }: { facts: Facts; tour_type: string }) {
+  const t = useTranslations('Tour');
 
   const factsContent: {
     icon: string;

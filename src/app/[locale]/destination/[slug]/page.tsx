@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import type { Metadata } from 'next';
 import { DestinationData } from './_types';
 import Hero from '@/components/Destination/Hero/Hero';
@@ -12,17 +10,35 @@ import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_type
 import { DestinationCard } from '@/components/Home/Destinations/_types';
 import { PaginatedData } from '@/types';
 
+export const revalidate = 60 * 60;
+
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
   searchParams: Promise<{ page?: string }>;
 };
 
+export async function generateStaticParams() {
+  const locales = ['en', 'ru'];
+  const paths = [];
+
+  for (const locale of locales) {
+    const destinations = await apiGet<DestinationData[]>(`destinations?all=1&locale=${locale}`);
+
+    for (const destination of destinations) {
+      paths.push({
+        locale,
+        slug: destination.slug,
+      });
+    }
+  }
+
+  return paths;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
 
-  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 * 20 },
-  })) as DestinationData;
+  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`)) as DestinationData;
 
   return {
     title: destination?.seo_metadata?.title,
@@ -34,21 +50,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function page({ params }: Props) {
   const { slug, locale } = await params;
 
-  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 * 20 },
-  })) as DestinationData;
+  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`)) as DestinationData;
 
-  const initTours = (await apiGet(`tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`, {
-    next: { revalidate: 60 * 20 },
-  })) as PaginatedData<AllToursCardType>;
+  const initTours = (await apiGet(`tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`)) as PaginatedData<AllToursCardType>;
 
-  const initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`, {
-    next: { revalidate: 60 * 20 },
-  })) as DestinationCard[];
+  const initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`)) as DestinationCard[];
 
-  const initTourTypes = (await apiGet(`types?locale=${locale}&all=1`, {
-    next: { revalidate: 60 * 20 },
-  })) as TourType[];
+  const initTourTypes = (await apiGet(`types?locale=${locale}&all=1`)) as TourType[];
 
   return (
     <>
@@ -63,7 +71,7 @@ export default async function page({ params }: Props) {
           initTourTypes={initTourTypes}
         />
       </div>
-      <Reviews locale={locale} />
+      <Reviews />
       <Articles locale={locale} />
       <MobileMenu locale={locale} />
     </>

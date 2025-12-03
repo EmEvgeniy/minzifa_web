@@ -1,11 +1,13 @@
+'use client';
+
 import { TravelChoice_Black } from '@/assets/img';
 import { FaStar } from 'react-icons/fa6';
 import ReviewsInner from './ReviewsInner';
-import { getTranslations } from 'next-intl/server';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
+import { useTranslations } from 'next-intl';
 
-export default async function Reviews({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'home.reviews' });
+export default function Reviews() {
+  const t = useTranslations('home.reviews');
 
   const rating = 5.0;
   const fullStars = Math.floor(rating);

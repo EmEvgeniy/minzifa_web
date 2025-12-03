@@ -9,7 +9,7 @@ import { usePostMutation } from '@/api/post.api';
 import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '../PhoneInput';
 import { useMetricsStore } from '@/store/useMetricsStore';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRecaptcha } from '@/hooks/useRecaptcha';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
@@ -17,8 +17,14 @@ import { freeConsultationFormSchema, FreeConsultationFormType } from '@/validati
 import { Checkbox, Input, Textarea } from '../Form';
 import Button from '../Button/Button';
 import { useAuthStore } from '@/store';
+import { OrderTourDetailData } from '@/components/Tour/_types';
 
-export default function FreeConsultationForm({ className }: { className?: string }) {
+type FreeConsultationFormProps = {
+  className?: string,
+  additionalFormData?: OrderTourDetailData;
+}
+
+export default function FreeConsultationForm({ className, additionalFormData }: FreeConsultationFormProps) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
@@ -34,6 +40,7 @@ export default function FreeConsultationForm({ className }: { className?: string
     formState: { errors },
     setValue,
     watch,
+    control,
   } = useForm<FreeConsultationFormType>({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -69,12 +76,15 @@ export default function FreeConsultationForm({ className }: { className?: string
       return;
     }
 
+    const formData = {
+      ...data,
+      recaptchaToken: token,
+      ...metrics,
+      ...additionalFormData,
+    };
+
     await mutate({
-      obj: {
-        ...data,
-        recaptchaToken: token,
-        ...metrics
-      },
+      obj: formData,
       endpoint: 'forms/free-consultation'
     });
   };
@@ -112,30 +122,54 @@ export default function FreeConsultationForm({ className }: { className?: string
           <h2 className="text-4xl font-semibold text-white max-[768px]:text-[35px] max-[550px]:text-[24px] max-[550px]:text-center">
             {t('FreeForm.title')}
           </h2>
-          <Input
-            {...register('name')}
-            error={errors.name}
-            placeholder={t('FreeForm.name')}
-            className='px-5 py-4'
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                error={errors.name}
+                placeholder={t('FreeForm.name')}
+                className='px-5 py-4'
+              />
+            )}
           />
-          <Input
-            {...register('email')}
-            error={errors.email}
-            placeholder={t('FreeForm.email')}
-            className='px-5 py-4'
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                error={errors.email}
+                placeholder={t('FreeForm.email')}
+                className='px-5 py-4'
+              />
+            )}
           />
-          <PhoneInputComp
-            value={watch('phone')}
-            onChange={(value) => setValue('phone', value)}
-            error={errors.phone}
-            inputClass='!px-5 !py-4 !pl-10'
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <PhoneInputComp
+                {...field}
+                error={errors.phone}
+                inputClass='!px-5 !py-4 !pl-10'
+              />
+            )}
           />
-          <Textarea
-            {...register('message')}
-            error={errors.message}
-            className='px-5 py-4'
-            placeholder={t('FreeForm.wishes')}
+          <Controller
+            name="message"
+            control={control}
+            render={({ field }) => (
+              <Textarea
+                {...field}
+                error={errors.message}
+                className='px-5 py-4'
+                placeholder={t('FreeForm.wishes')}
+              />
+            )}
           />
+
           <Checkbox
             checked={watch('agree')}
             onChange={(e) => setValue('agree', e.target.checked)}

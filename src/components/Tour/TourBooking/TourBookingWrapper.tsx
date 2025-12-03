@@ -1,8 +1,10 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import { Tour } from '../_types';
-import { getTranslations } from 'next-intl/server';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { PrivatePriceIcon } from '@/assets/img';
+import { useTranslations } from 'next-intl';
 
 const GroupPricesForm = dynamic(() => import('./GroupPricesForm'));
 const PrivatePriceForm = dynamic(() => import('./PrivatePriceForm'));
@@ -11,11 +13,10 @@ interface TourBookingWrapperProps {
   tour: Tour;
 }
 
-export default async function TourBookingWrapper({ tour }: TourBookingWrapperProps) {
-  const t = await getTranslations('Tour');
+export default function TourBookingWrapper({ tour }: TourBookingWrapperProps) {
+  const t = useTranslations('Tour');
   return tour.tour_type === 'group' ? (
     <GroupPricesForm tour={tour} />
-
   ) : (
     <div className={'flex flex-col gap-2'}>
       <div className="bg-white p-4 rounded-2xl flex items-center gap-3 justify-center text-base font-semibold">

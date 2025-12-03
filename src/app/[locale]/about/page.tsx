@@ -49,7 +49,7 @@ export default async function Page({ params }: DefaultPageProps) {
       <Info2 locale={locale} />
       <Mission locale={locale} />
       <Values locale={locale} />
-      <Reviews locale={locale} />
+      <Reviews />
       <Destinations locale={locale} />
     </>
   );

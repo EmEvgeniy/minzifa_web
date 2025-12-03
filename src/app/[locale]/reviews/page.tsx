@@ -34,7 +34,7 @@ export default async function page() {
         <>
             <div className="container mx-auto mt-[100px] md:mt-[150px]">
                 <h1 className="text-4xl font-bold text-gray-900 mb-8">{t('title')}</h1>
-                <ReviewsWrapper locale={locale} />
+                <ReviewsWrapper />
                 <Reviews reviews={reviews} />
             </div>
             <section className="bg-[#16372D] w-full relative min-h-[90svh] h-full flex items-center justify-center py-[150px] max-[1024px]:min-h-[100svh] max-[768px]:py-[100px]">

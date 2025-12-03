@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useId } from 'react';
+import React, { FC, memo, useId } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import { cn } from '@/utils';
 import { useDetectCountry } from '@/hooks/useDetectCountry';
@@ -8,7 +8,7 @@ import { FormFieldWrapper } from '../Form/FormFieldWrapper/FormFieldWraper';
 import { PhoneInputCompProp } from './_types';
 import './style.scss';
 
-export const PhoneInputComp: FC<PhoneInputCompProp> =
+export const PhoneInputComp: FC<PhoneInputCompProp> = memo(
   (
     {
       value,
@@ -63,6 +63,7 @@ export const PhoneInputComp: FC<PhoneInputCompProp> =
         </div>
       </FormFieldWrapper>
     );
-  };
+  });
+
 
 PhoneInputComp.displayName = 'PhoneInputComp';

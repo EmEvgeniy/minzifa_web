@@ -40,12 +40,12 @@ export const TourMobileCard: FC<TourDescTopCardType> = ({
       className="hidden grid-cols-1 items-center gap-[1px] max-[920px]:grid"
     >
       <div className="bg-white p-5 rounded-[16px] min-h-[100px] flex flex-col items-center justify-center">
-        {price.is_best_price && (
+        {!!price.is_best_price && (
           <p className="text-sm text-[#16372D] bg-[#87EEC7] text-center p-2 rounded-[16px] w-full">
             {t('prices.best_price')}
           </p>
         )}
-        {price.is_best_price && <hr className="border-gray-200 w-full my-2" />}
+        {!!price.is_best_price && <hr className="border-gray-200 w-full my-2" />}
         <div className="flex items-center justify-between gap-2 w-full">
           <p className="flex flex-col">
             <span className="text-gray-400 text-[12px]">{locale == 'en' ? 'Start' : 'Начало'}</span>

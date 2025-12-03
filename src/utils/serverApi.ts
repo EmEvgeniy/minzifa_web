@@ -66,7 +66,7 @@ export function apiGet<TResponse>(
   endpoint: string,
   options?: ApiRequestOptions,
 ): Promise<TResponse> {
-  return apiRequest<TResponse>('GET', endpoint, { ...options, revalidate: 300 });
+  return apiRequest<TResponse>('GET', endpoint, { ...options });
 }
 
 /**

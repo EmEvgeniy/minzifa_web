@@ -1,5 +1,16 @@
 import { ISeoMetadata } from '@/types';
 
+export type OrderTourDetailData = {
+  tour_id?: number | null | undefined;
+  tour_name?: string | null | undefined;
+  tour_start?: string | null | undefined;
+  tour_end?: string | null | undefined;
+  count?: string | null | undefined;
+  price_id?: number | null | undefined;
+  price?: string | null | undefined;
+  total_price?: string | null | undefined;
+};
+
 export type TourImage = {
   id: number;
   file: string;

@@ -1,16 +1,12 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import { Hotel } from '../_types';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 const TourAccomodationInner = dynamic(() => import('./TourAccomodationInner'));
 
-export default async function TourAccomodation({
-  hotels,
-  locale,
-}: {
-  hotels: Hotel[] | undefined;
-  locale: string;
-}) {
-  const t = await getTranslations({ locale, namespace: 'Tour' });
+export default function TourAccomodation({ hotels }: { hotels: Hotel[] | undefined; }) {
+  const t = useTranslations('Tour');
 
   if (!hotels || hotels.length === 0) return null;
 
