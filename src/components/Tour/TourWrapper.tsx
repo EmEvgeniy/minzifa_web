@@ -1,10 +1,9 @@
 'use client';
 
-import type { OrderTourDetailData, Tour as TourData } from './_types';
+import type { Tour as TourData } from './_types';
 import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
 import TourTitle from './TourTitle/TourTitle';
 import { redirect } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import TourGallery from './TourGallery/TourGallery';
 import TourFacts from './TourFacts/TourFacts';
 import TourDescription from '../UI/MarkdownDescription/MarkdownDescription';
@@ -20,34 +19,37 @@ import Reviews from '../UI/Reviews/Reviews';
 import QuizForm from '../UI/CreateYourTripForm/QuizForm';
 import MobileBtn from './MobileBtn/MobileBtn';
 import TourPrivateModal from './TourPrivateModal/TourPrivateModal';
+import { useEffect, useMemo } from 'react';
+import { useOrderTourDetailStore } from '@/store/orderTourDetailStore';
 
 export default function TourWrapper({ locale, tourData }: { locale: string; tourData: TourData }) {
-
-  const t = useTranslations('Tour');
-
   if (!tourData?.id) redirect(`/${locale}`);
 
-  if (tourData?.photo) {
-    tourData?.gallery.unshift(tourData?.photo);
-  }
+  const gallery = useMemo(() => {
+    if (!tourData?.gallery) return [];
+    if (tourData?.photo) {
+      return [tourData.photo, ...tourData.gallery];
+    }
+    return tourData.gallery;
+  }, [tourData?.photo, tourData?.gallery]);
 
-  const additionalFormData: OrderTourDetailData = {
-    tour_id: tourData?.id,
-    tour_name: tourData?.name,
-    tour_start: null,
-    tour_end: null,
-    count: null,
-    price_id: null,
-    price: null,
-    total_price: null,
-  }
+  const { setAdditionalFormData } = useOrderTourDetailStore();
+
+  useEffect(() => {
+    if (tourData?.id) {
+      setAdditionalFormData({
+        tour_id: tourData.id,
+        tour_name: tourData.name,
+      });
+    }
+  }, [tourData?.id]);
 
   return (
     <>
       <div className="w-full block max-[920px]:hidden">
         <TourTitle title={tourData?.name} />
       </div>
-      <TourGallery images={tourData?.gallery} />
+      <TourGallery images={gallery} />
       <div className="w-full hidden container max-[920px]:block">
         <TourTitle title={tourData?.name} />
       </div>
@@ -66,7 +68,7 @@ export default function TourWrapper({ locale, tourData }: { locale: string; tour
         <TourHighlights highlights={tourData?.hightlights} />
         <TourItinerary itineraries={tourData?.itineraries} />
         <div id="free-consultation" className="col-span-2 z-40 h-fit">
-          <FreeConsultationForm additionalFormData={additionalFormData} />
+          <FreeConsultationForm />
         </div>
         <TourIncludes includes={tourData?.includes} />
         <TourAccomodation hotels={tourData?.hotels} />
