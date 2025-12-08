@@ -10,7 +10,7 @@ import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_type
 import { DestinationCard } from '@/components/Home/Destinations/_types';
 import { PaginatedData } from '@/types';
 
-export const revalidate = 60 * 60;
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;

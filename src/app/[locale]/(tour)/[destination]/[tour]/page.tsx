@@ -6,7 +6,7 @@ import TourWrapper from '@/components/Tour/TourWrapper';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { getTranslations } from 'next-intl/server';
 
-export const revalidate = 60 * 60;
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 
   for (const locale of locales) {
     const tours = await apiGet<AllToursCardType[]>(`tours?all=1&locale=${locale}`, {
-      next: { revalidate: 60 * 60 },
+      next: { revalidate: 3600 },
     });
 
     for (const tour of tours) {
@@ -59,7 +59,7 @@ export default async function Tour({ params }: Props) {
   const t = await getTranslations({ locale, namespace: 'Tour' });
 
   const tourData = await apiGet<TourData>(`tours/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 * 60 },
+    next: { revalidate: 3600 },
   });
 
   return (
