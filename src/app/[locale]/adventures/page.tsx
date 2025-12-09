@@ -7,6 +7,8 @@ import ArticlesMain from '@/components/Adventures/ArticlesMain/ArticlesMain';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
 import { apiGet } from '../../../utils/serverApi';
 
+export const revalidate = 3600;
+
 type PageData = {
   seo_metadata?: {
     title?: string;
@@ -24,7 +26,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const pagePath = `/${locale}/adventures`;
 
   const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
-    next: { revalidate: 300 },
+    next: { revalidate: revalidate },
   })) as PageData;
 
   return {
@@ -46,7 +48,7 @@ export default async function page({ params }: DefaultPageProps) {
   const t = await getTranslations({ locale });
 
   const categories = (await apiGet(`categories?locale=${locale}`, {
-    next: { revalidate: 60 },
+    next: { revalidate: revalidate },
   })) as ArticleCategory[];
 
   const menu = t.raw('articles.sort') as { title: string; value: string }[];

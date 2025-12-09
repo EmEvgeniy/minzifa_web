@@ -5,8 +5,9 @@ import { apiGet } from '../../../../../utils/serverApi';
 import TourWrapper from '@/components/Tour/TourWrapper';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import { getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
@@ -18,7 +19,7 @@ export async function generateStaticParams() {
 
   for (const locale of locales) {
     const tours = await apiGet<AllToursCardType[]>(`tours?all=1&locale=${locale}`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: revalidate },
     });
 
     for (const tour of tours) {
@@ -58,9 +59,13 @@ export default async function Tour({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: 'Tour' });
 
-  const tourData = await apiGet<TourData>(`tours/${slug}?locale=${locale}`, {
-    next: { revalidate: 3600 },
+  const tourData: TourData | null = await apiGet<TourData>(`tours/${slug}?locale=${locale}`, {
+    next: { revalidate: revalidate },
   });
+
+  if (!tourData) {
+    return notFound();
+  }
 
   return (
     <div className="w-full min-h-[200vh]">

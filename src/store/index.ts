@@ -4,6 +4,7 @@ export { useQuizStore } from './quizStore';
 export { useMetricsStore } from './useMetricsStore';
 export { useFilterStore } from './toursFilterStore';
 export { useCookieStore } from './useCookieStore';
+export { useOrderTourDetailStore } from './orderTourDetailStore';
 
 export { contacts } from './contacts';
 

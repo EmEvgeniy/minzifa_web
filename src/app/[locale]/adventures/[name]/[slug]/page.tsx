@@ -10,6 +10,10 @@ import Content, { ArticleDetail } from '@/components/Adventure/Content/Content';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import { getTranslations } from 'next-intl/server';
 import { apiGet } from '../../../../../utils/serverApi';
+import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
+
+
+export const revalidate = 300;
 
 type ArticleData = {
   id: number;
@@ -20,8 +24,25 @@ type ArticleData = {
   };
 };
 
-export function generateStaticParams() {
-  return ['en', 'ru'].map((locale) => ({ locale }));
+export async function generateStaticParams() {
+  const locales = ['en', 'ru'];
+  const paths = [];
+
+  for (const locale of locales) {
+    const articles = await apiGet<ArticleCardType[]>(`articles?all=1&locale=${locale}`, {
+      next: { revalidate: revalidate },
+    });
+
+    for (const article of articles) {
+      paths.push({
+        locale,
+        name: article?.category?.slug,
+        slug: article?.slug,
+      });
+    }
+  }
+
+  return paths;
 }
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
@@ -29,7 +50,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
 
   const article = (await apiGet(`articles/${slug}?locale=${locale}`, {
-    next: { revalidate: 1200 },
+    next: { revalidate: revalidate },
   })) as ArticleData;
 
   return {
@@ -44,11 +65,11 @@ export default async function page({ params }: DefaultPageProps) {
   const t = await getTranslations({ locale });
 
   const article = (await apiGet(`articles/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 * 20 },
+    next: { revalidate: revalidate },
   })) as ArticleDetail;
 
   const tours = (await apiGet(`tours?show_in_article=1&limit=2&random=1&locale=${locale}`, {
-    next: { revalidate: 60 * 20 },
+    next: { revalidate: revalidate },
   })) as BestSellersPackagesCardType[];
 
   if (!article?.id) redirect(`/${locale}`);
