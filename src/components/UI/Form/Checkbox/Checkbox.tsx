@@ -7,6 +7,7 @@ import { FaCheck } from 'react-icons/fa6';
 export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: ReactNode | string;
   labelClassName?: string;
+  wrapperClassName?: string;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'default' | 'outline';
   withBadge?: boolean;
@@ -27,7 +28,7 @@ const iconSizes = {
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
-    { label, size = 'md', variant = 'default', className, disabled, withBadge, badge, labelClassName, ...props },
+    { label, size = 'md', variant = 'default', className, disabled, withBadge, badge, labelClassName, wrapperClassName, ...props },
     ref,
   ) => {
     const checkboxClasses = cn(
@@ -55,7 +56,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     );
 
     return (
-      <label className="flex items-center gap-3 cursor-pointer group">
+      <label className={cn("flex items-center gap-3 cursor-pointer group", wrapperClassName)}>
         <div className="relative flex items-center justify-center">
           <input
             type="checkbox"

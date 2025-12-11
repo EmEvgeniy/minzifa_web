@@ -7,7 +7,6 @@ import Step2 from './ui/Step2';
 import Step3 from './ui/Step3';
 import Step4 from './ui/Step4';
 import { cn } from '@/utils/utils';
-import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '../../../store/useSnackStore';
 import { useRouter } from 'next/navigation';
 import { useMetricsStore } from '@/store/useMetricsStore';
@@ -17,6 +16,11 @@ import { useForm, Control, FieldErrors, UseFormSetValue, UseFormWatch } from 're
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { quizFormSchema, QuizFormType } from '@/validation/quizFormSchema';
+import { useFormSubmit } from '@/hooks';
+import Button from '../Button/Button';
+import { getCsrfToken } from '@/api/get.api';
+import { FormNameEnum } from '@/constants';
+import { useOrderTourDetailStore } from '@/store';
 
 type QuizFormProps = {
   className?: string;
@@ -36,6 +40,8 @@ export interface StepProps {
   errors?: FieldErrors<QuizFormType>;
   setValue?: UseFormSetValue<QuizFormType>;
   watch?: UseFormWatch<QuizFormType>;
+  token?: string;
+  getToken?: (action: string) => Promise<void>;
 }
 
 export default function QuizForm({ className, popupClose, locale }: QuizFormProps) {
@@ -44,7 +50,7 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
   const t = useTranslations();
   const router = useRouter();
   const { metrics } = useMetricsStore();
-  const { isReady, getToken } = useRecaptcha();
+  const { token, getToken } = useRecaptcha();
 
   const schema = quizFormSchema(t);
 
@@ -55,10 +61,9 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
     watch,
     control,
     trigger,
-    getValues
   } = useForm<QuizFormType>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       whereGo: "",
       whenGo: "",
@@ -69,7 +74,6 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
       name: "",
       email: "",
       phone: "",
-      // contactToTalk: "",
       recaptchaToken: "",
     },
   });
@@ -109,23 +113,22 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
     {
       bubbleText: 'Where should we send 2–3 options within 24h?',
       title: 'Get 2–3 options in 24h',
-      render: () => <Step4 control={control} errors={errors} setValue={setValue} watch={watch} />,
+      render: () => <Step4 control={control} errors={errors} setValue={setValue} watch={watch} token={token} getToken={getToken} />,
     },
   ];
 
   const { setMessage, setError } = useSnackStore((state) => state);
 
-  const { mutate, isPending } = usePostMutation<QuizFormType, QuizFormType>(
-    ['create-my-trip-quiz'],
-    () => {
+  const { isSubmitting, submitForm } = useFormSubmit({
+    onSuccess() {
       setMessage('Your request was submitted!');
       popupClose?.();
       router.push(`/${locale}/thank-you`);
     },
-    () => {
-      setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
+    onError() {
+      setError('Some error was happened');
     },
-  );
+  });
 
 
   /** Следующий шаг с проверкой */
@@ -154,22 +157,15 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
     }
   };
 
-  const onSubmit = async () => {
-    if (!isReady) {
-      console.log('Execute recaptcha not available');
-      return;
-    }
+  const onSubmit = async (data: QuizFormType) => {
+    await getCsrfToken();
 
-    const token = await getToken('quiz');
-
-    if (!token) {
-      setError(locale == 'en' ? 'Failed to verify reCAPTCHA. Please try again.' : 'Не удалось верифицировать reCAPTCHA. Пожалуйста, попробуйте еще раз.');
-      return;
-    }
-
-    setValue('recaptchaToken', token);
-    const updatedData = getValues();
-    await mutate({ obj: { ...updatedData, ...metrics }, endpoint: `forms/quiz-form?locale=${locale}` });
+    const formData = {
+      ...data,
+      recaptchaToken: token,
+      ...metrics,
+    };
+    await submitForm(FormNameEnum.QUIZ_FORM, formData);
   };
 
   return (
@@ -191,7 +187,7 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
             <span className="absolute bg-white w-[10px] h-[10px] bottom-[-40px] right-10 rounded-full max-[920px]:hidden" />
           </div>
           {/* Подпись */}
-          <div className="bg-white absolute bottom-0 w-full p-3 rounded-t-[16px] max-[920px]:hidden">
+          <div className="bg-white  absolute bottom-0 w-full p-3 rounded-t-[16px] max-[920px]:hidden">
             <p className="font-bold text-[18px]">Anna Smirnova</p>
             <p className="text-[14px]">Product Manager</p>
           </div>
@@ -229,33 +225,43 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
               {currentStep < steps.length - 1 ? (
                 <div className="flex justify-end gap-2">
                   {currentStep > 0 && (
-                    <button
+                    <Button
                       type="button"
                       onClick={prevStep}
-                      className="bg-[#16372D] hover:bg-[#0d201a] duration-300 transition-all text-white px-5 py-2 rounded-[16px] cursor-pointer"
+                      color="secondary"
+                      className='w-full px-3 py-2.5 max-w-[100px]'
                     >
                       Back
-                    </button>
+                    </Button>
                   )}
-                  <button
+                  <Button
                     type="button"
                     onClick={nextStep}
-                    className={cn(
-                      'bg-[#27A430] hover:bg-[#1e7e24] duration-300 transition-all text-white px-5 py-2 rounded-[16px] cursor-pointer',
-                      currentStep === 0 && 'w-full',
-                    )}
+                    color="primary"
+                    className='w-full px-3 py-2.5 max-w-[100px]'
                   >
                     Next
-                  </button>
+                  </Button>
                 </div>
               ) : (
-                <button
-                  type="submit"
-                  className="bg-[#27A430] hover:bg-[#1e7e24] duration-300 transition-all text-white px-5 py-2 rounded-[16px] w-full cursor-pointer"
-                  disabled={isPending}
-                >
-                  Send request
-                </button>
+                <div className="flex justify-end gap-2">
+                  <Button
+                    type="button"
+                    onClick={prevStep}
+                    color="secondary"
+                    className='w-full px-3 py-2.5 max-w-[100px]'
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting || !token}
+                    color="primary"
+                    className='w-full px-3 py-2.5 max-w-[200px]'
+                  >
+                    Send request
+                  </Button>
+                </div>
               )}
             </div>
           </div>

@@ -1,3 +1,5 @@
+export type AuthStep = 'welcome' | 'login' | 'register' | 'forgot-password';
+
 export interface IMediaData {
   id: number;
   file: string | null;

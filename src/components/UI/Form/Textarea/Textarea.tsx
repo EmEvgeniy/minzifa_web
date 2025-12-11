@@ -23,6 +23,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       fullWidth = true,
       rows = 1,
       maxRows = 4,
+      value,
+      onChange,
       ...props
     },
     ref,
@@ -51,7 +53,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       el.style.height = `${newHeight}px`;
 
       el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden';
-    }, [props.value, maxRows]);
+    }, [value, maxRows]);
 
     return (
       <FormFieldWrapper label={label} error={error} helperText={helperText} fullWidth={fullWidth}>
@@ -68,9 +70,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             id={textareaID}
             ref={setRefs}
             rows={rows}
+            value={value}
+            onChange={onChange}
             className={cn(
               `
-              w-full bg-transparent outline-none text-gray-900 text-base resize-none 
+              w-full bg-transparent outline-none text-gray-900 text-base resize-none
               placeholder-gray-400 rounded-md disabled:text-gray-400
               transition-[height] duration-200 ease-in-out
             `,

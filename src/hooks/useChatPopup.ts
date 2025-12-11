@@ -5,11 +5,12 @@ import { useTranslations } from 'next-intl';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useMetricsStore } from '@/store/useMetricsStore';
 import { chatPopupFormSchema, ChatPopupFormType } from '@/validation/chatPopupFormSchema';
-import { usePostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/store/useSnackStore';
 import { IMessage } from '@/types';
 import { useRecaptcha } from './useRecaptcha';
 import { useChats } from './useChats';
+import { useFormSubmit } from './useFormSubmit';
+import { FormNameEnum } from '@/constants';
 
 export const useChatPopup = () => {
   const t = useTranslations();
@@ -22,7 +23,7 @@ export const useChatPopup = () => {
   const [messageInput, setMessageInput] = useState('');
   const [messages, setMessages] = useState<IMessage[]>([]);
 
-  const { isReady, getToken } = useRecaptcha();
+  const { token, getToken } = useRecaptcha();
 
   const schema = chatPopupFormSchema(t);
 
@@ -35,7 +36,7 @@ export const useChatPopup = () => {
     reset,
   } = useForm<ChatPopupFormType>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
@@ -55,9 +56,8 @@ export const useChatPopup = () => {
 
   const { handleChatSelect, initializeWebSocket } = useChats();
 
-  const { mutate, isPending } = usePostMutation<any>(
-    ['chat-popup'],
-    (data) => {
+  const { submitForm, isSubmitting } = useFormSubmit({
+    onSuccess(data) {
       setMessage(t('chat_popup.form_sent'));
       if (data?.chats && data.chats.length > 0) {
         const chat = data.chats[0];
@@ -71,31 +71,21 @@ export const useChatPopup = () => {
       }
       reset();
     },
-    () => {
-      setError(t('errors.general'));
+    onError(error) {
+      setError(error.message);
     },
-  );
+  });
+
+  const handleRecaptcha = async () => await getToken(FormNameEnum.CHAT_POPUP);
 
   const onSubmit = async (data: ChatPopupFormType) => {
-    if (!isReady) {
-      return;
-    }
+    const formData = {
+      ...data,
+      recaptchaToken: token,
+      ...metrics,
+    };
 
-    const token = await getToken('chat_popup');
-
-    if (!token) {
-      setError(t('recaptcha.error'));
-      return;
-    }
-
-    mutate({
-      obj: {
-        ...data,
-        recaptchaToken: token,
-        ...metrics,
-      },
-      endpoint: 'forms/chat-popup',
-    });
+    await submitForm(FormNameEnum.CHAT_POPUP, formData);
   };
 
   const { handleSendMessage } = useChats();
@@ -113,9 +103,11 @@ export const useChatPopup = () => {
     isValid,
     control,
     onSubmit,
-    isPending,
     t,
     isAuthenticated,
     handleSendMessage,
+    token,
+    handleRecaptcha,
+    isSubmitting,
   };
 };

@@ -1125,12 +1125,16 @@
     }
   },
   "auth": {
-    "title": "Login or Register",
+    "title": "Sign in / Register",
+    "advantages": ["Membership rewards", "Manage bookings with ease"],
     "login": {
-      "title": "Welcome Back",
-      "subtitle": "Sign in to your account",
+      "title": "Enter your password",
+      "subtitle": "Enter the password for account {email}",
       "email": "Email Address",
       "password": "Password",
+      "emailFormBtn": "Continue with Email",
+      "createPassword": "Create Password",
+      "setPassword": "Set a password for your new account",
       "signIn": "Sign In",
       "noAccount": "Don't have an account?",
       "signUp": "Sign up here",
@@ -1142,15 +1146,21 @@
         "email_invalid": "Invalid email address",
         "password_required": "Password is required"
       },
+      "back": "Back",
       "seo_metadata": {
         "title": "Login",
         "description": "Login",
         "keywords": "Login"
       },
-      "success": "Login successfully"
+      "success": "Login successfully",
+      "or": "or",
+      "googleSignIn": "Continue with Google",
+      "googleCancelled": "Authorization via Google Account has been canceled",
+      "googleLoading": "Loading...",
+      "passwordHint": "Password needs to be at least 8 characters, including letters, numbers, and symbols"
     },
     "register": {
-      "title": "Create Account",
+      "title": "Create an Account",
       "subtitle": "Join us for amazing travel experiences",
       "name": "Full Name",
       "email": "Email Address",
@@ -1189,6 +1199,19 @@
     "logout": {
       "success": "You have successfully logged out",
       "error": "Error logging out"
+    },
+    "forgotPassword": {
+      "title": "Forgot Password",
+      "subtitle": "Enter your email address to reset your password",
+      "email": "Email Address",
+      "send": "Send"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your new password",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "setPassword": "Set new password"
     }
   },
   "chat": {
@@ -1312,6 +1335,7 @@
     "recaptcha_required": "Please verify that you are not a robot",
     "password_required": "Password is required",
     "password_min": "Password must be at least 6 characters",
+    "password_invalid": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
     "confirmPassword_min": "Confirm password must be at least 6 characters",
     "passwordMismatch": "Passwords do not match",
     "whereGo_required": "Please select a destination",
@@ -1336,7 +1360,8 @@
     "terms_required": "Terms acceptance is required",
     "name_max": "Name is too long (maximum 255 characters)",
     "file_size_max": "File size is too large (maximum 5MB)",
-    "file_type_invalid": "Invalid file type (only images are allowed)"
+    "file_type_invalid": "Invalid file type (only images are allowed)",
+    "travellers_min": "Minimum 1 traveler"
   },
 
   "orders": {
@@ -1419,5 +1444,6 @@
   "Reviews": {
     "title": "Traveler Reviews & Video Stories",
     "subtitle": "Video reviews"
-  }
+  },
+  "confirm_form_text": "I accept Minzifa Travel <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>"
 }

@@ -56,6 +56,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
                     disabled={disabled}
                     className="peer hidden"
                     {...props}
+                    checked={props.checked ?? false}
+                    onChange={props.onChange}
                 />
 
                 {/* Внешнее кольцо */}

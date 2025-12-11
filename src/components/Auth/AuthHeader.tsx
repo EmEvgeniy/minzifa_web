@@ -8,6 +8,7 @@ import { Dropdown, DropdownDetails, DropdownSummary } from "../UI/Dropdown/Dropd
 import { useSnackStore } from "@/store/useSnackStore";
 import { getCsrfToken } from "@/api/get.api";
 import { useAuthPostMutation } from "@/api/post.api";
+import { useRouter } from "next/navigation";
 
 const menu = [
     {
@@ -31,6 +32,7 @@ const menu = [
 export default function AuthHeader() {
     const locale = useLocale();
     const t = useTranslations();
+    const router = useRouter();
 
     const { user, setUser, setIsAuthenticated } = useAuthStore();
     const { setMessage, setError } = useSnackStore();
@@ -41,6 +43,7 @@ export default function AuthHeader() {
             setUser(null);
             setIsAuthenticated(false);
             setMessage(t('auth.logout.success'));
+            router.push(`/${locale}/`);
         },
         (error) => {
             console.error(error);
@@ -60,7 +63,7 @@ export default function AuthHeader() {
         <Dropdown>
             <DropdownSummary>
                 <Button
-                    className={"flex items-center gap-2 bg-[#16372D] text-white px-5 py-2.5 rounded-lg hover:bg-[#0f2921] transition-colors"}
+                    className={"flex items-center text-sm truncate gap-2 bg-[#16372D] text-white px-5 py-2.5 rounded-lg hover:bg-[#0f2921] transition-colors"}
                 >
                     <RiUserLine size={20} />
                     {user?.name}

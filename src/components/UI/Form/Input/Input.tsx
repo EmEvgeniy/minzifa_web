@@ -31,6 +31,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             startIconClassName,
             endIconClassName,
             fullWidth = true,
+            value,
+            onChange,
             ...props
         },
         ref,
@@ -72,6 +74,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                     <input
                         id={inputID}
                         ref={ref}
+                        value={value}
+                        onChange={onChange}
                         className={cn(
                             'w-full h-full bg-transparent outline-none text-gray-900 text-base placeholder-gray-400 rounded-md disabled:text-gray-400 placeholder:text-sm md:placeholder:text-base',
                             label ? 'px-5 py-4 pt-10' : 'px-4 py-3',

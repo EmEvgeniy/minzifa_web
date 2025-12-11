@@ -41,9 +41,6 @@ export const bookingFormSchema = (t: (key: string) => string) =>
     single_price: z.coerce.number().optional(),
     currency: z.string().optional(),
     total_seats: z.number().optional(),
-    terms_accepted: z.boolean().refine((val) => val === true, {
-      message: t('errors.terms_required'),
-    }),
     recaptchaToken: z.string().optional(),
   });
 

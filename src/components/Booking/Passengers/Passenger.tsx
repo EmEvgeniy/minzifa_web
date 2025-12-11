@@ -71,7 +71,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                   error={errors.passengers?.[index]?.salutation}
                   direction="horizontal"
                   name={`salutation_${index}`}
-                  value={field.value || ''}
+                  value={field.value ?? ''}
                   options={salutations.map(sal => ({ label: sal, value: sal }))}
                   onChange={field.onChange}
                 />

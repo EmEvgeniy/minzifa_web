@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 export interface PrivateTourFormData {
   dates: [Date | null, Date | null];
-  travellers: number;
+  travellers: string;
   price?: string | number | null;
   wishes: string;
   name: string;
@@ -25,7 +25,7 @@ export interface PrivateTourFormState {
 
 const defaultFormData: PrivateTourFormData = {
   dates: [null, null],
-  travellers: 1,
+  travellers: "1",
   price: null,
   wishes: '',
   name: '',

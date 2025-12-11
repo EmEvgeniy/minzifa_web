@@ -6,7 +6,7 @@ import { Popup } from '@/components/UI/Popup/Popup';
 import { useLayoutStore } from '../store/layoutStore';
 import { useParams, usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
-import QuizForm from '@/components/UI/CreateYourTripForm/QuizForm';
+import QuizForm from '@/components/UI/QuizForm/QuizForm';
 
 const time = 3 * 60 * 1000;
 

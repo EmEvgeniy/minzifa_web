@@ -6,27 +6,30 @@ import { IoChatbubbleEllipses } from 'react-icons/io5';
 import { MdClose } from 'react-icons/md';
 import { PhoneInputComp } from '@/components/UI';
 import { useChatPopup } from '@/hooks/useChatPopup';
-import { Input, Textarea } from "@/components/UI/Form";
+import { Checkbox, Input, Textarea } from "@/components/UI/Form";
 import { Chat } from '../Auth/Chats/Chat';
+import { useLocale } from 'next-intl';
+import Link from 'next/link';
+import Loader from '../UI/Loader/Loader';
+import { useTranslations } from 'next-intl';
 
 export const ChatPopup = () => {
+    const t = useTranslations();
+    const locale = useLocale();
     const {
         isOpen,
         setIsOpen,
         isChatMode,
-        messageInput,
-        setMessageInput,
-        messages,
         register,
         handleSubmit,
         errors,
-        isValid,
         control,
         onSubmit,
-        isPending,
-        t,
         isAuthenticated,
-        handleSendMessage
+        handleSendMessage,
+        token,
+        handleRecaptcha,
+        isSubmitting,
     } = useChatPopup();
 
     if (!isOpen) {
@@ -45,7 +48,7 @@ export const ChatPopup = () => {
     return (
         <div className="fixed bottom-24 right-4 md:bottom-8 md:right-20 z-40">
             <div
-                className="bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl shadow-2xl w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-[420px] md:h-[560px] flex flex-col overflow-hidden">
+                className="bg-gradient-to-br from-white via-gray-50 to-white rounded-2xl shadow-2xl w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-[420px] md:h-[600px] flex flex-col overflow-hidden">
                 {/* Header */}
                 <div
                     className="bg-gradient-to-r from-[#16372d] via-[#1a3d32] to-[#16372d] text-white p-4 md:p-6 rounded-t-2xl flex items-center justify-between shadow-lg">
@@ -119,16 +122,34 @@ export const ChatPopup = () => {
                                     error={errors?.message}
                                 />
 
-                                {/* Submit */}
-                                <Button type="submit" className="w-full" disabled={!isValid || isPending}>
-                                    {isPending ? (
-                                        <div className="flex items-center justify-center">
-                                            <div
-                                                className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                                        </div>
-                                    ) : (
-                                        t('chat_popup.send')
-                                    )}
+                                <Checkbox
+                                    label={t.rich('confirm_form_text', {
+                                        terms: (chunks) => (
+                                            <Link
+                                                href={`/${locale}/term-and-conditions-of-booking-tours`}
+                                                className="text-[#009F65] hover:underline"
+                                                target='_blank'
+                                            >
+                                                {chunks}
+                                            </Link>
+                                        ),
+                                        privacy: (chunks) => (
+                                            <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
+                                                {chunks}
+                                            </Link>
+                                        ),
+                                    })}
+                                    checked={!!token}
+                                    onChange={(e) => handleRecaptcha()}
+                                    labelClassName='flex-wrap gap-x-1 text-sm text-gray-500 hover:text-gray-700'
+                                />
+
+                                <Button
+                                    type="submit"
+                                    className="w-full"
+                                    disabled={isSubmitting || !token}
+                                >
+                                    {isSubmitting ? <Loader /> : t('auth.register.createAccount')}
                                 </Button>
                             </form>
                         </div>

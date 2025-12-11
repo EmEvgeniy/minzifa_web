@@ -1,31 +1,22 @@
 'use client';
 
-import { usePostMutation } from '@/api';
 import { Tour } from '@/components/Tour/_types';
-import { useRecaptcha } from '@/hooks';
+import { useFormSubmit, useRecaptcha } from '@/hooks';
 import { useMetricsStore } from '@/store';
 import { useSnackStore } from '@/store/useSnackStore';
 import { bookingFormSchema, BookingFormType } from '@/validation/bookingFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import { UTMMetrics } from '@/store/useMetricsStore';
 import { useEffect, useRef } from 'react';
-
-// Расширяем тип BookingFormType дополнительными полями, которые передаются в API
-type BookingFormApiData = BookingFormType & UTMMetrics & {
-    recaptchaToken: string;
-};
-
-const Travellers = dynamic(() => import('../Travellers/Travellers'));
-const RoomTypes = dynamic(() => import('../RoomTypes/RoomTypes'));
-const Passengers = dynamic(() => import('../Passengers/Passengers'));
-const BookingInfo = dynamic(() => import('../BookingInfo/BookingInfo'));
-const MobileBtn = dynamic(() => import('../MobileBtn/MobileBtn'));
+import Travellers from '../Travellers/Travellers';
+import RoomTypes from '../RoomTypes/RoomTypes';
+import Passengers from '../Passengers/Passengers';
+import BookingInfo from '../BookingInfo/BookingInfo';
+import MobileBtn from '../MobileBtn/MobileBtn';
+import { FormNameEnum } from '@/constants';
 
 type FormWrapperProps = {
     locale: string;
@@ -39,11 +30,11 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
 
     const { metrics } = useMetricsStore();
     const { setMessage, setError } = useSnackStore();
-    const { isReady, getToken } = useRecaptcha();
+    const { token, getToken } = useRecaptcha();
 
     const { handleSubmit, setValue, control, watch, formState: { errors } } = useForm<BookingFormType>({
         resolver: zodResolver(bookingFormSchema(t)),
-        mode: 'onChange',
+        mode: 'onSubmit',
         defaultValues: {
             passengers: [],
             room_types: { standart: 1, single: 0 },
@@ -59,7 +50,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
             single_price: Number(searchParams.get('single_price')) || 0,
             currency: searchParams.get('currency') || 'USD',
             total_seats: Number(searchParams.get('total_seats')) || 1,
-            terms_accepted: false,
+            recaptchaToken: '',
         }
     });
 
@@ -104,40 +95,24 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
         prevTravellersRef.current = currentTravellers;
     }, [bookingData.travellers_count, bookingData.room_types, bookingData.tour_price, bookingData.single_price, setValue]);
 
-    const { mutate } = usePostMutation<BookingFormApiData, BookingFormType>(
-        ['subscribe-booking'],
-        () => {
+    const { submitForm } = useFormSubmit({
+        onSuccess: () => {
             setMessage(locale == 'en' ? 'Your tour was booked!' : 'Ваш тур был забронирован!');
-            router.push(`/${locale}/thank-you`);
+            // router.push(`/${locale}/thank-you`);
         },
-        () => {
+        onError: () => {
             setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
         },
-    );
+    });
 
     const onSubmit = async (data: BookingFormType) => {
-        if (!isReady) {
-            return;
-        }
-
-        const token = await getToken('booking');
-
-        if (!token) {
-            setError(locale == 'en' ? 'Failed to verify reCAPTCHA. Please try again.' : 'Не удалось верифицировать reCAPTCHA. Пожалуйста, попробуйте еще раз.');
-            return;
-        }
-
-        // Extend data with additional fields for the API call
-        const extendedData = {
+        const formData = {
             ...data,
             ...metrics,
             recaptchaToken: token,
         };
 
-        await mutate({
-            obj: extendedData,
-            endpoint: 'forms/booking',
-        });
+        await submitForm(FormNameEnum.BOOKING, formData);
     };
 
     return (
@@ -154,7 +129,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
                 </div>
 
                 <div className="w-full max-w-[450px] h-screen max-[1024px]:w-full max-[1024px]:h-full">
-                    <BookingInfo bookingData={bookingData} tour={tourData} control={control} />
+                    <BookingInfo bookingData={bookingData} tour={tourData} token={token} getToken={getToken} />
                 </div>
             </div>
 

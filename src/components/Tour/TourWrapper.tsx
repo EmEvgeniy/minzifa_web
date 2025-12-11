@@ -1,7 +1,7 @@
 'use client';
 
 import type { Tour as TourData } from './_types';
-import { CreateYourTripForm } from '../UI/CreateYourTripForm/CreateYourTripForm';
+import { CreateYourTripForm } from '../UI/QuizForm/CreateYourTripForm';
 import TourTitle from './TourTitle/TourTitle';
 import { redirect } from 'next/navigation';
 import TourGallery from './TourGallery/TourGallery';
@@ -16,7 +16,7 @@ import TourAccomodation from './TourAccomodation/TourAccomodation';
 import Transport from './Transport/Transport';
 import TourPricesContainer from './TourPrices/TourPricesContainer';
 import Reviews from '../UI/Reviews/Reviews';
-import QuizForm from '../UI/CreateYourTripForm/QuizForm';
+import QuizForm from '../UI/QuizForm/QuizForm';
 import MobileBtn from './MobileBtn/MobileBtn';
 import TourPrivateModal from './TourPrivateModal/TourPrivateModal';
 import { useEffect, useMemo } from 'react';

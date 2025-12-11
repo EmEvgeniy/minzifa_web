@@ -8,7 +8,7 @@ const intlMiddleware = createMiddleware({
   localeDetection: false,
 });
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const response = intlMiddleware(request);
 
   const pathname = request.nextUrl.pathname;

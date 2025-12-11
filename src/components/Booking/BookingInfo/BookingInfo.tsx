@@ -15,12 +15,24 @@ import { Tour } from '@/components/Tour/_types';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import Button from '@/components/UI/Button/Button';
 import { BookingFormType } from '@/validation/bookingFormSchema';
-import { Control, Controller } from 'react-hook-form';
 import { Checkbox } from '@/components/UI/Form/Checkbox/Checkbox';
+import { useFormSubmit } from '@/hooks';
+import { FormNameEnum } from '@/constants';
 
-export default function BookingInfo({ bookingData, tour, control }: { bookingData: BookingFormType, tour: Tour, control: Control<BookingFormType> }) {
+type BookingInfoProps = {
+  bookingData: BookingFormType,
+  tour: Tour,
+  getToken: (formName: FormNameEnum) => Promise<void>,
+  token: string
+};
+
+export default function BookingInfo({ bookingData, tour, getToken, token }: BookingInfoProps) {
   const t = useTranslations();
   const locale = useLocale();
+
+  const { isSubmitting } = useFormSubmit();
+
+  const handleRecaptcha = async () => await getToken(FormNameEnum.BOOKING);
 
   return (
     <div className="sticky top-[150px] rounded-2xl space-y-4 bg-white p-5 shadow-xl max-[1024px]:relative max-[1024px]:top-0">
@@ -141,32 +153,26 @@ export default function BookingInfo({ bookingData, tour, control }: { bookingDat
 
       {/* Terms and conditions */}
       <div className="text-sm max-[1024px]:hidden">
-        <Controller
-          name="terms_accepted"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label={t.rich('Booking.booking_info.accept', {
-                terms: (chunks) => (
-                  <Link
-                    href={`/${locale}/term-and-conditions-of-booking-tours`}
-                    className="text-[#009F65] hover:underline"
-                    target='_blank'
-                  >
-                    {chunks}
-                  </Link>
-                ),
-                privacy: (chunks) => (
-                  <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
-                    {chunks}
-                  </Link>
-                ),
-              })}
-              checked={field.value || false}
-              onChange={(e) => field.onChange(e.target.checked)}
-              labelClassName='flex-wrap gap-x-1 text-sm'
-            />
-          )}
+        <Checkbox
+          label={t.rich('confirm_form_text', {
+            terms: (chunks) => (
+              <Link
+                href={`/${locale}/term-and-conditions-of-booking-tours`}
+                className="text-[#009F65] hover:underline"
+                target='_blank'
+              >
+                {chunks}
+              </Link>
+            ),
+            privacy: (chunks) => (
+              <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
+                {chunks}
+              </Link>
+            ),
+          })}
+          checked={!!token}
+          onChange={handleRecaptcha}
+          labelClassName='flex-wrap gap-x-1 text-sm'
         />
       </div>
 
@@ -174,7 +180,7 @@ export default function BookingInfo({ bookingData, tour, control }: { bookingDat
       <Button
         type="submit"
         className='hidden lg:block w-full'
-        disabled={!bookingData.terms_accepted}
+        disabled={isSubmitting || !token}
         form="booking-form"
       >
         {t('Booking.button')}

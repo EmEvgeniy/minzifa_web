@@ -13,6 +13,7 @@ import { ChatPopup } from '@/components/ChatPopup';
 import { CookiePopup } from '@/components/UI/CookiePopup';
 import { AuthPopup } from '@/components/Auth/AuthPopup';
 import { AuthCheckProvider } from '@/providers/AuthCheckProvider';
+import GoogleOneTap from '@/components/Auth/Forms/GoogleOneTap';
 
 
 // Оптимизированные динамические импорты с приоритетами загрузки
@@ -56,12 +57,13 @@ export default async function RootLayout({
                 <FavoriteBtn />
                 <FavoriteMenu />
                 <main className="flex-1">{children}</main>
-                <ClientPopupObserver />
+                {/* <ClientPopupObserver /> */}
                 <Footer locale={locale} />
                 <AuthPopup />
                 <CustomSnackBar />
                 <ChatPopup />
                 <CookiePopup />
+                <GoogleOneTap />
               </div>
             </AuthCheckProvider>
           </ReCaptchaProvider>

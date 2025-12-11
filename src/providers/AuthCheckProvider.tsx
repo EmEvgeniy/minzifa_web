@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { authAxiosInstance } from '@/utils/axios';
 import { AxiosError } from 'axios';
 import { getCsrfToken } from '@/api/get.api';
+import GoogleOneTap from '@/components/Auth/Forms/GoogleOneTap';
 
 interface AuthCheckProviderProps {
     children: ReactNode;

@@ -8,7 +8,6 @@ export const freeConsultationFormSchema = (t: (key: string) => string) =>
       .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, t('errors.email_invalid')),
     phone: z.string().min(8, t('errors.phone_invalid')),
     message: z.string().optional(),
-    agree: z.boolean().refine((val) => val === true, t('errors.agree_required')),
     recaptchaToken: z.string().optional(),
   });
 

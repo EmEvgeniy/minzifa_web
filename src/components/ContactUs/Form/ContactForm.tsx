@@ -13,14 +13,18 @@ import { contactFormSchema, ContactFormType } from '@/validation/contactFormSche
 import { Checkbox, Input, Textarea } from '@/components/UI/Form';
 import { useRecaptcha } from '@/hooks/useRecaptcha';
 import { useAuthStore } from '@/store';
+import { useFormSubmit } from '@/hooks';
+import Link from 'next/link';
+import { FormNameEnum } from '@/constants';
 
 export const ContactForm = () => {
   const t = useTranslations();
+  const locale = useLocale();
   const { setMessage, setError } = useSnackStore();
   const lang = useLocale();
   const router = useRouter();
   const { metrics } = useMetricsStore();
-  const { isReady, getToken } = useRecaptcha();
+  const { getToken, token } = useRecaptcha();
   const { user } = useAuthStore();
   const schema = contactFormSchema(t);
 
@@ -30,56 +34,38 @@ export const ContactForm = () => {
     formState: { errors },
     setValue,
     watch,
-    control,
   } = useForm<ContactFormType>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
       phone: user?.phone || '',
       message: '',
-      agree: false,
       recaptchaToken: '',
     },
   });
 
-
-  const { mutate, isPending } = usePostMutation<ContactFormType, ContactFormType>(
-    ['contact-us'],
-    () => {
-      setMessage(
-        lang === 'en'
-          ? 'Your request has been successfully sent.'
-          : 'Ваша заявка была успешно отправлена',
-      );
+  const { submitForm, isSubmitting } = useFormSubmit({
+    onSuccess: () => {
+      setMessage(lang === 'en' ? 'Your request has been successfully sent.' : 'Ваша заявка была успешно отправлена');
       router.push(`/${lang}/thank-you`);
     },
-    () => {
+    onError: () => {
       setError(lang === 'en' ? 'Some error was happened' : 'Произошла ошибка');
     },
-  );
+  });
+
+  const handleRecaptcha = async () => await getToken(FormNameEnum.CONTACT_US);
 
   const onSubmit = async (data: ContactFormType) => {
-    if (!isReady) {
-      return;
-    }
+    const formData = {
+      ...data,
+      recaptchaToken: token,
+      ...metrics
+    };
 
-    const token = await getToken('contact');
-
-    if (!token) {
-      setError(lang === 'en' ? 'Failed to verify reCAPTCHA. Please try again.' : 'Не удалось верифицировать reCAPTCHA. Пожалуйста, попробуйте еще раз.');
-      return;
-    }
-
-    await mutate({
-      obj: {
-        ...data,
-        recaptchaToken: token,
-        ...metrics
-      },
-      endpoint: 'forms/contact-us'
-    });
+    await submitForm(FormNameEnum.CONTACT_US, formData);
   };
 
   return (
@@ -124,19 +110,26 @@ export const ContactForm = () => {
 
         {/* Checkbox */}
 
-        <Controller
-          name="agree"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              {...register('agree')}
-              label={t('contact_us.pl5')}
-              checked={field.value}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              labelClassName='text-white hover:text-white'
-            />
-          )}
+        <Checkbox
+          label={t.rich('confirm_form_text', {
+            terms: (chunks) => (
+              <Link
+                href={`/${locale}/term-and-conditions-of-booking-tours`}
+                className="text-[#009F65] hover:underline"
+                target='_blank'
+              >
+                {chunks}
+              </Link>
+            ),
+            privacy: (chunks) => (
+              <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
+                {chunks}
+              </Link>
+            ),
+          })}
+          checked={!!token}
+          onChange={(e) => handleRecaptcha()}
+          labelClassName='flex-wrap gap-x-1 text-sm text-white/80 hover:text-white'
         />
 
 
@@ -144,7 +137,7 @@ export const ContactForm = () => {
         <Button
           color="primary"
           type="submit"
-          disabled={isPending || watch('agree') === false}
+          disabled={isSubmitting || !token}
           className="px-5 py-4 w-full"
         >
           {t('contact_us.btn')}

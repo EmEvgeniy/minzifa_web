@@ -44,6 +44,7 @@ export const ImageWithFallback = ({
         'object-cover w-full h-full transition-opacity duration-300',
         props.className,
       )}
+      quality={props.quality || 75}
     />
   );
 };

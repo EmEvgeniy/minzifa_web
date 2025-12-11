@@ -1,5 +1,5 @@
 'use client';
-import { usePostMutation } from '@/api/post.api';
+
 import { useLocale, useTranslations } from 'next-intl';
 import React from 'react';
 import { useSnackStore } from '../../../store/useSnackStore';
@@ -8,8 +8,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { footerSubscribeSchema, FooterSubscribeFormType } from '@/validation/footerSubscribeSchema';
 import { useRecaptcha } from '@/hooks/useRecaptcha';
 import { useMetricsStore } from '@/store/useMetricsStore';
-import { Input } from '../../UI/Form';
+import { Checkbox, Input } from '../../UI/Form';
 import Button from '../../UI/Button/Button';
+import { useFormSubmit } from '@/hooks';
+import Link from 'next/link';
+import { FormNameEnum } from '@/constants';
 
 interface SubscribeFormRequest {
   email: string;
@@ -23,9 +26,9 @@ interface FormResponse {
 
 export const FooterRight = () => {
   const t = useTranslations();
-  const lang = useLocale();
+  const locale = useLocale();
   const { setMessage, setError } = useSnackStore((state) => state);
-  const { isReady, getToken } = useRecaptcha();
+  const { token, getToken } = useRecaptcha();
   const { metrics } = useMetricsStore();
 
   const schema = footerSubscribeSchema(t);
@@ -33,7 +36,7 @@ export const FooterRight = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
   } = useForm<FooterSubscribeFormType>({
     resolver: zodResolver(schema),
@@ -44,38 +47,26 @@ export const FooterRight = () => {
     },
   });
 
-
-  const { mutate, isPending } = usePostMutation<FormResponse, SubscribeFormRequest>(
-    ['subscribe-form'],
-    () => {
-      setMessage(lang == 'en' ? 'You was subscribed!' : 'Вы были подписаны!');
+  const { isSubmitting, submitForm } = useFormSubmit({
+    onSuccess: () => {
+      setMessage(locale == 'en' ? 'You was subscribed!' : 'Вы были подписаны!');
       reset();
     },
-    () => {
-      setError(lang == 'en' ? 'Some error was happened' : 'Произошла ошибка');
+    onError: () => {
+      setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
     },
-  );
+  });
+
+  const handleRecaptcha = async () => await getToken(FormNameEnum.SUBSCRIBES);
 
   const onSubmit = async (data: FooterSubscribeFormType) => {
-    if (!isReady) {
-      return;
-    }
+    const formData = {
+      ...data,
+      recaptchaToken: token,
+      ...metrics
+    };
 
-    const token = await getToken('subscribe');
-
-    if (!token) {
-      setError(lang == 'en' ? 'Failed to verify reCAPTCHA. Please try again.' : 'Не удалось верифицировать reCAPTCHA. Пожалуйста, попробуйте еще раз.');
-      return;
-    }
-
-    await mutate({
-      obj: {
-        ...data,
-        recaptchaToken: token,
-        ...metrics
-      },
-      endpoint: 'forms/subscribes',
-    });
+    await submitForm(FormNameEnum.SUBSCRIBES, formData);
   };
 
   return (
@@ -83,22 +74,44 @@ export const FooterRight = () => {
       <p className="text-xl font-bold">{t('footer.form_title')}</p>
       <p className="text-sm">{t('footer.form_text')}</p>
 
-      <form className="flex items-start justify-between gap-2.5 w-full" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col items-start justify-between gap-2.5 w-full" onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register('email')}
           type="email"
           placeholder={t('footer.form_pl')}
           error={errors.email}
         />
+        <Checkbox
+          label={t.rich('confirm_form_text', {
+            terms: (chunks) => (
+              <Link
+                href={`/${locale}/term-and-conditions-of-booking-tours`}
+                className="text-[#009F65] hover:underline"
+                target='_blank'
+              >
+                {chunks}
+              </Link>
+            ),
+            privacy: (chunks) => (
+              <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
+                {chunks}
+              </Link>
+            ),
+          })}
+          checked={!!token}
+          onChange={handleRecaptcha}
+          labelClassName='flex-wrap gap-x-1 text-sm text-white/80 hover:text-white'
+        />
+
         <Button
           type="submit"
-          disabled={!isValid || isPending}
+          disabled={isSubmitting || !token}
           className={"px-4 py-3"}
         >
           {t('footer.form_btn')}
         </Button>
       </form>
-      <p className="text-xs">{t('footer.form_b_text')}</p>
+
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { cn } from '@/utils/utils';
 import { useSnackStore } from '../../../store/useSnackStore';
-import { usePostMutation } from '@/api/post.api';
+import { useFormSubmit } from '@/hooks/useFormSubmit';
 import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '../PhoneInput';
 import { useMetricsStore } from '@/store/useMetricsStore';
@@ -17,76 +17,65 @@ import { freeConsultationFormSchema, FreeConsultationFormType } from '@/validati
 import { Checkbox, Input, Textarea } from '../Form';
 import Button from '../Button/Button';
 import { useAuthStore } from '@/store';
-import { OrderTourDetailData } from '@/components/Tour/_types';
+import { useEffect } from 'react';
+import { useOrderTourDetailStore } from '@/store/orderTourDetailStore';
+import { FormNameEnum } from '@/constants';
+import { error } from 'console';
 
 type FreeConsultationFormProps = {
   className?: string,
-  additionalFormData?: OrderTourDetailData;
 }
 
-export default function FreeConsultationForm({ className, additionalFormData }: FreeConsultationFormProps) {
+export default function FreeConsultationForm({ className }: FreeConsultationFormProps) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const { metrics } = useMetricsStore();
   const { setMessage, setError } = useSnackStore((state) => state);
-  const { isReady, getToken } = useRecaptcha();
+  const { getToken, token } = useRecaptcha();
   const { user } = useAuthStore();
   const schema = freeConsultationFormSchema(t);
 
+  const { additionalFormData } = useOrderTourDetailStore();
+
   const {
-    register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch,
     control,
   } = useForm<FreeConsultationFormType>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
       phone: user?.phone || '',
       message: '',
-      agree: false,
+      recaptchaToken: '',
     },
   });
 
-  const { mutate, isPending } = usePostMutation<FreeConsultationFormType, FreeConsultationFormType>(
-    ['subscribe-form'],
-    () => {
+  const { submitForm, isSubmitting } = useFormSubmit({
+    onSuccess: () => {
       setMessage(locale == 'en' ? 'Your request was submitted!' : 'Ваш запрос был отправлен!');
       router.push(`/${locale}/thank-you`);
     },
-    () => {
+    onError: () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
     },
-  );
+  });
+
+  const handleRecaptcha = async () => await getToken(FormNameEnum.FREE_CONSULTATION);
 
   const onSubmit = async (data: FreeConsultationFormType) => {
-    if (!isReady) {
-      return;
-    }
-
-    const token = await getToken('free_consultation');
-
-    if (!token) {
-      setError(locale == 'en' ? 'Failed to verify reCAPTCHA. Please try again.' : 'Не удалось верифицировать reCAPTCHA. Пожалуйста, попробуйте еще раз.');
-      return;
-    }
 
     const formData = {
       ...data,
-      recaptchaToken: token,
       ...metrics,
       ...additionalFormData,
+      recaptchaToken: token,
     };
 
-    await mutate({
-      obj: formData,
-      endpoint: 'forms/free-consultation'
-    });
+    await submitForm(FormNameEnum.FREE_CONSULTATION, formData);
   };
 
   return (
@@ -171,20 +160,30 @@ export default function FreeConsultationForm({ className, additionalFormData }: 
           />
 
           <Checkbox
-            checked={watch('agree')}
-            onChange={(e) => setValue('agree', e.target.checked)}
-            label={(
-              <div className='text-xs text-white w-full'>
-                {t('FreeForm.checkbox.0')}{' '}
-                <Link href={`/${locale}/privacy-policy`} className="text-[#27A430]">
-                  {t('FreeForm.checkbox.1')}
+            label={t.rich('confirm_form_text', {
+              terms: (chunks) => (
+                <Link
+                  href={`/${locale}/term-and-conditions-of-booking-tours`}
+                  className="text-[#009F65] hover:underline"
+                  target='_blank'
+                >
+                  {chunks}
                 </Link>
-              </div>
-            )}
+              ),
+              privacy: (chunks) => (
+                <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
+                  {chunks}
+                </Link>
+              ),
+            })}
+            checked={!!token}
+            onChange={(e) => handleRecaptcha()}
+            labelClassName='flex-wrap gap-x-1 text-sm text-white/80 hover:text-white'
           />
+
           <Button
             type="submit"
-            disabled={!isReady || isPending || watch('agree') === false}
+            disabled={isSubmitting || !token}
             color='primary'
             className='px-5 py-4'
           >

@@ -5,12 +5,14 @@ import { AUTH_COOKIE_NAME } from '@/constants';
 
 export interface AuthState {
   // State
+  email: string;
   user: ITourist | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   authPopup: boolean;
 
   // Actions
+  setEmail: (email: string) => void;
   setUser: (user: ITourist | null) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   setAuthPopup: (authPopup: boolean) => void;
@@ -21,11 +23,13 @@ export interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
+      email: '',
       user: null,
       isAuthenticated: false,
       isLoading: false,
       authPopup: false,
 
+      setEmail: (email) => set({ email }),
       setUser: (user) => set({ user, isAuthenticated: !!user }),
       setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
       setAuthPopup: (authPopup) => set({ authPopup }),

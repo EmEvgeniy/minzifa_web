@@ -83,7 +83,7 @@ const GroupPricesForm = ({ tour }: GroupPricesFormProps) => {
         onClick={() => setIsOpen(true)}
         type="button"
         color="link"
-        className="flex items-center"
+        className="flex items-center text-green-700 hover:text-green-800"
       >
         {t('booking.private_btn')}
         <ImageWithFallback

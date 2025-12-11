@@ -2,11 +2,16 @@
 
 import Button from '@/components/UI/Button/Button';
 import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
+import { useFormSubmit, useRecaptcha } from '@/hooks';
 import { BookingFormType } from '@/validation/bookingFormSchema';
 import { useTranslations } from 'next-intl';
 
 export default function MobileBtn({ bookingData }: { bookingData: BookingFormType }) {
   const t = useTranslations('Booking');
+
+  const { isSubmitting } = useFormSubmit();
+
+  const { token } = useRecaptcha();
 
   return (
     <div className="sticky bottom-0 bg-[#16372D] max-[1024px]:block hidden">
@@ -16,7 +21,7 @@ export default function MobileBtn({ bookingData }: { bookingData: BookingFormTyp
             {t('booking_info.total')} (USD)
           </span>
           <FormattedPrice
-            price={bookingData?.total_price ?? 0}
+            price={bookingData?.total_price}
             currency={bookingData?.currency}
             className="text-xl"
           />
@@ -26,7 +31,7 @@ export default function MobileBtn({ bookingData }: { bookingData: BookingFormTyp
           form="booking-form"
           type="submit"
           className="w-full"
-          disabled={!bookingData.terms_accepted}
+          disabled={isSubmitting || !token}
         >
           <span>{t('button')}</span>
         </Button>
