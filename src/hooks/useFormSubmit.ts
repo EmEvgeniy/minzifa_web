@@ -15,6 +15,7 @@ interface FormSubmitResult {
     email?: Error;
     amocrm?: Error;
     order?: Error;
+    googleRecaptcha?: Error;
   };
 }
 
@@ -63,6 +64,24 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
     };
 
     try {
+      // Шаг 0: Проверка Google ReCaptcha
+      try {
+        await axiosInstance.post(getApiUrl('forms/check-recaptcha'), {
+          token: data.recaptchaToken,
+          action: formName,
+        });
+
+        delete formData.form_data?.recaptchaToken;
+      } catch (error) {
+        console.error('Google ReCaptcha check failed:', error);
+
+        result.errors!.googleRecaptcha = error as Error;
+
+        // Завершаем выполнение — дальше не продолжаем
+        options?.onError?.(error as Error);
+        return result;
+      }
+
       // Шаг 1: Telegram
       try {
         await axiosInstance.post(getApiUrl('forms/notifications/telegram'), formData);
