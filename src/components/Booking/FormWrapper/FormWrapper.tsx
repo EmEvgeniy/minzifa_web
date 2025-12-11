@@ -17,6 +17,8 @@ import Passengers from '../Passengers/Passengers';
 import BookingInfo from '../BookingInfo/BookingInfo';
 import MobileBtn from '../MobileBtn/MobileBtn';
 import { FormNameEnum } from '@/constants';
+import { getCsrfToken } from '@/api/get.api';
+import dayjs from 'dayjs';
 
 type FormWrapperProps = {
     locale: string;
@@ -98,7 +100,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     const { submitForm } = useFormSubmit({
         onSuccess: () => {
             setMessage(locale == 'en' ? 'Your tour was booked!' : 'Ваш тур был забронирован!');
-            // router.push(`/${locale}/thank-you`);
+            router.push(`/${locale}/thank-you`);
         },
         onError: () => {
             setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
@@ -106,8 +108,13 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     });
 
     const onSubmit = async (data: BookingFormType) => {
+        await getCsrfToken();
+
+
         const formData = {
             ...data,
+            tour_start: dayjs(data.tour_start).format('YYYY-MM-DD'),
+            tour_end: dayjs(data.tour_end).format('YYYY-MM-DD'),
             ...metrics,
             recaptchaToken: token,
         };
