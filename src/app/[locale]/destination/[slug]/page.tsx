@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import type { Metadata } from 'next';
 import { DestinationData } from './_types';
 import Hero from '@/components/Destination/Hero/Hero';
