@@ -162,7 +162,7 @@ export const AccordionCardModal = ({ hotel, openModal, setOpenModalAction }: Acc
           </div>
           <Button
             onClick={() => setOpenModalAction(false)}
-            color='soft'
+            color='link'
             className="cursor-pointer absolute right-0 top-0 p-5"
           >
             <FaXmark size={20} />

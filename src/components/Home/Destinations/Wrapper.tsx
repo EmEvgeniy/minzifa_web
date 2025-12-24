@@ -20,22 +20,19 @@ export default function Wrapper({ data, locale }: { data: DestinationCard[]; loc
           className="gap-2.5 lg:gap-5"
           renderSlide={(slide: DestinationCard) => (
             <Link href={`/${locale}/destination/${slide.slug}`} className="flex-1" key={slide?.id}>
-              <div className="w-[170px] h-[234px] lg:w-[275px] lg:h-[275px] rounded-[16px] bg-white opacity-80 text-center flex flex-col items-center justify-center text-xl font-semibold p-5 [@media(max-width:768px)]:min-h-[200px]">
-                {slide.icon.file && (
+              <div className="w-[170px] h-[234px] lg:w-[275px] lg:h-[275px] rounded-2xl text-center flex flex-col items-center justify-center text-xl font-semibold [@media(max-width:768px)]:min-h-[200px] relative overflow-hidden">
+                {slide?.media?.file && (
                   <ImageWithFallback
-                    src={slide.icon.file ? slide.icon.file : ''}
-                    alt={slide.icon.alt_text ? slide.icon.alt_text : 'image'}
-                    width={150}
-                    height={150}
-                    className="w-[150px] h-[150px] object-cover mb-3"
+                    src={slide?.media?.file}
+                    alt={slide?.media?.alt_text || ''}
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full object-cover"
                   />
                 )}
-                <h2 className="text-2xl font-normal [@media(max-width:768px)]:text-[18px]">
+                <h2 className="text-lg font-normal absolute px-5 py-2 bg-white rounded-tr-2xl bottom-0 left-0">
                   {slide?.name}
                 </h2>
-                <div className="text-base font-normal [@media(max-width:768px)]:text-[14px]">
-                  {slide?.tours_count} tours
-                </div>
               </div>
             </Link>
           )}

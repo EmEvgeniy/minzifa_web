@@ -31,10 +31,10 @@ export default async function Destinations({ locale }: { locale: string }) {
         src={destinations || ''}
         alt="destinations"
         fill
-        priority
+        preload
         className="absolute top-0 w-full h-full left-0 object-cover"
       />
-      <div className="container pt-[70px] pb-[150px] relative z-20 flex flex-col gap-5">
+      <div className="container pt-[70px] pb-[150px] relative flex flex-col gap-5">
         <h4 className="text-white text-[42px] [@media(max-width:768px)]:text-[24px] w-full">
           {t('destination_title')}
         </h4>

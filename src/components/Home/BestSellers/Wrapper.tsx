@@ -38,7 +38,7 @@ export default function Wrapper({ data, locale }: Props) {
 
       <div className="w-full flex items-center justify-between gap-3">
         <Button
-          href={`/${locale}/tours`}
+          to={`/${locale}/tours`}
           color="secondary"
         >
           {t('best_sellers_btns')}

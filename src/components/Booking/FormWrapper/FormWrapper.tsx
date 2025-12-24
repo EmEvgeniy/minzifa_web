@@ -110,7 +110,6 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     const onSubmit = async (data: BookingFormType) => {
         await getCsrfToken();
 
-
         const formData = {
             ...data,
             tour_start: dayjs(data.tour_start).format('YYYY-MM-DD'),
