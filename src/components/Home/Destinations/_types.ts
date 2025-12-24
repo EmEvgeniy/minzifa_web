@@ -6,4 +6,5 @@ export type DestinationCard = {
   slug: string;
   tours_count: number;
   media: IMediaData | null;
+  icon: IMediaData | null;
 };

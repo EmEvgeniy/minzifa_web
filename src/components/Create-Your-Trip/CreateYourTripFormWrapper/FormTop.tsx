@@ -231,7 +231,7 @@ export const FormTop = () => {
                 className="sr-only"
               />
               <p className="flex items-center gap-2 overflow-hidden p-2">
-                {el.icon.file && (
+                {el?.icon?.file && (
                   <ImageWithFallback
                     src={el.icon.file}
                     alt={el.icon.alt_text || 'image'}
