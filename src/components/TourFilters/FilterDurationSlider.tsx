@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 import { FaCalendarAlt } from 'react-icons/fa';
 
 function FilterDurationSlider() {
-  const t = useTranslations('all_tours');
+  const t = useTranslations('allTours');
   const { durations, setDurations } = useFilterStore();
 
   const {
@@ -33,7 +33,7 @@ function FilterDurationSlider() {
   });
 
   return (
-    <Accordion title={t('filter_duration_title')} defaultExpanded={true}>
+    <Accordion title={t('filterDurationTitle')} defaultExpanded={true}>
       <div className="space-y-6">
         <RangeInputs
           minValue={minVal}

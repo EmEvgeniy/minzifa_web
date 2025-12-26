@@ -1,4 +1,6 @@
 'use client';
+
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import { RiSearch2Line } from 'react-icons/ri';
@@ -13,6 +15,7 @@ export default function HeroSearch({
   locale: string;
   pl: string;
 }) {
+  const t = useTranslations('common');
   const [value, setValue] = useState<string>('');
 
   const filtered = useMemo(() => {
@@ -51,7 +54,7 @@ export default function HeroSearch({
         {value && filtered.length === 0 && (
           <div className="bg-white p-5 rounded-[15px] absolute top-[110%] left-1/2 -translate-x-1/2 max-w-[320px] w-full text-black z-50 shadow-md max-[1024px]:max-w-full">
             <p className="text-sm text-gray-500">
-              {locale === 'en' ? 'Nothing found' : 'Ничего не найдено'}
+              {t('nothingFound')}
             </p>
           </div>
         )}

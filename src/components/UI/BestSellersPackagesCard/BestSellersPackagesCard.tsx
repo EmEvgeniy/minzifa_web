@@ -36,7 +36,7 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
           {/* Бейдж типа тура поверх изображения слева */}
           {tour?.tour_type && (
             <div className="absolute top-3 left-3 z-20 inline-flex items-center px-3 py-1.5 bg-white bg-opacity-70 text-gray-900 text-xs font-medium rounded-full backdrop-blur-sm">
-              {t(`tour_types.${tour?.tour_type}`)}
+              {t(`common.tourTypes.${tour?.tour_type}`)}
             </div>
           )}
 
@@ -54,11 +54,11 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
           <div className="flex flex-col md:flex-row items-center justify-between gap-2.5">
             <div className="flex flex-row md:flex-col gap-2 items-center md:items-start justify-between w-full">
               <span className="text-base text-gray-700">
-                {tour?.days} {t('all_tours.days')}
+                {tour?.days} {t('common.tourCard.days')}
               </span>
               <span className="font-bold text-2xl text-gray-900">
-                <span className="text-base text-gray-500 font-normal mr-1">{t('all_tours.from')}</span>
-                {(tour?.valute && t(`currencies.${tour?.valute}`)) || tour?.valute} {tour?.price}
+                <span className="text-base text-gray-500 font-normal mr-1">{t('common.tourCard.from')}</span>
+                {(tour?.valute && t(`common.currencies.${tour?.valute}`)) || tour?.valute} {tour?.price}
               </span>
             </div>
             <Button
@@ -66,7 +66,7 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
               color="primary"
               className="text-sm md:text-base w-full py-4 px-12 md:p-2.5"
             >
-              {t('all_tours.view_itinerary')}
+              {t('common.viewItinerary')}
             </Button>
           </div>
         </div>

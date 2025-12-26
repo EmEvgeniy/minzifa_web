@@ -23,10 +23,10 @@ export default async function Info({ locale }: { locale: string }) {
           className="w-auto h-full absolute bottom-0 -right-1/2 rotate-180 pointer-events-none block object-cover [@media(max-width:768px)]:hidden"
         />
         <h2 className="z-10 text-[42px] text-center max-w-full [@media(max-width:1024px)]:text-[24px] [@media(max-width:1024px)]:text-left">
-          {t('info_title')}
+          {t('infoTitle')}
         </h2>
         <p className="z-10 text-[18px] [@media(max-width:1024px)]:text-[16px] [@media(max-width:1024px)]:text-left">
-          {t('info_text')}
+          {t('infoText')}
         </p>
         <ImageWithFallback
           src={TravelChoice_Black}

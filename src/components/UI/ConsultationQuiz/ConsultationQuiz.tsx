@@ -13,7 +13,7 @@ import { questions } from './questionsStore';
 import { useMetricsStore } from '@/store/useMetricsStore';
 
 export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
-  const t = useTranslations('CreateYourTripForm');
+  const t = useTranslations('createYourTripForm');
   const locale = useLocale();
 
   const router = useRouter();
@@ -46,14 +46,14 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
     if (fieldName === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
-        return t('errors.invalid_email');
+        return t('errors.emailInvalid');
       }
     }
 
     if (fieldName === 'phone') {
       const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
       if (!phoneRegex.test(value)) {
-        return t('errors.invalid_phone');
+        return t('errors.phoneInvalid');
       }
     }
 
@@ -183,15 +183,15 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
     const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
 
     if (!name.trim()) {
-      newErrors.name = t('errors.name_required');
+      newErrors.name = t('errors.nameRequired');
     }
 
     if (!emailRegex.test(email)) {
-      newErrors.email = t('errors.invalid_email');
+      newErrors.email = t('errors.emailInvalid');
     }
 
     if (!phoneRegex.test(phone)) {
-      newErrors.phone = t('errors.invalid_phone');
+      newErrors.phone = t('errors.phoneInvalid');
     }
 
     // если есть ошибки — показать

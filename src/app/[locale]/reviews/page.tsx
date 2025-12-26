@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
 export default async function page() {
     const locale = await getLocale();
-    const t = await getTranslations({ locale, namespace: 'Reviews' });
+    const t = await getTranslations({ locale, namespace: 'reviewsPage' });
     const reviews = await apiGet<IVideoReview[]>(`video-reviews?locale=${locale}`);
 
     return (
@@ -41,7 +41,7 @@ export default async function page() {
                 <ImageWithFallback
                     src={contact_us}
                     alt="contact_us"
-                    priority
+                    preload
                     className=" object-cover absolute top-0 z-10"
                 />
                 <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />

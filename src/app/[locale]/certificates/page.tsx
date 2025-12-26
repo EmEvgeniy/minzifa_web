@@ -5,9 +5,9 @@ import { DefaultPageProps } from '@/types';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
-import Img1 from '@/assets/img/sertificates/01.jpg';
-import Img2 from '@/assets/img/sertificates/02.jpg';
-import Img3 from '@/assets/img/sertificates/03.jpg';
+import Img1 from '@/assets/img/certificates/01.jpg';
+import Img2 from '@/assets/img/certificates/02.jpg';
+import Img3 from '@/assets/img/certificates/03.jpg';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 export function generateStaticParams() {
@@ -18,21 +18,21 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const t = await getTranslations({ locale });
 
-  return t.raw('sertificates.seo_metadata');
+  return t.raw('certificates.seo_metadata');
 }
 
 const images = [
   {
     src: Img1,
-    alt: 'sertificate',
+    alt: 'certificate',
   },
   {
     src: Img2,
-    alt: 'sertificate',
+    alt: 'certificate',
   },
   {
     src: Img3,
-    alt: 'sertificate',
+    alt: 'certificate',
   },
 ];
 
@@ -42,9 +42,9 @@ export default async function page({ params }: DefaultPageProps) {
 
   return (
     <section className="container py-[150px] flex flex-col gap-5 max-[768px]:py-[100px]">
-      <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.sertificates') }} />
+      <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.certificates') }} />
       <h1 className="text-[42px] max-[768px]:text-[30px] max-[550px]:text-[24px] font-title">
-        {t('sertificates.title')}
+        {t('certificates.title')}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {images.map((image, index) => (

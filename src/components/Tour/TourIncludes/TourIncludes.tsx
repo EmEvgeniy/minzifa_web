@@ -10,7 +10,7 @@ import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallba
 const TourIncludesInner = dynamic(() => import('./TourIncludesInner'));
 
 export default function TourIncludes({ includes }: { includes: Include[] | undefined; }) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
   const categories = t.raw('includes.categories') as {
     accommodation: string;
     meals: string;

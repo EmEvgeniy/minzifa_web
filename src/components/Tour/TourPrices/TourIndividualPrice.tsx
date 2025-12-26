@@ -11,7 +11,7 @@ import { calculateEndDate } from '@/utils/utils';
 
 
 export default function TourIndividualPrice({ tour }: { tour: Tour }) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
   const locale = useLocale();
 
   const { formData, setFormData, setPopup } = usePrivateTourFormStore();
@@ -36,7 +36,7 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
   return (
     <section className="flex flex-col gap-5 max-[550px]:gap-3">
       <h2 className="text-4xl font-semibold  max-[920px]:text-[24px]">
-        {t('private_tour.open_form.title')}
+        {t('privateTour.openForm.title')}
       </h2>
       <div className="flex flex-col gap-5 items-center bg-white rounded-2xl">
         <CustomDatepicker
@@ -52,7 +52,7 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
         />
         <div className="p-5 w-full">
           <Button type="button" onClick={() => setPopup(true)} className='w-full'>
-            {t('private_tour.free_consultation')}
+            {t('privateTour.freeConsultation')}
           </Button>
         </div>
       </div>

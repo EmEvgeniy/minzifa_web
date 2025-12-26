@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Tour({ params }: Props) {
   const { tour: slug, locale } = await params;
 
-  const t = await getTranslations({ locale, namespace: 'Tour' });
+  const t = await getTranslations({ locale, namespace: 'breadcrumbs' });
 
   const tourData: TourData | null = await apiGet<TourData>(`tours/${slug}?locale=${locale}`, {
     next: { revalidate: revalidate },
@@ -72,7 +72,7 @@ export default async function Tour({ params }: Props) {
       <div className={"container !px-0 pt-[150px] flex flex-col gap-10 max-[920px]:pt-[56px]"}>
         <Breadcrumbs
           locale={locale}
-          link={{ title: t('breadcrumbs.all_tours'), link: `/${locale}/tours` }}
+          link={{ title: t('allTours'), link: `/${locale}/tours` }}
           link2={{ title: tourData.name, link: '' }}
           className='hidden md:block'
         />

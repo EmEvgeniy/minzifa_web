@@ -8,9 +8,9 @@ export default async function MobileMenu({ locale }: { locale: string }) {
 
   return (
     <div className="max-[1024px]:block hidden">
-      <MobileBtn btn={t('Filters')} />
+      <MobileBtn btn={t('common.filters')} />
       <MobileDrawler
-        btn={t('Filters')}
+        btn={t('common.filters')}
         elem={
           <MobileTourFilters
             showFilter={['price', 'duration', 'seasons', 'hotels', 'tourType', 'destinations']}

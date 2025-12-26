@@ -52,7 +52,7 @@ const InfoHints = ({ hints }: { hints: string[] }) => (
 
 export const Passenger = ({ index, hints, errors, control }: IPassengerProps) => {
   const locale = useLocale();
-  const t = useTranslations('Booking');
+  const t = useTranslations('booking');
 
   return (
     <div className="space-y-6">

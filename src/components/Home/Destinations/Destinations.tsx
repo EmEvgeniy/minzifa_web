@@ -36,7 +36,7 @@ export default async function Destinations({ locale }: { locale: string }) {
       />
       <div className="container pt-[70px] pb-[150px] relative flex flex-col gap-5">
         <h4 className="text-white text-[42px] [@media(max-width:768px)]:text-[24px] w-full">
-          {t('destination_title')}
+          {t('destinationTitle')}
         </h4>
         <Wrapper data={data} locale={locale} />
       </div>

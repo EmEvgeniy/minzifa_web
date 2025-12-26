@@ -17,7 +17,7 @@ export const AccomodationCard = ({
   setOpenModal,
   setSelectedHotel,
 }: AccomodationCardProps) => {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
 
   return (
     <div

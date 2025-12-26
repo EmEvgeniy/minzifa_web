@@ -14,7 +14,7 @@ type PrivatePriceFormProps = {
 };
 
 const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
 
   const { formData, setFormData, setPopup } = usePrivateTourFormStore();
 
@@ -46,7 +46,7 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
 
   return (
     <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
-      <h2 className='text-base font-medium'>{t('private_tour.comfort.title')}</h2>
+      <h2 className='text-base font-medium'>{t('privateTour.comfort.title')}</h2>
 
       {comfortOptions?.map(({ key, stars, price }) => !!price && (
         <div
@@ -59,7 +59,7 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
           onClick={() => handleSelectPrice(price)}
         >
           <div>
-            {t(`private_tour.comfort.${key}`)}
+            {t(`privateTour.comfort.${key}`)}
             <div className="flex flex-row gap-0.5">
               {Array.from({ length: stars }).map((_, i) => (
                 <FaStar key={i} size={20} className="text-[#009F65] w-5 h-5" />
@@ -79,9 +79,9 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
         color='primary'
         className="w-full px-6 py-4 rounded-4xl"
       >
-        {t('private_tour.free_consultation')}
+        {t('privateTour.freeConsultation')}
       </Button>
-      <div className="text-center w-full text-sm">{t('private_tour.comfort.hint')}</div>
+      <div className="text-center w-full text-sm">{t('privateTour.comfort.hint')}</div>
     </div>
   );
 };

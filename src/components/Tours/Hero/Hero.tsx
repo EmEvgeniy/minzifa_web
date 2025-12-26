@@ -3,7 +3,7 @@ import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallba
 import { getTranslations } from 'next-intl/server';
 
 export default async function Hero({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'all_tours' });
+  const t = await getTranslations({ locale, namespace: 'allTours' });
   return (
     <section className="w-full min-h-[70svh] relative flex items-center justify-center [@media(max-width:1024px)]:min-h-[50svh]">
       <div className="w-full absolute top-0 h-full bg-[rgba(0,0,0,0.35)] z-20" />

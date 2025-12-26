@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default async function HowToBook({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
-  const list = t.raw('book_block') as { title: string; text: string }[];
+  const list = t.raw('bookBlock') as { title: string; text: string }[];
 
   return (
     <section className="bg-[#16372D] w-full">
@@ -18,8 +18,8 @@ export default async function HowToBook({ locale }: { locale: string }) {
         className="w-auto h-auto absolute left-0"
       />
       <div className="container text-white py-[70px] flex flex-col gap-5 [@media(max-width:768px)]:gap-3 [@media(max-width:768px)]:py-[30px]">
-        <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('book_title')}</h5>
-        <p className="text-[18px] [@media(max-width:768px)]:text-[16px]">{t('book_text')}</p>
+        <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('bookTitle')}</h5>
+        <p className="text-[18px] [@media(max-width:768px)]:text-[16px]">{t('bookText')}</p>
         <div className="mb-8 grid grid-cols-1 gap-5 md:grid-cols-3 [@media(max-width:1024px)]:grid-cols-2 [@media(max-width:550px)]:grid-cols-1 pt-[40px] [@media(max-width:768px)]:pt-[20px]">
           {list.map((el, id) => (
             <div

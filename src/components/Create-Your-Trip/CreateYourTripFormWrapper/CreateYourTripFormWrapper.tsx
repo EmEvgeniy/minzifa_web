@@ -1,8 +1,9 @@
 import { FormTop } from './FormTop';
 import { getTranslations } from 'next-intl/server';
 
+// wrapper for the create your trip form
 export default async function CreateYourTripFormWrapper({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'create-your-trip' });
+  const t = await getTranslations({ locale, namespace: 'createYourTrip' });
 
   return (
     <div className="relative z-30 min-h-[70svh] container text-white flex flex-col items-center py-[150px] max-[550px]:py-[100px]">

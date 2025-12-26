@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Dropdown } from '@/components/UI/Dropdown/Dropdown';
 
 export default function TourViewBtn({ className }: { className?: string }) {
-  const t = useTranslations('all_tours');
+  const t = useTranslations('allTours');
 
   const menu = t.raw('sort') as { title: string; value: string | undefined }[];
 

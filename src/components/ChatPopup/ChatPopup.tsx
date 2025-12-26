@@ -55,7 +55,7 @@ export const ChatPopup = () => {
                     <div className="flex items-center space-x-2 md:space-x-3">
                         <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                         <h3 className="font-bold text-base md:text-lg">
-                            {isChatMode ? t('chat_popup.chat_title') : t('chat_popup.form_title')}
+                            {isChatMode ? t('chatPopup.chatTitle') : t('chatPopup.formTitle')}
                         </h3>
                     </div>
                     <button
@@ -79,16 +79,16 @@ export const ChatPopup = () => {
                         <div className="p-4 md:p-6 h-full overflow-y-auto">
                             <div className="mb-4 md:mb-6">
                                 <h4 className="text-gray-700 font-semibold text-sm mb-2">
-                                    {t('chat_popup.form_subtitle')}
+                                    {t('chatPopup.formSubtitle')}
                                 </h4>
-                                <p className="text-gray-500 text-xs">{t('chat_popup.form_description')}</p>
+                                <p className="text-gray-500 text-xs">{t('chatPopup.formDescription')}</p>
                             </div>
                             <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
                                 {/* Name */}
                                 <Input
                                     type="text"
                                     {...register('name')}
-                                    placeholder={t('chat_popup.name_placeholder')}
+                                    placeholder={t('chatPopup.namePlaceholder')}
                                     disabled={isAuthenticated}
                                     error={errors?.name}
                                 />
@@ -97,7 +97,7 @@ export const ChatPopup = () => {
                                 <Input
                                     type="email"
                                     {...register('email')}
-                                    placeholder={t('chat_popup.email_placeholder')}
+                                    placeholder={t('chatPopup.emailPlaceholder')}
                                     disabled={isAuthenticated}
                                     error={errors?.email}
                                 />
@@ -117,13 +117,13 @@ export const ChatPopup = () => {
                                 {/* Message */}
                                 <Textarea
                                     {...register('message')}
-                                    placeholder={t('chat_popup.message_placeholder')}
+                                    placeholder={t('chatPopup.messagePlaceholder')}
                                     rows={4}
                                     error={errors?.message}
                                 />
 
                                 <Checkbox
-                                    label={t.rich('confirm_form_text', {
+                                    label={t.rich('common.termsAcceptance', {
                                         terms: (chunks) => (
                                             <Link
                                                 href={`/${locale}/term-and-conditions-of-booking-tours`}

@@ -13,7 +13,7 @@ function Favorites({ locale }: { locale: string }) {
     return (
       <div className="w-full ">
         <p className="text-[35px] max-[1024px]:text-[24px] max-[768px]:text-[18px]">
-          {t('favorite_nf')}
+          {t('common.favorites.notFound')}
         </p>
         <FreeConsultationForm />
       </div>

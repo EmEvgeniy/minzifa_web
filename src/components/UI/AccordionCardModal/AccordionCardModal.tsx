@@ -19,7 +19,7 @@ interface AccordionModalProps {
 }
 
 export const AccordionCardModal = ({ hotel, openModal, setOpenModalAction }: AccordionModalProps) => {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
   const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
   const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
     usePrevNextButtons(emblaApi);

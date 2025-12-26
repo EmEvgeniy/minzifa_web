@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 const TourAccomodationInner = dynamic(() => import('./TourAccomodationInner'));
 
 export default function TourAccomodation({ hotels }: { hotels: Hotel[] | undefined; }) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
 
   if (!hotels || hotels.length === 0) return null;
 

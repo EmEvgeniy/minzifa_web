@@ -10,7 +10,7 @@ import { useTranslations } from 'next-intl';
 import { DestinationCard } from '../Home/Destinations/_types';
 
 function FilterDestinations({ initDestinations }: { initDestinations?: DestinationCard[] }) {
-  const t = useTranslations('all_tours');
+  const t = useTranslations('allTours');
 
   const { destinations, setDestinations } = useFilterStore();
   const [searchDestination, setSearchDestination] = useState('');
@@ -18,22 +18,22 @@ function FilterDestinations({ initDestinations }: { initDestinations?: Destinati
   const filteredDestinations = useMemo(() => {
     return Array.isArray(initDestinations)
       ? initDestinations.filter(
-          (el) =>
-            el.name.toLowerCase().includes(searchDestination.toLowerCase()) && el.tours_count > 0,
-        )
+        (el) =>
+          el.name.toLowerCase().includes(searchDestination.toLowerCase()) && el.tours_count > 0,
+      )
       : [];
   }, [initDestinations, searchDestination]);
 
   const debouncedDestinations = useDebouncedValue(filteredDestinations, 300);
 
   return (
-    <Accordion title={t('filter_destination_title')}>
+    <Accordion title={t('filterDestinationTitle')}>
       <div className="w-full space-y-4">
         <Input
           startIcon={<FaSearch className="w-4 h-4 text-gray-400" />}
           value={searchDestination}
           onChange={(e) => setSearchDestination(e.target.value)}
-          placeholder={t('find_destination')}
+          placeholder={t('findDestination')}
           fullWidth
         />
 

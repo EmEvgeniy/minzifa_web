@@ -6,7 +6,7 @@ import RoomTypesInner from './RoomTypesInner';
 import { BookingFormType } from '@/validation/bookingFormSchema';
 
 export default function RoomTypes({ bookingData, setValue }: { bookingData: BookingFormType; setValue: UseFormSetValue<BookingFormType> }) {
-  const t = useTranslations('Booking');
+  const t = useTranslations('booking');
   const roomTypes = t.raw('roomTypes') as {
     title: string;
     standart: string;

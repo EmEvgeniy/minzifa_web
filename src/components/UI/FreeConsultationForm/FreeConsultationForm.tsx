@@ -109,7 +109,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
         </div>
         <div className="flex flex-col gap-5 w-full max-w-[434px] p-5 mx-auto my-8 max-[768px]:max-w-full max-[768px]:gap-8 max-[550px]:p-3">
           <h2 className="text-4xl font-semibold text-white max-[768px]:text-[35px] max-[550px]:text-[24px] max-[550px]:text-center">
-            {t('FreeForm.title')}
+            {t('freeConsultation.title')}
           </h2>
           <Controller
             name="name"
@@ -118,7 +118,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
               <Input
                 {...field}
                 error={errors.name}
-                placeholder={t('FreeForm.name')}
+                placeholder={t('freeConsultation.name')}
                 className='px-5 py-4'
               />
             )}
@@ -130,7 +130,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
               <Input
                 {...field}
                 error={errors.email}
-                placeholder={t('FreeForm.email')}
+                placeholder={t('freeConsultation.email')}
                 className='px-5 py-4'
               />
             )}
@@ -154,13 +154,13 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
                 {...field}
                 error={errors.message}
                 className='px-5 py-4'
-                placeholder={t('FreeForm.wishes')}
+                placeholder={t('freeConsultation.wishes')}
               />
             )}
           />
 
           <Checkbox
-            label={t.rich('confirm_form_text', {
+            label={t.rich('common.termsAcceptance', {
               terms: (chunks) => (
                 <Link
                   href={`/${locale}/term-and-conditions-of-booking-tours`}
@@ -187,7 +187,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
             color='primary'
             className='px-5 py-4'
           >
-            {t('FreeForm.button')}
+            {t('freeConsultation.button')}
           </Button>
         </div>
       </div>

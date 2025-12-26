@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 import { FaDollarSign } from 'react-icons/fa6';
 
 function FilterPriceSlider() {
-  const t = useTranslations('all_tours');
+  const t = useTranslations('allTours');
 
   const { prices, setPrices, expandedFilters, setExpandedFilter } = useFilterStore();
 
@@ -38,7 +38,7 @@ function FilterPriceSlider() {
 
   return (
     <Accordion
-      title={t('filter_price_title')}
+      title={t('filterPriceTitle')}
       isExpanded={isExpanded}
       onToggle={(expanded) => setExpandedFilter(accordionKey, expanded)}
     >

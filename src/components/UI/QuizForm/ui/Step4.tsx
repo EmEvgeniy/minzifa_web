@@ -52,7 +52,7 @@ const Step4 = ({ errors, setValue, watch, token, getToken }: StepProps) => {
           />
 
           <Checkbox
-            label={t.rich('confirm_form_text', {
+            label={t.rich('common.termsAcceptance', {
               terms: (chunks) => (
                 <Link
                   href={`/${locale}/term-and-conditions-of-booking-tours`}

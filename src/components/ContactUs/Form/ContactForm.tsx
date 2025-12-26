@@ -1,12 +1,11 @@
 'use client';
 
-import { usePostMutation } from '@/api/post.api';
 import Button from '@/components/UI/Button/Button';
 import { useLocale, useTranslations } from 'next-intl';
 import { useSnackStore } from '@/store/useSnackStore';
 import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '@/components/UI';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMetricsStore } from '@/store/useMetricsStore';
 import { contactFormSchema, ContactFormType } from '@/validation/contactFormSchema';
@@ -71,7 +70,7 @@ export const ContactForm = () => {
   return (
     <div className="mx-auto w-full max-[768px]:max-w-full h-full">
       <h2 className="font-bold mb-4 text-[42px] tracking-tight text-white max-[768px]:text-[30px] max-[768px]:text-center">
-        {t('contact_us.form_title')}
+        {t('contactUs.formTitle')}
       </h2>
 
       <form className="space-y-6 max-[768px]:space-y-5" onSubmit={handleSubmit(onSubmit)}>
@@ -79,7 +78,7 @@ export const ContactForm = () => {
         <Input
           {...register('name')}
           error={errors.name}
-          placeholder={t('contact_us.pl')}
+          placeholder={t('contactUs.pl')}
           className='px-5 py-4'
         />
 
@@ -88,7 +87,7 @@ export const ContactForm = () => {
           {...register('email')}
           type="email"
           error={errors.email}
-          placeholder={t('contact_us.pl2')}
+          placeholder={t('contactUs.pl2')}
           className='px-5 py-4'
         />
 
@@ -104,14 +103,14 @@ export const ContactForm = () => {
           {...register('message')}
           rows={4}
           error={errors.message}
-          placeholder={t('contact_us.pl4')}
+          placeholder={t('contactUs.pl4')}
           className="resize-none"
         />
 
         {/* Checkbox */}
 
         <Checkbox
-          label={t.rich('confirm_form_text', {
+          label={t.rich('common.termsAcceptance', {
             terms: (chunks) => (
               <Link
                 href={`/${locale}/term-and-conditions-of-booking-tours`}
@@ -140,7 +139,7 @@ export const ContactForm = () => {
           disabled={isSubmitting || !token}
           className="px-5 py-4 w-full"
         >
-          {t('contact_us.btn')}
+          {t('contactUs.btn')}
         </Button>
       </form>
     </div>

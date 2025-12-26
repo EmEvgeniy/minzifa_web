@@ -100,7 +100,7 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
 
       // Шаг 3: AmoCRM
       try {
-        await axiosInstance.post(getApiUrl('forms/amocrm/send'), formData);
+        const amocrmResponse = await axiosInstance.post(getApiUrl('forms/amocrm/send'), formData);
       } catch (error) {
         console.warn('AmoCRM queuing failed (non-critical):', error);
         result.errors!.amocrm = error as Error;

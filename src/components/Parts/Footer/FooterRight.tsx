@@ -71,18 +71,18 @@ export const FooterRight = () => {
 
   return (
     <div className="flex flex-col gap-3 w-full">
-      <p className="text-xl font-bold">{t('footer.form_title')}</p>
-      <p className="text-sm">{t('footer.form_text')}</p>
+      <p className="text-xl font-bold">{t('footer.formTitle')}</p>
+      <p className="text-sm">{t('footer.formText')}</p>
 
       <form className="flex flex-col items-start justify-between gap-2.5 w-full" onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register('email')}
           type="email"
-          placeholder={t('footer.form_pl')}
+          placeholder={t('footer.formPl')}
           error={errors.email}
         />
         <Checkbox
-          label={t.rich('confirm_form_text', {
+          label={t.rich('common.termsAcceptance', {
             terms: (chunks) => (
               <Link
                 href={`/${locale}/term-and-conditions-of-booking-tours`}
@@ -108,7 +108,7 @@ export const FooterRight = () => {
           disabled={isSubmitting || !token}
           className={"px-4 py-3"}
         >
-          {t('footer.form_btn')}
+          {t('footer.formBtn')}
         </Button>
       </form>
 

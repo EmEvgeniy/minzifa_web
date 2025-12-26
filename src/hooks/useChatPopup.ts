@@ -58,7 +58,7 @@ export const useChatPopup = () => {
 
   const { submitForm, isSubmitting } = useFormSubmit({
     onSuccess(data) {
-      setMessage(t('chat_popup.form_sent'));
+      setMessage(t('chatPopup.formSent'));
       if (data?.chats && data.chats.length > 0) {
         const chat = data.chats[0];
         handleChatSelect(chat);

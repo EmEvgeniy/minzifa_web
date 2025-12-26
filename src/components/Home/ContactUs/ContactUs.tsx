@@ -15,17 +15,17 @@ export default async function ContactUs({ locale }: { locale: string }) {
   const contactItems = [
     {
       icon: IconEnvelope,
-      label: t(`contacts.envelope`),
+      label: t(`contactUs.envelope`),
       slug: contacts.email?.[locale]?.url,
     },
     {
       icon: IconWhatsapp,
-      label: t(`contacts.whatsapp`),
+      label: t(`contactUs.whatsapp`),
       slug: contacts.social_media.find((item) => item.name === 'WhatsApp')?.url?.[locale],
     },
     {
       icon: IconPhone,
-      label: t(`contacts.phone`),
+      label: t(`contactUs.phone`),
       slug: contacts.phone?.[locale]?.url,
     },
   ];
@@ -35,10 +35,10 @@ export default async function ContactUs({ locale }: { locale: string }) {
       <div className="bg-white rounded-[16px] shadow-2xl flex items-center justify-between overflow-hidden [@media(max-width:1024px)]:flex-col-reverse">
         <div className="p-10 flex flex-col gap-8 [@media(max-width:768px)]:gap-5 [@media(max-width:768px)]:p-5">
           <p className="text-[42px] text-black [@media(max-width:768px)]:text-[24px] [@media(max-width:768px)]:text-center">
-            {t('contacts.title')}
+            {t('contactUs.title')}
           </p>
           <p className="text-[18px] [@media(max-width:768px)]:text-[16px] [@media(max-width:768px)]:text-center">
-            {t('contacts.subtitle')}
+            {t('contactUs.subtitle')}
           </p>
           <div className="grid grid-cols-2 gap-12 md:grid-cols-4 items-start">
             {contactItems.map(({ icon, label, slug }, index) => (

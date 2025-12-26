@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 const TravellersCounter = dynamic(() => import('./TravellersCounter'));
 
 export default function Travellers({ bookingData, setValue }: { bookingData: BookingFormType; setValue: UseFormSetValue<BookingFormType> }) {
-  const t = useTranslations('Booking');
+  const t = useTranslations('booking');
 
   return (
     <div className="flex flex-col gap-5">

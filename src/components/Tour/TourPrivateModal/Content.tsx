@@ -2,7 +2,7 @@
 
 import { PhoneInputComp } from '@/components/UI/PhoneInput/PhoneInputComp';
 import { useLocale, useTranslations } from 'next-intl';
-import { useEffect } from 'react';
+import { useEffect, ReactNode } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { tourPrivateFormSchema } from '@/validation/tourPrivateFormSchema';
 import { Controller, useForm } from 'react-hook-form';
@@ -27,7 +27,8 @@ import { FormNameEnum } from '@/constants';
 import dayjs from 'dayjs';
 
 export const Content = ({ tour }: { tour: Tour }) => {
-  const t = useTranslations();
+  const t = useTranslations('tourDetail');
+  const tGlobal = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const { formData, setFormData, setPopup, resetFormData } = usePrivateTourFormStore();
@@ -40,7 +41,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<PrivateTourFormState['formData']>({
-    resolver: zodResolver(tourPrivateFormSchema((key: string) => t(key))),
+    resolver: zodResolver(tourPrivateFormSchema((key: string) => tGlobal(key))),
     mode: 'onSubmit',
     defaultValues: formData,
   });
@@ -77,47 +78,55 @@ export const Content = ({ tour }: { tour: Tour }) => {
 
   const valute = tour?.prices?.valute;
 
-  const comfortOptions = [
-    {
+  const comfortOptions: { label: ReactNode; value: string | number }[] = [];
+
+  if (tour?.prices?.price_for_3_hotels) {
+    comfortOptions.push({
       label: (
         <>
-          {t('Tour.private_tour.comfort.moderate')} (
+          {t('privateTour.comfort.moderate')} (
           <FormattedPrice
-            price={tour?.prices?.price_for_3_hotels}
+            price={tour.prices.price_for_3_hotels}
             currency={valute}
           />
           )
         </>
       ),
-      value: tour?.prices?.price_for_3_hotels,
-    },
-    {
+      value: tour.prices.price_for_3_hotels,
+    });
+  }
+
+  if (tour?.prices?.price_for_4_hotels) {
+    comfortOptions.push({
       label: (
         <>
-          {t('Tour.private_tour.comfort.enhanced')} (
+          {t('privateTour.comfort.enhanced')} (
           <FormattedPrice
-            price={tour?.prices?.price_for_4_hotels}
+            price={tour.prices.price_for_4_hotels}
             currency={valute}
           />
           )
         </>
       ),
-      value: tour?.prices?.price_for_4_hotels,
-    },
-    {
+      value: tour.prices.price_for_4_hotels,
+    });
+  }
+
+  if (tour?.prices?.price_for_5_hotels) {
+    comfortOptions.push({
       label: (
         <>
-          {t('Tour.private_tour.comfort.ultimate')} (
+          {t('privateTour.comfort.ultimate')} (
           <FormattedPrice
-            price={tour?.prices?.price_for_5_hotels}
+            price={tour.prices.price_for_5_hotels}
             currency={valute}
           />
           )
         </>
       ),
-      value: tour?.prices?.price_for_5_hotels,
-    },
-  ];
+      value: tour.prices.price_for_5_hotels,
+    });
+  }
 
   useEffect(() => {
     const now = new Date();
@@ -130,9 +139,9 @@ export const Content = ({ tour }: { tour: Tour }) => {
       <div className="relative flex items-start justify-baseline w-full mb-8">
         <div className='w-full'>
           <h2 className="text-xl md:text-2xl font-semibold text-black mb-2 text-left">
-            {t('Tour.private_tour.forms.title')}
+            {t('privateTour.forms.title')}
           </h2>
-          <p className="text-sm md:text-base text-gray-500">{t('Tour.private_tour.forms.subtitle')}</p>
+          <p className="text-sm md:text-base text-gray-500">{t('privateTour.forms.subtitle')}</p>
         </div>
         <button type="button" className="cursor-pointer" onClick={() => setPopup(false)}>
           <FaTimes size={24} />
@@ -166,8 +175,8 @@ export const Content = ({ tour }: { tour: Tour }) => {
                   minDate={new Date()}
                   customInput={
                     <Input
-                      label={t('Tour.private_tour.forms.date')}
-                      placeholder={t('Tour.private_tour.forms.date')}
+                      label={t('privateTour.forms.date')}
+                      placeholder={t('privateTour.forms.date')}
                       startIcon={
                         <ImageWithFallback
                           src={IconCalendar}
@@ -189,8 +198,8 @@ export const Content = ({ tour }: { tour: Tour }) => {
               render={({ field }) => (
                 <Input
                   type="text"
-                  label={t('Tour.private_tour.forms.travellers_label')}
-                  placeholder={t('Tour.private_tour.forms.travellers')}
+                  label={t('privateTour.forms.travellersLabel')}
+                  placeholder={t('privateTour.forms.travellers')}
                   value={field.value || 1}
                   onChange={(e) => {
                     field.onChange(e);
@@ -207,9 +216,9 @@ export const Content = ({ tour }: { tour: Tour }) => {
               name="price"
               render={({ field }) => (
                 <DropdownField
-                  label={t('Tour.private_tour.forms.price')}
+                  label={t('privateTour.forms.price')}
                   options={comfortOptions}
-                  placeholder={t('Tour.private_tour.forms.price_placeholder')}
+                  placeholder={t('privateTour.forms.pricePlaceholder')}
                   value={field.value || undefined}
                   onChange={(value) => {
                     field.onChange(value);
@@ -232,21 +241,21 @@ export const Content = ({ tour }: { tour: Tour }) => {
                   field.onChange(e);
                   setFormData(prev => ({ ...prev, wishes: e.target.value }));
                 }}
-                placeholder={t('Tour.private_tour.forms.wishes_placeholder')}
+                placeholder={t('privateTour.forms.wishesPlaceholder')}
               />
             )}
           />
         </div>
 
         <div className="flex flex-col gap-4 border border-gray-300 rounded-2xl p-6">
-          <h3 className='text-lg font-medium'>{t('Tour.private_tour.forms.personal_data')}</h3>
+          <h3 className='text-lg font-medium'>{t('privateTour.forms.personalData')}</h3>
           <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
             <Controller
               control={control}
               name="name"
               render={({ field }) => (
                 <Input
-                  placeholder={t('Tour.private_tour.forms.name_placeholder')}
+                  placeholder={t('privateTour.forms.namePlaceholder')}
                   value={field.value || ''}
                   onChange={(e) => {
                     field.onChange(e);
@@ -262,7 +271,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
               name="email"
               render={({ field }) => (
                 <Input
-                  placeholder={t('Tour.private_tour.forms.email_placeholder')}
+                  placeholder={t('privateTour.forms.emailPlaceholder')}
                   value={field.value || ''}
                   onChange={(e) => {
                     field.onChange(e);
@@ -290,7 +299,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
         </div>
 
         <Checkbox
-          label={t.rich('confirm_form_text', {
+          label={tGlobal.rich('common.termsAcceptance', {
             terms: (chunks) => (
               <Link
                 href={`/${locale}/term-and-conditions-of-booking-tours`}
@@ -316,7 +325,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
           type="submit"
           color='primary'
         >
-          {t('Tour.private_tour.forms.submit')}
+          {t('privateTour.forms.submit')}
         </Button>
       </form>
     </div>

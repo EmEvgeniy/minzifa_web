@@ -6,7 +6,7 @@ import { cn } from '@/utils';
 
 interface FormFieldWrapperProps {
     label?: string;
-    error?: FieldError;
+    error?: { message?: string };
     helperText?: string;
     fullWidth?: boolean;
     className?: string;

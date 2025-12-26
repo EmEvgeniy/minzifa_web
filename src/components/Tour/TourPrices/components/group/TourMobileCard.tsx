@@ -28,7 +28,7 @@ export const TourMobileCard: FC<TourDescTopCardType> = ({
   valute,
   handleBookingData,
 }) => {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
   const locale = useLocale();
   return (
     <motion.div

@@ -32,7 +32,7 @@ export default async function Articles({ locale }: { locale: string }) {
   return (
     <section className="container pb-[70px] w-full">
       <div className="flex flex-col gap-10 items-start w-full">
-        <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('articles_title')}</h5>
+        <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('articlesTitle')}</h5>
         <div className="grid grid-cols-3 w-full gap-5 [@media(max-width:768px)]:hidden">
           {data?.data.map((el: ArticleCardType) => (
             <ArticleCard key={el.id} article={el} locale={locale} />
@@ -46,7 +46,7 @@ export default async function Articles({ locale }: { locale: string }) {
               href={`/${locale}/adventures`}
               className="bg-[#16372D] py-[18px] px-[40px] mx-auto text-white rounded-[16px] hover:bg-[#194D3D] transition-all w-full text-center [@media(max-width:768px)]:px-[10px] [@media(max-width:768px)]:py-[13px] text-[14px] max-w-[150px]"
             >
-              {t('article_btn')}
+              {t('articleBtn')}
             </Link>
           }
         />
@@ -54,7 +54,7 @@ export default async function Articles({ locale }: { locale: string }) {
           href={`/${locale}/adventures`}
           className="bg-[#16372D] py-[18px] px-[40px] mx-auto text-white rounded-[16px] hover:bg-[#194D3D] transition-all [@media(max-width:768px)]:hidden block"
         >
-          {t('article_btn')}
+          {t('articleBtn')}
         </Link>
       </div>
     </section>

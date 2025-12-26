@@ -9,7 +9,7 @@ import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallba
 import { useTranslations } from 'next-intl';
 
 export default function TourFacts({ facts, tour_type }: { facts: Facts; tour_type: string }) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
 
   const factsContent: {
     icon: string;

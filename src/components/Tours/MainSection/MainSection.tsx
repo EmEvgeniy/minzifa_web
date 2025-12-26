@@ -32,7 +32,7 @@ export default async function MainSection({
   return (
     <section className="container w-full h-full min-h-[70svh]">
       <div className="w-full flex flex-col gap-5 py-[30px]">
-        <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.all_tours') }} />
+        <Breadcrumbs locale={locale} link={{ link: '', title: t('breadcrumbs.allTours') }} />
         <ToursSection
           locale={locale}
           showFilter={filters}

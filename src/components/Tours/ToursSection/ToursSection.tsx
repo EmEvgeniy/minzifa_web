@@ -116,7 +116,7 @@ export default function ToursSection({
         <div className="w-full flex flex-col gap-5">
           <div className="w-full flex items-center justify-end md:justify-between ">
             <p className="w-full hidden md:block">
-              {t('all_tours.showing')} {paginationFrom} - {paginationTo} {t('all_tours.out')}{' '}
+              {t('allTours.showing')} {paginationFrom} - {paginationTo} {t('allTours.out')}{' '}
               {totalItems}
             </p>
             <TourViewBtn className="max-w-[150px]" />

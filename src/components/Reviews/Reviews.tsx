@@ -19,7 +19,7 @@ type ReviewsProps = {
 }
 
 export default function Reviews({ reviews }: ReviewsProps) {
-    const t = useTranslations('Reviews');
+    const t = useTranslations('reviewsPage');
 
     const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
     const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =

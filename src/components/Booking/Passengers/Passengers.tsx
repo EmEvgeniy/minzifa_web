@@ -11,7 +11,7 @@ import { Passenger } from './Passenger';
 import IconUser from '@/assets/icons/booking/user.svg';
 
 export default function Passengers({ bookingData, errors, control }: { bookingData: BookingFormType, errors: FieldErrors, control: Control<BookingFormType> }) {
-  const t = useTranslations('Booking');
+  const t = useTranslations('booking');
   const hints = t.raw('passenger.passenger_hint') as string[];
 
   const [passengerAccordionIndexes, setPassengerAccordionIndexes] = useState<number[] | undefined>(

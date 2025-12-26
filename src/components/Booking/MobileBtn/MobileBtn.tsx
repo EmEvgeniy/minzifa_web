@@ -7,7 +7,7 @@ import { BookingFormType } from '@/validation/bookingFormSchema';
 import { useTranslations } from 'next-intl';
 
 export default function MobileBtn({ bookingData }: { bookingData: BookingFormType }) {
-  const t = useTranslations('Booking');
+  const t = useTranslations('booking');
 
   const { isSubmitting } = useFormSubmit();
 
@@ -18,7 +18,7 @@ export default function MobileBtn({ bookingData }: { bookingData: BookingFormTyp
       <div className="container flex items-center justify-between p-5 text-white gap-5">
         <div className="flex justify-start items-start w-2/2 flex-col">
           <span className="text-[14px] text-gray-400">
-            {t('booking_info.total')} (USD)
+            {t('bookingInfo.total')} (USD)
           </span>
           <FormattedPrice
             price={bookingData?.total_price}

@@ -16,7 +16,7 @@ export default async function Adventure({ locale }: { locale: string }) {
   return (
     <section className="container my-[70px] flex flex-col gap-5 [@media(max-width:768px)]:my-[40px]">
       <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px] font-semibold">
-        {t('adventure_title')}
+        {t('adventureTitle')}
       </h5>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 [@media(max-width:1024px)]:grid-cols-3 [@media(max-width:768px)]:grid-cols-2">
         {data?.slice(0, 8).map((type: AdventureCardType) => (

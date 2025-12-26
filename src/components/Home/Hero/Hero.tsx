@@ -23,7 +23,7 @@ export default async function Hero({ locale }: { locale: string }) {
         <p className="max-w-[50%] text-center text-[18px] font-light [@media(max-width:1024px)]:text-[15px] [@media(max-width:1024px)]:max-w-full [@media(max-width:1024px)]:text-left">
           {t('home.subTitle')}
         </p>
-        <HeroSearch data={data} locale={locale} pl={t('search')} />
+        <HeroSearch data={data} locale={locale} pl={t('common.search')} />
       </div>
     </section>
   );

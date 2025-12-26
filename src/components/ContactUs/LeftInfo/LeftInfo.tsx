@@ -11,7 +11,7 @@ export default async function LeftInfo({ locale }: { locale: string }) {
     <div className="w-full flex flex-col h-full items-start justify-start gap-20 min-h-[45svh] max-[768px]:items-center max-[768px]:min-h-full">
       <div className="w-full h-full flex flex-col gap-3">
         <h2 className="mb-4 w-full text-[56px] leading-tight font-bold tracking-tight text-white/70 max-[1024px]:text-[35px] max-[768px]:text-center font-title">
-          {t('contact_us.title')}
+          {t('contactUs.title')}
         </h2>
         <Link
           href={`tel:${contacts.phone[locale].url}`}
@@ -34,7 +34,7 @@ export default async function LeftInfo({ locale }: { locale: string }) {
       </div>
       <div className="w-full h-full max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center">
         <h2 className="mb-2 justify-end text-6xl leading-tight font-bold tracking-tight text-white/70 max-[1024px]:text-[35px]">
-          {t('contact_us.find')}
+          {t('contactUs.find')}
         </h2>
         <SocialMedia
           linkClassName="p-2 box-content"

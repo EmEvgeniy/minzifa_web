@@ -2,15 +2,15 @@
   "home": {
     "title": "Частные туры по Шелковому пути в Центральной Азии",
     "subTitle": "Организуем в любое время года. Сертифицированные гиды, собственные отели, транспорт класса комфорт и премиум, проверенные маршруты, на связи 24/7",
-    "info_title": "Minzifa Travel: №1 Международный Туроператор Центральной Азии",
-    "info_text": "В Minzifa Travel мы верим, что путешествия — это преобразующий опыт, который не только расширяет наш кругозор, но и создает значимые связи между людьми из разных культур.Мы привержены принципам устойчивого туризма, приносящего пользу как местным сообществам, так и окружающей среде.Наша экспертиза в регионе Центральной Азии позволяет нам создавать уникальные маршруты, отражающие богатую историю и культурное разнообразие региона. Мы поддерживаем местный бизнес и продвигаем ответственный подход к туризму.Наша цель — разрушать стереотипы и менять восприятие, предлагая глубокие, погружающие путешествия, способствующие развитию эмпатии и взаимопонимания. Присоединяйтесь к нам в путешествии открытий и единения с Minzifa Travel.",
-    "best_title": "Пакеты бестселлеров",
-    "invite_title": "Получите скидку 5% для друга",
-    "invite_text": "Получайте вознаграждения за привлечение друзей и рекомендации",
-    "destination_title": "Популярные направления",
-    "book_title": "Как забронировать место в группе?",
-    "book_text": "Станьте частью большой семьи Minzifa Travel всего за 5 простых шагов:",
-    "book_block": [
+    "infoTitle": "Minzifa Travel: №1 Международный Туроператор Центральной Азии",
+    "infoText": "В Minzifa Travel мы верим, что путешествия — это преобразующий опыт, который не только расширяет наш кругозор, но и создает значимые связи между людьми из разных культур.Мы привержены принципам устойчивого туризма, приносящего пользу как местным сообществам, так и окружающей среде.Наша экспертиза в регионе Центральной Азии позволяет нам создавать уникальные маршруты, отражающие богатую историю и культурное разнообразие региона. Мы поддерживаем местный бизнес и продвигаем ответственный подход к туризму.Наша цель — разрушать стереотипы и менять восприятие, предлагая глубокие, погружающие путешествия, способствующие развитию эмпатии и взаимопонимания. Присоединяйтесь к нам в путешествии открытий и единения с Minzifa Travel.",
+    "bestTitle": "Пакеты бестселлеров",
+    "inviteTitle": "Получите скидку 5% для друга",
+    "inviteText": "Получайте вознаграждения за привлечение друзей и рекомендации",
+    "destinationTitle": "Популярные направления",
+    "bookTitle": "Как забронировать место в группе?",
+    "bookText": "Станьте частью большой семьи Minzifa Travel всего за 5 простых шагов:",
+    "bookBlock": [
       {
         "title": "Вы оставляете заявку",
         "text": "Заполните контактную форму на странице пункта назначения, заранее указав предпочтительные даты поездки."
@@ -32,22 +32,23 @@
         "text": "Мы стремимся предоставлять высококачественные услуги, тщательно продумывая каждую деталь поездки для достижения полного удовлетворения наших клиентов."
       }
     ],
-    "adventure_title": "Время приключений",
-    "contactUs_title": "Связаться с нами",
-    "contactUs_text": "Свяжитесь с нами — мы поможем вам подобрать тур, уточним детали и забронируем все для вас.",
-    "contactUs_icon": "Делайте покупки у нас онлайн",
-    "contactUs_icon2": "Свяжитесь по электронной почте",
-    "contactUs_icon3": "Свяжитесь по WhatsApp",
-    "contactUs_icon4": "Позвоните нам",
-    "rating_title": "Рейтинги и обзоры",
-    "rating_sub": "обзоров",
-    "articles_title": "Последние статьи",
-    "create_your_trip_title": "Создайте свое идеальное путешествие",
-    "create_your_trip_sub_title": "Запланируйте идеальное приключение в Центральной Азии — расскажите нам о своих мечтах, и мы превратим их в реальное путешествие.",
-    "create_your_trip_btn": "Создайте свое путешествие",
-    "article_btn": "Посмотреть все новости",
-    "contacts": {
-      "title": "Свяжитесь с нами",
+    "adventureTitle": "Время приключений",
+    "contactUsTitle": "Связаться с нами",
+    "contactUsText": "Свяжитесь с нами — мы поможем вам подобрать тур, уточним детали и забронируем все для вас.",
+    "contactUsIcon": "Делайте покупки у нас онлайн",
+    "contactUsIcon2": "Свяжитесь по электронной почте",
+    "contactUsIcon3": "Свяжитесь по WhatsApp",
+    "contactUsIcon4": "Позвоните нам",
+    "ratingTitle": "Рейтинги и обзоры",
+    "articlesTitle": "Последние статьи",
+    "createYourTripTitle": "Создайте свое идеальное путешествие",
+    "createYourTripSubTitle": "Запланируйте идеальное приключение в Центральной Азии — расскажите нам о своих мечтах, и мы превратим их в реальное путешествие.",
+    "createYourTripBtn": "Создайте свое путешествие",
+    "articleBtn": "Посмотреть все новости",
+    "contactUs": {
+      "title": "Связаться с нами",
+      "find": "Найдите нас в социальных сетях",
+      "formTitle": "Свяжитесь с нами",
       "subtitle": "Свяжитесь с нами — мы поможем вам подобрать тур, уточним детали и забронируем все для вас.",
       "message": "Делайте покупки у нас онлайн",
       "envelope": "Свяжитесь по электронной почте",
@@ -59,17 +60,35 @@
       "count": "{count}+ отзывов"
     }
   },
-  "search": "Поиск направлений",
-  "Filters": "Фильтры",
-  "View_itinerary": "Посмотреть маршрут",
-  "tourCard": {
-    "days": "дней",
-    "from": "от",
-    "byRequest": "По запросу"
+  "common": {
+    "filters": "Фильтры",
+    "search": "Поиск",
+    "nothingFound": "Ничего не найдено",
+    "viewItinerary": "Посмотреть маршрут",
+    "seeAllTrips": "Смотреть все",
+    "favorites": {
+      "button": "Ваши избранные",
+      "notFound": "Нет избранных туров! Выберите несколько туров или получите бесплатную консультацию."
+    },
+    "tourTypes": {
+      "individual": "Индивидуальный тур",
+      "group": "Групповой тур"
+    },
+    "currencies": {
+      "USD": "$",
+      "EUR": "€",
+      "RUB": "₽",
+      "CNY": "¥"
+    },
+    "tourCard": {
+      "days": "дней",
+      "from": "от",
+      "byRequest": "По запросу"
+    },
+    "lang": ["en", "ru"],
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsAcceptance": "Я принимаю <terms>Условия и положения</terms> Minzifa Travel и <privacy>Политику конфиденциальности</privacy>"
   },
-  "best_sellers_btns": "Смотреть все",
-  "favoriteBtn": "Ваши избранные",
-  "favorite_nf": "Нет избранных туров! Выберите несколько туров или получите бесплатную консультацию.",
   "navigation": {
     "nav": [
       {
@@ -99,14 +118,17 @@
       }
     ]
   },
-  "lang": ["en", "ru"],
+  "reviewsPage": {
+    "title": "Отзывы",
+    "subtitle": "Видео отзывы"
+  },
   "footer": {
     "title": "Контакты",
-    "text": "Minzifa Travel — это команда экспертов с более чем 20-летним опытом, предлагающая увлекательные туры по Узбекистану и странам Средней Азии.",
-    "text2": "Мы с теплом и радостью приглашаем вас отправиться в удивительные, яркие и незабываемые путешествия по Великому Шелковому пути.",
-    "text3": "Хотите обсудить детали? Свяжитесь с нами — мы будем рады помочь!",
-    "Menu_title": "Меню",
-    "Menu": [
+    "text": "Minzifa Travel предлагает профессионально составленные туры по Узбекистану и Центральной Азии, созданные экспертами с более чем 20-летним опытом.",
+    "text2": "Мы приглашаем вас открыть для себя магию, цвета и незабываемую красоту Великого шелкового пути.",
+    "text3": "Готовы спланировать свое следующее приключение? Свяжитесь с нами сегодня — мы с радостью обсудим детали!",
+    "menuTitle": "Компания",
+    "menu": [
       {
         "title": "Туры",
         "link": "tours"
@@ -121,15 +143,15 @@
       },
       {
         "title": "Сертификаты",
-        "link": "sertificates"
+        "link": "certificates"
       },
       {
         "title": "Отзывы",
         "link": "reviews"
       }
     ],
-    "Useful_information_title": "Полезная информация",
-    "Useful_information": [
+    "usefulInformationTitle": "Новости",
+    "usefulInformation": [
       {
         "title": "Новости",
         "link": "adventures"
@@ -143,7 +165,7 @@
         "link": "hotel-booking-rules"
       },
       {
-        "title": "Эко-путешествие",
+        "title": "Эко-путешествия",
         "link": "eco-travel"
       },
       {
@@ -151,36 +173,26 @@
         "link": "company-sustainable-development-policy"
       }
     ],
-    "form_title": "Подпишитесь на нашу рассылку,",
-    "form_text": "узнавать первыми о новых туристических событиях и получать самые выгодные условия",
-    "form_b_text": "Отправляя форму, вы принимаете условия передачи данных и соглашаетесь с политикой конфиденциальности.",
-    "form_pl": "Электронная почта",
-    "form_btn": "Подписаться",
+    "formTitle": "Подпишитесь на нашу рассылку,",
+    "formText": "чтобы первыми узнавать о новых туристических событиях и получать самые выгодные условия",
+    "formBText": "Отправляя форму, вы принимаете условия передачи данных и соглашаетесь с политикой конфиденциальности.",
+    "formPl": "Электронная почта",
+    "formBtn": "Подписаться",
     "pl": {
       "link": "privacy_policy",
       "title": "Политика конфиденциальности"
     }
   },
-  "tour_types": {
-    "individual": "Индивидуальный тур",
-    "group": "Групповой тур"
-  },
-  "currencies": {
-    "USD": "$",
-    "EUR": "€",
-    "RUB": "₽",
-    "CNY": "¥"
-  },
-  "all_tours": {
+  "allTours": {
     "title": "Все туры",
-    "reset_filter_btn": "Сбросить все фильтры",
-    "filter_price_title": "Цена",
-    "filter_duration_title": "Длительность",
-    "filter_season_title": "Времена года:",
-    "filter_accomodation_title": "Комфортабельное размещение",
-    "filter_tour_type_title": "Тип Тура",
-    "filter_destination_title": "Направление",
-    "filter_type_title": "Тип приключения",
+    "resetFilterBtn": "Сбросить все фильтры",
+    "filterPriceTitle": "Цена",
+    "filterDurationTitle": "Длительность",
+    "filterSeasonTitle": "Времена года:",
+    "filterAccommodationTitle": "Комфортабельное размещение",
+    "filterTourTypeTitle": "Тип Тура",
+    "filterDestinationTitle": "Направление",
+    "filterTypeTitle": "Тип приключения",
     "from": "От",
     "to": "До",
     "seasons": [
@@ -256,16 +268,16 @@
     "days": "Дней",
     "location": "Локация",
     "not_found": "Туры не найдены",
-    "view_itinerary": "Подробнее",
-    "find_destination": "Найти направление",
+    "viewItinerary": "Подробнее",
+    "findDestination": "Найти направление",
     "byRequest": "По запросу"
   },
   "breadcrumbs": {
     "home": "Главная",
-    "all_tours": "Все туры",
+    "allTours": "Все туры",
     "destination": "Направления",
-    "all_news": "Все новости",
-    "articles": "Статьи",
+    "allNews": "Все новости",
+    "articles": "Приключения",
     "eco": "Eco-Travel",
     "about": "О нас",
     "contact": "Наши контакты",
@@ -274,7 +286,15 @@
     "terms_and_conditions_of_booking": "Условия бронирования туров и отдыха в Узбекистане",
     "hotel-booking-rules": "Условия бронирования отеля",
     "company's-sustainable-development-policy": "Политика устойчивого развития Minzifa Travel",
-    "sertificates": "Сертификаты"
+    "certificates": "Сертификаты"
+  },
+  "certificates": {
+    "title": "Сертификаты",
+    "seo_metadata": {
+      "title": "Сертификаты - Minzifa Travel",
+      "description": "Наши сертификаты и награды",
+      "keywords": "сертификаты, награды, туризм"
+    }
   },
   "about": {
     "title": "О нас",
@@ -419,16 +439,15 @@
     "btn": "Отправить",
     "pl4": "Отправляя запрос, вы соглашаетесь с"
   },
-  "privacy_policy": "Политика конфиденциальности",
-  "contact_us": {
+  "contactUs": {
     "title": "Связаться с нами",
     "find": "Найдите нас в социальных сетях",
-    "form_title": "Свяжитесь с нами",
+    "formTitle": "Свяжитесь с нами",
     "pl": "Ваше имя",
-    "pl2": "Ваш адрес электронной почты",
-    "pl3": "Ваш номер телефона",
-    "pl4": "Оставить сообщение",
-    "btn": "Отправить запрос",
+    "pl2": "Электронная почта",
+    "pl3": "Ваш телефон",
+    "pl4": "Как мы можем вам помочь?",
+    "btn": "Отправить сообщение",
     "pl5": "Отправляя запрос, вы соглашаетесь с",
     "pr": "политика конфиденциальности"
   },
@@ -596,56 +615,91 @@
       ]
     }
   },
-  "create-your-trip": {
-    "title": "Создайте свою поездку",
-    "sub_title": "Какое идеальное путешествие вы себе представляете?",
+  "createYourTrip": {
+    "title": "Создайте свое идеальное путешествие",
+    "sub_title": "Настройте свою поездку",
     "form": {
+      "days": {
+        "title": "Выберите дни",
+        "text": "Укажите продолжительность путешествия",
+        "placeholder": "Кол-во дней (напр. 7)"
+      },
       "hotel": {
-        "title": "Стиль отеля:*",
-        "pl": "Бутик-отель",
-        "pl2": "Самостоятельное бронирование",
-        "pl3": "Дни",
-        "pl4": "Дата"
+        "title": "Выберите класс отеля",
+        "text": "Выберите где вы хотите остановиться",
+        "boutique": "Бутик-отель",
+        "3stars": "3 Звезды",
+        "4stars": "4 Звезды",
+        "5stars": "5 Звезд",
+        "self_booking": "Забронирую сам",
+        "not_needed": "Отель не нужен"
       },
       "destination": {
-        "title": "Направления (необязательно):",
-        "text": "Следующие направления являются нашими главными рекомендациями и могут быть посещены этой зимой и весной. Мы обновим доступные варианты путешествий в соответствии с последними новостями. Пожалуйста, свяжитесь с нами, если нужного вам направления здесь нет.",
-        "pl": "Чем могут вам помочь наши эксперты по путешествиям? (необязательно):",
-        "pl2": "Необязательный текст-заполнитель"
+        "title": "Выберите направления",
+        "text": "Куда вы хотите поехать?"
+      },
+      "wishes": {
+        "label": "Другие пожелания?",
+        "placeholder": "Опишите ваше идеальное путешествие..."
       }
     },
     "form2": {
-      "title": "Расскажи нам о себе",
-      "btns": {
-        "pl": "Соло",
-        "pl2": "Пара",
-        "pl3": "Семья",
-        "pl4": "Группа"
+      "title": "Детали путешественников",
+      "aboutYou": {
+        "title": "О вас",
+        "description": "Выберите тип путешествия для подбора оптимального варианта"
       },
-      "pl": "Взрослый",
-      "pl2": "Ребенок",
-      "pl3": "Возраст 5-12 лет",
-      "check": [
-        {
-          "title": "Mr."
-        },
-        {
-          "title": "Ms."
-        },
-        {
-          "title": "Mrs."
-        },
-        {
-          "title": "Miss."
-        }
-      ],
-      "pl4": "Имя*",
-      "pl5": "Фамилия*",
-      "pl6": "Электронная почта",
-      "pl7": "Номер телефона*",
-      "pl8": "Национальный | Область:",
-      "pl9": "Я принимаю Условия и положения Minzifa Travel и Политику конфиденциальности, а также условия оплаты, отмены бронирования Trafalgar.",
-      "btn": "Отправить мой запрос"
+      "travellerType": {
+        "solo": "Соло",
+        "couple": "Пара",
+        "family": "Семья",
+        "group": "Группа"
+      },
+      "travellers": {
+        "adults": "Взрослые",
+        "children": "Дети"
+      },
+      "travelDate": {
+        "title": "Дата поездки",
+        "description": "Укажите предпочтительную дату начала путешествия",
+        "placeholder": "Выберите дату"
+      },
+      "appeal": {
+        "title": "Как к вам обращаться?",
+        "mr": "Г-н",
+        "ms": "Г-жа",
+        "mrs": "Миссис",
+        "miss": "Мисс"
+      },
+      "contact": {
+        "title": "Контактные данные",
+        "description": "Как мы можем с вами связаться?",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "email": "Email",
+        "nationality": "Гражданство"
+      },
+      "terms": "Я согласен с условиями",
+      "submit": "Отправить запрос"
+    },
+    "customTour": {
+      "noToursTitle": "Не нашли подходящий тур?",
+      "noToursText": "Создадим индивидуальный маршрут для вас!",
+      "button": "Хочу индивидуальный тур"
+    },
+    "messages": {
+      "success": "Ваша форма была отправлена!",
+      "error": "Произошла ошибка"
+    },
+    "suggestedTours": {
+      "title": "Похожие туры",
+      "loading": "Подбираем туры...",
+      "noResults": {
+        "title": "Мы создадим тур специально для вас!",
+        "text": "Нажмите кнопку ниже, чтобы оставить заявку на индивидуальный тур"
+      },
+      "showAll": "Показать все {count} туров",
+      "orContinue": "Или продолжите заполнение формы для индивидуального тура ↓"
     }
   },
   "article": {
@@ -666,7 +720,7 @@
   },
   "privacy": {
     "title": "Политика конфиденциальности",
-    "text": "Minzifa Travel (“us”, “we”, or “our”) operates the http://www.minzifatravel.com/ website (the “Service”). <br/>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. <br/> <br/> We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from http://www.minzifatravel.com/ <br/>Information Collection And Use <br/> <br/> We collect several different types of information for various purposes to provide and improve our Service to you. <br/> TYPES OF DATA COLLECTED <br/> <br/> Personal Data <br/> While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you (“Personal Data”). Personally identifiable information may include, but is not limited to: <br/> Email address <br/> First name and last name <br/> Phone number <br/> Address, State, Province, ZIP/Postal code, City <br/> Cookies and Usage Data <br/> <br/> Usage Data <br/> We may also collect information how the Service is accessed and used (“Usage Data”). This Usage Data may include information such as your computer’s Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, unique device identifiers and other diagnostic data <br/> Tracking & Cookies Data <br/> <br/> We use cookies and similar tracking technologies to track the activity on our Service and hold certain information.<br/>Cookies are files with small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your device. Tracking technologies also used are beacons, tags, and scripts to collect and track information and to improve and analyze our Service. <br/> <br/> You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Service. <br/> Examples of Cookies we use: <br/> Session Cookies. We use Session Cookies to operate our Service. <br/> Preference Cookies. We use Preference Cookies to remember your preferences and various settings. <br/> Security Cookies. We use Security Cookies for security purposes. <br/> <br/> Use of Data <br/> Minzifa Travel uses the collected data for various purposes: <br/> To provide and maintain the Service <br/> To notify you about changes to our Service <br/> To allow you to participate in interactive features of our Service when you choose to do so <br/> To provide customer care and support <br/> To provide analysis or valuable information so that we can improve the Service <br/> To monitor the usage of the Service <br/> To detect, prevent and address technical issues <br/> <br/>Transfer Of Data <br/>Your information, including Personal Data, may be transferred to and maintained on computers located outside of your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from your jurisdiction. <br/>If you are located outside Uzbekistan and choose to provide information to us, please note that we transfer the data, including Personal Data, to Uzbekistan and process it there. <br/>Your consent to this Privacy Policy followed by your submission of such information represents your agreement to that transfer. <br/>Minzifa Travel will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of your data and other personal information.<br/>Terms <br/>By accessing this website, you are agreeing to be bound by these web site Terms and Conditions of Use, applicable laws, and regulations and their compliance. <br/>If you disagree with any of the stated terms and conditions, you are prohibited from using or accessing this site. The materials contained in this site are secured by relevant copyright and trademark law. <br/>Use License <br/>Permission is allowed to temporarily download one duplicate of the materials (data or programming) on Minzifa Travel’s site for individual and non-business use only. <br/>This is the just a permit or license and not an exchange of title, and under this permit, you may not: <br/>modify or copy the materials; use the materials for any commercial use, or for any public presentation (business or non-business); attempt to decompile or rebuild any product or material contained on Minzifa Travel’s site; remove any copyright or other restrictive documentations from the materials; or transfer the materials to someone else or even “mirror” the materials on other servers. <br/>This permit might consequently be terminated if you disregard any of these confinements and may be ended by Minzifa Travel whenever deemed. After permit termination or when your viewing permit is terminated, you must destroy any downloaded materials in your ownership whether in electronic or printed form. <br/>Disclaimer <br/>The materials on Minzifa Travel’s site are given “as is”. Minzifa Travel makes no guarantees, communicated or suggested, and thus renounces and nullifies every single other warranty, including without impediment, inferred guarantees or states of merchantability, fitness for a specific reason, or non-encroachment of licensed property or other infringement of rights. Further, Minzifa Travel does not warrant or make any representations concerning the precision, likely results, or unwavering quality of the utilization of the materials on its Internet site or generally identifying with such materials or on any destinations connected to this website. <br/>Amendments and Errata<br/>The materials showing up on Minzifa Travel’s site could incorporate typographical, or photographic mistakes. Minzifa Travel does not warrant that any of the materials on its site are exact, finished, or current. Minzifa Travel may roll out improvements to the materials contained on its site whenever without notification. Minzifa Travel does not, then again, make any dedication to updating the materials. <br/>Links <br/>Minzifa Travel has not checked on the majority of the websites or links connected to its website and is not in charge of the substance of any such connected webpage. The incorporation of any connection does not infer support by Minzifa Travel of the site. Utilization of any such connected site is at the user’s own risk. <br/>Site Terms of Use Modifications <br/>Minzifa Travel may update these terms of utilization for its website whenever without notification. By utilizing this site you are consenting to be bound by the then current form of these Terms and Conditions of Use. <br/>Governing Law<br/>Any case identifying with Minzifa Travel’s site should be administered by the laws of the country of Uzbekisthan Minzifa Travel State without respect to its the contention of law provisions. <br/>General Terms and Conditions applicable to Use of a Website. <br/>Privacy Policy <br/>Your privacy is critical to us. Likewise, we have built up this Policy with the end goal you should see how we gather, utilize, impart and reveal and make utilization of individual data. The following blueprints our privacy policy. <br/>Before or at the time of collecting personal information, we will identify the purposes for which information is being collected. <br/>We will gather and utilization of individual data singularly with the target of satisfying those reasons indicated by us and for other good purposes, unless we get the assent of the individual concerned or as required by law.<br/>We will just hold individual data the length of essential for the satisfaction of those reasons. <br/>We will gather individual data by legal and reasonable means and, where fitting, with the information or assent of the individual concerned. <br/>Personal information ought to be important to the reasons for which it is to be utilized, and, to the degree essential for those reasons, ought to be exact, finished, and updated. <br/>We will protect individual data by security shields against misfortune or burglary, and also unapproved access, divulgence, duplicating, use or alteration. <br/>We will promptly provide customers with access to our policies and procedures for the administration of individual data. <br/>We are focused on leading our business as per these standards with a specific end goal to guarantee that the privacy of individual data is secure and maintained. <br/>DISCLOSURE OF DATA<br/>Legal Requirements <br/>Minzifa Travel may disclose your Personal Data in the good faith belief that such action is necessary to:<br/>To comply with a legal obligation <br/>To protect and defend the rights or property of Minzifa Travel <br/>To prevent or investigate possible wrongdoing in connection with the Service<br/>To protect the personal safety of users of the Service or the public <br/>To protect against legal liability <br/>Security Of Data <br/>The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security. <br/>Service Providers <br/>We may employ third party companies and individuals to facilitate our Service (“Service Providers”), to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used.<br/>These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.<br/>Analytics <br/>We may use third-party Service Providers to monitor and analyze the use of our Service. <br/>Google Analytics <br/>Google Analytics is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our Service. This data is shared with other Google services. Google may use the collected data to contextualize and personalize the ads of its own advertising network. <br/>You can opt-out of having made your activity on the Service available to Google Analytics by installing the Google Analytics opt-out browser add-on. The add-on prevents the Google Analytics JavaScript (ga.js, analytics.js, and dc.js) from sharing information with Google Analytics about visits activity. <br/>For more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: https://policies.google.com/privacy?hl=en <br/>Links To Other Sites <br/> Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party’s site. We strongly advise you to review the Privacy Policy of every site you visit <br/>We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services. <br/>Children’s Privacy<br/> Our Service does not address anyone under the age of 18 (“Children”). <br/>We do not knowingly collect personally identifiable information from anyone under the age of 18. If you are a parent or guardian and you are aware that your Children has provided us with Personal Data, please contact us. If we become aware that we have collected Personal Data from children without verification of parental consent, we take steps to remove that information from our servers. <br/> Changes To This Privacy Policy <br/> We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. <br/> We will let you know via email and/or a prominent notice on our Service, prior to the change becoming effective and update the “effective date” at the top of this Privacy Policy. <br/> You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page. <br/> Contact Us <br/> If you have any questions about this Privacy Policy, please contact us: <br/> By email: travel@minzifatravel.com <br/> By phone number: +998 93 659 11 07 <br/> By mail: 63, Eshoni-Pir Street, Bukhara"
+    "text": "Minzifa Travel (“us”, “we”, or “our”) operates the http://www.minzifatravel.com/ website (the “Service”). <br/>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. <br/> <br/> We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from http://www.minzifatravel.com/ <br/>Information Collection And Use <br/> <br/> We collect several different types of information for various purposes to provide and improve our Service to you. <br/> TYPES OF DATA COLLECTED <br/> <br/> Personal Data <br/> While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you (“Personal Data”). Personally identifiable information may include, but is not limited to: <br/> Email address <br/> First name and last name <br/> Phone number <br/> Address, State, Province, ZIP/Postal code, City <br/> Cookies and Usage Data <br/> <br/> Usage Data <br/> We may also collect information how the Service is accessed and used (“Usage Data”). This Usage Data may include information such as your computer’s Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, unique device identifiers and other diagnostic data <br/> Tracking & Cookies Data <br/> <br/> We use cookies and similar tracking technologies to track the activity on our Service and hold certain information.<br/>Cookies are files with small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your device. Tracking technologies also used are beacons, tags, and scripts to collect and track information and to improve and analyze our Service. <br/> <br/> You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Service. <br/> Examples of Cookies we use: <br/> Session Cookies. We use Session Cookies to operate our Service. <br/> Preference Cookies. We use Preference Cookies to remember your preferences and various settings. <br/> Security Cookies. We use Security Cookies for security purposes. <br/> <br/> Use of Data <br/> Minzifa Travel uses the collected data for various purposes: <br/> To provide and maintain the Service <br/> To notify you about changes to our Service <br/> To allow you to participate in interactive features of our Service when you choose to do so <br/> To provide customer care and support <br/> To provide analysis or valuable information so that we can improve the Service <br/> To monitor the usage of the Service <br/> To detect, prevent and address technical issues <br/> <br/>Transfer Of Data <br/>Your information, including Personal Data, may be transferred to and maintained on computers located outside of your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from your jurisdiction. <br/>If you are located outside Uzbekistan and choose to provide information to us, please note that we transfer the data, including Personal Data, to Uzbekistan and process it there. <br/>Your consent to this Privacy Policy followed by your submission of such information represents your agreement to that transfer. <br/>Minzifa Travel will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of your data and other personal information.<br/>Terms <br/>By accessing this website, you are agreeing to be bound by these web site Terms and Conditions of Use, applicable laws, and regulations and their compliance. <br/>If you disagree with any of the stated terms and conditions, you are prohibited from using or accessing this site. The materials contained in this site are secured by relevant copyright and trademark law. <br/>Use License <br/>Permission is allowed to temporarily download one duplicate of the materials (data or programming) on Minzifa Travel’s site for individual and non-business use only. <br/>This is the just a permit or license and not an exchange of title, and under this permit, you may not: <br/>modify or copy the materials; use the materials for any commercial use, or for any public presentation (business or non-business); attempt to decompile or rebuild any product or material contained on Minzifa Travel’s site; remove any copyright or other restrictive documentations from the materials; or transfer the materials to someone else or even “mirror” the materials on other servers. <br/>This permit might consequently be terminated if you disregard any of these confinements and may be ended by Minzifa Travel whenever deemed. After permit termination or when your viewing permit is terminated, you must destroy any downloaded materials in your ownership whether in electronic or printed form. <br/>Disclaimer <br/>The materials on Minzifa Travel’s site are given “as is”. Minzifa Travel makes no guarantees, communicated or suggested, and thus renounces and nullifies every single other warranty, including without impediment, inferred guarantees or states of merchantability, fitness for a specific reason, or non-encroachment of licensed property or other infringement of rights. Further, Minzifa Travel does not warrant or make any representations concerning the precision, likely results, or unwavering reliability of the utilization of the materials on its Internet site or generally identifying with such materials or on any destinations connected to this website. <br/>Amendments and Errata<br/>The materials showing up on Minzifa Travel’s site could incorporate typographical, or photographic mistakes. Minzifa Travel does not warrant that any of the materials on its site are exact, finished, or current. Minzifa Travel may roll out improvements to the materials contained on its site whenever without notification. Minzifa Travel does not, then again, make any dedication to updating the materials. <br/>Links <br/>Minzifa Travel has not checked on the majority of the websites or links connected to its website and is not in charge of the substance of any such connected webpage. The incorporation of any connection does not infer support by Minzifa Travel of the site. Utilization of any such connected site is at the user’s own risk. <br/>Site Terms of Use Modifications <br/>Minzifa Travel may update these terms of utilization for its website whenever without notification. By utilizing this site you are consenting to be bound by the then current form of these Terms and Conditions of Use. <br/>Governing Law<br/>Any case identifying with Minzifa Travel’s site should be administered by the laws of the country of Uzbekisthan Minzifa Travel State without respect to its the contention of law provisions. <br/>General Terms and Conditions applicable to Use of a Website. <br/>Privacy Policy <br/>Your privacy is critical to us. Likewise, we have built up this Policy with the end goal you should see how we gather, utilize, impart and reveal and make utilization of individual data. The following blueprints our privacy policy. <br/>Before or at the time of collecting personal information, we will identify the purposes for which information is being collected. <br/>We will gather and utilization of individual data singularly with the target of fulfilling those reasons indicated by us and for other good purposes, unless we get the assent of the individual concerned or as required by law.<br/>We will just hold individual data the length of essential for the fulfillment of those reasons. <br/>We will collect individual data by legal and reasonable means and, where fitting, with the information or assent of the individual concerned. <br/>Personal information ought to be important to the reasons for which it is to be utilized, and, to the degree essential for those reasons, ought to be exact, finished, and updated. <br/>We will protect individual data by security shields against misfortune or burglary, and also unapproved access, divulgence, duplicating, use or alteration. <br/>We will promptly provide customers with access to our policies and procedures for the administration of individual data. <br/>We are focused on leading our business as per these standards with a specific end goal to guarantee that the privacy of individual data is secure and maintained. <br/>DISCLOSURE OF DATA<br/>Legal Requirements <br/>Minzifa Travel may disclose your Personal Data in the good faith belief that such action is necessary to:<br/>To comply with a legal obligation <br/>To protect and defend the rights or property of Minzifa Travel <br/>To prevent or investigate possible wrongdoing in connection with the Service<br/>To protect the personal safety of users of the Service or the public <br/>To protect against legal liability <br/>Security Of Data <br/>The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security. <br/>Service Providers <br/>We may employ third party companies and individuals to facilitate our Service (“Service Providers”), to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used.<br/>These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.<br/>Analytics <br/>We may use third-party Service Providers to monitor and analyze the use of our Service. <br/>Google Analytics <br/>Google Analytics is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our Service. This data is shared with other Google services. Google may use the collected data to contextualize and personalize the ads of its own advertising network. <br/>You can opt-out of having made your activity on the Service available to Google Analytics by installing the Google Analytics opt-out browser add-on. The add-on prevents the Google Analytics JavaScript (ga.js, analytics.js, and dc.js) from sharing information with Google Analytics about visits activity. <br/>For more information on the privacy practices of Google, please visit the Google Privacy & Terms web page: https://policies.google.com/privacy?hl=en <br/>Links To Other Sites <br/> Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party’s site. We strongly advise you to review the Privacy Policy of every site you visit <br/>We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services. <br/>Children’s Privacy<br/> Our Service does not address anyone under the age of 18 (“Children”). <br/>We do not knowingly collect personally identifiable information from anyone under the age of 18. If you are a parent or guardian and you are aware that your Children has provided us with Personal Data, please contact us. If we become aware that we have collected Personal Data from children without verification of parental consent, we take steps to remove that information from our servers. <br/> Changes To This Privacy Policy <br/> We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. <br/> We will let you know via email and/or a prominent notice on our Service, prior to the change becoming effective and update the “effective date” at the top of this Privacy Policy. <br/> You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page. <br/> Contact Us <br/> If you have any questions about this Privacy Policy, please contact us: <br/> By email: travel@minzifatravel.com <br/> By phone number: +998 93 659 11 07 <br/> By mail: 63, Eshoni-Pir Street, Bukhara"
   },
   "terms_and_conditions_of_booking": {
     "title": "Условия бронирования туров и отдыха в Узбекистане",
@@ -838,7 +892,7 @@
       "title": "Политика конфиденциальности"
     }
   },
-  "Tour": {
+  "tourDetail": {
     "breadcrumbs": {
       "all_tours": "Все туры"
     },
@@ -899,44 +953,44 @@
       "private_btn": "Запросить индивидуальный тур",
       "per_person": "за человека"
     },
-    "private_tour": {
-      "free_consultation": "Бесплатная консультация",
-      "per_tourist": "Цена за туриста на {days} дней",
+    "privateTour": {
+      "freeConsultation": "Бесплатная консультация",
+      "perTourist": "Цена за туриста за {days} дней",
       "comfort": {
         "title": "Комфортабельное проживание",
         "moderate": "Умеренный комфорт",
         "enhanced": "Повышенный комфорт",
         "ultimate": "Максимальный комфорт",
-        "hint": "Вы пока ничего не оплачиваете"
+        "hint": "Вы еще ничего не платите"
       },
-      "open_form": {
+      "openForm": {
         "title": "Выберите дату и начните настраивать путешествие"
       },
       "forms": {
-        "title": "Запросить индивидуальный тур",
+        "title": "Забронировать индивидуальный тур",
         "subtitle": "Отправьте заявку, чтобы организовать тур только для вас и ваших близких",
-        "personal_data": "Мы свяжемся с вами через WhatsApp.",
-        "personal_data_required": "Пожалуйста, введите свои персональные данные",
+        "personalData": "Мы свяжемся с вами через WhatsApp.",
+        "personalDataRequired": "Пожалуйста, введите свои персональные данные",
         "date": "Выберите дату",
-        "date_required": "Пожалуйста, выберите дату",
+        "dateRequired": "Пожалуйста, выберите дату",
         "travellers": "Количество путешественников",
-        "travellers_label": "Путешественники",
-        "travellers_invalid": "Введите корректное число",
-        "travellers_min": "Минимум 1 путешественник",
-        "travellers_max": "Слишком много путешественников",
-        "price": "Комфортабельное проживание",
-        "price_placeholder": "Выберите вариант цены",
-        "wishes": "Ваши пожелания (по желанию)",
-        "wishes_placeholder": "Напишите ваши пожелания...",
+        "travellersLabel": "Путешественники",
+        "travellersInvalid": "Введите правильное количество",
+        "travellersMin": "Минимум 1 путешественник",
+        "travellersMax": "Слишком много путешественников",
+        "price": "Комфорт проживания",
+        "pricePlaceholder": "Выберите вариант размещения",
+        "wishes": "Ваши пожелания (необязательно)",
+        "wishesPlaceholder": "Напишите ваши пожелания...",
         "name": "Имя",
-        "name_placeholder": "Ваше имя",
-        "name_required": "Пожалуйста, введите ваше имя",
-        "email": "Электронная почта",
-        "email_placeholder": "Ваш email",
-        "email_invalid": "Некорректный email",
+        "namePlaceholder": "Ваше имя",
+        "nameRequired": "Пожалуйста, введите ваше имя",
+        "email": "Email",
+        "emailPlaceholder": "Ваш email",
+        "emailInvalid": "Неверный email",
         "phone": "Номер телефона",
-        "phone_placeholder": "Ваш телефон",
-        "phone_required": "Введите номер телефона",
+        "phonePlaceholder": "Ваш телефон",
+        "phoneRequired": "Введите номер телефона",
         "submit": "Отправить заявку"
       }
     },
@@ -969,7 +1023,7 @@
     "phone_placeholder": "Ваш телефон",
     "phone_required": "Введите номер телефона"
   },
-  "FreeForm": {
+  "freeForm": {
     "title": "Бесплатная консультация",
     "name": "Имя",
     "email": "Электронная почта",
@@ -978,8 +1032,7 @@
     "button": "Отправить запрос",
     "checkbox": ["Отправляя запрос, вы соглашаетесь с", "Политикой конфиденциальности"]
   },
-
-  "Booking": {
+  "booking": {
     "travellers": {
       "title": "Сколько путешественников?",
       "person": "Взрослый",
@@ -1016,29 +1069,29 @@
       "state": "Штат / Провинция",
       "zip": "Postal code / Zip"
     },
-    "booking_info": {
+    "bookingInfo": {
       "guarantee": "Гарантия лучшей цены",
       "days": "{ days} дней",
       "countries": "{ countries } Стран",
-      "price_details": "Детали цены",
-      "start_trip": "Начало поездки",
-      "end_trip": "Конец поездки",
+      "priceDetails": "Детали цены",
+      "startTrip": "Начало поездки",
+      "endTrip": "Конец поездки",
       "travellers": "Путешественники",
       "deposit": "Депозит 20%",
       "total": "Всего",
       "accept": "Я принимаю Minzifa Travel <terms>Термины и условия</terms> и <privacy>Политику конфиденциальности</privacy>"
     },
-    "payment_method": {
+    "paymentMethod": {
       "title": "Выберите способ оплаты:",
-      "credit_card": "Оплата кредитной картой",
-      "bank_transfer": "Банковский перевод",
-      "accept_terms": ["Я принимаю Minzifa Travel", "и"]
+      "creditCard": "Оплата кредитной картой",
+      "bankTransfer": "Банковский перевод",
+      "acceptTerms": ["Я принимаю Minzifa Travel", "и"]
     },
     "successMessage": "Ваш тур был забронирован!",
     "errorMessage": "Произошла ошибка, пожалуйста, попробуйте ещё раз",
     "button": "Забронировать мест"
   },
-  "CreateYourTripForm": {
+  "createYourTripForm": {
     "card": {
       "title": "Анна Смирнова",
       "subtitle": "Менеджер по продукту",
@@ -1046,7 +1099,7 @@
       "hint": "Ответьте на несколько быстрых вопросов - и получите индивидуальный план путешествия, составленный специально для вас. Отобранные вручную маршруты, настоящие эксперты, никакого спама."
     },
     "questions": {
-      "slide_1": {
+      "slide1": {
         "title": "Куда вы хотите поехать?",
         "answers": [
           "Центральная Азия (Узбекистан, Казахстан, Кыргызстан, Таджикистан, Туркменистан)",
@@ -1058,15 +1111,15 @@
         ],
         "hint": "* Выберите один или несколько вариантов"
       },
-      "slide_2": {
+      "slide2": {
         "title": "С кем вы путешествуете?",
         "answers": ["Соло", "С семьей", "С друзьями", "В паре", "Я открыт для группового тура"]
       },
-      "slide_3": {
+      "slide3": {
         "title": "Сколько дней вы планируете путешествовать?",
         "answers": ["До 10 дней", "11-15 дней", "16-23 дня", "24+ дней"]
       },
-      "slide_4": {
+      "slide4": {
         "title": "Какой уровень проживания вас устраивает?",
         "answers": [
           "3★ - Уютное и доступное",
@@ -1075,7 +1128,7 @@
           "Отель не нужен, только экскурсии и гид"
         ]
       },
-      "slide_5": {
+      "slide5": {
         "title": "Что бы вы хотели испытать?",
         "answers": [
           "Исторические места и достопримечательности",
@@ -1088,7 +1141,7 @@
           "Все включено - я просто хочу расслабиться"
         ]
       },
-      "slide_6": {
+      "slide6": {
         "title": "Отправим вам лучшие варианты",
         "name": "Ваше имя",
         "email": "Ваш e-mail",
@@ -1097,9 +1150,9 @@
     },
     "errors": {
       "required": "Пожалуйста, выберите хотя бы один вариант",
-      "name_required": "Пожалуйста, введите ваше имя",
-      "invalid_email": "Пожалуйста, введите корректный email",
-      "invalid_phone": "Пожалуйста, введите корректный номер телефона"
+      "nameRequired": "Пожалуйста, введите ваше имя",
+      "emailInvalid": "Пожалуйста, введите корректный email",
+      "phoneInvalid": "Пожалуйста, введите корректный номер телефона"
     },
     "step": "Шаг {step} из {total}",
     "buttons": {
@@ -1108,19 +1161,10 @@
       "submit": "Отправить"
     }
   },
-  "ThankYou": {
+  "thankYou": {
     "title": "Спасибо за ваш запрос!",
     "subtitle": "Мы получили ваш запрос и уже приступили к его обработке",
     "text": "Один из наших экспертов по путешествиям свяжется с вами в течение 24 часов по телефону или электронной почте, чтобы обсудить детали вашей поездки и предложить лучшие варианты с учетом ваших пожеланий."
-  },
-
-  "sertificates": {
-    "title": "Сертификаты",
-    "seo_metadata": {
-      "title": "Сертификаты",
-      "description": "Сертификаты",
-      "keywords": "Сертификаты"
-    }
   },
   "auth": {
     "title": "Вход / Регистрация",
@@ -1289,19 +1333,19 @@
     "generalInfo": "Общая информация",
     "changePasswordTab": "Изменить пароль"
   },
-  "chat_popup": {
-    "form_title": "Связаться с поддержкой",
-    "form_subtitle": "Нужна помощь?",
-    "form_description": "Заполните форму и наш менеджер свяжется с вами в ближайшее время",
-    "chat_title": "Чат с менеджером",
-    "name_placeholder": "Ваше имя",
-    "email_placeholder": "Ваш email",
-    "phone_placeholder": "Ваш телефон (необязательно)",
-    "message_placeholder": "Опишите вашу проблему...",
+  "chatPopup": {
+    "formTitle": "Связаться с поддержкой",
+    "formSubtitle": "Нужна помощь?",
+    "formDescription": "Заполните форму и наш менеджер свяжется с вами в ближайшее время",
+    "chatTitle": "Чат с менеджером",
+    "namePlaceholder": "Ваше имя",
+    "emailPlaceholder": "Ваш email",
+    "phonePlaceholder": "Ваш телефон (необязательно)",
+    "messagePlaceholder": "Опишите вашу проблему...",
     "send": "Отправить",
-    "form_sent": "Заявка отправлена! Переключаемся на чат...",
-    "manager_greeting": "Здравствуйте! Я менеджер поддержки. Чем могу помочь?",
-    "manager_response": "Спасибо за сообщение. Мы скоро ответим."
+    "formSent": "Заявка отправлена! Переключаемся на чат...",
+    "managerGreeting": "Здравствуйте! Я менеджер поддержки. Чем могу помочь?",
+    "managerResponse": "Спасибо за сообщение. Мы скоро ответим."
   },
   "cookies": {
     "title": "Мы используем файлы cookie",
@@ -1310,16 +1354,15 @@
     "decline": "Отклонить",
     "settings": "Настройки",
     "essential": "Обязательные",
-    "essential_description": "Необходимы для корректной работы сайта",
+    "essentialDescription": "Необходимы для корректной работы сайта",
     "analytics": "Аналитика",
-    "analytics_description": "Помогают нам улучшать сайт",
+    "analyticsDescription": "Помогают нам улучшать сайт",
     "marketing": "Маркетинг",
-    "marketing_description": "Используются для показа релевантной рекламы",
+    "marketingDescription": "Используются для показа релевантной рекламы",
     "save": "Сохранить настройки",
     "policy": "Политика использования cookie",
     "back": "Назад"
   },
-
   "errors": {
     "name_min": "Имя должно содержать минимум 3 символа",
     "email_invalid": "Некорректный адрес электронной почты",
@@ -1356,7 +1399,7 @@
     "file_size_max": "Размер файла слишком большой (максимум 5 МБ)",
     "file_type_invalid": "Неверный тип файла (допускаются только изображения)",
     "general": "Произошла ошибка. Попробуйте еще раз.",
-    "travellers_min":"Минимум 1 путешественник"
+    "travellers_min": "Минимум 1 путешественник"
   },
   "orders": {
     "title": "Мои заказы",
@@ -1365,7 +1408,6 @@
       "description": "Здесь вы можете просмотреть все ваши заказы и их статус",
       "keywords": "заказы, мои заказы, история заказов"
     },
-
     "subtitle": "Всего заказов: {count}",
     "order_name": "Заказ # {orderName}",
     "no_manager": "Не назначен",
@@ -1395,7 +1437,7 @@
     "profile": "Профиль",
     "profile_description": "Редактируйте личные данные и настройки аккаунта"
   },
-  "order_statuses": {
+  "orderStatuses": {
     "awaiting_confirmation": "Ожидает подтверждения",
     "awaiting_payment": "Ожидает оплаты",
     "payment_confirmed": "Оплата подтверждена",
@@ -1422,23 +1464,25 @@
     "payment_method": "Способ оплаты",
     "payment_date": "Дата оплаты"
   },
-  "payment_statuses": {
+  "paymentStatuses": {
     "pending": "Ожидает оплаты",
     "paid": "Оплачено",
     "partially_paid": "Частично оплачено",
     "failed": "Ошибка оплаты",
     "refunded": "Возвращено"
   },
-  "payment_methods": {
+  "paymentMethods": {
     "bank_transfer": "Банковский перевод",
     "cash": "Наличные",
     "credit_card": "Банковская карта",
     "stripe": "Stripe",
     "paypal": "PayPal"
   },
-  "Reviews": {
-    "title": "Отзывы",
-    "subtitle": "Видео отзывы"
-  },
-  "confirm_form_text": "Я принимаю <terms>Условия и положения</terms> и <privacy>Политика конфиденциальности</privacy>"
+  "freeConsultation": {
+    "title": "Бесплатная консультация",
+    "name": "Ваше имя",
+    "email": "Ваш email",
+    "wishes": "Ваши пожелания",
+    "button": "Отправить заявку"
+  }
 }

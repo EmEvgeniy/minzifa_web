@@ -27,7 +27,8 @@ type BookingInfoProps = {
 };
 
 export default function BookingInfo({ bookingData, tour, getToken, token }: BookingInfoProps) {
-  const t = useTranslations();
+  const t = useTranslations('booking');
+  const tGlobal = useTranslations();
   const locale = useLocale();
 
   const { isSubmitting } = useFormSubmit();
@@ -47,13 +48,13 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
           loading={'lazy'}
           className="w-6 h-6"
         />
-        <div className="text-md">{t('Booking.booking_info.guarantee')}</div>
+        <div className="text-md">{t('bookingInfo.guarantee')}</div>
       </div>
       <hr className="border-gray-300" />
       <div className="grid grid-cols-1 md:grid-cols-[124px_1fr] gap-3 space-y-2">
         <ImageWithFallback
-          width={124}
-          height={124}
+          width={300}
+          height={300}
           src={tour?.gallery?.[0]?.file ?? 'https://placehold.co/124x124?text=Minzifa Travel'}
           alt={tour?.gallery?.[0]?.alt_text ?? tour?.name ?? 'Minzifa Travel'}
           className="rounded-xl aspect-square h-auto w-[124px] object-cover"
@@ -73,7 +74,7 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
                 />
               </span>
               <span>
-                {t('Booking.booking_info.days', { days: tour?.days || tour?.itineraries.length || 1 })}
+                {t('bookingInfo.days', { days: tour?.days || tour?.itineraries.length || 1 })}
               </span>
             </div>
             <div className="flex items-center gap-1">
@@ -87,7 +88,7 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
                 />
               </span>{' '}
               <span>
-                {t('Booking.booking_info.countries', { countries: tour?.destinations.length || 0 })}
+                {t('bookingInfo.countries', { countries: tour?.destinations.length || 0 })}
               </span>
             </div>
           </div>
@@ -97,13 +98,13 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
       <hr className="border-gray-300" />
 
       <div className="space-y-2 text-sm">
-        <p className="text-[22px] font-semibold">{t('Booking.booking_info.price_details')}</p>
+        <p className="text-[22px] font-semibold">{t('bookingInfo.priceDetails')}</p>
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2">
             <span>
               <ImageWithFallback src={IconAirDeparture} alt="" />
             </span>{' '}
-            {t('Booking.booking_info.start_trip')}
+            {t('bookingInfo.startTrip')}
           </span>
           <span>{bookingData?.tour_start}</span>
         </div>
@@ -112,7 +113,7 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
             <span>
               <ImageWithFallback src={IconAirLanding} alt="" />
             </span>
-            {t('Booking.booking_info.end_trip')}
+            {t('bookingInfo.endTrip')}
           </span>
           <span>{bookingData?.tour_end}</span>
         </div>
@@ -121,7 +122,7 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
             <span>
               <ImageWithFallback src={IconUser} alt="" />
             </span>
-            {t('Booking.booking_info.travellers')}
+            {t('bookingInfo.travellers')}
           </span>
           <span>{bookingData?.travellers_count}</span>
         </div>
@@ -130,7 +131,7 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
       <hr className="border-gray-300 max-[1024px]:hidden" />
 
       <div className="flex justify-between items-center max-[1024px]:hidden">
-        <span className="text-xl">{t('Booking.booking_info.deposit')}</span>
+        <span className="text-xl">{t('bookingInfo.deposit')}</span>
         <FormattedPrice
           price={bookingData?.deposit ?? 0}
           currency={bookingData?.currency || 'USD'}
@@ -154,7 +155,7 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
       {/* Terms and conditions */}
       <div className="text-sm max-[1024px]:hidden">
         <Checkbox
-          label={t.rich('confirm_form_text', {
+          label={tGlobal.rich('common.termsAcceptance', {
             terms: (chunks) => (
               <Link
                 href={`/${locale}/term-and-conditions-of-booking-tours`}
@@ -183,7 +184,7 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
         disabled={isSubmitting || !token}
         form="booking-form"
       >
-        {t('Booking.button')}
+        {t('button')}
       </Button>
     </div>
   );

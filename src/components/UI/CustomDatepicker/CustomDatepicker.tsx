@@ -64,7 +64,7 @@ export const CustomDatepicker = forwardRef<DatePicker, Props>(
           )}
         >
           {startIcon && (
-            <div className="absolute left-2 text-gray-400 pointer-events-none z-10">
+            <div className="absolute left-4 text-gray-400 pointer-events-none z-10">
               {startIcon}
             </div>
           )}
@@ -80,7 +80,7 @@ export const CustomDatepicker = forwardRef<DatePicker, Props>(
           />
 
           {(endIcon) && (
-            <div className="absolute right-3 text-gray-400 z-10">
+            <div className="absolute right-4 text-gray-400 z-10">
               {endIcon}
             </div>
           )}

@@ -12,6 +12,7 @@ type GetQueryType = {
   searchItem?: string;
   additionalParam?: string;
   withLocale?: boolean;
+  enabled?: boolean;
 };
 
 export const useGetQuery = <T = unknown>({
@@ -22,11 +23,13 @@ export const useGetQuery = <T = unknown>({
   searchItem,
   additionalParam,
   withLocale = true,
+  enabled = true,
 }: GetQueryType) => {
   const lang = useLocale();
 
   return useQuery<T>({
     queryKey: [...key, page, perPage, searchItem, additionalParam, withLocale ? lang : null],
+    enabled: enabled && !!url,
     queryFn: async () => {
       const params = new URLSearchParams();
 
@@ -65,13 +68,14 @@ export const useAuthGetQuery = <T = unknown>({
   searchItem,
   additionalParam,
   withLocale = true,
+  enabled = true,
 }: GetQueryType) => {
   const lang = useLocale();
 
   return useQuery<T>({
     queryKey: [...key, page, perPage, searchItem, additionalParam, withLocale ? lang : null],
+    enabled: enabled && !!url,
     queryFn: async () => {
-      
       const params = new URLSearchParams();
 
       if (withLocale) {

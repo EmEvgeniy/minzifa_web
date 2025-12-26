@@ -8,7 +8,7 @@ import Button from '@/components/UI/Button/Button';
 import { usePrivateTourFormStore } from '@/store/privateTourFormStore';
 
 export default function MobileBtn({ locale, tour }: { locale: string; tour: Tour }) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
 
   const { selectedPrice, handleBooking } = useGroupTourBooking({ tour, locale });
 

@@ -15,7 +15,7 @@ import { TourDesktopCard } from './components/group/TourDesktopCard';
 import { TourMobileCard } from './components/group/TourMobileCard';
 
 export default function TourGroupPrices({ tour }: { tour: Tour }) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
   const locale = useLocale();
 
   const router = useRouter();

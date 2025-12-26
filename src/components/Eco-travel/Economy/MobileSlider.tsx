@@ -21,7 +21,7 @@ export default function MobileSlider({
           slides={block}
           onInit={setEmblaApi}
           renderSlide={(el, i) => (
-            <div className="flex-[0_0_100%] w-full h-full grid grid-cols-1 items-center justify-items-center min-h-[255px]">
+            <div key={i} className="flex-[0_0_100%] w-full h-full grid grid-cols-1 items-center justify-items-center min-h-[255px]">
               {el.img === 'true' ? (
                 <div className="grid grid-cols-1 items-center w-full h-full justify-items-center min-h-[285px]">
                   <ImageWithFallback

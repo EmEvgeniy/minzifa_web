@@ -16,7 +16,7 @@ type GroupPricesFormProps = {
 };
 
 const GroupPricesForm = ({ tour }: GroupPricesFormProps) => {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
   const locale = useLocale();
 
   const prices = tour?.prices;

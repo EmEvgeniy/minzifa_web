@@ -14,7 +14,7 @@ import { PhoneInputComp } from '../PhoneInput';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
 export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYourTripFormProps) => {
-  const t = useTranslations('CreateYourTripForm');
+  const t = useTranslations('createYourTripForm');
 
   const router = useRouter();
   const { metrics } = useMetricsStore();
@@ -33,38 +33,38 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
   const questions: QuestionData[] = useMemo(
     () => [
       {
-        question: t('questions.slide_1.title'),
-        answers: t.raw('questions.slide_1.answers'),
+        question: t('questions.slide1.title'),
+        answers: t.raw('questions.slide1.answers'),
         type: 'checkbox',
         name: 'destinations[]',
-        hint: t('questions.slide_1.hint'),
+        hint: t('questions.slide1.hint'),
       },
       {
-        question: t('questions.slide_2.title'),
-        answers: t.raw('questions.slide_2.answers'),
+        question: t('questions.slide2.title'),
+        answers: t.raw('questions.slide2.answers'),
         type: 'radio',
         name: 'travellers',
       },
       {
-        question: t('questions.slide_3.title'),
-        answers: t.raw('questions.slide_3.answers'),
+        question: t('questions.slide3.title'),
+        answers: t.raw('questions.slide3.answers'),
         type: 'radio',
         name: 'days',
       },
       {
-        question: t('questions.slide_4.title'),
-        answers: t.raw('questions.slide_4.answers'),
+        question: t('questions.slide4.title'),
+        answers: t.raw('questions.slide4.answers'),
         type: 'radio',
         name: 'hotels',
       },
       {
-        question: t('questions.slide_5.title'),
-        answers: t.raw('questions.slide_5.answers'),
+        question: t('questions.slide5.title'),
+        answers: t.raw('questions.slide5.answers'),
         type: 'radio',
         name: 'experience',
       },
       {
-        question: t('questions.slide_6.title'),
+        question: t('questions.slide6.title'),
         inputs: ['name', 'email', 'phone'],
       },
     ],
@@ -191,15 +191,15 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
 
     if (!name.trim()) {
-      newErrors.name = t('errors.name_required');
+      newErrors.name = t('errors.nameRequired');
     }
 
     if (!emailRegex.test(email)) {
-      newErrors.email = t('errors.invalid_email');
+      newErrors.email = t('errors.emailInvalid');
     }
 
     if (!phoneRegex.test(phone)) {
-      newErrors.phone = t('errors.invalid_phone');
+      newErrors.phone = t('errors.phoneInvalid');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -312,7 +312,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
                         {question?.inputs?.map((input, index) => (
                           <div key={index} className="flex flex-col text-sm">
                             <label htmlFor={`form_${input}`}>
-                              {t(`questions.slide_${questions?.length}.${input}`)}
+                              {t(`questions.slide${questions?.length}.${input}`)}
                             </label>
                             {input === 'phone' ? (
                               <PhoneInputComp
@@ -330,7 +330,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
                                   'border rounded-lg p-2',
                                   errors[input] ? 'border-red-500' : 'border-gray-300',
                                 )}
-                                placeholder={t(`questions.slide_${questions.length}.${input}`)}
+                                placeholder={t(`questions.slide6.${input}`)}
                               />
                             )}
                             {errors[input] && (

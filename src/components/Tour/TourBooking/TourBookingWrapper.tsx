@@ -14,7 +14,7 @@ interface TourBookingWrapperProps {
 }
 
 export default function TourBookingWrapper({ tour }: TourBookingWrapperProps) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
   return tour.tour_type === 'group' ? (
     <GroupPricesForm tour={tour} />
   ) : (
@@ -27,7 +27,7 @@ export default function TourBookingWrapper({ tour }: TourBookingWrapperProps) {
           className="w-6 h-6"
           alt={tour?.seo_metadata.title}
         />
-        {t('private_tour.per_tourist', { days: tour?.days })}
+        {t('privateTour.perTourist', { days: tour?.days })}
       </div>
       <PrivatePriceForm tour={tour} />
     </div>

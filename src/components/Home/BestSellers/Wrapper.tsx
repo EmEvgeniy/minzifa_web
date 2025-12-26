@@ -41,7 +41,7 @@ export default function Wrapper({ data, locale }: Props) {
           to={`/${locale}/tours`}
           color="secondary"
         >
-          {t('best_sellers_btns')}
+          {t('common.seeAllTrips')}
         </Button>
 
         <ECArrowWrapper emblaApi={emblaApi} className="mt-0" variant="dark" />

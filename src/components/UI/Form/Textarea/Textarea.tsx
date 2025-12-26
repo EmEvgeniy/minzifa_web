@@ -1,13 +1,12 @@
 'use client';
 
 import { forwardRef, useEffect, useRef, useId } from 'react';
-import { FieldError } from 'react-hook-form';
 import { cn } from '@/utils';
 import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWraper';
 
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
-  error?: FieldError;
+  error?: { message?: string };
   helperText?: string;
   fullWidth?: boolean;
   maxRows?: number;
@@ -75,10 +74,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             className={cn(
               `
               w-full bg-transparent outline-none text-gray-900 text-base resize-none
-              placeholder-gray-400 rounded-md disabled:text-gray-400
+              placeholder-gray-400 placeholder:text-sm rounded-md disabled:text-gray-400
               transition-[height] duration-200 ease-in-out
             `,
-              label ? 'px-3 py-2 pt-6' : 'px-3 py-2',
+              label ? 'px-5 py-4 pt-10' : 'px-4 py-3',
               className,
             )}
             {...props}

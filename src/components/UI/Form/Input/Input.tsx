@@ -7,7 +7,7 @@ import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWraper';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
-    error?: FieldError;
+    error?: { message?: string };
     helperText?: string;
     startIcon?: ReactNode;
     endIcon?: ReactNode;

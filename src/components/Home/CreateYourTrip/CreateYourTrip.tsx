@@ -18,16 +18,16 @@ export default async function CreateYourTrip({ locale }: { locale: string }) {
       />
       <div className="container py-[188px] relative z-20 text-white flex flex-col items-center justify-center gap-5 [@media(max-width:768px)]:py-[90px]">
         <h6 className="text-[42px] [@media(max-width:768px)]:text-[24px] font-semibold">
-          {t('create_your_trip_title')}
+          {t('createYourTripTitle')}
         </h6>
         <p className="text-[16px] max-w-[50%] text-center [@media(max-width:768px)]:max-w-full">
-          {t('create_your_trip_sub_title')}
+          {t('createYourTripSubTitle')}
         </p>
         <Link
           className="bg-[#27A430] hover:bg-[#208B28] transition-all  text-white text-center py-[20px] text-[16px] rounded-[16px] shadow-2xl mt-[20px] w-full max-w-[420px] [@media(max-width:768px)]:py-[10px]"
           href={`/${locale}/create-your-trip`}
         >
-          {t('create_your_trip_btn')}
+          {t('createYourTripBtn')}
         </Link>
       </div>
     </section>

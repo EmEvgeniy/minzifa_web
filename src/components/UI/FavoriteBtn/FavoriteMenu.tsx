@@ -47,7 +47,7 @@ function FavoriteMenu() {
           {/* Header */}
           <div className="flex items-center justify-between mb-5">
             <Link href={`/${locale}/favorites`} className="text-white underline text-2xl">
-              {t('favoriteBtn')}
+              {t('common.favorites.button')}
             </Link>
             <button
               type="button"

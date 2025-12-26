@@ -8,7 +8,7 @@ const TourItineraryBtn = dynamic(() => import('./TourItineraryBtn'));
 const TourItineraryAccordions = dynamic(() => import('./TourItineraryAccordions'));
 
 export default function TourItinerary({ itineraries }: { itineraries: Itinerary[] | undefined; }) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
 
   if (!itineraries) return null;
 

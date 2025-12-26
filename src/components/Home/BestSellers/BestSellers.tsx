@@ -19,7 +19,7 @@ export default async function BestSellers({ locale }: { locale: string }) {
 
   return (
     <section className="container flex flex-col gap-5">
-      <h3 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('home.best_title')}</h3>
+      <h3 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('home.bestTitle')}</h3>
       <Wrapper data={data} locale={locale} />
     </section>
   );

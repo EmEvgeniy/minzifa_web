@@ -133,7 +133,7 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
                     />
 
                     <Checkbox
-                        label={t.rich('confirm_form_text', {
+                        label={t.rich('common.termsAcceptance', {
                             terms: (chunks) => (
                                 <Link
                                     href={`/${locale}/term-and-conditions-of-booking-tours`}

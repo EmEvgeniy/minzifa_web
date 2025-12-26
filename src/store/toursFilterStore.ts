@@ -9,7 +9,7 @@ type FilterStoreData = {
   tourType: string[];
   tourTypes: string[];
   destinations: string[];
-  currentDestination: string | null; // Фильтр для конкретной дестинации на странице destination/[slug]
+  currentDestination: string | null;
   sort: string;
   page: number | string;
   isLoading: boolean;
@@ -30,6 +30,36 @@ type FilterStoreData = {
   updateActiveFiltersCount: () => void;
   resetFilters: () => void;
   buildFilterQuery: () => string;
+};
+
+// Хелпер для создания toggle-сеттеров массивов
+type ArrayFilterKeys = 'seasons' | 'hotels' | 'tourType' | 'tourTypes' | 'destinations';
+
+const createToggleSetter = (
+  set: (
+    fn: (state: FilterStoreData) => Partial<FilterStoreData> | Pick<FilterStoreData, 'page'>,
+  ) => void,
+  key: ArrayFilterKeys,
+) => {
+  return (value: string, resetPage = true) =>
+    set((state) => {
+      const currentArray = state[key];
+      const newArray = currentArray.includes(value)
+        ? currentArray.filter((v) => v !== value)
+        : [...currentArray, value];
+
+      if (JSON.stringify(newArray) === JSON.stringify(currentArray) && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = calculateActiveFiltersCount({ ...state, [key]: newArray });
+
+      return {
+        [key]: newArray,
+        ...(resetPage && { page: 1 }),
+        activeFiltersCount: newActiveFiltersCount,
+      };
+    });
 };
 
 export const useFilterStore = create<FilterStoreData>()((set, get) => ({
@@ -55,7 +85,6 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
         return { page: 1 };
       }
 
-      // Используем helper функцию для пересчета активных фильтров
       const newActiveFiltersCount = hasPriceChanged
         ? calculateActiveFiltersCount({ ...state, prices: newPrices })
         : state.activeFiltersCount;
@@ -86,105 +115,11 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
         ...(hasDurationChanged && { activeFiltersCount: newActiveFiltersCount }),
       };
     }),
-  setSeasons: (season: string, resetPage = true) =>
-    set((state) => {
-      const newSeasons = state.seasons.includes(season)
-        ? state.seasons.filter((v) => v !== season)
-        : [...state.seasons, season];
-
-      if (JSON.stringify(newSeasons) === JSON.stringify(state.seasons) && resetPage) {
-        return { page: 1 };
-      }
-
-      const newActiveFiltersCount = calculateActiveFiltersCount({ ...state, seasons: newSeasons });
-
-      return {
-        seasons: newSeasons,
-        ...(resetPage && { page: 1 }),
-        activeFiltersCount: newActiveFiltersCount,
-      };
-    }),
-  setHotels: (hotel: string, resetPage = true) =>
-    set((state) => {
-      const newHotels = state.hotels.includes(hotel)
-        ? state.hotels.filter((v) => v !== hotel)
-        : [...state.hotels, hotel];
-
-      if (JSON.stringify(newHotels) === JSON.stringify(state.hotels) && resetPage) {
-        return { page: 1 };
-      }
-
-      const newActiveFiltersCount = calculateActiveFiltersCount({ ...state, hotels: newHotels });
-
-      return {
-        hotels: newHotels,
-        ...(resetPage && { page: 1 }),
-        activeFiltersCount: newActiveFiltersCount,
-      };
-    }),
-  setTourType: (type: string, resetPage = true) =>
-    set((state) => {
-      const newTourType = state.tourType.includes(type)
-        ? state.tourType.filter((v) => v !== type)
-        : [...state.tourType, type];
-
-      if (JSON.stringify(newTourType) === JSON.stringify(state.tourType) && resetPage) {
-        return { page: 1 };
-      }
-
-      const newActiveFiltersCount = calculateActiveFiltersCount({
-        ...state,
-        tourType: newTourType,
-      });
-
-      return {
-        tourType: newTourType,
-        ...(resetPage && { page: 1 }),
-        activeFiltersCount: newActiveFiltersCount,
-      };
-    }),
-  setTourTypes: (type: string, resetPage = true) =>
-    set((state) => {
-      const newTourTypes = state.tourTypes.includes(type)
-        ? state.tourTypes.filter((v) => v !== type)
-        : [...state.tourTypes, type];
-
-      if (JSON.stringify(newTourTypes) === JSON.stringify(state.tourTypes) && resetPage) {
-        return { page: 1 };
-      }
-
-      const newActiveFiltersCount = calculateActiveFiltersCount({
-        ...state,
-        tourTypes: newTourTypes,
-      });
-
-      return {
-        tourTypes: newTourTypes,
-        ...(resetPage && { page: 1 }),
-        activeFiltersCount: newActiveFiltersCount,
-      };
-    }),
-  setDestinations: (destination: string, resetPage = true) =>
-    set((state) => {
-      const newDestinations = state.destinations.includes(destination)
-        ? state.destinations.filter((v) => v !== destination)
-        : [...state.destinations, destination];
-
-      if (JSON.stringify(newDestinations) === JSON.stringify(state.destinations) && resetPage) {
-        return { page: 1 };
-      }
-
-      const newActiveFiltersCount = calculateActiveFiltersCount({
-        ...state,
-        destinations: newDestinations,
-      });
-
-      return {
-        destinations: newDestinations,
-        ...(resetPage && { page: 1 }),
-        activeFiltersCount: newActiveFiltersCount,
-      };
-    }),
+  setSeasons: createToggleSetter(set, 'seasons'),
+  setHotels: createToggleSetter(set, 'hotels'),
+  setTourType: createToggleSetter(set, 'tourType'),
+  setTourTypes: createToggleSetter(set, 'tourTypes'),
+  setDestinations: createToggleSetter(set, 'destinations'),
   setCurrentDestination: (destination: string | null, resetPage = true) =>
     set(() => ({
       currentDestination: destination,

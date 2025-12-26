@@ -13,7 +13,7 @@ interface TourGalleryProps {
 }
 
 export default function TourGallery({ images }: TourGalleryProps) {
-  const t = useTranslations('Tour');
+  const t = useTranslations('tourDetail');
 
   const [show, setShow] = useState(false);
 
