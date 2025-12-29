@@ -41,7 +41,7 @@ export function useGoogleAuth() {
       }
 
       // 3. Слушать сообщения от popup окна
-      return new Promise<ITourist>((resolve, reject) => {
+      return new Promise<{ user: ITourist; token: string }>((resolve, reject) => {
         let checkClosedInterval: NodeJS.Timeout;
 
         const cleanup = () => {
@@ -58,7 +58,7 @@ export function useGoogleAuth() {
             cleanup();
             popup?.close();
             setIsLoading(false);
-            resolve(event.data.user);
+            resolve({ user: event.data.user, token: event.data.token });
           } else if (event.data.type === 'google-auth-error') {
             cleanup();
             popup?.close();

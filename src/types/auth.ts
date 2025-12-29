@@ -7,6 +7,7 @@ export interface ITourist {
   emailVerifiedAt: string | null;
   phone: string | null;
   avatar: IMediaData | null;
+  telegram_chat_id: number | null;
 }
 
 export interface LoginFormData {

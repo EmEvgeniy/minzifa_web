@@ -38,6 +38,7 @@ export default function GoogleCallbackPage() {
                         {
                             type: "google-auth-success",
                             user: response.data.user,
+                            token: response.data.token,
                         },
                         window.location.origin
                     );

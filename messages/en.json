@@ -1333,7 +1333,20 @@
     "avatarUploadError": "Avatar upload error",
     "chats": "Chats",
     "generalInfo": "General Information",
-    "changePasswordTab": "Change Password"
+    "changePasswordTab": "Change Password",
+    "telegram": {
+      "title": "Telegram Notifications",
+      "description": "Get instant notifications about new messages in your chats",
+      "connect": "Connect Telegram",
+      "connected": "Connected",
+      "disconnect": "Disconnect",
+      "statusNotConnected": "Not connected",
+      "statusConnected": "Telegram notifications enabled",
+      "statusConnecting": "Connecting...",
+      "step1": "Click the button below",
+      "step2": "Send /start command to the bot",
+      "step3": "You'll receive a confirmation message"
+    }
   },
   "chatPopup": {
     "formTitle": "Contact Support",

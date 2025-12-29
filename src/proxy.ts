@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest, NextResponse } from 'next/server';
-import { AUTH_COOKIE_NAME, PROTECTED_ROUTES } from './constants';
+import { AUTH_TOKEN_NAME, PROTECTED_ROUTES } from './constants';
 
 const intlMiddleware = createMiddleware({
   locales: ['en', 'ru'],
@@ -12,7 +12,7 @@ export function proxy(request: NextRequest) {
   const response = intlMiddleware(request);
 
   const pathname = request.nextUrl.pathname;
-  const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
+  const token = request.cookies.get(AUTH_TOKEN_NAME)?.value;
 
   if (PROTECTED_ROUTES.some((route) => route.test(pathname))) {
     if (!token) {

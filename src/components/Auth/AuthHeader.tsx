@@ -6,8 +6,6 @@ import Button from "../UI/Button/Button";
 import { RiUserLine } from "react-icons/ri";
 import { Dropdown, DropdownDetails, DropdownSummary } from "../UI/Dropdown/Dropdown";
 import { useSnackStore } from "@/store/useSnackStore";
-import { getCsrfToken } from "@/api/get.api";
-import { useAuthPostMutation } from "@/api/post.api";
 import { useRouter } from "next/navigation";
 
 const menu = [
@@ -34,31 +32,15 @@ export default function AuthHeader() {
     const t = useTranslations();
     const router = useRouter();
 
-    const { user, setUser, setIsAuthenticated } = useAuthStore();
-    const { setMessage, setError } = useSnackStore();
+    const { user, logout } = useAuthStore();
+    const { setMessage } = useSnackStore();
 
-    const { mutate } = useAuthPostMutation(
-        ['auth.logout'],
-        async () => {
-            setUser(null);
-            setIsAuthenticated(false);
+    const handleLogout = async () => {
+        await logout(() => {
             setMessage(t('auth.logout.success'));
             router.push(`/${locale}/`);
-        },
-        (error) => {
-            console.error(error);
-            setError(t('auth.logout.error'));
-        },
-    )
-
-    const logout = async () => {
-        await getCsrfToken();
-        await mutate({
-            obj: {},
-            endpoint: 'auth/logout'
         });
     };
-
     return (
         <Dropdown>
             <DropdownSummary>
@@ -81,7 +63,7 @@ export default function AuthHeader() {
                 ))}
                 <Button
                     color="link"
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="w-full"
                 >
                     {t('auth.nav.logout')}

@@ -1298,7 +1298,20 @@
     "avatarUploadError": "Avatar upload error",
     "chats": "Chats",
     "generalInfo": "General Information",
-    "changePasswordTab": "Change Password"
+    "changePasswordTab": "Change Password",
+    "telegram": {
+      "title": "Telegram-Benachrichtigungen",
+      "description": "Erhalten Sie sofortige Benachrichtigungen über neue Nachrichten in Ihren Chats",
+      "connect": "Telegram verbinden",
+      "connected": "Verbunden",
+      "disconnect": "Trennen",
+      "statusNotConnected": "Nicht verbunden",
+      "statusConnected": "Telegram-Benachrichtigungen aktiviert",
+      "statusConnecting": "Verbinden...",
+      "step1": "Klicken Sie auf die Schaltfläche unten",
+      "step2": "Senden Sie den Befehl /start an den Bot",
+      "step3": "Sie erhalten eine Bestätigungsnachricht"
+    }
   },
   "chatPopup": {
     "formTitle": "Contact Support",

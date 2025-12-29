@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 import { useChatsStore } from '@/store/chatsStore';
 import { authAxiosInstance } from '@/utils/axios';
-import { AUTH_COOKIE_NAME } from '@/constants';
-import { getCookie } from 'cookies-next';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const useChatApi = () => {
   const {
@@ -21,7 +20,7 @@ export const useChatApi = () => {
         setIsLoading(true);
         setError(null);
 
-        const token = getCookie(AUTH_COOKIE_NAME);
+        const token = useAuthStore.getState().token;
 
         if (!token) {
           throw new Error('No auth token found');
@@ -46,7 +45,7 @@ export const useChatApi = () => {
   const sendMessage = useCallback(
     async (chatId: number, message: string) => {
       try {
-        const token = getCookie(AUTH_COOKIE_NAME);
+        const token = useAuthStore.getState().token;
 
         if (!token) {
           throw new Error('No auth token found');
@@ -76,8 +75,23 @@ export const useChatApi = () => {
     [addMessage, setMessageInput, socketId, setError],
   );
 
+  const updatePresence = useCallback(async (chatId: number) => {
+    try {
+      const isManager = window.location.pathname.includes('/crm');
+      const endpoint = isManager
+        ? `/crm/chats/${chatId}/presence`
+        : `/auth/chats/${chatId}/presence`;
+
+      await authAxiosInstance.post(endpoint);
+    } catch (error) {
+      // Silent error for presence
+      console.error('Failed to update presence:', error);
+    }
+  }, []);
+
   return {
     fetchChat,
     sendMessage,
+    updatePresence,
   };
 };

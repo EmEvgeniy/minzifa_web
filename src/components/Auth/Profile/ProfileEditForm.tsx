@@ -16,6 +16,7 @@ import { useAuthPatchMutation, usePatchMutation } from '@/api/patch.api';
 import { PhoneInputComp } from '../../UI';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../UI/Tabs';
 import { authAxiosInstance } from '@/utils/axios';
+import TelegramSubscription from '@/components/Profile/TelegramSubscription';
 
 type ProfileUpdateResponse = {
     user: ITourist;
@@ -28,7 +29,7 @@ type PasswordChangeResponse = {
 export const ProfileEditForm = () => {
     const t = useTranslations();
     const { setMessage, setError } = useSnackStore();
-    const { user, login } = useAuthStore();
+    const { user, setUser } = useAuthStore();
     const [activeTab, setActiveTab] = useState(0);
 
     const { register, control, formState: { errors, isValid, isLoading }, handleSubmit, reset } = useForm<ProfileEditFormType>({
@@ -55,7 +56,7 @@ export const ProfileEditForm = () => {
     const { mutate } = useAuthPatchMutation<ProfileUpdateResponse, ProfileEditFormType>(
         ['profile-update'],
         (response) => {
-            login(response.user);
+            setUser(response.user);
             setMessage(t('profile.updateSuccess'));
             reset();
         },
@@ -91,7 +92,7 @@ export const ProfileEditForm = () => {
 
             const result = response.data;
             if (result.user) {
-                login(result.user);
+                setUser(result.user);
             }
         } catch (error) {
             setAvatarError(t('profile.avatarUploadError') || 'Ошибка загрузки аватара');
@@ -214,6 +215,18 @@ export const ProfileEditForm = () => {
                 </form>
             ),
         },
+        {
+            label: t('profile.telegram.title'),
+            content: (
+                <div className="space-y-6">
+                    <TelegramSubscription
+                        userId={user?.id || 0}
+                        initialChatId={user?.telegram_chat_id}
+                        botUsername="minzifa_travel_bot"
+                    />
+                </div>
+            ),
+        },
     ];
 
     return (
@@ -221,9 +234,11 @@ export const ProfileEditForm = () => {
             <TabsList>
                 <TabsTrigger value="0">{tabs[0].label}</TabsTrigger>
                 <TabsTrigger value="1">{tabs[1].label}</TabsTrigger>
+                <TabsTrigger value="2">{tabs[2].label}</TabsTrigger>
             </TabsList>
             <TabsContent value="0">{tabs[0].content}</TabsContent>
             <TabsContent value="1">{tabs[1].content}</TabsContent>
+            <TabsContent value="2">{tabs[2].content}</TabsContent>
         </Tabs>
     );
 };

@@ -13,7 +13,6 @@ import Loader from "@/components/UI/Loader/Loader";
 import { useState } from "react";
 import { ITourist } from '@/types';
 import { useAuthStore } from '@/store';
-import { getCsrfToken } from '@/api/get.api';
 import { GoogleLoginButton } from './GoogleLoginButton';
 import { AuthStep } from '../_types';
 import { FaChevronLeft } from 'react-icons/fa6';
@@ -35,10 +34,11 @@ export const LoginForm = ({ step, setStep }: { step: AuthStep, setStep: (step: A
         },
     });
 
-    const { mutate: loginMutate, isPending, reset } = useAuthPostMutation<ITourist, Record<string, unknown>>(
+    const { mutate: loginMutate, isPending, reset } = useAuthPostMutation<{ user: ITourist, token: string }, Record<string, unknown>>(
         ['auth.login'],
-        async (data: ITourist) => {
-            setUser(data);
+        async (data) => {
+            const { login } = useAuthStore.getState();
+            login(data.user, data.token);
             setAuthPopup(false);
             setMessage(t('auth.login.success'));
             setStep('welcome');
@@ -66,8 +66,6 @@ export const LoginForm = ({ step, setStep }: { step: AuthStep, setStep: (step: A
     );
 
     const onSubmit = async (data: LoginFormType) => {
-        await getCsrfToken();
-
         await loginMutate({
             obj: data,
             endpoint: 'auth/login',
@@ -75,7 +73,6 @@ export const LoginForm = ({ step, setStep }: { step: AuthStep, setStep: (step: A
     };
 
     const handleForgotPassword = async () => {
-        await getCsrfToken();
         await forgotPasswordMutate({
             obj: { email },
             endpoint: 'auth/forgot-password',

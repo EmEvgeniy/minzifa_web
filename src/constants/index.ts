@@ -1,6 +1,7 @@
 import { getApiUrl } from '@/utils/config';
 
 export const AUTH_COOKIE_NAME = 'XSRF-TOKEN';
+export const AUTH_TOKEN_NAME = 'auth-token';
 
 export const BASE_API_PATH = getApiUrl();
 

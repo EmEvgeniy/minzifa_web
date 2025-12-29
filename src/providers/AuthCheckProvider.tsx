@@ -5,7 +5,6 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useSearchParams } from 'next/navigation';
 import { authAxiosInstance } from '@/utils/axios';
 import { AxiosError } from 'axios';
-import { getCsrfToken } from '@/api/get.api';
 import GoogleOneTap from '@/components/Auth/Forms/GoogleOneTap';
 
 interface AuthCheckProviderProps {
@@ -19,8 +18,13 @@ export function AuthCheckProvider({ children }: AuthCheckProviderProps) {
 
     useEffect(() => {
         const checkSession = async () => {
+            const token = useAuthStore.getState().token;
+            if (!token) {
+                setChecked(true);
+                return;
+            }
+
             try {
-                await getCsrfToken();
                 await authAxiosInstance.get('/auth/check');
             } catch (e: AxiosError | any) {
                 if (e.response?.status === 401 || e.response?.status === 419) {

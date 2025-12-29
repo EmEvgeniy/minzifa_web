@@ -1,6 +1,5 @@
 'use client';
 
-import { getCsrfToken } from "@/api/get.api";
 import { useAuthPostMutation } from "@/api/post.api";
 import { useAuthStore } from "@/store";
 import { useTranslations } from "next-intl";
@@ -31,7 +30,6 @@ export default function WelcomeForm({ step, setStep }: { step: AuthStep, setStep
     );
 
     const handleCheckEmail = async () => {
-        await getCsrfToken();
         await checkEmailMutate({
             obj: { email },
             endpoint: 'auth/check-email',

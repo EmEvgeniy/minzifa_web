@@ -2,7 +2,6 @@
 
 import { useAuthStore } from '@/store';
 import { useAuthPostMutation } from '@/api/post.api';
-import { getCsrfToken } from '@/api/get.api';
 import Script from "next/script";
 import { useEffect, useState } from 'react';
 import { useSnackStore } from '@/store/useSnackStore';
@@ -25,8 +24,8 @@ export default function GoogleOneTap() {
     const { mutateAsync } = useAuthPostMutation(
         ['auth.google.one-tap'],
         (data: any) => {
-            if (data.success && data.user) {
-                login(data.user);
+            if (data.success && data.user && data.token) {
+                login(data.user, data.token);
                 setMessage(t('auth.login.success'));
                 router.refresh();
             }
@@ -46,7 +45,6 @@ export default function GoogleOneTap() {
                 client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
                 use_fedcm_for_prompt: false,
                 callback: async (response: any) => {
-                    await getCsrfToken();
                     try {
                         await mutateAsync({
                             endpoint: 'auth/google/one-tap',

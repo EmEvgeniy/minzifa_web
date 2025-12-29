@@ -12,7 +12,6 @@ import Button from '@/components/UI/Button/Button';
 import { Input } from '@/components/UI/Form';
 import Loader from "@/components/UI/Loader/Loader";
 import { useAuthStore } from '@/store';
-import { getCsrfToken } from '@/api/get.api';
 import { useAuthPostMutation } from '@/api/post.api';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -53,14 +52,11 @@ export const ForgotPasswordForm = ({ setStep }: { setStep: (step: AuthStep) => v
     );
 
     const onSubmit = async (data: ForgotPasswordFormType) => {
-        await getCsrfToken();
         await mutate({
             obj: data,
             endpoint: 'auth/change-forgot-password'
         });
     };
-
-    console.log(errors)
 
     return (
         <div className='p-8'>

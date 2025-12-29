@@ -17,7 +17,6 @@ import Passengers from '../Passengers/Passengers';
 import BookingInfo from '../BookingInfo/BookingInfo';
 import MobileBtn from '../MobileBtn/MobileBtn';
 import { FormNameEnum } from '@/constants';
-import { getCsrfToken } from '@/api/get.api';
 import dayjs from 'dayjs';
 
 type FormWrapperProps = {
@@ -108,8 +107,6 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     });
 
     const onSubmit = async (data: BookingFormType) => {
-        await getCsrfToken();
-
         const formData = {
             ...data,
             tour_start: dayjs(data.tour_start).format('YYYY-MM-DD'),

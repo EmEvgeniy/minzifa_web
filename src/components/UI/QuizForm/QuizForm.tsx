@@ -18,9 +18,7 @@ import { useTranslations } from 'next-intl';
 import { quizFormSchema, QuizFormType } from '@/validation/quizFormSchema';
 import { useFormSubmit } from '@/hooks';
 import Button from '../Button/Button';
-import { getCsrfToken } from '@/api/get.api';
 import { FormNameEnum } from '@/constants';
-import { useOrderTourDetailStore } from '@/store';
 
 type QuizFormProps = {
   className?: string;
@@ -158,8 +156,6 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
   };
 
   const onSubmit = async (data: QuizFormType) => {
-    await getCsrfToken();
-
     const formData = {
       ...data,
       recaptchaToken: token,

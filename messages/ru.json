@@ -1331,7 +1331,20 @@
     "avatarUploadError": "Ошибка загрузки аватара",
     "chats": "Чаты",
     "generalInfo": "Общая информация",
-    "changePasswordTab": "Изменить пароль"
+    "changePasswordTab": "Изменить пароль",
+    "telegram": {
+      "title": "Уведомления Telegram",
+      "description": "Получайте мгновенные уведомления о новых сообщениях в ваших чатах",
+      "connect": "Подключить Telegram",
+      "connected": "Подключено",
+      "disconnect": "Отключить",
+      "statusNotConnected": "Не подключено",
+      "statusConnected": "Уведомления Telegram включены",
+      "statusConnecting": "Подключение...",
+      "step1": "Нажмите кнопку ниже",
+      "step2": "Отправьте команду /start боту",
+      "step3": "Вы получите подтверждение"
+    }
   },
   "chatPopup": {
     "formTitle": "Связаться с поддержкой",

@@ -17,7 +17,6 @@ import { useState } from "react";
 import Loader from "@/components/UI/Loader/Loader";
 import { ITourist } from '@/types';
 import { useAuthStore } from '@/store';
-import { getCsrfToken } from '@/api/get.api';
 import Link from 'next/link';
 import { AuthStep } from '../_types';
 import { FaChevronLeft, FaEnvelope } from 'react-icons/fa6';
@@ -44,10 +43,11 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
         },
     });
 
-    const { mutate: registerMutate, isPending } = useAuthPostMutation<ITourist, RegistrationFormType>(
+    const { mutate: registerMutate, isPending } = useAuthPostMutation<{ user: ITourist, token: string }, RegistrationFormType>(
         ['auth.register'],
-        (data: ITourist) => {
-            setUser(data);
+        (data: { user: ITourist, token: string }) => {
+            const { login } = useAuthStore.getState();
+            login(data.user, data.token);
             setAuthPopup(false);
             setMessage(t('auth.login.success'));
             setStep('welcome');
@@ -63,8 +63,6 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
     const handleRecaptcha = async () => await getToken('register');
 
     const onSubmit = async (data: RegistrationFormType) => {
-        await getCsrfToken();
-
         const name = data.email.split('@')[0];
         const formData = {
             ...data,

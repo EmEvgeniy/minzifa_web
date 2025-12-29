@@ -10,9 +10,10 @@ import { Input } from '@/components/UI/Form';
 import Loader from '@/components/UI/Loader/Loader';
 import { ITourist, useAuthStore } from '@/store';
 import { AvatarUpload } from '../AvatarUpload';
-import { usePatchMutation } from '@/api/patch.api';
+import { authAxiosInstance } from '@/utils/axios';
 import { PhoneInputComp } from '../../UI';
 import { useSnackStore } from '@/store/useSnackStore';
+import { usePatchMutation } from '@/api/patch.api';
 
 type ProfileUpdateResponse = {
     user: ITourist;
@@ -26,7 +27,7 @@ interface GeneralInfoTabProps {
 
 export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProps) => {
     const t = useTranslations();
-    const { login } = useAuthStore();
+    const { setUser } = useAuthStore();
     const { setMessage, setError } = useSnackStore();
     const { register, control, formState: { errors, isValid, isSubmitting }, handleSubmit, reset } = useForm<ProfileEditFormType>({
         resolver: zodResolver(profileEditSchema(t)),
@@ -43,7 +44,7 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
     const { mutate } = usePatchMutation<ProfileUpdateResponse, ProfileEditFormType>(
         ['profile-update'],
         (response) => {
-            login(response.user);
+            setUser(response.user);
             setMessage(t('profile.updateSuccess'));
             onSuccess?.();
             reset();
@@ -61,22 +62,15 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
             const formData = new FormData();
             formData.append('avatar', file);
 
-            const response = await fetch('/api/v1/auth/avatar/upload', {
-                method: 'POST',
-                body: formData,
+            const { data } = await authAxiosInstance.post('/auth/avatar/upload', formData, {
                 headers: {
-                    'Authorization': `Bearer ${document.cookie.replace(/(?:(?:^|.*;\s*)authToken\s*\=\s*([^;]*).*$)|^.*$/, "$1")}`,
+                    'Content-Type': 'multipart/form-data',
                 },
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to upload avatar');
-            }
-
-            const result = await response.json();
             // Update user data with new avatar
-            if (result.user) {
-                login(result.user);
+            if (data.user) {
+                setUser(data.user);
             }
         } catch (error) {
             setAvatarError(t('profile.avatarUploadError') || 'Ошибка загрузки аватара');

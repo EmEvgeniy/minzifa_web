@@ -96,7 +96,7 @@ export const AvatarUpload = ({
                     <FaCamera className="text-sm" />
                 </button>
 
-                {(user.avatar?.file || preview) && !isUploading && (
+                {(user?.avatar?.file || preview) && !isUploading && (
                     <button
                         type="button"
                         onClick={handleRemove}
