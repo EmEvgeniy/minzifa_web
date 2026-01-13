@@ -15,6 +15,7 @@ interface TourBookingWrapperProps {
 
 export default function TourBookingWrapper({ tour }: TourBookingWrapperProps) {
   const t = useTranslations('tourDetail');
+
   return tour.tour_type === 'group' ? (
     <GroupPricesForm tour={tour} />
   ) : (

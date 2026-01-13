@@ -79,6 +79,9 @@ export interface IPrivatePrice {
 
 export type TourPrices = IPrivatePrice & {
   valute: string;
+  valute_label?: string;
+  price_basis?: string;
+  price_basis_label?: string;
   data?: GroupPrice[];
 };
 

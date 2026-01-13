@@ -8,4 +8,5 @@ export interface FormattedPriceProps {
   className?: string;
   as?: React.ElementType;
   returnAsString?: boolean;
+  suffix?: string;
 }

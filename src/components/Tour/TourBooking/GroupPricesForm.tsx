@@ -10,6 +10,7 @@ import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallba
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 import Button from '@/components/UI/Button/Button';
 import { usePrivateTourFormStore } from '@/store/privateTourFormStore';
+import { FaInfoCircle } from 'react-icons/fa';
 
 type GroupPricesFormProps = {
   tour: Tour;
@@ -36,17 +37,17 @@ const GroupPricesForm = ({ tour }: GroupPricesFormProps) => {
   return (
     <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
       <div className="text-base">
-        {t('booking.from')}{' '}
         <FormattedPrice
           price={totalPrice}
           currency={tour?.prices?.valute}
-          className="text-4xl font-semibold"
+          className="text-3xl font-semibold"
           as={'span'}
           minimumFractionDigits={0}
+          suffix={t('prices.pp')}
         />
       </div>
 
-      <div className="text-base">{t('booking.per_tourist', { days: tour?.days || 1 })}</div>
+      {!!tour?.prices?.price_basis_label && <div className="text-sm flex gap-3 text-gray-700"><FaInfoCircle className="w-5 h-5" /> {tour?.prices?.price_basis_label}</div>}
 
       <TourBookingPrice
         locale={locale}
