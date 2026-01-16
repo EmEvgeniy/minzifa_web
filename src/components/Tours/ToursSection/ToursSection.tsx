@@ -11,7 +11,7 @@ import HorizontalTourCard from '@/components/Tours/HorizontalTourCard';
 import BestSellersPackagesCard from '@/components/UI/BestSellersPackagesCard/BestSellersPackagesCard';
 import Pagination from '@/components/UI/Pagination';
 import TourFilter from '@/components/TourFilters/TourFilter';
-import { DestinationData } from '@/app/[locale]/destination/[slug]/_types';
+import { DestinationData } from '@/app/[locale]/(main)/destination/[slug]/_types';
 import { availableFilters } from '@/components/TourFilters/_types';
 import { useTranslations } from 'next-intl';
 import { PaginatedData } from '@/types';

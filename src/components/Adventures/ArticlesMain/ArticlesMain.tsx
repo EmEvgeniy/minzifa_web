@@ -1,7 +1,7 @@
 'use client';
 
 
-import { ArticleCategory } from '@/app/[locale]/adventures/page';
+import { ArticleCategory } from '@/app/[locale]/(main)/adventures/page';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import ArticleCard from '@/components/UI/ArticleCard/ArticleCard';
 import { useEffect, useState } from 'react';

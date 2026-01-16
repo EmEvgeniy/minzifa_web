@@ -6,10 +6,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        inter: ['Inter', 'sans-serif'],
-        unbounded: ['Unbounded', 'sans-serif'],
-      },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-out forwards',
       },

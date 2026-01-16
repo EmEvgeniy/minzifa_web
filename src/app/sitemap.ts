@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import type { MetadataRoute } from 'next';
 import { AllToursCardType } from '@/components/Tours/MainSection/_types';
-import { DestinationData } from './[locale]/destination/[slug]/_types';
+import { DestinationData } from './[locale]/(main)/destination/[slug]/_types';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 import { apiGet } from '@/utils/serverApi';
 

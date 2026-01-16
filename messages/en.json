@@ -1508,5 +1508,77 @@
     "email": "Your email",
     "wishes": "Your wishes",
     "button": "Send request"
+  },
+
+  "adventures": {
+    "header": {
+      "writeForUs": "Write for us",
+      "popular": "Popular",
+      "searchPlaceholder": "What are you looking for..."
+    },
+    "footer": {
+      "subscribeTitle": "Subscribe for stories and inspiration",
+      "subscribePlaceholder": "Email",
+      "subscribeBtn": "Subscribe",
+      "subscribeDisclaimer": "By clicking \"Subscribe,\" you agree to the <link>Privacy Policy</link>.",
+      "company": "Company",
+      "blogNavigation": "Blog navigation",
+      "about": "About Minzifa",
+      "findTrips": "Find Trips",
+      "contact": "Contact",
+      "articles": "Articles",
+      "writeForUs": "Write for us",
+      "stories": "Stories",
+      "travel": "Travel",
+      "life": "Life",
+      "tourThemes": "Tour Themes",
+      "rights": "All rights reserved. \"Unique Travel\" FE by Minzifa Travel.",
+      "address": "70 Eshoni Pir Street, Bukhara 200118, Bukhara, Uzbekistan.",
+      "privacy": "Privacy Policy",
+      "cookie": "Cookie"
+    },
+    "writeForUs": {
+      "heroTitle": "Write for Us",
+      "heroSubtitle": "Share your stories from the Silk Road. Inspire travelers. Become part of our community.",
+      "intro": "We are looking for storytellers, adventurers, and local experts who want to share their unique perspectives on travel in Central Asia.",
+      "whatWeLove": "What We Love",
+      "whatWeLove1": "First-person narratives with strong emotional connections.",
+      "whatWeLove2": "Deep dives into local culture, history, and traditions.",
+      "whatWeLove3": "Practical guides with \"hidden gem\" insights.",
+      "whatWeLove4": "Photo essays that capture the soul of the Silk Road.",
+      "whatWeAvoid": "What We Avoid",
+      "whatWeAvoid1": "Generic \"Top 10\" lists without personal insight.",
+      "whatWeAvoid2": "Purely promotional content or press releases.",
+      "whatWeAvoid3": "Content that has been published elsewhere.",
+      "howToPitch": "How to Pitch",
+      "pitchText": "Send us a brief pitch outlining your story idea. Tell us why it matters now and why you are the best person to write it. Please include a few samples of your previous work.",
+      "emailSpecific": "Email specific pitches to:",
+      "generalInquiries": "General inquiries:",
+      "disclaimer": "* We review every pitch, but due to volume, we may not be able to respond to everyone. If you don't hear from us within 2 weeks, please feel free to take your story elsewhere."
+    },
+    "components": {
+      "backToTop": "Back to top",
+      "readMore": "Read more",
+      "youMightLike": "You might also like",
+      "viewAll": "View all"
+    },
+    "home": {
+      "theGoods": "The Goods",
+      "goodStories": "Good Stories",
+      "goodTrips": "Good Trips",
+      "goodLife": "Good Life",
+      "goodIdeas": "Good Ideas",
+      "goodsNews": "The Goods News",
+      "subscribe": "Subscribe"
+    },
+    "article": {
+      "home": "Home",
+      "writtenBy": "written by",
+      "read": "read",
+      "notFound": "Article Not Found"
+    },
+    "category": {
+      "noArticles": "No articles found in this category yet."
+    }
   }
 }

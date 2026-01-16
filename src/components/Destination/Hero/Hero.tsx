@@ -1,4 +1,4 @@
-import { DestinationData } from '@/app/[locale]/destination/[slug]/_types';
+import { DestinationData } from '@/app/[locale]/(main)/destination/[slug]/_types';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { getTranslations } from 'next-intl/server';

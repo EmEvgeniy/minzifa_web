@@ -1465,5 +1465,77 @@
   },
   "reviewsPage": {
     "title": "Traveler Reviews & Video Stories"
+  },
+
+  "adventures": {
+    "header": {
+      "writeForUs": "Schreiben Sie für uns",
+      "popular": "Beliebt",
+      "searchPlaceholder": "Wonach suchen Sie..."
+    },
+    "footer": {
+      "subscribeTitle": "Abonnieren Sie Geschichten und Inspiration",
+      "subscribePlaceholder": "E-Mail",
+      "subscribeBtn": "Abonnieren",
+      "subscribeDisclaimer": "Mit dem Klick auf \"Abonnieren\" stimmen Sie der <link>Datenschutzerklärung</link> zu.",
+      "company": "Unternehmen",
+      "blogNavigation": "Blog-Navigation",
+      "about": "Über Minzifa",
+      "findTrips": "Reisen finden",
+      "contact": "Kontakt",
+      "articles": "Artikel",
+      "writeForUs": "Schreiben Sie für uns",
+      "stories": "Geschichten",
+      "travel": "Reisen",
+      "life": "Leben",
+      "tourThemes": "Themenreisen",
+      "rights": "Alle Rechte vorbehalten. \"Unique Travel\" FE by Minzifa Travel.",
+      "address": "70 Eshoni Pir Street, 200118 Buchara, Buchara, Usbekistan.",
+      "privacy": "Datenschutzerklärung",
+      "cookie": "Cookie"
+    },
+    "writeForUs": {
+      "heroTitle": "Schreiben Sie für uns",
+      "heroSubtitle": "Teilen Sie Ihre Geschichten von der Seidenstraße. Inspirieren Sie Reisende. Werden Sie Teil unserer Gemeinschaft.",
+      "intro": "Wir suchen Geschichtenerzähler, Abenteurer und lokale Experten, die ihre einzigartigen Perspektiven auf Reisen in Zentralasien teilen möchten.",
+      "whatWeLove": "Was wir lieben",
+      "whatWeLove1": "Erzählungen aus der Ich-Perspektive mit starker emotionaler Verbindung.",
+      "whatWeLove2": "Tiefe Einblicke in die lokale Kultur, Geschichte und Traditionen.",
+      "whatWeLove3": "Praktische Reiseführer mit \"Geheimtipps\".",
+      "whatWeLove4": "Fotoessays, die die Seele der Seidenstraße einfangen.",
+      "whatWeAvoid": "Was wir vermeiden",
+      "whatWeAvoid1": "Generische \"Top 10\"-Listen ohne persönliche Einblicke.",
+      "whatWeAvoid2": "Rein werbliche Inhalte oder Pressemitteilungen.",
+      "whatWeAvoid3": "Inhalte, die bereits anderswo veröffentlicht wurden.",
+      "howToPitch": "Wie man einen Pitch einreicht",
+      "pitchText": "Senden Sie uns einen kurzen Pitch mit Ihrer Geschichte. Sagen Sie uns, warum es jetzt wichtig ist und warum Sie die beste Person sind, um es zu schreiben. Bitte fügen Sie einige Beispiele Ihrer früheren Arbeiten bei.",
+      "emailSpecific": "E-Mail für spezifische Pitches an:",
+      "generalInquiries": "Allgemeine Anfragen:",
+      "disclaimer": "* Wir prüfen jeden Pitch, aber aufgrund der Menge können wir nicht jedem antworten. Wenn Sie innerhalb von 2 Wochen nichts von uns hören, können Sie Ihre Geschichte gerne anderswo anbieten."
+    },
+    "components": {
+      "backToTop": "Zurück nach oben",
+      "readMore": "Weiterlesen",
+      "youMightLike": "Das könnte Ihnen auch gefallen",
+      "viewAll": "Alle anzeigen"
+    },
+    "home": {
+      "theGoods": "Die Highlights",
+      "goodStories": "Gute Geschichten",
+      "goodTrips": "Gute Reisen",
+      "goodLife": "Gutes Leben",
+      "goodIdeas": "Gute Ideen",
+      "goodsNews": "Nachrichten",
+      "subscribe": "Abonnieren"
+    },
+    "article": {
+      "home": "Startseite",
+      "writtenBy": "geschrieben von",
+      "read": "Lesezeit",
+      "notFound": "Artikel nicht gefunden"
+    },
+    "category": {
+      "noArticles": "In dieser Kategorie wurden noch keine Artikel gefunden."
+    }
   }
 }
