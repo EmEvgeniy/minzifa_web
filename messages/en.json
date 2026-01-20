@@ -1512,6 +1512,10 @@
 
   "adventures": {
     "header": {
+      "findTrips": "Find Trips",
+      "articles": "Articles",
+      "tourThemes": "Tour Themes",
+      "about": "About",
       "writeForUs": "Write for us",
       "popular": "Popular",
       "searchPlaceholder": "What are you looking for..."
@@ -1536,6 +1540,21 @@
       "address": "70 Eshoni Pir Street, Bukhara 200118, Bukhara, Uzbekistan.",
       "privacy": "Privacy Policy",
       "cookie": "Cookie"
+    },
+    "becomeAnAuthor": {
+      "heroTitle": "Become an Author",
+      "heroSubtitle": "Inspire the world with your Silk Road stories.",
+      "intro": "Join our community of storytellers and share your unique travel experiences with thousands of readers.",
+      "formTitle": "Apply to Become an Author",
+      "formSubtitle": "Tell us a bit about yourself and we'll get in touch.",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "submitBtn": "Send Application",
+      "successTitle": "Application Sent!",
+      "successMessage": "Thank you for your interest. Our editor will contact you soon.",
+      "error": "Something went wrong. Please try again later."
     },
     "writeForUs": {
       "heroTitle": "Write for Us",
@@ -1579,6 +1598,127 @@
     },
     "category": {
       "noArticles": "No articles found in this category yet."
+    },
+    "admin": {
+      "sidebar": {
+        "dashboard": "Dashboard",
+        "articles": "Articles",
+        "categories": "Categories",
+        "tags": "Tags",
+        "users": "Users",
+        "settings": "Settings",
+        "logout": "Logout"
+      },
+      "header": {
+        "dashboard": "Dashboard",
+        "articles": "Articles",
+        "users": "Users",
+        "tags": "Tags",
+        "adminUser": "Admin User",
+        "logout": "Logout"
+      },
+      "auth": {
+        "login": {
+          "title": "Welcome Back",
+          "subtitle": "Sign in to manage the Adventures section",
+          "heroTitle": "Adventures Control Center",
+          "heroSubtitle": "Manage your stories, inspire travelers, and navigate the digital paths of the Silk Road.",
+          "emailLabel": "Email Address",
+          "emailPlaceholder": "name@example.com",
+          "passwordLabel": "Password",
+          "passwordPlaceholder": "••••••••",
+          "signInBtn": "Sign In",
+          "noAccount": "Don't have an account?",
+          "signUpLink": "Sign up",
+          "invalidCredentials": "Invalid email or password. Please try again."
+        },
+        "register": {
+          "title": "Create Account",
+          "subtitle": "Sign up to start managing Adventures content",
+          "heroTitle": "Join the Adventure",
+          "heroSubtitle": "Create your account and start sharing amazing stories with travelers around the world.",
+          "nameLabel": "Full Name",
+          "namePlaceholder": "John Doe",
+          "emailLabel": "Email Address",
+          "emailPlaceholder": "name@example.com",
+          "passwordLabel": "Password",
+          "passwordPlaceholder": "••••••••",
+          "confirmPasswordLabel": "Confirm Password",
+          "confirmPasswordPlaceholder": "••••••••",
+          "createAccountBtn": "Create Account",
+          "haveAccount": "Already have an account?",
+          "signInLink": "Sign in",
+          "registrationFailed": "Registration failed. Please try again.",
+          "registrationSuccess": "Registration successful! Redirecting to login..."
+        },
+        "validation": {
+          "invalidEmail": "Invalid email address",
+          "passwordMin": "Password must be at least 6 characters",
+          "nameMin": "Name must be at least 2 characters",
+          "passwordsNoMatch": "Passwords don't match"
+        },
+        "footer": "All rights reserved."
+      },
+      "articles": {
+        "title": "Articles",
+        "addNew": "Add Article",
+        "edit": "Edit Article",
+        "status": "Status",
+        "author": "Author",
+        "date": "Date",
+        "search": "Search articles...",
+        "published": "Published",
+        "draft": "Draft",
+        "archived": "Archived",
+        "toReview": "To Review"
+      },
+      "users": {
+        "title": "Users",
+        "subtitle": "Manage team and access rights",
+        "count": "{count, plural, one {# member} other {# members}} in your team",
+        "member": "member",
+        "members": "members",
+        "addNew": "Add User",
+        "edit": "Edit User",
+        "search": "Search users by name or email...",
+        "role": "Role",
+        "articles": "Articles",
+        "joined": "Joined",
+        "actions": "Actions",
+        "noMatches": "No users found",
+        "form": {
+          "titleAdd": "Add User",
+          "titleEdit": "Edit User",
+          "descriptionAdd": "Create a new member of the Adventures team",
+          "descriptionEdit": "Manage member settings and access rights",
+          "displayName": "Display Name",
+          "email": "Email Address",
+          "password": "Password",
+          "passwordEdit": "New password (leave empty if you don't want to change)",
+          "role": "Access Role",
+          "save": "Save Changes",
+          "create": "Create User",
+          "delete": "Delete User",
+          "deleteConfirm": "Are you sure you want to delete this user?"
+        },
+        "toasts": {
+          "createSuccess": "User created successfully",
+          "updateSuccess": "User updated successfully",
+          "deleteSuccess": "User deleted successfully",
+          "createError": "Failed to create user",
+          "updateError": "Failed to update user",
+          "deleteError": "Failed to delete user"
+        }
+      },
+      "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "actions": "Actions",
+        "loading": "Loading...",
+        "noData": "No data found"
+      }
     }
   }
 }

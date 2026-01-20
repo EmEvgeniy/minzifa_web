@@ -658,16 +658,22 @@
     }
   },
   "article": {
-    "reading_time": "{time} min read",
+    "reading_time": "{time} Min. Lesedauer",
+    "writtenBy": "Geschrieben von",
+    "read": "Min. lesen",
+    "home": "Startseite",
     "cyt": {
-      "title": "Ready for Your Dream Trip?",
-      "text": "Let Us Customize Your Perfect Tour - Fill Out Our Form Now!",
-      "btn": "CREATE MY TRIP"
+      "title": "Bereit für Ihre Traumreise?",
+      "text": "Lassen Sie uns Ihre perfekte Tour anpassen – füllen Sie jetzt unser Formular aus!",
+      "btn": "MEINE REISE ERSTELLEN"
     },
     "form": {
-      "title": "Commentary",
-      "pl": "Your commentary...",
-      "btn": "Send comment"
+      "title": "Kommentar",
+      "pl": "Ihr Kommentar...",
+      "btn": "Kommentar senden"
+    },
+    "components": {
+      "youMightLike": "Das könnte Ihnen auch gefallen"
     }
   },
   "destination": {
@@ -1468,7 +1474,22 @@
   },
 
   "adventures": {
+    "blocks": {
+      "paragraph": "Absatz",
+      "heading": "Überschrift",
+      "image": "Bild",
+      "quote": "Zitat",
+      "list": "Liste",
+      "separator": "Trennlinie",
+      "add_block": "Block hinzufügen",
+      "drag_handle": "Ziehen zum Verschieben",
+      "remove": "Entfernen"
+    },
     "header": {
+      "findTrips": "Reisen finden",
+      "articles": "Artikel",
+      "tourThemes": "Themenreisen",
+      "about": "Über uns",
       "writeForUs": "Schreiben Sie für uns",
       "popular": "Beliebt",
       "searchPlaceholder": "Wonach suchen Sie..."
@@ -1493,6 +1514,21 @@
       "address": "70 Eshoni Pir Street, 200118 Buchara, Buchara, Usbekistan.",
       "privacy": "Datenschutzerklärung",
       "cookie": "Cookie"
+    },
+    "becomeAnAuthor": {
+      "heroTitle": "Autor werden",
+      "heroSubtitle": "Inspirieren Sie die Welt mit Ihren Geschichten von der Seidenstraße.",
+      "intro": "Werden Sie Teil unserer Gemeinschaft von Geschichtenerzählern und teilen Sie Ihre einzigartigen Reiseerlebnisse mit Tausenden von Lesern.",
+      "formTitle": "Als Autor bewerben",
+      "formSubtitle": "Erzählen Sie uns ein wenig über sich und wir melden uns bei Ihnen.",
+      "nameLabel": "Vollständiger Name",
+      "namePlaceholder": "Max Mustermann",
+      "emailLabel": "E-Mail-Adresse",
+      "emailPlaceholder": "max@example.com",
+      "submitBtn": "Bewerbung senden",
+      "successTitle": "Bewerbung gesendet!",
+      "successMessage": "Vielen Dank für Ihr Interesse. Unser Redakteur wird sich bald mit Ihnen in Verbindung setzen.",
+      "error": "Etwas ist schief gelaufen. Bitte versuchen Sie es später noch einmal."
     },
     "writeForUs": {
       "heroTitle": "Schreiben Sie für uns",
@@ -1536,6 +1572,127 @@
     },
     "category": {
       "noArticles": "In dieser Kategorie wurden noch keine Artikel gefunden."
+    },
+    "admin": {
+      "sidebar": {
+        "dashboard": "Dashboard",
+        "articles": "Artikel",
+        "categories": "Kategorien",
+        "tags": "Tags",
+        "users": "Benutzer",
+        "settings": "Einstellungen",
+        "logout": "Abmelden"
+      },
+      "header": {
+        "dashboard": "Dashboard",
+        "articles": "Artikel",
+        "users": "Benutzer",
+        "tags": "Tags",
+        "adminUser": "Admin-Benutzer",
+        "logout": "Abmelden"
+      },
+      "auth": {
+        "login": {
+          "title": "Willkommen zurück",
+          "subtitle": "Melden Sie sich an, um den Adventures-Bereich zu verwalten",
+          "heroTitle": "Adventures Control Center",
+          "heroSubtitle": "Verwalten Sie Ihre Geschichten, inspirieren Sie Reisende und navigieren Sie auf den digitalen Pfaden der Seidenstraße.",
+          "emailLabel": "E-Mail-Adresse",
+          "emailPlaceholder": "name@beispiel.de",
+          "passwordLabel": "Passwort",
+          "passwordPlaceholder": "••••••••",
+          "signInBtn": "Anmelden",
+          "noAccount": "Noch kein Konto?",
+          "signUpLink": "Registrieren",
+          "invalidCredentials": "Ungültige E-Mail oder Passwort. Bitte versuchen Sie es erneut."
+        },
+        "register": {
+          "title": "Konto erstellen",
+          "subtitle": "Registrieren Sie sich, um Adventures-Inhalte zu verwalten",
+          "heroTitle": "Werden Sie Teil des Abenteuers",
+          "heroSubtitle": "Erstellen Sie Ihr Konto und teilen Sie erstaunliche Geschichten mit Reisenden auf der ganzen Welt.",
+          "nameLabel": "Vollständiger Name",
+          "namePlaceholder": "Max Mustermann",
+          "emailLabel": "E-Mail-Adresse",
+          "emailPlaceholder": "name@beispiel.de",
+          "passwordLabel": "Passwort",
+          "passwordPlaceholder": "••••••••",
+          "confirmPasswordLabel": "Passwort bestätigen",
+          "confirmPasswordPlaceholder": "••••••••",
+          "createAccountBtn": "Konto erstellen",
+          "haveAccount": "Bereits ein Konto?",
+          "signInLink": "Anmelden",
+          "registrationFailed": "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+          "registrationSuccess": "Registrierung erfolgreich! Weiterleitung zum Login..."
+        },
+        "validation": {
+          "invalidEmail": "Ungültige E-Mail-Adresse",
+          "passwordMin": "Passwort muss mindestens 6 Zeichen lang sein",
+          "nameMin": "Name muss mindestens 2 Zeichen lang sein",
+          "passwordsNoMatch": "Passwörter stimmen nicht überein"
+        },
+        "footer": "Alle Rechte vorbehalten."
+      },
+      "articles": {
+        "title": "Artikel",
+        "addNew": "Artikel hinzufügen",
+        "edit": "Artikel bearbeiten",
+        "status": "Status",
+        "author": "Autor",
+        "date": "Datum",
+        "search": "Artikel suchen...",
+        "published": "Veröffentlicht",
+        "draft": "Entwurf",
+        "archived": "Archiviert",
+        "toReview": "Zur Überprüfung"
+      },
+      "users": {
+        "title": "Benutzer",
+        "subtitle": "Team und Zugriffsrechte verwalten",
+        "count": "{count, plural, one {# Mitglied} other {# Mitglieder}} in Ihrem Team",
+        "member": "Mitglied",
+        "members": "Mitglieder",
+        "addNew": "Benutzer hinzufügen",
+        "edit": "Benutzer bearbeiten",
+        "search": "Benutzer nach Name oder E-Mail suchen...",
+        "role": "Rolle",
+        "articles": "Artikel",
+        "joined": "Beigetreten",
+        "actions": "Aktionen",
+        "noMatches": "Keine Benutzer gefunden",
+        "form": {
+          "titleAdd": "Benutzer hinzufügen",
+          "titleEdit": "Benutzer bearbeiten",
+          "descriptionAdd": "Erstellen Sie ein neues Mitglied für das Adventures-Team",
+          "descriptionEdit": "Mitgliedseinstellungen und Zugriffsrechte verwalten",
+          "displayName": "Anzeigename",
+          "email": "E-Mail-Adresse",
+          "password": "Passwort",
+          "passwordEdit": "Neues Passwort (leer lassen, wenn keine Änderung gewünscht)",
+          "role": "Zugriffsrolle",
+          "save": "Änderungen speichern",
+          "create": "Benutzer erstellen",
+          "delete": "Benutzer löschen",
+          "deleteConfirm": "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?"
+        },
+        "toasts": {
+          "createSuccess": "Benutzer erfolgreich erstellt",
+          "updateSuccess": "Benutzer erfolgreich aktualisiert",
+          "deleteSuccess": "Benutzer erfolgreich gelöscht",
+          "createError": "Fehler beim Erstellen des Benutzers",
+          "updateError": "Fehler beim Aktualisieren des Benutzers",
+          "deleteError": "Fehler beim Löschen des Benutzers"
+        }
+      },
+      "common": {
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "actions": "Aktionen",
+        "loading": "Laden...",
+        "noData": "Keine Daten gefunden"
+      }
     }
   }
 }

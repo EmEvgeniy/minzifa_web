@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Article } from '@/components/Adventures/data/mockData';
+import type { Article } from '@/types/adventures';
 import ArticleCard from '@/components/Adventures/UI/ArticleCard/ArticleCard';
 import BlockTitle from '../../UI/shared/BlockTitle';
 import { FaChevronRight } from 'react-icons/fa6';
@@ -12,9 +12,10 @@ interface Props {
     listArticles: Article[];
     title: string;
     viewAllText: string;
+    categorySlug: string;
 }
 
-export default function TheGoodsSection({ mainArticle, listArticles, title, viewAllText }: Props) {
+export default function TheGoodsSection({ mainArticle, listArticles, title, viewAllText, categorySlug }: Props) {
     const locale = useLocale();
     return (
         <div className="mb-12">
@@ -34,7 +35,7 @@ export default function TheGoodsSection({ mainArticle, listArticles, title, view
                     </div>
                 </div>
                 <div className="flex justify-end mt-8">
-                    <Link href={`/${locale}/prototype/adventures/goods`} className="flex items-center gap-2 text-base font-medium text-gray-500 hover:text-foreground transition-colors uppercase">
+                    <Link href={`/${locale}/prototype/adventures/category/${categorySlug}`} className="flex items-center gap-2 text-base font-medium text-gray-500 hover:text-foreground transition-colors uppercase">
                         {viewAllText} <FaChevronRight size={16} />
                     </Link>
                 </div>

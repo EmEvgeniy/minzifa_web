@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { getNavLinks, getCategories } from '@/components/Adventures/data/mockData';
+import { ADVENTURES_NAV_LINKS } from '@/utils/adventures/navigation';
+import { useCategories } from '@/api/adventures/categories';
 import Dropdown from './Dropdown';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -13,8 +14,11 @@ interface NavigationProps {
 export default function Navigation({ hidden = false, centered = false }: NavigationProps) {
     const locale = useLocale();
     const t = useTranslations('adventures.header');
-    const navLinks = getNavLinks(locale);
-    const categories = getCategories(locale);
+    const { data: categories } = useCategories();
+    const navLinks = ADVENTURES_NAV_LINKS.map(link => ({
+        ...link,
+        label: t(link.label)
+    }));
 
     if (hidden) return null;
 
@@ -28,7 +32,7 @@ export default function Navigation({ hidden = false, centered = false }: Navigat
                     >
                         {link.href === '/prototype/adventures' ? (
                             <>
-                                {categories.map((category) => (
+                                {(categories || []).map((category) => (
                                     <Link
                                         key={category.id}
                                         href={`/${locale}${link.href}/category/${category.slug}`}

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Article } from '@/components/Adventures/data/mockData';
+import { Article } from '@/types/adventures';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 interface HeroSectionProps {
@@ -29,7 +29,7 @@ export default function HeroSection({ articles }: HeroSectionProps) {
         <section className="relative w-full aspect-[16/9] max-h-[70vh] overflow-hidden">
             {/* Background Image */}
             <Image
-                src={currentArticle.image}
+                src={currentArticle.image || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1200&h=800&fit=crop'}
                 alt={currentArticle.title}
                 fill
                 priority

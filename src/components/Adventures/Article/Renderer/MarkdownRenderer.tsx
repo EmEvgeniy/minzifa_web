@@ -6,6 +6,9 @@ import ArticleSlider from '../UI/ArticleSlider';
 import ArticleGridGallery from '../UI/ArticleGridGallery';
 import Link from 'next/link';
 import InfoBlock from '../UI/InfoBlock';
+import ArticleVideo from '../UI/ArticleVideo';
+import ArticleSeparator from '../UI/ArticleSeparator';
+import { ArticleGrid, ArticleLeft, ArticleRight } from '../UI/ArticleGrid';
 
 const components = {
     h1: (props: any) => (
@@ -55,6 +58,11 @@ const components = {
     Slider: ArticleSlider,
     Gallery: ArticleGridGallery,
     InfoBlock: InfoBlock,
+    Video: ArticleVideo,
+    Separator: ArticleSeparator,
+    Grid: ArticleGrid,
+    Left: ArticleLeft,
+    Right: ArticleRight
 };
 
 interface MarkdownRendererProps {
@@ -68,3 +76,6 @@ export default function MarkdownRenderer({ source }: MarkdownRendererProps) {
         </div>
     );
 }
+
+// Named export for dynamic import
+export { MarkdownRenderer };

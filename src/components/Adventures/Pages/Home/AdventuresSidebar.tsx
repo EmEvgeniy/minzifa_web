@@ -1,6 +1,6 @@
 'use client';
 
-import { Article } from '@/components/Adventures/data/mockData';
+import type { Article } from '@/types/adventures';
 import SubscribeSection from '@/components/Adventures/UI/SubscribeSection/SubscribeSection';
 import ArticleCard from '../../UI/ArticleCard/ArticleCard';
 import BlockTitle from '../../UI/shared/BlockTitle';

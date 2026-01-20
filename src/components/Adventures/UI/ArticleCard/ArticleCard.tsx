@@ -1,4 +1,4 @@
-import { Article } from '@/components/Adventures/data/mockData';
+import type { Article } from '@/types/adventures';
 import ArticleCardVertical from './variants/ArticleCardVertical';
 import ArticleCardHorizontal from './variants/ArticleCardHorizontal';
 import ArticleCardMinimal from './variants/ArticleCardMinimal';

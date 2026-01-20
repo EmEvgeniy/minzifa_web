@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Article } from '@/components/Adventures/data/mockData';
+import { Article } from '@/types/adventures';
 import { useLocale } from 'next-intl';
 
 interface Props {
@@ -19,7 +19,7 @@ export default function ArticleCardMinimal({ article, className = '' }: Props) {
         >
             <div className="relative w-[90px] aspect-square shrink-0 overflow-hidden rounded">
                 <Image
-                    src={article.image}
+                    src={article.image || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&h=600&fit=crop'}
                     alt={article.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -30,11 +30,11 @@ export default function ArticleCardMinimal({ article, className = '' }: Props) {
                     {article.title}
                 </h3>
                 <span className="text-gray-400 text-[10px] uppercase tracking-wider font-medium">
-                    {new Date(article.publishedAt).toLocaleDateString('en-US', {
+                    {article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', {
                         month: 'long',
                         day: 'numeric',
                         year: 'numeric'
-                    })}
+                    }) : 'Not published'}
                 </span>
             </div>
         </Link>

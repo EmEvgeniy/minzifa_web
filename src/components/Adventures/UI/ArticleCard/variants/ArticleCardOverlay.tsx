@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Article } from '@/components/Adventures/data/mockData';
+import { Article } from '@/types/adventures';
 import { useLocale } from 'next-intl';
 
 interface Props {
@@ -18,7 +18,7 @@ export default function ArticleCardOverlay({ article, className = '' }: Props) {
             className={`group relative block aspect-[1.3/1] overflow-hidden rounded-2xl ${className}`}
         >
             <Image
-                src={article.image}
+                src={article.image || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&h=600&fit=crop'}
                 alt={article.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -32,7 +32,7 @@ export default function ArticleCardOverlay({ article, className = '' }: Props) {
                     {article.title}
                 </h3>
                 <span className="text-white/90 text-xs lg:text-sm drop-shadow-sm font-medium">
-                    {article.author.name || 'Alimov Alim'}
+                    {article.author?.name || 'Alimov Alim'}
                 </span>
             </div>
         </Link>

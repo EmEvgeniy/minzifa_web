@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ArticleCard from '@/components/Adventures/UI/ArticleCard/ArticleCard';
-import { Article } from '@/components/Adventures/data/mockData';
+import type { Article } from '@/types/adventures';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { cn } from '@/utils';
 

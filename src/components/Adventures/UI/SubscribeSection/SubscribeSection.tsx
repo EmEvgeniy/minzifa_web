@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useFormSubmit } from '@/hooks/useFormSubmit';
+import { useRecaptcha } from '@/hooks/useRecaptcha';
+import { FormNameEnum } from '@/constants';
 
 interface SubscribeSectionProps {
     title?: string;
@@ -19,11 +22,33 @@ export default function SubscribeSection({
         email: '',
         agreed: false
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const { getToken, token } = useRecaptcha();
+
+    const { submitForm, isSubmitting } = useFormSubmit({
+        onSuccess: () => {
+            setIsSubmitted(true);
+            setFormData({
+                firstName: '',
+                lastName: '',
+                country: '',
+                email: '',
+                agreed: false
+            });
+            setTimeout(() => setIsSubmitted(false), 5000);
+        },
+        onError: (error) => {
+            console.error('Subscription failed:', error);
+        }
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
+
+        if (name === 'agreed' && checked && !token) {
+            getToken(FormNameEnum.ADVENTURES_SUBSCRIBE);
+        }
+
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
@@ -32,21 +57,15 @@ export default function SubscribeSection({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!formData.agreed) return;
+        if (!formData.agreed || isSubmitting || !token) return;
 
-        setIsSubmitting(true);
-        // Эмуляция запроса
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        setFormData({
-            firstName: '',
-            lastName: '',
-            country: '',
-            email: '',
-            agreed: false
+        await submitForm(FormNameEnum.ADVENTURES_SUBSCRIBE, {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            country: formData.country,
+            email: formData.email,
+            recaptchaToken: token
         });
-        setTimeout(() => setIsSubmitted(false), 3000);
     };
 
     const inputClasses = "w-full px-4 py-3.5 bg-white border border-gray-300 rounded-[18px] text-sm text-text-secondary outline-none focus:border-[#28A745] transition-colors placeholder:text-gray-400";
@@ -142,7 +161,7 @@ export default function SubscribeSection({
                     <div className="pt-4">
                         <button
                             type="submit"
-                            disabled={isSubmitting || !formData.agreed}
+                            disabled={isSubmitting || !formData.agreed || !token}
                             className="w-full px-6 py-4 bg-[#28A745] hover:bg-[#218838] text-white rounded-full font-bold text-sm lg:text-base transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(40,167,69,0.3)] hover:shadow-[0_6px_20px_rgba(40,167,69,0.23)] active:scale-[0.98]"
                         >
                             {isSubmitting ? (

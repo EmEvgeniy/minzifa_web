@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiX, FiChevronDown, FiSearch, FiChevronUp } from 'react-icons/fi';
-import { getNavLinks, getCategories } from '@/components/Adventures/data/mockData';
+import { ADVENTURES_NAV_LINKS } from '@/utils/adventures/navigation';
+import { useCategories } from '@/api/adventures/categories';
 import LanguageDropdown from './LanguageDropdown';
 import { cn } from '@/utils';
 import { useLocale, useTranslations } from 'next-intl';
@@ -17,8 +18,12 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     const locale = useLocale();
     const tHeader = useTranslations('adventures.header');
     const tFooter = useTranslations('adventures.footer');
-    const navLinks = getNavLinks(locale);
-    const categories = getCategories(locale);
+    const { data: categories } = useCategories();
+
+    const navLinks = ADVENTURES_NAV_LINKS.map(link => ({
+        ...link,
+        label: tHeader(link.label)
+    }));
 
     const [openAccordion, setOpenAccordion] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -93,7 +98,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                     >
                                         <div className="overflow-hidden flex flex-col gap-3 pl-2">
                                             {link.href === '/prototype/adventures' ? (
-                                                categories.map((category) => (
+                                                (categories || []).map((category) => (
                                                     <Link
                                                         key={category.id}
                                                         href={`/${locale}${link.href}/category/${category.slug}`}

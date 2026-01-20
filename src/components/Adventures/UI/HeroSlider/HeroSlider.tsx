@@ -3,8 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Article } from '@/components/Adventures/data/mockData';
+import { Article } from '@/types/adventures';
 import { useLocale } from 'next-intl';
+import { z } from 'zod';
 
 interface HeroSliderProps {
     articles: Article[];
@@ -15,6 +16,7 @@ export default function HeroSlider({ articles }: HeroSliderProps) {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
+    const urlSchema = z.url();
 
     const minSwipeDistance = 50;
 
@@ -68,14 +70,14 @@ export default function HeroSlider({ articles }: HeroSliderProps) {
                         className="block w-full h-full relative"
                     >
                         {/* Image */}
-                        <Image
-                            src={article.image}
+                        {urlSchema.safeParse(article.image).success && <Image
+                            src={article.image || "/images/placeholder.jpg"}
                             alt={article.title}
                             fill
                             className="object-cover"
                             sizes="100vw"
                             priority={index === 0}
-                        />
+                        />}
                         {/* Gradient overlay - усиленное затемнение */}
                         <div className="absolute inset-0 bg-black/50" />
 
@@ -83,7 +85,9 @@ export default function HeroSlider({ articles }: HeroSliderProps) {
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-16">
                             {/* Category - простой текст без фона */}
                             <span className="text-white text-sm font-medium tracking-wider uppercase mb-3 drop-shadow">
-                                {article.category.name}
+                                {typeof article.categories?.[0] === 'object' && article.categories?.[0]?.name
+                                    ? article.categories[0].name
+                                    : 'No Category'}
                             </span>
                             {/* Title */}
                             <h1 className="text-white text-2xl md:text-3xl lg:text-[56px] font-title leading-tight max-w-4xl drop-shadow-lg mb-8">

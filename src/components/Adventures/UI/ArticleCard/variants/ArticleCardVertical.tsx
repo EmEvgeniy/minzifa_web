@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Article } from '@/components/Adventures/data/mockData';
+import { Article } from '@/types/adventures';
 import { useLocale } from 'next-intl';
 
 interface Props {
@@ -18,7 +18,7 @@ export default function ArticleCardVertical({ article, className = '', showExcer
             <Link href={`/${locale}/prototype/adventures/${article.slug}`} className="group block">
                 <div className="relative aspect-square md:aspect-[4/3] overflow-hidden rounded-xl mb-4">
                     <Image
-                        src={article.image}
+                        src={article.image || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&h=600&fit=crop'}
                         alt={article.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -30,7 +30,7 @@ export default function ArticleCardVertical({ article, className = '', showExcer
                         {article.title}
                     </h3>
                     <p className="text-gray-500 text-sm">
-                        By {article.author.name || 'Alimov Alim'}
+                        By {article.author?.name || 'Alimov Alim'}
                     </p>
                     {showExcerpt && (
                         <p className="text-gray-500 text-sm mt-2">

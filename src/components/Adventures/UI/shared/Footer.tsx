@@ -108,7 +108,7 @@ export default function Footer() {
                             <ul className="space-y-3">
                                 <li><Link href="/about" className="text-[13px] text-gray-600 hover:text-foreground transition-colors">{t('about')}</Link></li>
                                 <li><Link href="/trips" className="text-[13px] text-gray-600 hover:text-foreground transition-colors">{t('findTrips')}</Link></li>
-                                <li><Link href="/prototype/adventures/write-for-us" className="text-[13px] text-gray-600 hover:text-foreground transition-colors">{t('writeForUs')}</Link></li>
+                                <li><Link href="/prototype/adventures/become-an-author" className="text-[13px] text-gray-600 hover:text-foreground transition-colors">{t('writeForUs')}</Link></li>
                                 <li><Link href="#" className="text-[13px] text-gray-600 hover:text-foreground transition-colors">{t('contact')}</Link></li>
                             </ul>
                         </div>
