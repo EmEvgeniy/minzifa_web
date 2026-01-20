@@ -30,7 +30,7 @@ export default function ArticleCardVertical({ article, className = '', showExcer
                         {article.title}
                     </h3>
                     <p className="text-gray-500 text-sm">
-                        By {article.author?.name || 'Alimov Alim'}
+                        By {article?.user?.name}
                     </p>
                     {showExcerpt && (
                         <p className="text-gray-500 text-sm mt-2">

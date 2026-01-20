@@ -46,7 +46,7 @@ export default function HeroSection({ articles }: HeroSectionProps) {
                     <div className="max-w-2xl">
                         {/* Category */}
                         <span className="inline-block px-3 py-1 bg-foreground text-white text-xs font-medium rounded-full mb-4">
-                            {currentArticle.category?.name}
+                            {currentArticle?.categories?.[0]?.name}
                         </span>
 
                         {/* Title */}

@@ -1,5 +1,5 @@
 import { adventuresAxiosInstance } from '@/utils/adventures/axios';
-import type { Article, Category } from '@/types/adventures';
+import { Article, Category, ArticleStatuses } from '@/types/adventures';
 import HeroSlider from '@/components/Adventures/UI/HeroSlider/HeroSlider';
 import TheGoodsSection from '../../../../../../components/Adventures/Pages/Home/TheGoodsSection';
 import GoodStoriesSection from '../../../../../../components/Adventures/Pages/Home/GoodStoriesSection';
@@ -23,11 +23,15 @@ export default async function AdventuresHome({ params }: { params: Promise<{ loc
 
     try {
         const [articlesResponse, categoriesResponse] = await Promise.all([
-            adventuresAxiosInstance.get<PaginatedData<Article>>('/articles'),
-            adventuresAxiosInstance.get('/categories')
+            adventuresAxiosInstance.get<PaginatedData<Article>>('/articles', {
+                params: { locale, status: ArticleStatuses.PUBLISHED }
+            }),
+            adventuresAxiosInstance.get('/categories', {
+                params: { locale }
+            })
         ]);
 
-        allArticles = articlesResponse.data.data;
+        allArticles = (articlesResponse.data.data || []).filter(article => article.lang === locale);
         categories = Array.isArray(categoriesResponse.data)
             ? categoriesResponse.data
             : [];

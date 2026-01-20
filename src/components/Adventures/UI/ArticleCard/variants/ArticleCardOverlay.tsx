@@ -32,7 +32,7 @@ export default function ArticleCardOverlay({ article, className = '' }: Props) {
                     {article.title}
                 </h3>
                 <span className="text-white/90 text-xs lg:text-sm drop-shadow-sm font-medium">
-                    {article.author?.name || 'Alimov Alim'}
+                    {article?.user?.name}
                 </span>
             </div>
         </Link>

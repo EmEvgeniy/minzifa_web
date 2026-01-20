@@ -18,7 +18,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     const locale = useLocale();
     const tHeader = useTranslations('adventures.header');
     const tFooter = useTranslations('adventures.footer');
-    const { data: categories } = useCategories();
+    const { data: categories } = useCategories(locale);
 
     const navLinks = ADVENTURES_NAV_LINKS.map(link => ({
         ...link,

@@ -30,7 +30,7 @@ export default function ArticleCardMinimal({ article, className = '' }: Props) {
                     {article.title}
                 </h3>
                 <span className="text-gray-400 text-[10px] uppercase tracking-wider font-medium">
-                    {article.published_at ? new Date(article.published_at).toLocaleDateString('en-US', {
+                    {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('en-US', {
                         month: 'long',
                         day: 'numeric',
                         year: 'numeric'

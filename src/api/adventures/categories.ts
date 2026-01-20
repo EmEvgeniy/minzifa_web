@@ -12,16 +12,22 @@ import type { Category } from '@/types/adventures';
 
 import { PaginatedData } from '@/types/common';
 
-export const useCategories = (): UseQueryResult<Category[], AxiosError> => {
+export const useCategories = (locale?: string): UseQueryResult<Category[], AxiosError> => {
   return useQuery<Category[], AxiosError>({
-    queryKey: ['categories'],
+    queryKey: ['categories', { locale }],
     queryFn: async () => {
       const response = await authAdventuresAxiosInstance.get<PaginatedData<Category> | Category[]>(
         '/categories',
+        { params: { locale } },
       );
       const result = response.data;
-      if (Array.isArray(result)) return result;
-      return result?.data || [];
+      const data = Array.isArray(result) ? result : result?.data || [];
+
+      // Принудительная фильтрация по языку на фронтенде (fallback)
+      if (locale) {
+        return data.filter((c) => c.lang === locale);
+      }
+      return data;
     },
   });
 };
@@ -63,8 +69,9 @@ export const useUpdateCategory = (): UseMutationResult<
       const response = await authAdventuresAxiosInstance.patch<Category>(`/categories/${id}`, data);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
+      queryClient.invalidateQueries({ queryKey: ['categories', id] });
     },
   });
 };

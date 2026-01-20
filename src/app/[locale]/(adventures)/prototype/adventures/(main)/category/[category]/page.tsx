@@ -1,5 +1,5 @@
 import { adventuresAxiosInstance } from "@/utils/adventures/axios";
-import { Article, Category } from '@/types/adventures';
+import { Article, Category, ArticleStatuses } from '@/types/adventures';
 import CategoryHeader from "@/components/Adventures/Category/CategoryHeader";
 import CategoryArticlesList from "@/components/Adventures/Category/CategoryArticlesList";
 import Pagination from "@/components/Adventures/UI/shared/Pagination";
@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 
 import { getTranslations } from "next-intl/server";
 import { PaginatedData } from "@/types/common";
+import { Metadata } from "next";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -38,6 +39,37 @@ export async function generateStaticParams() {
     }
 }
 
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ category: string; locale: string }>;
+}): Promise<Metadata> {
+    const { category, locale } = await params;
+    const t = await getTranslations({ locale, namespace: 'adventures.category' });
+
+    try {
+        const response = await adventuresAxiosInstance.get<Category[]>('/categories');
+        const categories = Array.isArray(response.data) ? response.data : [];
+        const categoryData = categories.find((c: Category) => c.slug === category);
+
+        if (!categoryData) {
+            return {
+                title: t('notFound'),
+            };
+        }
+
+        return {
+            title: categoryData.name,
+            description: categoryData.description || '',
+        };
+    } catch (error) {
+        console.error('Failed to generate metadata for category:', error);
+        return {
+            title: t('notFound'),
+        };
+    }
+}
+
 export default async function CategoryPage({
     params,
     searchParams
@@ -55,35 +87,35 @@ export default async function CategoryPage({
     let categoryData: Category | null = null;
 
     try {
-        // Fetch all articles and categories
-        const [articlesResponse, categoriesResponse] = await Promise.all([
-            adventuresAxiosInstance.get<PaginatedData<Article>>('/articles'),
-            adventuresAxiosInstance.get<Category[]>('/categories')
+        // Fetch articles with locale, category and status filter, and fetch specific category data with lang
+        const [articlesResponse, categoryResponse] = await Promise.all([
+            adventuresAxiosInstance.get<PaginatedData<Article>>('/articles', {
+                params: {
+                    locale,
+                    categories: [category],
+                    status: ArticleStatuses.PUBLISHED,
+                    perPage: ITEMS_PER_PAGE,
+                    page: currentPage
+                }
+            }),
+            adventuresAxiosInstance.get<Category>(`/categories/${category}`, {
+                params: { lang: locale }
+            })
         ]);
 
-        const articles = articlesResponse.data.data;
-        const categories = Array.isArray(categoriesResponse.data)
-            ? categoriesResponse.data
-            : [];
+        allArticles = (articlesResponse.data.data || []).filter(article => article.lang === locale);
+        categoryData = categoryResponse.data || null;
 
-        // Map category IDs to category objects for all articles
-        const articlesWithCategories = articles.map(article => ({
-            ...article,
-            categories: article.categories
-                ?.map((catId: any) => {
-                    if (typeof catId === 'number') {
-                        return categories.find((c: Category) => c.id === catId);
-                    }
-                    return catId;
-                })
-                .filter(Boolean)
-        }));
+        // Ensure articles have category objects mapped (though backend should provide them)
+        if (categoryData && allArticles.length > 0) {
+            allArticles = allArticles.map(article => ({
+                ...article,
+                categories: article.categories?.map((cat: any) =>
+                    typeof cat === 'number' && cat === categoryData?.id ? categoryData : cat
+                ).filter(Boolean)
+            })) as any;
+        }
 
-        // Filter articles by category slug
-        allArticles = articlesWithCategories.filter(a => a?.categories?.[0]?.slug === category);
-
-        // Get category data
-        categoryData = categories.find((c: Category) => c.slug === category) || null;
     } catch (error) {
         console.error("Failed to fetch articles by category:", error);
     }

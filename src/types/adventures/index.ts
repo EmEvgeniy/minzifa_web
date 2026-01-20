@@ -79,6 +79,8 @@ export interface AdventureUser {
   role: AdventureRoles;
   password?: string;
   avatar?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface LoginResponse {

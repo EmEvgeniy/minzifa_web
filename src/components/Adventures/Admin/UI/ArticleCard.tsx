@@ -14,7 +14,6 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard = ({ article, locale, userRole, onDelete, onMoveToDraft }: ArticleCardProps) => {
-    const isPublished = article.status === ArticleStatuses.PUBLISHED || !!article.publishedAt;
     const placeholderImage = 'https://placehold.co/600x400/png?text=No+Image';
 
     // Safety check for image URL
@@ -103,7 +102,7 @@ export const ArticleCard = ({ article, locale, userRole, onDelete, onMoveToDraft
 
                     <div className="flex items-center gap-1">
                         <FiClock className="w-3.5 h-3.5" />
-                        <span>{article.readTime || 5} min read</span>
+                        <span>{article.readTime} min read</span>
                     </div>
                 </div>
 

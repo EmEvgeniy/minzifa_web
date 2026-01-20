@@ -26,11 +26,9 @@ export default function EditCategoryPage() {
         );
     }
 
-    // Server returns either flat structure OR translations array
-    // Handling both for robustness
-    const name = category.name || category.translations?.find(t => t.lang === locale)?.name || category.translations?.[0]?.name || '';
-    const description = category.description || category.translations?.find(t => t.lang === locale)?.description || category.translations?.[0]?.description || '';
-    const lang = category.lang || category.translations?.find(t => t.lang === locale)?.lang || locale || 'en';
+    const name = category.name;
+    const description = category.description;
+    const lang = category.lang;
 
     const initialData = {
         id: category.id,

@@ -12,21 +12,22 @@ interface CategoriesListProps {
 }
 
 export default function CategoriesList({ locale }: CategoriesListProps) {
-    const { data: categories, isLoading: isCategoriesLoading } = useCategories();
+    const { data: categories, isLoading: isCategoriesLoading } = useCategories(locale);
     const { data: articles } = useArticles();
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Filter categories
+    // Filter categories by search query and locale
     const filteredCategories = (categories || []).filter(category => {
         const name = category.name || '';
-        return name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesLocale = category.lang === locale;
+        return matchesSearch && matchesLocale;
     });
 
     // Get article count for each category
-    const getCategoryArticleCount = (categoryId: string | number) => {
+    const getCategoryArticleCount = (categoryId: number) => {
         return (articles || []).filter(article =>
-            String(article.category_id) === String(categoryId) ||
-            article.categories?.some(id => String(id) === String(categoryId))
+            article.categories?.[0]?.id === categoryId
         ).length;
     };
 

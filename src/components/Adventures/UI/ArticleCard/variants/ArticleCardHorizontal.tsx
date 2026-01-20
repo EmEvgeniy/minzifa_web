@@ -30,7 +30,7 @@ export default function ArticleCardHorizontal({ article, className = '', showExc
                 <h3 className={`font-title font-bold text-sm lg:text-base text-text group-hover:text-foreground/80 transition-colors line-clamp-2 leading-tight mb-1`}>
                     {article.title}
                 </h3>
-                <span className="text-gray-400 text-[10px] mb-2 block">by {article.author?.name || 'Alimov Alim'}</span>
+                <span className="text-gray-400 text-[10px] mb-2 block">by {article?.user?.name}</span>
 
                 {showExcerpt && (
                     <p className="hidden md:block text-gray-600 text-xs lg:text-[13px] leading-relaxed line-clamp-3">

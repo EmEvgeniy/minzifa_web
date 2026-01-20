@@ -29,7 +29,7 @@ export default function UsersList({ locale }: UsersListProps) {
 
     // Get article count for each user
     const getUserArticleCount = (userId: string) => {
-        return (articles || []).filter(article => article.author?.id === userId).length;
+        return (articles || []).filter(article => article?.userId === Number(userId)).length;
     };
 
     const handleDelete = async (id: string) => {

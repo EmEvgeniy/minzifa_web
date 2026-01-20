@@ -4,9 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiArrowLeft, FiSave, FiUser, FiMail, FiShield, FiCamera, FiTrash2 } from 'react-icons/fi';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useCreateAdventuresUser, useUpdateAdventuresUser, useDeleteAdventuresUser } from '@/api/adventures/users';
-import { AdventureRole } from '@/types/adventures';
 import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
 

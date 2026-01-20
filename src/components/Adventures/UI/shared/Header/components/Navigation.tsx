@@ -14,7 +14,7 @@ interface NavigationProps {
 export default function Navigation({ hidden = false, centered = false }: NavigationProps) {
     const locale = useLocale();
     const t = useTranslations('adventures.header');
-    const { data: categories } = useCategories();
+    const { data: categories } = useCategories(locale);
     const navLinks = ADVENTURES_NAV_LINKS.map(link => ({
         ...link,
         label: t(link.label)

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiEdit, FiTrash2, FiFileText, FiUser, FiMail } from 'react-icons/fi';
-import type { AdventureUser, AdventureRole } from '@/types/adventures';
+import type { AdventureUser, AdventureRoles } from '@/types/adventures';
 import { useTranslations } from 'next-intl';
 
 interface UserTableProps {
@@ -13,7 +13,7 @@ interface UserTableProps {
     onDelete?: (id: string) => void;
 }
 
-const RoleBadge = ({ role }: { role: AdventureRole }) => {
+const RoleBadge = ({ role }: { role: AdventureRoles }) => {
     const styles = {
         ADMIN: 'bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400 border-rose-200 dark:border-rose-800',
         EDITOR: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800',
@@ -73,7 +73,7 @@ export const UserTable = ({ users, getUserArticleCount, locale, onDelete }: User
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="text-sm text-slate-600 dark:text-slate-400">
-                                        {user.created_at ? new Date(user.created_at).toLocaleDateString(locale, {
+                                        {user?.created_at ? new Date(user?.created_at).toLocaleDateString(locale, {
                                             year: 'numeric',
                                             month: 'short',
                                             day: 'numeric'

@@ -46,6 +46,7 @@ export default function CategoryForm({ locale, initialData, mode }: CategoryForm
         handleSubmit,
         setValue,
         watch,
+        reset,
         formState: { errors },
     } = useForm<CategoryFormData>({
         resolver: zodResolver(categorySchema),
@@ -65,6 +66,13 @@ export default function CategoryForm({ locale, initialData, mode }: CategoryForm
 
     const nameValue = watch("name");
     const langValue = watch("lang");
+
+    // Update form when initialData is loaded
+    useEffect(() => {
+        if (initialData) {
+            reset(initialData);
+        }
+    }, [initialData, reset]);
 
     // Auto-generate slug from name if in create mode or slug is empty
     useEffect(() => {

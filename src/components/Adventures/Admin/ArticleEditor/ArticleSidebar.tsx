@@ -1,4 +1,4 @@
-import { Control, UseFormRegister, FieldErrors, Controller } from "react-hook-form";
+import { Control, UseFormRegister, FieldErrors, Controller, useFormContext } from "react-hook-form";
 import { useCategories } from "@/api/adventures/categories";
 import { useAdventuresUsers } from "@/api/adventures/users";
 import { ArticleFormData } from "./types";
@@ -17,7 +17,9 @@ interface ArticleSidebarProps {
 }
 
 export const ArticleSidebar = ({ register, control, errors, userRole }: ArticleSidebarProps) => {
-    const { data: categories, isLoading: isCategoriesLoading } = useCategories();
+    const { watch } = useFormContext<ArticleFormData>();
+    const currentLang = watch('lang') || 'en';
+    const { data: categories, isLoading: isCategoriesLoading } = useCategories(currentLang);
     const { data: authors = [], isLoading: isUsersLoading } = useAdventuresUsers();
 
     return (
