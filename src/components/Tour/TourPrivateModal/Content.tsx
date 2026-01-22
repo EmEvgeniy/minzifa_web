@@ -135,13 +135,13 @@ export const Content = ({ tour }: { tour: Tour }) => {
   }, [tour?.days, setFormData]);
 
   return (
-    <div className="w-full mx-auto p-5 md:p-6 bg-white rounded-2xl md:max-w-[600px]">
-      <div className="relative flex items-start justify-baseline w-full mb-8">
+    <div className="w-full mx-auto p-4 md:p-6 bg-white rounded-2xl md:max-w-[600px]">
+      <div className="relative flex items-start justify-baseline w-full mb-4 md:mb-8">
         <div className='w-full'>
-          <h2 className="text-xl md:text-2xl font-semibold text-black mb-2 text-left">
+          <h2 className="text-lg md:text-2xl font-semibold text-black mb-1 md:mb-2 text-left leading-tight">
             {t('privateTour.forms.title')}
           </h2>
-          <p className="text-sm md:text-base text-gray-500">{t('privateTour.forms.subtitle')}</p>
+          <p className="text-xs md:text-base text-gray-500">{t('privateTour.forms.subtitle')}</p>
         </div>
         <button type="button" className="cursor-pointer" onClick={() => setPopup(false)}>
           <FaTimes size={24} />
@@ -149,7 +149,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
       </div>
 
       <form
-        className="grid grid-cols-1 gap-6 max-[768px]:grid-cols-1"
+        className="grid grid-cols-1 gap-4 md:gap-6 max-[768px]:grid-cols-1"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-4">
@@ -235,7 +235,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
             name="wishes"
             render={({ field }) => (
               <Textarea
-                rows={3}
+                rows={2}
                 value={field.value || ''}
                 onChange={(e) => {
                   field.onChange(e);
@@ -247,8 +247,8 @@ export const Content = ({ tour }: { tour: Tour }) => {
           />
         </div>
 
-        <div className="flex flex-col gap-4 border border-gray-300 rounded-2xl p-6">
-          <h3 className='text-lg font-medium'>{t('privateTour.forms.personalData')}</h3>
+        <div className="flex flex-col gap-3 md:gap-4 border border-gray-300 rounded-2xl p-4 md:p-6">
+          <h3 className='text-base md:text-lg font-medium'>{t('privateTour.forms.personalData')}</h3>
           <div className='flex flex-col md:flex-row items-center justify-between gap-4'>
             <Controller
               control={control}

@@ -13,7 +13,7 @@ export const quizFormSchema = (t: (key: string) => string) =>
     email: z
       .string()
       .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, t('errors.email_invalid')),
-    phone: z.string().min(8, t('errors.phone_invalid')),
+    phone: z.string().min(10, t('errors.phone_invalid')),
     // contactToTalk: z.string().optional(),
     recaptchaToken: z.string().optional(),
   });

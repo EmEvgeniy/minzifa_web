@@ -15,7 +15,8 @@ import Travellers from '../Travellers/Travellers';
 import RoomTypes from '../RoomTypes/RoomTypes';
 import Passengers from '../Passengers/Passengers';
 import BookingInfo from '../BookingInfo/BookingInfo';
-import MobileBtn from '../MobileBtn/MobileBtn';
+import BookingSubmit from '../BookingSubmit/BookingSubmit';
+import MobileStickyPrice from '../MobileStickyPrice/MobileStickyPrice';
 import { FormNameEnum } from '@/constants';
 import dayjs from 'dayjs';
 
@@ -129,6 +130,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
                     <Travellers bookingData={bookingData} setValue={setValue} />
                     <RoomTypes bookingData={bookingData} setValue={setValue} />
                     <Passengers bookingData={bookingData} errors={errors} control={control} />
+                    <BookingSubmit token={token} getToken={getToken} />
                 </div>
 
                 <div className="w-full max-w-[450px] h-screen max-[1024px]:w-full max-[1024px]:h-full">
@@ -136,7 +138,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
                 </div>
             </div>
 
-            <MobileBtn bookingData={bookingData} />
+            <MobileStickyPrice bookingData={bookingData} />
         </form>
     )
 }

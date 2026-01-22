@@ -16,7 +16,7 @@ export const createYourTripFormSchema = (t: (key: string) => string) =>
     first_name: z.string().min(2, t('errors.name_min')),
     last_name: z.string().min(2, t('errors.name_min')),
     email: z.email({ error: t('errors.email_invalid') }),
-    phone: z.string().min(8, t('errors.phone_invalid')),
+    phone: z.string().min(10, t('errors.phone_invalid')),
     nationality: z.string().optional(),
     recaptchaToken: z.string().optional(),
   });

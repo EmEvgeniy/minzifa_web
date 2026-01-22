@@ -54,34 +54,36 @@ export const Popup: FC<PopupType> = ({
     <>
       <div
         className={cn(
-          'fixed inset-0 z-50 backdrop-blur-md w-full h-full flex items-center justify-center',
+          'fixed inset-0 z-50 backdrop-blur-md overflow-y-auto',
           'transition-opacity duration-300',
-          open ? 'bg-black/50 opacity-100' : 'bg-black/50 opacity-0',
+          open ? 'bg-black/50 opacity-100' : 'bg-black/50 opacity-0 pointer-events-none',
         )}
         onClick={handleBackdropClick}
         onKeyDown={handleKeyDown}
       >
-        <div
-          className={cn(
-            'relative transition-all duration-300 ease-out',
-            open ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 pointer-events-none',
-            className,
-          )}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {timesButton ||
-            (showTimesButton && (
-              <div className={'relative text-right'}>
-                <button
-                  type="button"
-                  onClick={handleCloseAction}
-                  className="cursor-pointer text-white hover:text-gray-700 transition-colors p-3"
-                >
-                  <FaTimes size={24} />
-                </button>
-              </div>
-            ))}
-          {content}
+        <div className="flex min-h-full items-center justify-center p-4 md:p-6">
+          <div
+            className={cn(
+              'relative transition-all duration-300 ease-out w-full flex flex-col items-center',
+              open ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6',
+              className,
+            )}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {timesButton ||
+              (showTimesButton && (
+                <div className={'w-full text-right'}>
+                  <button
+                    type="button"
+                    onClick={handleCloseAction}
+                    className="cursor-pointer text-white hover:text-gray-200 transition-colors p-3"
+                  >
+                    <FaTimes size={24} />
+                  </button>
+                </div>
+              ))}
+            {content}
+          </div>
         </div>
       </div>
     </>

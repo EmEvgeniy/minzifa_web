@@ -7,7 +7,7 @@ export const profileEditSchema = (t: (key: string) => string) =>
       .min(3, t('errors.name_min'))
       .max(255, t('errors.name_max') || 'Имя должно быть не более 255 символов'),
     email: z.email(t('errors.email_invalid')),
-    phone: z.string().optional().or(z.literal('')),
+    phone: z.string().min(10, t('errors.phone_invalid')),
     avatar: z
       .instanceof(File)
       .optional()

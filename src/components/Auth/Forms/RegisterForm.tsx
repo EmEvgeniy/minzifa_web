@@ -20,6 +20,8 @@ import { useAuthStore } from '@/store';
 import Link from 'next/link';
 import { AuthStep } from '../_types';
 import { FaChevronLeft, FaEnvelope } from 'react-icons/fa6';
+import { Controller } from 'react-hook-form';
+import { PhoneInputComp } from '@/components/UI';
 
 export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void }) => {
     const t = useTranslations();
@@ -33,12 +35,13 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
     const { setMessage, setError } = useSnackStore();
 
     // Form setup
-    const { register, formState: { errors }, handleSubmit, reset } = useForm<RegistrationFormType>({
+    const { register, formState: { errors }, handleSubmit, reset, control } = useForm<RegistrationFormType>({
         resolver: zodResolver(registrationSchema(t)),
         mode: 'onSubmit',
         defaultValues: {
             email: email,
             password: '',
+            phone: '',
             recaptchaToken: '',
         },
     });
@@ -128,6 +131,18 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
                         }
                         helperText={t('auth.login.passwordHint')}
                         wrapperClassName="mb-2"
+                    />
+
+                    <Controller
+                        name="phone"
+                        control={control}
+                        render={({ field }) => (
+                            <PhoneInputComp
+                                {...field}
+                                error={errors.phone}
+                                wrapperClassName="mb-2"
+                            />
+                        )}
                     />
 
                     <Checkbox

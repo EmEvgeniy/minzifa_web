@@ -7,7 +7,7 @@ export const chatPopupFormSchema = (t: (key: string) => string) =>
     email: z
       .string()
       .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, t('errors.email_invalid')),
-    phone: z.string().optional(),
+    phone: z.string().min(10, t('errors.phone_invalid')),
     message: z.string().min(10, t('errors.message_min')),
     recaptchaToken: z.string().optional(),
   });
