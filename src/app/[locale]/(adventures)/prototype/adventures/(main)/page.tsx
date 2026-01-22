@@ -1,14 +1,14 @@
-import { adventuresAxiosInstance } from '@/utils/adventures/axios';
-import { Article, Category, ArticleStatuses } from '@/types/adventures';
 import HeroSlider from '@/components/Adventures/UI/HeroSlider/HeroSlider';
-import TheGoodsSection from '../../../../../../components/Adventures/Pages/Home/TheGoodsSection';
+import { Article, ArticleStatuses, Category } from '@/types/adventures';
+import { PaginatedData } from '@/types/common';
+import { adventuresAxiosInstance } from '@/utils/adventures/axios';
+import { getTranslations } from 'next-intl/server';
+import AdventuresSidebar from '../../../../../../components/Adventures/Pages/Home/AdventuresSidebar';
+import GoodIdeasSection from '../../../../../../components/Adventures/Pages/Home/GoodIdeasSection';
+import GoodLifeSection from '../../../../../../components/Adventures/Pages/Home/GoodLifeSection';
 import GoodStoriesSection from '../../../../../../components/Adventures/Pages/Home/GoodStoriesSection';
 import GoodTripsSection from '../../../../../../components/Adventures/Pages/Home/GoodTripsSection';
-import GoodLifeSection from '../../../../../../components/Adventures/Pages/Home/GoodLifeSection';
-import GoodIdeasSection from '../../../../../../components/Adventures/Pages/Home/GoodIdeasSection';
-import AdventuresSidebar from '../../../../../../components/Adventures/Pages/Home/AdventuresSidebar';
-import { getTranslations } from 'next-intl/server';
-import { PaginatedData } from '@/types/common';
+import TheGoodsSection from '../../../../../../components/Adventures/Pages/Home/TheGoodsSection';
 
 export const metadata = {
     title: 'Adventures | Paths of the Silk Road',
@@ -40,13 +40,13 @@ export default async function AdventuresHome({ params }: { params: Promise<{ loc
         allArticles = allArticles.map(article => ({
             ...article,
             categories: article.categories
-                ?.map((catId: any) => {
-                    if (typeof catId === 'number') {
-                        return categories.find((c: any) => c.id === catId);
+                ?.map((cat: number | Category) => {
+                    if (typeof cat === 'number') {
+                        return categories.find((c: Category) => c.id === cat);
                     }
-                    return catId;
+                    return cat;
                 })
-                .filter(Boolean)
+                .filter((c): c is Category => !!c)
         }));
     } catch (error) {
         console.error("Failed to fetch articles:", error);

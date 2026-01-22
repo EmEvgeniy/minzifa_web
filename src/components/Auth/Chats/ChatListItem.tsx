@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaComments } from 'react-icons/fa';
 import { IChat } from '@/types';
-import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 
 interface ChatListItemProps {
   chat: IChat;

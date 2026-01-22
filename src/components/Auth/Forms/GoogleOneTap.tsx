@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthStore } from '@/store';
+import { ITourist, useAuthStore } from '@/store';
 import { useAuthPostMutation } from '@/api/post.api';
 import Script from "next/script";
 import { useEffect, useState } from 'react';
@@ -8,9 +8,32 @@ import { useSnackStore } from '@/store/useSnackStore';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
+interface GoogleCredentialResponse {
+    credential: string;
+}
+
+interface GoogleNotification {
+    isNotDisplayed: () => boolean;
+    isSkippedMoment: () => boolean;
+    isDismissedMoment: () => boolean;
+}
+
+interface GoogleAccounts {
+    id: {
+        initialize: (config: {
+            client_id: string;
+            use_fedcm_for_prompt: boolean;
+            callback: (response: GoogleCredentialResponse) => void;
+        }) => void;
+        prompt: (callback: (notification: GoogleNotification) => void) => void;
+    };
+}
+
 declare global {
     interface Window {
-        google: any;
+        google: {
+            accounts: GoogleAccounts;
+        };
     }
 }
 
@@ -23,7 +46,7 @@ export default function GoogleOneTap() {
 
     const { mutateAsync } = useAuthPostMutation(
         ['auth.google.one-tap'],
-        (data: any) => {
+        (data: { success: boolean; user: ITourist; token: string }) => {
             if (data.success && data.user && data.token) {
                 login(data.user, data.token);
                 setMessage(t('auth.login.success'));
@@ -44,7 +67,7 @@ export default function GoogleOneTap() {
             window.google.accounts.id.initialize({
                 client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
                 use_fedcm_for_prompt: false,
-                callback: async (response: any) => {
+                callback: async (response: GoogleCredentialResponse) => {
                     try {
                         await mutateAsync({
                             endpoint: 'auth/google/one-tap',
@@ -56,7 +79,7 @@ export default function GoogleOneTap() {
                 },
             });
 
-            window.google.accounts.id.prompt((notification: any) => {
+            window.google.accounts.id.prompt((notification: GoogleNotification) => {
                 if (notification.isNotDisplayed()) console.log('UI blocked');
             });
 

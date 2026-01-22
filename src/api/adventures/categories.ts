@@ -60,10 +60,10 @@ export const useCreateCategory = (): UseMutationResult<Category, AxiosError, Par
 export const useUpdateCategory = (): UseMutationResult<
   Category,
   AxiosError,
-  { id: string; data: Partial<Category> }
+  { id: number | undefined; data: Partial<Category> }
 > => {
   const queryClient = useQueryClient();
-  return useMutation<Category, AxiosError, { id: string; data: Partial<Category> }>({
+  return useMutation<Category, AxiosError, { id: number | undefined; data: Partial<Category> }>({
     mutationKey: ['categories', 'update'],
     mutationFn: async ({ id, data }) => {
       const response = await authAdventuresAxiosInstance.patch<Category>(`/categories/${id}`, data);

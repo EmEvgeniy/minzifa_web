@@ -1,11 +1,10 @@
 'use client';
 
-import { ImageBlock as ImageBlockType } from '@/components/Adventures/Admin/BlockEditor/types';
-import Image from 'next/image';
-import { useRef } from 'react';
 import { useMediaUpload } from '@/api/adventures/media';
-import { FiUpload, FiLoader } from 'react-icons/fi';
+import { ImageBlock as ImageBlockType } from '@/components/Adventures/Admin/BlockEditor/types';
 import { MediaUploadResponse } from '@/types/adventures';
+import { useRef } from 'react';
+import { FiLoader, FiUpload } from 'react-icons/fi';
 
 const baseUrl = process.env.NEXT_PUBLIC_ARTICLES_API_URL || 'https://articles.minzifatravel.com';
 

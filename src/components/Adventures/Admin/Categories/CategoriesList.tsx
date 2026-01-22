@@ -27,7 +27,10 @@ export default function CategoriesList({ locale }: CategoriesListProps) {
     // Get article count for each category
     const getCategoryArticleCount = (categoryId: number) => {
         return (articles || []).filter(article =>
-            article.categories?.[0]?.id === categoryId
+            article.categories?.some(cat => {
+                const id = typeof cat === 'number' ? cat : cat.id;
+                return id === categoryId;
+            })
         ).length;
     };
 

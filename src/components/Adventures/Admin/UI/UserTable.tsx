@@ -1,8 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import { FiEdit, FiTrash2, FiFileText, FiUser, FiMail } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiFileText } from 'react-icons/fi';
 import type { AdventureUser, AdventureRoles } from '@/types/adventures';
 import { useTranslations } from 'next-intl';
 
@@ -63,7 +62,7 @@ export const UserTable = ({ users, getUserArticleCount, locale, onDelete }: User
                                     </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <RoleBadge role={user.role as any} />
+                                    <RoleBadge role={user.role} />
                                 </td>
                                 <td className="px-6 py-4 text-center">
                                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold">

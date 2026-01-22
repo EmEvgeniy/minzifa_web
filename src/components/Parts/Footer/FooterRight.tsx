@@ -1,7 +1,6 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import React from 'react';
 import { useSnackStore } from '../../../store/useSnackStore';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,16 +12,6 @@ import Button from '../../UI/Button/Button';
 import { useFormSubmit } from '@/hooks';
 import Link from 'next/link';
 import { FormNameEnum } from '@/constants';
-
-interface SubscribeFormRequest {
-  email: string;
-  recaptchaToken: string;
-}
-
-interface FormResponse {
-  form_data: SubscribeFormRequest;
-  form_name: string;
-}
 
 export const FooterRight = () => {
   const t = useTranslations();

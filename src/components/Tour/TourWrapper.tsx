@@ -42,7 +42,7 @@ export default function TourWrapper({ locale, tourData }: { locale: string; tour
         tour_name: tourData.name,
       });
     }
-  }, [tourData?.id]);
+  }, [tourData?.id, tourData?.name, setAdditionalFormData]);
 
   return (
     <>

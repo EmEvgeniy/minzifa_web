@@ -13,7 +13,7 @@ import Link from 'next/link';
 import AuthLayout from './AuthLayout';
 
 const loginSchema = z.object({
-    email: z.string().email(),
+    email: z.email(),
     password: z.string().min(6),
 });
 
@@ -41,8 +41,9 @@ export default function LoginForm() {
         try {
             await loginMutation.mutateAsync(data);
             router.push(`/${locale}/prototype/adventures/admin/articles`);
-        } catch (err: any) {
-            setError(err?.response?.data?.message || t('invalidCredentials'));
+        } catch (err) {
+            console.error(err);
+            setError(t('invalidCredentials'));
         }
     };
 

@@ -188,7 +188,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     const newErrors: { [key: string]: string } = {};
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
+    const phoneRegex = /^\+?[0-9\s-]{7,20}$/;
 
     if (!name.trim()) {
       newErrors.name = t('errors.nameRequired');

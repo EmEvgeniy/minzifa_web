@@ -32,7 +32,7 @@ export default function EditArticleWrapper({ id, locale }: EditArticleWrapperPro
         publishedAt: article.publishedAt || new Date().toISOString().split('T')[0],
         image: article.image || '',
         status: article?.status || ArticleStatuses.DRAFT,
-        categories: article.categories?.map((cat: any) => typeof cat === 'object' && cat !== null ? cat.id : cat) || [],
+        categories: article.categories?.map((cat) => typeof cat === 'object' && cat !== null ? cat.id : cat) || [],
         seo: {
             title: article.seo?.title || article.title,
             description: article.seo?.description || article.excerpt || '',

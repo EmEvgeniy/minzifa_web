@@ -1,7 +1,6 @@
 'use client';
 
-import React, { ReactNode } from 'react';
-import { FieldError } from 'react-hook-form';
+import { ReactNode } from 'react';
 import { cn } from '@/utils';
 
 interface FormFieldWrapperProps {

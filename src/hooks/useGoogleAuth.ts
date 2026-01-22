@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { authAxiosInstance } from '@/utils/axios';
 import { ITourist } from '@/types';
+import { authAxiosInstance } from '@/utils/axios';
+import { useState } from 'react';
 
 interface GoogleAuthResponse {
   success: boolean;
@@ -42,25 +42,19 @@ export function useGoogleAuth() {
 
       // 3. Слушать сообщения от popup окна
       return new Promise<{ user: ITourist; token: string }>((resolve, reject) => {
-        let checkClosedInterval: NodeJS.Timeout;
-
-        const cleanup = () => {
-          if (checkClosedInterval) clearInterval(checkClosedInterval);
-          window.removeEventListener('message', handleMessage);
-        };
-
+        // Изменяем на const, так как мы сразу инициализируем интервал ниже, 
+        // либо оставляем let, но инициализируем сразу.
+        
         const handleMessage = (event: MessageEvent) => {
-          if (event.origin !== window.location.origin) {
-            return;
-          }
+          if (event.origin !== window.location.origin) return;
 
           if (event.data.type === 'google-auth-success') {
-            cleanup();
+            stopWatching();
             popup?.close();
             setIsLoading(false);
             resolve({ user: event.data.user, token: event.data.token });
           } else if (event.data.type === 'google-auth-error') {
-            cleanup();
+            stopWatching();
             popup?.close();
             setIsLoading(false);
             const errorMsg = event.data.error || 'Ошибка авторизации';
@@ -71,14 +65,20 @@ export function useGoogleAuth() {
 
         window.addEventListener('message', handleMessage);
 
-        checkClosedInterval = setInterval(() => {
+        const checkClosedInterval = setInterval(() => {
           if (popup?.closed) {
-            cleanup();
+            stopWatching();
             setIsLoading(false);
             setError('Авторизация отменена');
             reject(new Error('Авторизация отменена'));
           }
         }, 500);
+
+        // Вспомогательная функция для очистки
+        function stopWatching() {
+          clearInterval(checkClosedInterval);
+          window.removeEventListener('message', handleMessage);
+        }
       });
     } catch (err) {
       setIsLoading(false);

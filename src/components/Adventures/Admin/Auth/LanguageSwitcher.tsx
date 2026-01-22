@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IoLanguage } from 'react-icons/io5';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 export const LanguageSwitcher = () => {
     const [isOpen, setIsOpen] = useState(false);

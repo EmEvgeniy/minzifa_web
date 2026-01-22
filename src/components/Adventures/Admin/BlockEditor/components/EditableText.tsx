@@ -25,7 +25,7 @@ export const EditableText = ({
     placeholder = '',
     tagName: Tag = 'div'
 }: EditableTextProps) => {
-    const elementRef = useRef<HTMLElement>(null);
+    const elementRef = useRef<HTMLHeadingElement>(null);
 
     // Update DOM only if it differs from the value prop
     // This prevents cursor reset/jumping
@@ -55,7 +55,7 @@ export const EditableText = ({
 
     return (
         <Tag
-            ref={elementRef as any}
+            ref={elementRef}
             contentEditable
             suppressContentEditableWarning
             onInput={handleInput}

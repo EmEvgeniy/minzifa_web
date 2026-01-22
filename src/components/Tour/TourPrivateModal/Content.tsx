@@ -316,7 +316,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
             ),
           })}
           checked={!!token}
-          onChange={(e) => handleRecaptcha()}
+          onChange={() => handleRecaptcha()}
           labelClassName='flex-wrap gap-x-1 text-sm text-gray-500 hover:text-gray-500'
         />
 

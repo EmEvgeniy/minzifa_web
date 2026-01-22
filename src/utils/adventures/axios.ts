@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosError } from 'axios';
 import { appConfig } from '../config';
 import { useAdventuresAuthStore } from '@/store/adventures/useAdventuresAuthStore';
 import { PROTECTED_ROUTES } from '@/constants';
@@ -20,7 +20,7 @@ const adventuresAxiosInstance = createAxios(appConfig.articlesApiUrl);
 const authAdventuresAxiosInstance = createAxios(appConfig.articlesApiUrl);
 
 // Перехватчик запросов для добавления токена
-const addTokenInterceptor = (config: any) => {
+const addTokenInterceptor = (config: InternalAxiosRequestConfig) => {
   // Токен берем только на клиенте, чтобы избежать ошибок SSR с localStorage
   if (typeof window !== 'undefined') {
     const token = useAdventuresAuthStore.getState().token;
@@ -39,7 +39,7 @@ authAdventuresAxiosInstance.interceptors.request.use(addTokenInterceptor, (error
 );
 
 // Перехватчик ответов для обработки 401
-const handleAuthError = (error: any) => {
+const handleAuthError = (error: AxiosError) => {
   const status = error?.response?.status;
 
   if (status === 401 || status === 419) {

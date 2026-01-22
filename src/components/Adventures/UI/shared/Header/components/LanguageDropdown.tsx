@@ -29,9 +29,6 @@ export default function LanguageDropdown() {
         router.push(newPath);
     };
 
-    const currentLangLabel = languages.find(l => l.code === currentLocale)?.label || 'English';
-    // Display code instead of label for compactness like before? previous was 'En'
-    // Previous code used 'En', 'De'. Let's stick to short codes for display trigger.
     const currentLangCode = currentLocale.charAt(0).toUpperCase() + currentLocale.slice(1);
 
     return (

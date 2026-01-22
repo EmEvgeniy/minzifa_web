@@ -1,7 +1,6 @@
 'use client';
 
 import { forwardRef, InputHTMLAttributes, ReactNode, useId } from 'react';
-import { FieldError } from 'react-hook-form';
 import { cn } from '@/utils';
 import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWraper';
 

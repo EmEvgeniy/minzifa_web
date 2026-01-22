@@ -1,14 +1,14 @@
-import { adventuresAxiosInstance } from "@/utils/adventures/axios";
-import { Article, Category, ArticleStatuses } from '@/types/adventures';
-import CategoryHeader from "@/components/Adventures/Category/CategoryHeader";
 import CategoryArticlesList from "@/components/Adventures/Category/CategoryArticlesList";
+import CategoryHeader from "@/components/Adventures/Category/CategoryHeader";
 import Pagination from "@/components/Adventures/UI/shared/Pagination";
 import SubscribeSection from "@/components/Adventures/UI/SubscribeSection/SubscribeSection";
+import { Article, ArticleStatuses, Category } from '@/types/adventures';
+import { adventuresAxiosInstance } from "@/utils/adventures/axios";
 import { notFound } from "next/navigation";
 
-import { getTranslations } from "next-intl/server";
 import { PaginatedData } from "@/types/common";
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -110,10 +110,10 @@ export default async function CategoryPage({
         if (categoryData && allArticles.length > 0) {
             allArticles = allArticles.map(article => ({
                 ...article,
-                categories: article.categories?.map((cat: any) =>
+                categories: article.categories?.map((cat: Category | number) =>
                     typeof cat === 'number' && cat === categoryData?.id ? categoryData : cat
-                ).filter(Boolean)
-            })) as any;
+                ).filter((cat): cat is Category => !!cat)
+            }));
         }
 
     } catch (error) {

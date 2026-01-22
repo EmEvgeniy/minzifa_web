@@ -1,22 +1,22 @@
-import './globals.css';
-import dynamic from 'next/dynamic';
-import { NextIntlClientProvider } from 'next-intl';
-import { QueryProvider } from '@/providers/QueryProvider';
-import { CustomSnackBar } from '@/components/UI/CustomSnackBar';
-import { UTMMetricsProvider } from '@/providers/UTMMetricsProvider';
-import { ReCaptchaProvider } from '@/providers/ReCaptchaProvider';
-import TopNav from '@/components/Parts/Header/TopNav';
-import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
-import Footer from '@/components/Parts/Footer/Footer';
-import { getMessages } from 'next-intl/server';
-import { ChatPopup } from '@/components/ChatPopup';
-import { CookiePopup } from '@/components/UI/CookiePopup';
 import { AuthPopup } from '@/components/Auth/AuthPopup';
-import { AuthCheckProvider } from '@/providers/AuthCheckProvider';
 import GoogleOneTap from '@/components/Auth/Forms/GoogleOneTap';
-import { Unbounded, Inter } from 'next/font/google';
+import { ChatPopup } from '@/components/ChatPopup';
+import Footer from '@/components/Parts/Footer/Footer';
+import TopNav from '@/components/Parts/Header/TopNav';
+import { CookiePopup } from '@/components/UI/CookiePopup';
+import { CustomSnackBar } from '@/components/UI/CustomSnackBar';
 import Metrics from '@/components/UI/Metrics/Metrics';
 import ProgressBar from '@/components/UI/ProgressBar/ProgressBar';
+import SocialMedia from '@/components/UI/SocialMedia/SocialMedia';
+import { AuthCheckProvider } from '@/providers/AuthCheckProvider';
+import { QueryProvider } from '@/providers/QueryProvider';
+import { ReCaptchaProvider } from '@/providers/ReCaptchaProvider';
+import { UTMMetricsProvider } from '@/providers/UTMMetricsProvider';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import dynamic from 'next/dynamic';
+import { Inter, Unbounded } from 'next/font/google';
+import './globals.css';
 
 const TitleFont = Unbounded({
   subsets: ['latin', 'cyrillic'],
@@ -29,9 +29,9 @@ const TextFont = Inter({
 });
 
 // Оптимизированные динамические импорты с приоритетами загрузки
-const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'), {
-  loading: () => null,
-});
+// const ClientPopupObserver = dynamic(() => import('@/layouts/ClientPopupObsorver'), {
+//   loading: () => null,
+// });
 
 const FavoriteBtn = dynamic(() => import('@/components/UI/FavoriteBtn/FavoriteBtn'), {
   loading: () => null,

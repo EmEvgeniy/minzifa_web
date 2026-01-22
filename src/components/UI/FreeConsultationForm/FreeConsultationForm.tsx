@@ -17,10 +17,9 @@ import { freeConsultationFormSchema, FreeConsultationFormType } from '@/validati
 import { Checkbox, Input, Textarea } from '../Form';
 import Button from '../Button/Button';
 import { useAuthStore } from '@/store';
-import { useEffect } from 'react';
 import { useOrderTourDetailStore } from '@/store/orderTourDetailStore';
 import { FormNameEnum } from '@/constants';
-import { error } from 'console';
+
 
 type FreeConsultationFormProps = {
   className?: string,
@@ -177,7 +176,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
               ),
             })}
             checked={!!token}
-            onChange={(e) => handleRecaptcha()}
+            onChange={() => handleRecaptcha()}
             labelClassName='flex-wrap gap-x-1 text-sm text-white/80 hover:text-white'
           />
 

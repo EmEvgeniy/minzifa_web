@@ -1,6 +1,5 @@
 import { IMessage } from '@/types';
 import { Centrifuge, Subscription } from 'centrifuge';
-import { BASE_API_PATH } from '@/constants';
 import { authAxiosInstance } from '../utils/axios';
 
 export const initCentrifugo = async (): Promise<Centrifuge> => {
@@ -17,7 +16,7 @@ export const initCentrifugo = async (): Promise<Centrifuge> => {
       token: data.token,
     });
 
-    centrifuge.on('disconnected', (ctx) => {
+    centrifuge.on('disconnected', () => {
       setTimeout(() => {
         console.log('Attempting to reconnect to Centrifuge...');
         centrifuge.connect();

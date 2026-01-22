@@ -27,7 +27,7 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
 
     const [showPassword, setShowPassword] = useState(false);
 
-    const { email, setEmail, setUser, setAuthPopup } = useAuthStore();
+    const { email, setEmail, setAuthPopup } = useAuthStore();
     const { getToken, token } = useRecaptcha();
     const { metrics } = useMetricsStore();
     const { setMessage, setError } = useSnackStore();

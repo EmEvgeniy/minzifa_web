@@ -47,7 +47,7 @@ export interface Article {
   publishedAt?: string;
   image?: string;
   seo?: Seo;
-  categories?: Category[];
+  categories?: Category[] | number[];
   status: ArticleStatuses;
   userId?: number;
   user?: AdventureUser;
@@ -86,4 +86,20 @@ export interface AdventureUser {
 export interface LoginResponse {
   user: AdventureUser;
   token: string;
+}
+
+export interface ArticleQueryParams {
+  user_id?: string | number;
+  locale?: string;
+  status?: ArticleStatuses;
+  category?: string;
+  page?: number;
+  per_page?: number;
+}
+export interface UserQueryParams {
+  name?: string;
+  email?: string;
+  role?: AdventureRoles;
+  page?: number;
+  per_page?: number;
 }

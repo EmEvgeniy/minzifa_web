@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { FaFile, FaFolder, FaTags, FaUsers } from 'react-icons/fa6';
+import { FaFile, FaFolder, FaUsers } from 'react-icons/fa6';
 import { useAdventuresAuthStore } from '@/store/adventures/useAdventuresAuthStore';
 
 interface SidebarProps {

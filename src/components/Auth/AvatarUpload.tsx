@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { FaCamera, FaTimes, FaSpinner } from 'react-icons/fa';
 import { ITourist } from '@/store';
 import ImageWithFallback from '../UI/ImageWithFallback/ImageWithFallback';
-import Image from 'next/image';
 
 interface AvatarUploadProps {
     user: ITourist;

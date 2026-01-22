@@ -72,8 +72,8 @@ export const ArticleEditor = ({ initialData, mode, locale }: ArticleEditorProps)
             const slug = titleValue
                 .toLowerCase()
                 .replace(/\s+/g, '-')
-                .replace(/[^\w\-]+/g, '')
-                .replace(/\-\-+/g, '-')
+                .replace(/[^\w]+/g, '')
+                .replace(/-+/g, '-')
                 .replace(/^-+/, '')
                 .replace(/-+$/, '');
             setValue("slug", slug, { shouldValidate: true });

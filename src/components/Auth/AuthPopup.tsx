@@ -1,15 +1,15 @@
 'use client';
 
 import { useAuthStore } from '@/store';
-import { LoginForm } from './Forms/LoginForm';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import { Popup } from '../UI';
 import Button from '../UI/Button/Button';
-import { FaTimes } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { AuthStep } from './_types';
-import { RegisterForm } from './Forms/RegisterForm';
 import { ForgotPasswordForm } from './Forms/ForgotPasswordForm';
+import { LoginForm } from './Forms/LoginForm';
+import { RegisterForm } from './Forms/RegisterForm';
 import WelcomeForm from './Forms/WelcomeForm';
 
 export function AuthPopup() {
@@ -35,7 +35,7 @@ export function AuthPopup() {
             setAuthPopup(true);
             setStep('forgot-password');
         }
-    }, [searchParams]);
+    }, [searchParams, setAuthPopup]);
 
     const handleClose = () => {
         setAuthPopup(false);

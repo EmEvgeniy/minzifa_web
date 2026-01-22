@@ -23,9 +23,13 @@ export default function ArticleHeader({ article, breadcrumbItems, locale, transl
 
                 <div className="max-w-4xl mx-auto text-left lg:text-center">
                     <div className="flex items-center justify-start lg:justify-center gap-3 mb-6">
-                        <span className="p-3 bg-white text-text-accent text-xs font-semibold tracking-wider uppercase rounded-xl">
-                            {article?.categories?.[0]?.name}
-                        </span>
+                        {article?.categories?.[0] && (
+                            <span className="p-3 bg-white text-text-accent text-xs font-semibold tracking-wider uppercase rounded-xl">
+                                {typeof article.categories[0] === 'object'
+                                    ? article.categories[0].name
+                                    : ''}
+                            </span>
+                        )}
                     </div>
 
                     <h1 className="text-4xl md:text-5xl lg:text-7xl font-title text-black mb-8 leading-[1.1] md:leading-[1.1]">
