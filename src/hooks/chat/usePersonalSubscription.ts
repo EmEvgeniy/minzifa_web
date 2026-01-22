@@ -60,9 +60,11 @@ export const usePersonalSubscription = () => {
           const message = (ctx.data || ctx) as IMessage;
 
           // Update React Query cache to move chat to top and update last message
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           queryClient.setQueryData(['chats'], (oldData: any) => {
             if (!oldData?.pages) return oldData;
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const newPages = oldData.pages.map((page: any) => ({
               ...page,
               data: page.data.map((chat: IChat) => {
