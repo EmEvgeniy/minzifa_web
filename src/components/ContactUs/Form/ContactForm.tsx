@@ -127,7 +127,7 @@ export const ContactForm = () => {
             ),
           })}
           checked={!!token}
-          onChange={(e) => handleRecaptcha()}
+          onChange={() => handleRecaptcha()}
           labelClassName='flex-wrap gap-x-1 text-sm text-white/80 hover:text-white'
         />
 

@@ -12,7 +12,7 @@ export const parseBlocksToMarkdown = (blocks: Block[]): string => {
 const htmlToMarkdown = (html: string): string => {
   if (!html) return '';
 
-  let text = html
+  const text = html
     .replace(/<b[^>]*>(.*?)<\/b>|<strong[^>]*>(.*?)<\/strong>/gi, '**$1$2**')
     .replace(/<i[^>]*>(.*?)<\/i>|<em[^>]*>(.*?)<\/em>/gi, '*$1$2*')
     .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
@@ -46,30 +46,35 @@ const blockToMarkdown = (block: Block): string => {
     case 'info':
       return `<InfoBlock title="${block.data.title}">${block.data.content}</InfoBlock>`;
 
-    case 'slider':
-      const images = block.data.images.map((img) => `"${img}"`).join(', ');
+    case 'slider': { // Обернуто в блоки {}
+      const images = block.data.images.map((img: string) => `"${img}"`).join(', ');
       return `<Slider images={[${images}]}${block.data.caption ? ` caption="${block.data.caption}"` : ''} />`;
+    }
 
-    case 'gallery':
-      const galleryImages = block.data.images.map((img) => `"${img}"`).join(', ');
+    case 'gallery': { // Обернуто в блоки {}
+      const galleryImages = block.data.images.map((img: string) => `"${img}"`).join(', ');
       return `<Gallery images={[${galleryImages}]}${block.data.caption ? ` caption="${block.data.caption}"` : ''} />`;
+    }
 
-    case 'tours':
+    case 'tours': { // Обернуто в блоки {}
       const tourItems = block.data.items
         .map(
-          (item) =>
+          (item: { title: string; image: string; duration: string; price: string; link: string }) =>
             `{ title: "${item.title}", image: "${item.image}", duration: "${item.duration}", price: "${item.price}", link: "${item.link}" }`,
         )
         .join(', ');
       return `<Tours${block.data.title ? ` title="${block.data.title}"` : ''} items={[${tourItems}]} />`;
+    }
 
-    case 'list':
+    case 'list': {
       const prefix = block.data.ordered ? '1. ' : '- ';
-      return block.data.items.map((item) => `${prefix}${item}`).join('\n');
+      return block.data.items.map((item: string) => `${prefix}${item}`).join('\n');
+    }
 
-    case 'code':
+    case 'code': {
       const lang = block.data.language || '';
       return `\`\`\`${lang}\n${block.data.code}\n\`\`\``;
+    }
 
     case 'separator':
       return `<Separator />`;
@@ -104,15 +109,12 @@ export const parseMarkdownToBlocks = (markdown: string): Block[] => {
   let inComponent = false;
   let componentBuffer: string[] = [];
 
-  // Phase 1: Parse lines into individual atomic blocks
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
 
-    // 1. Handle Components (Multi-line or Single-line)
     if (inComponent) {
       componentBuffer.push(line);
-      // Check for generic end tag or self-closing
       if (line.match(/<\/[A-Z][a-zA-Z0-9]*>/) || line.trim().endsWith('/>')) {
         const fullComponent = componentBuffer.join('\n');
         const block = parseComponentString(fullComponent, order++);
@@ -124,13 +126,10 @@ export const parseMarkdownToBlocks = (markdown: string): Block[] => {
     }
 
     if (trimmed.match(/^<[A-Z][a-zA-Z0-9]*/)) {
-      // Start of component
       if (trimmed.endsWith('/>') || trimmed.match(/<\/[A-Z][a-zA-Z0-9]*>$/)) {
-        // Single line component
         const block = parseComponentString(trimmed, order++);
         if (block) rawBlocks.push(block);
       } else {
-        // Start multi-line
         inComponent = true;
         componentBuffer = [line];
       }
@@ -139,19 +138,20 @@ export const parseMarkdownToBlocks = (markdown: string): Block[] => {
 
     if (!trimmed) continue;
 
-    // 2. Heading
     const headingMatch = trimmed.match(/^(#{1,6})\s+(.*)$/);
     if (headingMatch) {
       rawBlocks.push({
         id: generateId(),
         type: 'heading',
         order: order++,
-        data: { level: headingMatch[1].length as any, text: markdownToHtml(headingMatch[2]) },
+        data: { 
+          level: headingMatch[1].length as 1 | 2 | 3 | 4 | 5 | 6, // Типизация уровня
+          text: markdownToHtml(headingMatch[2]) 
+        },
       });
       continue;
     }
 
-    // 3. List (Bulleted)
     if (trimmed.match(/^[-*]\s/)) {
       const text = trimmed.replace(/^[-*]\s+/, '');
       rawBlocks.push({
@@ -163,7 +163,6 @@ export const parseMarkdownToBlocks = (markdown: string): Block[] => {
       continue;
     }
 
-    // 4. List (Ordered)
     if (trimmed.match(/^\d+\.\s/)) {
       const text = trimmed.replace(/^\d+\.\s+/, '');
       rawBlocks.push({
@@ -175,26 +174,15 @@ export const parseMarkdownToBlocks = (markdown: string): Block[] => {
       continue;
     }
 
-    // 5. Code Block Start
-    if (trimmed.startsWith('```')) {
-      // Simplification: treat code block as paragraph for now or component?
-      // Let's treat as paragraph to avoid complexity if not fully supported in editor
-      // OR parse until end ```
-      // For now, let's just push it as paragraph text
-    }
-
-    // 6. Paragraph (Text)
     rawBlocks.push({
       id: generateId(),
       type: 'paragraph',
       order: order++,
-      data: { text: markdownToHtml(line) }, // Convert inline formatting to HTML
+      data: { text: markdownToHtml(line) },
     });
   }
 
-  // Phase 2: Merge adjacent blocks
   const mergedBlocks: Block[] = [];
-
   if (rawBlocks.length === 0) return [];
 
   let current = rawBlocks[0];
@@ -202,13 +190,11 @@ export const parseMarkdownToBlocks = (markdown: string): Block[] => {
   for (let i = 1; i < rawBlocks.length; i++) {
     const next = rawBlocks[i];
 
-    // Merge Paragraphs
     if (current.type === 'paragraph' && next.type === 'paragraph') {
       current.data.text += '\n' + next.data.text;
       continue;
     }
 
-    // Merge Lists (same type)
     if (
       current.type === 'list' &&
       next.type === 'list' &&
@@ -218,21 +204,15 @@ export const parseMarkdownToBlocks = (markdown: string): Block[] => {
       continue;
     }
 
-    // Push completed block and start new unique one
     mergedBlocks.push(current);
     current = next;
   }
 
-  // Push the last one
   mergedBlocks.push(current);
-
-  // Recalculate orders
   return mergedBlocks.map((b, idx) => ({ ...b, order: idx }));
 };
 
-// Helper: Parse component string to Block
 const parseComponentString = (str: string, order: number): Block | null => {
-  // Image
   const imageMatch = str.match(
     /<Image\s+src="([^"]+)"\s+alt="([^"]*)"(?:\s+caption="([^"]*)")?\s*\/>/,
   );
@@ -245,7 +225,6 @@ const parseComponentString = (str: string, order: number): Block | null => {
     };
   }
 
-  // Quote
   const quoteMatch = str.match(/<Quote\s+author="([^"]*)">([\s\S]*?)<\/Quote>/);
   if (quoteMatch) {
     return {
@@ -256,7 +235,6 @@ const parseComponentString = (str: string, order: number): Block | null => {
     };
   }
 
-  // InfoBlock
   const infoMatch = str.match(/<InfoBlock\s+title="([^"]*)">([\s\S]*?)<\/InfoBlock>/);
   if (infoMatch) {
     return {
@@ -267,7 +245,6 @@ const parseComponentString = (str: string, order: number): Block | null => {
     };
   }
 
-  // Slider
   const sliderMatch = str.match(/<Slider\s+images=\{\[([^\]]*)\]\}(?:\s+caption="([^"]*)")?\s*\/>/);
   if (sliderMatch) {
     const images = sliderMatch[1].split(',').map((s) => s.trim().replace(/^"|"$/g, ''));
@@ -279,7 +256,6 @@ const parseComponentString = (str: string, order: number): Block | null => {
     };
   }
 
-  // Gallery
   const galleryMatch = str.match(
     /<Gallery\s+images=\{\[([^\]]*)\]\}(?:\s+caption="([^"]*)")?\s*\/>/,
   );
@@ -293,13 +269,18 @@ const parseComponentString = (str: string, order: number): Block | null => {
     };
   }
 
-  // Tours
   const toursMatch = str.match(/<Tours(?:\s+title="([^"]*)")?\s+items=\{\[([\s\S]*?)\]\}\s*\/>/);
   if (toursMatch) {
-    const items: any[] = [];
+    // Типизация айтемов для туров
+    interface TourItem {
+      title: string;
+      image: string;
+      duration: string;
+      price: string;
+      link: string;
+    }
+    const items: TourItem[] = [];
     const itemsStr = toursMatch[2];
-
-    // Robust parsing of object strings like { key: "val" }, { ... }
     const itemStrings = itemsStr.split(/}\s*,\s*{|}/);
 
     itemStrings.forEach((itemStr) => {
@@ -325,34 +306,6 @@ const parseComponentString = (str: string, order: number): Block | null => {
     };
   }
 
-  // // Grid
-  // const gridMatch = str.match(
-  //   /<Grid>\s*<Left>([\s\S]*?)<\/Left>\s*<Right>([\s\S]*?)<\/Right>\s*<\/Grid>/,
-  // );
-  // if (gridMatch) {
-  //   return {
-  //     id: generateId(),
-  //     type: 'grid',
-  //     order,
-  //     data: {
-  //       left: gridMatch[1].trim(),
-  //       right: gridMatch[2].trim(),
-  //     },
-  //   };
-  // }
-
-  // // Video
-  // const videoMatch = str.match(/<Video\s+url="([^"]+)"\s*\/>/);
-  // if (videoMatch) {
-  //   return {
-  //     id: generateId(),
-  //     type: 'video',
-  //     order,
-  //     data: { url: videoMatch[1] },
-  //   };
-  // }
-
-  // Separator
   if (str.includes('<Separator />')) {
     return { id: generateId(), type: 'separator', order, data: {} };
   }
@@ -360,7 +313,6 @@ const parseComponentString = (str: string, order: number): Block | null => {
   return null;
 };
 
-// Create new block
 export const createBlock = (type: BlockType, order: number): Block => {
   const id = generateId();
 
@@ -392,7 +344,6 @@ export const createBlock = (type: BlockType, order: number): Block => {
   }
 };
 
-// Helper: Clean HTML but preserve only safe formatting tags
 export const cleanHtml = (html: string): string => {
   if (!html) return '';
   if (typeof window === 'undefined') return html;
@@ -405,31 +356,24 @@ export const cleanHtml = (html: string): string => {
 
     const el = node as HTMLElement;
     const tag = el.tagName.toLowerCase();
-
-    // Process children first
     const content = Array.from(el.childNodes).map(clean).join('');
 
     if (['b', 'strong'].includes(tag)) return `<b>${content}</b>`;
     if (['i', 'em'].includes(tag)) return `<i>${content}</i>`;
     if (tag === 'a') {
       const href = el.getAttribute('href');
-      // Ensure we only keep the href and nothing else (no data- attributes)
       return href ? `<a href="${href}">${content}</a>` : content;
     }
     if (tag === 'br') return '<br>';
 
-    // For all other tags (h1, p, span, div, etc.), we only return the cleaned content
-    // effectively stripping the tag itself and its attributes
     return content;
   };
 
   return Array.from(doc.body.childNodes).map(clean).join('');
 };
 
-// Convert HTML string to Block[]
 export const parseHtmlToBlocks = (html: string): Block[] => {
   if (typeof window === 'undefined') return [];
-  // First, clean the HTML to remove attributes and unwanted tags at the top level
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const blocks: Block[] = [];
   let order = 0;
@@ -452,23 +396,21 @@ export const parseHtmlToBlocks = (html: string): Block[] => {
     const el = node as HTMLElement;
     const tag = el.tagName.toLowerCase();
 
-    // Headings
     const headingMatch = tag.match(/^h([1-6])$/);
     if (headingMatch) {
-      // For heading, we clean the inner content which might have spans/etc
       const text = cleanHtml(el.innerHTML).trim();
       if (text) {
         blocks.push({
           id: generateId(),
           type: 'heading',
           order: order++,
-          data: { level: parseInt(headingMatch[1]) as any, text },
+          // Исправлено: явное приведение к корректному типу уровня
+          data: { level: parseInt(headingMatch[1]) as 1 | 2 | 3 | 4 | 5 | 6, text },
         });
       }
       return;
     }
 
-    // Paragraphs
     if (tag === 'p') {
       const content = cleanHtml(el.innerHTML).trim();
       if (content) {
@@ -482,7 +424,6 @@ export const parseHtmlToBlocks = (html: string): Block[] => {
       return;
     }
 
-    // Divs and generic containers
     if (['div', 'section', 'article', 'main', 'body'].includes(tag)) {
       const children = Array.from(el.children);
       const hasBlockChildren = children.some((child) =>
@@ -505,7 +446,6 @@ export const parseHtmlToBlocks = (html: string): Block[] => {
       return;
     }
 
-    // Lists
     if (tag === 'ul' || tag === 'ol') {
       const items = Array.from(el.querySelectorAll('li'))
         .map((li) => cleanHtml(li.innerHTML).trim())
@@ -521,7 +461,6 @@ export const parseHtmlToBlocks = (html: string): Block[] => {
       return;
     }
 
-    // Quotes
     if (tag === 'blockquote') {
       const text = cleanHtml(el.innerHTML).trim();
       if (text) {
@@ -535,13 +474,11 @@ export const parseHtmlToBlocks = (html: string): Block[] => {
       return;
     }
 
-    // HR
     if (tag === 'hr') {
       blocks.push({ id: generateId(), type: 'separator', order: order++, data: {} });
       return;
     }
 
-    // Images
     if (tag === 'img') {
       const src = el.getAttribute('src');
       if (src) {
@@ -555,8 +492,6 @@ export const parseHtmlToBlocks = (html: string): Block[] => {
       return;
     }
 
-    // Fallback for other tags (like spans or unknown tags at top level)
-    // If they have content, treat as paragraph
     const content = cleanHtml(el.innerHTML).trim();
     if (content) {
       blocks.push({
@@ -570,7 +505,6 @@ export const parseHtmlToBlocks = (html: string): Block[] => {
 
   Array.from(doc.body.childNodes).forEach(processNode);
 
-  // Fallback if nothing was parsed
   if (blocks.length === 0 && doc.body.innerText.trim()) {
     blocks.push({
       id: generateId(),

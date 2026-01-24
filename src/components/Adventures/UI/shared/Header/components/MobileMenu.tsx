@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FiX, FiChevronDown, FiSearch, FiChevronUp } from 'react-icons/fi';
+import { FiX, FiChevronDown, FiSearch } from 'react-icons/fi';
 import { ADVENTURES_NAV_LINKS } from '@/utils/adventures/navigation';
 import { useCategories } from '@/api/adventures/categories';
 import LanguageDropdown from './LanguageDropdown';

@@ -4,8 +4,6 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useSearchParams } from 'next/navigation';
 import { authAxiosInstance } from '@/utils/axios';
-import { AxiosError } from 'axios';
-import GoogleOneTap from '@/components/Auth/Forms/GoogleOneTap';
 
 interface AuthCheckProviderProps {
     children: ReactNode;
@@ -26,8 +24,9 @@ export function AuthCheckProvider({ children }: AuthCheckProviderProps) {
 
             try {
                 await authAxiosInstance.get('/auth/check');
-            } catch (e: AxiosError | any) {
-                if (e.response?.status === 401 || e.response?.status === 419) {
+            } catch (e: unknown) {
+                const error = e as { response?: { status?: number } };
+                if (error.response?.status === 401 || error.response?.status === 419) {
                     logout();
                 }
             } finally {
@@ -43,7 +42,7 @@ export function AuthCheckProvider({ children }: AuthCheckProviderProps) {
             newUrl.searchParams.delete('require-auth');
             window.history.replaceState({}, '', newUrl);
         }
-    }, []);
+    }, [logout, searchParams, setAuthPopup]);
 
     if (!checked) return null;
 

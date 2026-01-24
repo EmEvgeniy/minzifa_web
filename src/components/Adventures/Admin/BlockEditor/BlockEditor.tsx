@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { Block, BlockType } from '@/components/Adventures/Admin/BlockEditor/types';
-import { parseBlocksToMarkdown, createBlock, generateId, parseMarkdownToBlocks, parseHtmlToBlocks } from '@/components/Adventures/Admin/BlockEditor/utils';
-import { BlockToolbar } from '@/components/Adventures/Admin/BlockEditor/BlockToolbar';
 import { BlockRenderer } from '@/components/Adventures/Admin/BlockEditor/BlockRenderer';
-import { FiPlus } from 'react-icons/fi';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { BlockToolbar } from '@/components/Adventures/Admin/BlockEditor/BlockToolbar';
+import { Block, BlockType } from '@/components/Adventures/Admin/BlockEditor/types';
+import { createBlock, generateId, parseBlocksToMarkdown, parseMarkdownToBlocks } from '@/components/Adventures/Admin/BlockEditor/utils';
+import { closestCenter, DndContext, DragEndEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useEffect, useRef, useState } from 'react';
+import { FiPlus } from 'react-icons/fi';
 import { BlockInserter } from './components/BlockInserter';
 
 interface BlockEditorProps {
@@ -119,7 +119,7 @@ export const BlockEditor = ({ initialContent, onChange, blocks: externalBlocks, 
     // If replace is true, the block at index-1 will be removed if it's considered "empty"
     const insertBlocks = (newBlocks: Block[], index: number, options: { replaceIfEmpty?: boolean } = {}) => {
         let finalIndex = index;
-        let blocksToKeep = [...blocks];
+        const blocksToKeep = [...blocks];
 
         if (options.replaceIfEmpty && index > 0) {
             const targetIndex = index - 1;
@@ -166,9 +166,9 @@ export const BlockEditor = ({ initialContent, onChange, blocks: externalBlocks, 
     };
 
     // Update block data
-    const updateBlock = (id: string, data: any) => {
+    const updateBlock = (id: string, data: Block['data']) => {
         const updated = blocks.map(block =>
-            block.id === id ? { ...block, data } as Block : block
+            block.id === id ? ({ ...block, data } as Block) : block
         );
         setBlocks(updated);
     };
@@ -283,8 +283,8 @@ export const BlockEditor = ({ initialContent, onChange, blocks: externalBlocks, 
                                             onDelete={() => !readOnly && deleteBlock(block.id)}
                                             onDuplicate={() => !readOnly && duplicateBlock(block.id)}
                                             onFocus={() => !readOnly && setActiveBlockId(block.id)}
-                                            onInsert={(type) => !readOnly && insertBlock(type, index + 1)}
-                                            onInsertBlocks={(newBlocks) => !readOnly && insertBlocks(newBlocks, index + 1, { replaceIfEmpty: true })}
+                                            onInsert={(type: BlockType) => !readOnly && insertBlock(type, index + 1)}
+                                            onInsertBlocks={(newBlocks: Block[]) => !readOnly && insertBlocks(newBlocks, index + 1, { replaceIfEmpty: true })}
                                         />
                                     ))}
                                 </SortableContext>

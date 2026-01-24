@@ -51,7 +51,7 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
     }
 
     if (fieldName === 'phone') {
-      const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
+      const phoneRegex = /^\+?[0-9\s-]{7,20}$/;
       if (!phoneRegex.test(value)) {
         return t('errors.phoneInvalid');
       }
@@ -180,7 +180,7 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
     const newErrors: { [key: string]: string } = {};
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\+?[0-9\s\-]{7,20}$/;
+    const phoneRegex = /^\+?[0-9\s-]{7,20}$/;
 
     if (!name.trim()) {
       newErrors.name = t('errors.nameRequired');

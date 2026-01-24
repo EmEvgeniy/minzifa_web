@@ -1,24 +1,24 @@
 'use client';
 
-import Link from "next/link";
-import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
+import { useCreateCategory, useUpdateCategory } from "@/api/adventures/categories";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { z } from "zod";
 import { ImageSelector } from "../UI/ImageSelector";
 import { LangSelector } from "../UI/LangSelector";
-import { useCreateCategory, useUpdateCategory } from "@/api/adventures/categories";
-import { toast } from "react-toastify";
 
 // Schema definition based on the requested interface
 const categorySchema = z.object({
-    id: z.union([z.string(), z.number()]).optional(),
+    id: z.union([z.number()]).optional(),
     lang: z.string().min(2, "Language is required"),
     name: z.string().min(1, "Name is required"),
     description: z.string().optional(),
     slug: z.string().min(1, "Slug is required").regex(/^[a-z0-9-]+$/, "Slug must contain only lowercase letters, numbers, and dashes"),
-    image: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+    image: z.url("Must be a valid URL").optional().or(z.literal("")),
     seo: z.object({
         title: z.string().optional(),
         description: z.string().optional(),
@@ -80,8 +80,8 @@ export default function CategoryForm({ locale, initialData, mode }: CategoryForm
             const slug = nameValue
                 .toLowerCase()
                 .replace(/\s+/g, '-')
-                .replace(/[^\w\-]+/g, '')
-                .replace(/\-\-+/g, '-')
+                .replace(/[^\w]+/g, '')
+                .replace(/-+/g, '-')
                 .replace(/^-+/, '')
                 .replace(/-+$/, '');
 
@@ -97,20 +97,18 @@ export default function CategoryForm({ locale, initialData, mode }: CategoryForm
             };
 
             if (mode === 'create') {
-                await createCategory.mutateAsync(payload as any);
+                await createCategory.mutateAsync(payload);
                 toast.success('Category created successfully!');
             } else if (initialData?.id || data.id) {
-                const id = (initialData?.id || data.id)!.toString();
-                const { id: _, ...updatePayload } = payload;
-                await updateCategory.mutateAsync({ id, data: updatePayload as any });
+                const id = (initialData?.id || data.id);
+                await updateCategory.mutateAsync({ id, data: payload });
                 toast.success('Category updated successfully!');
             }
             router.push(`/${locale}/prototype/adventures/admin/categories`);
             router.refresh();
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error('Error saving category:', err);
-            const errorMessage = err?.response?.data?.message || 'Failed to save category. Please try again.';
-            toast.error(errorMessage);
+            toast.error('Failed to save category. Please try again.');
         } finally {
             setIsSubmitting(false);
         }

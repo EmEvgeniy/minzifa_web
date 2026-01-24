@@ -37,7 +37,7 @@ export default function UsersList({ locale }: UsersListProps) {
             try {
                 await deleteUser.mutateAsync(id);
                 toast.success(t('toasts.deleteSuccess'));
-            } catch (error) {
+            } catch {
                 toast.error(t('toasts.deleteError'));
             }
         }

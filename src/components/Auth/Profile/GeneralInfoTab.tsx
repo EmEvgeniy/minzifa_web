@@ -1,19 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
-import { profileEditSchema, ProfileEditFormType } from '@/validation/profileEditSchema';
+import { usePatchMutation } from '@/api/patch.api';
 import Button from '@/components/UI/Button/Button';
 import { Input } from '@/components/UI/Form';
 import Loader from '@/components/UI/Loader/Loader';
 import { ITourist, useAuthStore } from '@/store';
-import { AvatarUpload } from '../AvatarUpload';
-import { authAxiosInstance } from '@/utils/axios';
-import { PhoneInputComp } from '../../UI';
 import { useSnackStore } from '@/store/useSnackStore';
-import { usePatchMutation } from '@/api/patch.api';
+import { authAxiosInstance } from '@/utils/axios';
+import { ProfileEditFormType, profileEditSchema } from '@/validation/profileEditSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { PhoneInputComp } from '../../UI';
+import { AvatarUpload } from '../AvatarUpload';
 
 type ProfileUpdateResponse = {
     user: ITourist;
@@ -72,7 +72,7 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
             if (data.user) {
                 setUser(data.user);
             }
-        } catch (error) {
+        } catch {
             setAvatarError(t('profile.avatarUploadError') || 'Ошибка загрузки аватара');
         } finally {
             setIsUploadingAvatar(false);

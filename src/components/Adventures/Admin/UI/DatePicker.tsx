@@ -14,6 +14,12 @@ interface DatePickerProps {
     disabled?: boolean;
 }
 
+interface CustomInputProps {
+    value?: string;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    disabled?: boolean;
+}
+
 export const DatePicker = ({ value, onChange, label, error, disabled }: DatePickerProps) => {
     const selectedDate = value ? new Date(value) : null;
 
@@ -30,7 +36,7 @@ export const DatePicker = ({ value, onChange, label, error, disabled }: DatePick
     };
 
     // Custom input component
-    const CustomInput = forwardRef<HTMLButtonElement, any>(({ value, onClick }, ref) => (
+    const CustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(({ value, onClick }, ref) => (
         <button
             type="button"
             onClick={onClick}

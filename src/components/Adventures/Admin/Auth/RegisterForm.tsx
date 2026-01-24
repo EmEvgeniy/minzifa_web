@@ -1,21 +1,21 @@
 'use client';
 
+import { useAdventuresRegister } from '@/api/adventures/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiMail, FiLock, FiArrowRight, FiAlertCircle, FiEye, FiEyeOff, FiUser } from 'react-icons/fi';
-import { useRouter } from 'next/navigation';
-import { useTranslations, useLocale } from 'next-intl';
-import Link from 'next/link';
-import AuthLayout from './AuthLayout';
+import { FiAlertCircle, FiArrowRight, FiEye, FiEyeOff, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import { useAdventuresRegister } from '@/api/adventures/auth';
+import * as z from 'zod';
+import AuthLayout from './AuthLayout';
 
 const registerSchema = z.object({
     name: z.string().min(2),
-    email: z.string().email(),
+    email: z.email(),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -54,8 +54,9 @@ export default function RegisterForm() {
             setTimeout(() => {
                 router.push(`/${locale}/prototype/adventures/admin/login`);
             }, 1000);
-        } catch (err: any) {
-            const errorMessage = err?.response?.data?.message || t('registrationFailed');
+        } catch (err) {
+            console.error(err);
+            const errorMessage = t('registrationFailed');
             setError(errorMessage);
             toast.error(errorMessage, {
                 position: 'top-right',

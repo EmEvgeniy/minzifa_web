@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ThemeSwitcher } from '../ThemeSwitcher';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { useTranslations } from 'next-intl';
 
 interface AuthLayoutProps {
     children: React.ReactNode;

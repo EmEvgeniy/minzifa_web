@@ -1,17 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { FiArrowLeft, FiSave, FiUser, FiMail, FiShield, FiCamera, FiTrash2 } from 'react-icons/fi';
-import Link from 'next/link';
-import { useCreateAdventuresUser, useUpdateAdventuresUser, useDeleteAdventuresUser } from '@/api/adventures/users';
-import { toast } from 'react-toastify';
+import { useCreateAdventuresUser, useDeleteAdventuresUser, useUpdateAdventuresUser } from '@/api/adventures/users';
+import { AdventureRoles } from '@/types/adventures';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { FiArrowLeft, FiMail, FiSave, FiShield, FiTrash2, FiUser } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 
 interface UserFormData {
     name: string;
     email: string;
-    role: string;
+    role: AdventureRoles;
     password?: string;
 }
 
@@ -33,7 +34,7 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
     const [formData, setFormData] = useState<UserFormData>(initialData || {
         name: '',
         email: '',
-        role: 'EDITOR',
+        role: AdventureRoles.EDITOR,
         password: '',
     });
 
@@ -42,18 +43,22 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
         setIsLoading(true);
         try {
             if (mode === 'create') {
-                await createUser.mutateAsync(formData as any);
+                await createUser.mutateAsync(formData);
                 toast.success(t('toasts.createSuccess'));
             } else {
+                if (!id) throw new Error('User ID is required for editing');
                 await updateUser.mutateAsync({
-                    id: id as string | number,
-                    data: formData as any
+                    id: id,
+                    data: formData
                 });
                 toast.success(t('toasts.updateSuccess'));
             }
             router.push(`/${locale}/prototype/adventures/admin/users`);
-        } catch (error) {
-            console.error(`Error ${mode === 'create' ? 'creating' : 'updating'} user:`, error);
+        } catch (error: unknown) {
+            // Типизируем ошибку для безопасного вывода в консоль
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            console.error(`Error ${mode === 'create' ? 'creating' : 'updating'} user:`, errorMessage);
+
             toast.error(mode === 'create' ? t('toasts.createError') : t('toasts.updateError'));
         } finally {
             setIsLoading(false);
@@ -66,7 +71,8 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
                 await deleteUser.mutateAsync(id);
                 toast.success(t('toasts.deleteSuccess'));
                 router.push(`/${locale}/prototype/adventures/admin/users`);
-            } catch (error) {
+            } catch (error: unknown) {
+                console.error('Delete error:', error);
                 toast.error(t('toasts.deleteError'));
             }
         }
@@ -74,7 +80,7 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
 
     return (
         <div className="max-w-4xl mx-auto space-y-8">
-            {/* Header */}
+            {/* ... JSX остаётся без изменений ... */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <Link
@@ -105,11 +111,9 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
             </div>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
-                {/* Main Form */}
                 <div className="space-y-6">
                     <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
                         <div className="space-y-6">
-                            {/* Name */}
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">{t('form.displayName')}</label>
                                 <div className="relative group">
@@ -127,7 +131,6 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
                                 </div>
                             </div>
 
-                            {/* Email */}
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">{t('form.email')}</label>
                                 <div className="relative group">
@@ -145,7 +148,6 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
                                 </div>
                             </div>
 
-                            {/* Password */}
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">
                                     {mode === 'create' ? t('form.password') : t('form.passwordEdit')}
@@ -185,16 +187,14 @@ export default function UserForm({ locale, id, initialData, mode }: UserFormProp
                     </div>
                 </div>
 
-                {/* Sidebar */}
                 <div className="space-y-6">
-                    {/* Role Selection */}
                     <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
                         <div className="flex items-center gap-2 mb-4 text-slate-900 dark:text-white">
                             <FiShield className="text-[#3ca542]" />
                             <h2 className="font-bold">{t('form.role')}</h2>
                         </div>
                         <div className="space-y-2">
-                            {['ADMIN', 'MODERATOR', 'SEO', 'EDITOR'].map((role) => (
+                            {Object.values(AdventureRoles).map((role) => (
                                 <label
                                     key={role}
                                     className={`flex items-center justify-between p-3.5 rounded-2xl border cursor-pointer transition-all ${formData.role === role

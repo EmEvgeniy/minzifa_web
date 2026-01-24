@@ -1,17 +1,15 @@
 'use client';
 
-import { Controller } from 'react-hook-form';
+import { PhoneInputComp } from '@/components/UI';
 import Button from '@/components/UI/Button/Button';
+import { Checkbox, Input, Textarea } from "@/components/UI/Form";
+import { useChatPopup } from '@/hooks/useChatPopup';
+import { useLocale, useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { Controller } from 'react-hook-form';
 import { IoChatbubbleEllipses } from 'react-icons/io5';
 import { MdClose } from 'react-icons/md';
-import { PhoneInputComp } from '@/components/UI';
-import { useChatPopup } from '@/hooks/useChatPopup';
-import { Checkbox, Input, Textarea } from "@/components/UI/Form";
-import { Chat } from '../Auth/Chats/Chat';
-import { useLocale } from 'next-intl';
-import Link from 'next/link';
 import Loader from '../UI/Loader/Loader';
-import { useTranslations } from 'next-intl';
 
 export const ChatPopup = () => {
     const t = useTranslations();
@@ -19,14 +17,12 @@ export const ChatPopup = () => {
     const {
         isOpen,
         setIsOpen,
-        isChatMode,
         register,
         handleSubmit,
         errors,
         control,
         onSubmit,
         isAuthenticated,
-        handleSendMessage,
         token,
         handleRecaptcha,
         isSubmitting,
@@ -55,7 +51,7 @@ export const ChatPopup = () => {
                     <div className="flex items-center space-x-2 md:space-x-3">
                         <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                         <h3 className="font-bold text-base md:text-lg">
-                            {isChatMode ? t('chatPopup.chatTitle') : t('chatPopup.formTitle')}
+                            {t('chatPopup.formTitle')}
                         </h3>
                     </div>
                     <button
@@ -68,92 +64,83 @@ export const ChatPopup = () => {
 
                 {/* Content */}
                 <div className="flex-1 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
-                    {isChatMode ? (
-                        <div className="h-full flex flex-col">
-                            <Chat
-                                onBack={() => setIsOpen(false)}
-                                onSendMessage={handleSendMessage}
+                    <div className="p-4 md:p-6 h-full overflow-y-auto">
+                        <div className="mb-4 md:mb-6">
+                            <h4 className="text-gray-700 font-semibold text-sm mb-2">
+                                {t('chatPopup.formSubtitle')}
+                            </h4>
+                            <p className="text-gray-500 text-xs">{t('chatPopup.formDescription')}</p>
+                        </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+                            {/* Name */}
+                            <Input
+                                type="text"
+                                {...register('name')}
+                                placeholder={t('chatPopup.namePlaceholder')}
+                                disabled={isAuthenticated}
+                                error={errors?.name}
                             />
-                        </div>
-                    ) : (
-                        <div className="p-4 md:p-6 h-full overflow-y-auto">
-                            <div className="mb-4 md:mb-6">
-                                <h4 className="text-gray-700 font-semibold text-sm mb-2">
-                                    {t('chatPopup.formSubtitle')}
-                                </h4>
-                                <p className="text-gray-500 text-xs">{t('chatPopup.formDescription')}</p>
-                            </div>
-                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-                                {/* Name */}
-                                <Input
-                                    type="text"
-                                    {...register('name')}
-                                    placeholder={t('chatPopup.namePlaceholder')}
-                                    disabled={isAuthenticated}
-                                    error={errors?.name}
-                                />
 
-                                {/* Email */}
-                                <Input
-                                    type="email"
-                                    {...register('email')}
-                                    placeholder={t('chatPopup.emailPlaceholder')}
-                                    disabled={isAuthenticated}
-                                    error={errors?.email}
-                                />
+                            {/* Email */}
+                            <Input
+                                type="email"
+                                {...register('email')}
+                                placeholder={t('chatPopup.emailPlaceholder')}
+                                disabled={isAuthenticated}
+                                error={errors?.email}
+                            />
 
-                                {/* Phone */}
-                                <Controller
-                                    name="phone"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <PhoneInputComp
-                                            {...field}
-                                            error={errors?.phone}
-                                        />
-                                    )}
-                                />
+                            {/* Phone */}
+                            <Controller
+                                name="phone"
+                                control={control}
+                                render={({ field }) => (
+                                    <PhoneInputComp
+                                        {...field}
+                                        error={errors?.phone}
+                                    />
+                                )}
+                            />
 
-                                {/* Message */}
-                                <Textarea
-                                    {...register('message')}
-                                    placeholder={t('chatPopup.messagePlaceholder')}
-                                    rows={4}
-                                    error={errors?.message}
-                                />
+                            {/* Message */}
+                            <Textarea
+                                {...register('message')}
+                                placeholder={t('chatPopup.messagePlaceholder')}
+                                rows={4}
+                                error={errors?.message}
+                            />
 
-                                <Checkbox
-                                    label={t.rich('common.termsAcceptance', {
-                                        terms: (chunks) => (
-                                            <Link
-                                                href={`/${locale}/term-and-conditions-of-booking-tours`}
-                                                className="text-[#009F65] hover:underline"
-                                                target='_blank'
-                                            >
-                                                {chunks}
-                                            </Link>
-                                        ),
-                                        privacy: (chunks) => (
-                                            <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
-                                                {chunks}
-                                            </Link>
-                                        ),
-                                    })}
-                                    checked={!!token}
-                                    onChange={(e) => handleRecaptcha()}
-                                    labelClassName='flex-wrap gap-x-1 text-sm text-gray-500 hover:text-gray-700'
-                                />
+                            <Checkbox
+                                label={t.rich('common.termsAcceptance', {
+                                    terms: (chunks) => (
+                                        <Link
+                                            href={`/${locale}/term-and-conditions-of-booking-tours`}
+                                            className="text-[#009F65] hover:underline"
+                                            target='_blank'
+                                        >
+                                            {chunks}
+                                        </Link>
+                                    ),
+                                    privacy: (chunks) => (
+                                        <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
+                                            {chunks}
+                                        </Link>
+                                    ),
+                                })}
+                                checked={!!token}
+                                onChange={() => handleRecaptcha()}
+                                labelClassName='flex-wrap gap-x-1 text-sm text-gray-500 hover:text-gray-700'
+                            />
 
-                                <Button
-                                    type="submit"
-                                    className="w-full"
-                                    disabled={isSubmitting || !token}
-                                >
-                                    {isSubmitting ? <Loader /> : t('auth.register.createAccount')}
-                                </Button>
-                            </form>
-                        </div>
-                    )}
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={isSubmitting || !token}
+                            >
+                                {isSubmitting ? <Loader /> : t('auth.register.createAccount')}
+                            </Button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

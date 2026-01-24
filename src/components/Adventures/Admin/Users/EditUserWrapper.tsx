@@ -25,9 +25,9 @@ export default function EditUserWrapper({ locale }: EditUserWrapperProps) {
 
     const initialFormData = {
         name: user.name,
-        email: user.email || '',
-        role: (user as any).role || 'EDITOR',
-        avatar: user.avatar || '',
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar,
         password: ''
     };
 

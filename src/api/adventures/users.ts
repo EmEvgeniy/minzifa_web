@@ -1,14 +1,14 @@
+import { PaginatedData } from '@/types/common';
+import { AdventureUser, UserQueryParams } from '@/types/adventures';
+import { authAdventuresAxiosInstance } from '@/utils/adventures/axios';
 import {
   useMutation,
+  UseMutationResult,
   useQuery,
   useQueryClient,
-  UseMutationResult,
   UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { authAdventuresAxiosInstance } from '@/utils/adventures/axios';
-import { AdventureUser } from '@/types/adventures';
-import { PaginatedData } from '@/types/common';
 
 /**
  * Хук для создания нового пользователя
@@ -33,13 +33,18 @@ export const useCreateAdventuresUser = (): UseMutationResult<
 /**
  * Хук для получения списка всех пользователей (только для ADMIN)
  */
-export const useAdventuresUsers = (params?: any): UseQueryResult<AdventureUser[], AxiosError> => {
+export const useAdventuresUsers = (
+  params?: UserQueryParams,
+): UseQueryResult<AdventureUser[], AxiosError> => {
   return useQuery<AdventureUser[], AxiosError>({
     queryKey: ['adventures', 'users', params],
     queryFn: async () => {
-      const response = await authAdventuresAxiosInstance.get<any>('/users', {
-        params,
-      });
+      const response = await authAdventuresAxiosInstance.get<PaginatedData<AdventureUser>>(
+        '/users',
+        {
+          params,
+        },
+      );
       const data = response.data;
       return Array.isArray(data) ? data : data?.data || [];
     },

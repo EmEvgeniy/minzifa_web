@@ -1,12 +1,13 @@
 'use client';
 
-import { ThemeSwitcher } from './ThemeSwitcher';
-import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 import { useAdventuresAuthStore } from '@/store/adventures/useAdventuresAuthStore';
+import { AdventureUser } from '@/types/adventures';
 
 export const AdminHeader = ({ locale }: { locale: string }) => {
     const pathname = usePathname();
@@ -48,7 +49,7 @@ export const AdminHeader = ({ locale }: { locale: string }) => {
 
                 <div className="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
 
-                <UserProfileDropdown locale={locale} user={user} />
+                {!!user && <UserProfileDropdown locale={locale} user={user} />}
             </div>
         </header>
     );
@@ -128,7 +129,7 @@ const LanguageDropdown = ({ currentLocale }: { currentLocale: string }) => {
     );
 };
 
-const UserProfileDropdown = ({ locale, user }: { locale: string; user: any }) => {
+const UserProfileDropdown = ({ locale, user }: { locale: string; user: AdventureUser }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);

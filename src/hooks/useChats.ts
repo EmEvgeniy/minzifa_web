@@ -16,7 +16,6 @@ export const useChats = () => {
     currentChatMessages,
     isLoading,
     error,
-    centrifuge,
     setSelectedChat,
     setMessageInput,
     setError,

@@ -1,15 +1,13 @@
-import "./globals.css";
+import { AdventuresAuthGuard } from "@/components/Adventures/Admin/Auth/AdventuresAuthGuard";
+import { QueryProvider } from "@/providers/QueryProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import { type Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { type Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import { Sidebar } from "@/components/Adventures/Admin/Sidebar";
-import { ThemeProvider } from "@/providers/ThemeProvider";
-import { AdminHeader } from "@/components/Adventures/Admin/AdminHeader";
-import { QueryProvider } from "@/providers/QueryProvider";
-import { AdventuresAuthGuard } from "@/components/Adventures/Admin/Auth/AdventuresAuthGuard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
 
 const AdminFont = DM_Sans({
     subsets: ['latin'],

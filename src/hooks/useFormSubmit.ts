@@ -3,13 +3,13 @@ import { axiosInstance } from '@/utils/axios';
 import { getApiUrl } from '@/utils/config';
 
 interface FormSubmitOptions {
-  onSuccess?: (data: any) => void;
+  onSuccess?: (data: FormSubmitResult) => void;
   onError?: (error: Error) => void;
 }
 
 interface FormSubmitResult {
-  form?: any;
-  order?: any;
+  form?: Record<string, unknown>;
+  order?: Record<string, unknown>;
   errors?: {
     telegram?: Error;
     email?: Error;
@@ -50,7 +50,7 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
    */
   const submitForm = async (
     formName: string,
-    data: Record<string, any>,
+    data: Record<string, unknown>,
   ): Promise<FormSubmitResult> => {
     setIsSubmitting(true);
 
@@ -102,7 +102,7 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
 
       // Шаг 3: AmoCRM
       try {
-        const amocrmResponse = await axiosInstance.post(getApiUrl('forms/amocrm/send'), formData);
+        await axiosInstance.post(getApiUrl('forms/amocrm/send'), formData);
       } catch (error) {
         console.warn('AmoCRM queuing failed (non-critical):', error);
         result.errors!.amocrm = error as Error;

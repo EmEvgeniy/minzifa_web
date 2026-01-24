@@ -1,22 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
-import { useAuthPostMutation, usePostMutation } from '@/api/post.api';
-import { useSnackStore } from '@/store/useSnackStore';
-import { profileEditSchema, passwordChangeSchema, ProfileEditFormType, PasswordChangeFormType } from '@/validation/profileEditSchema';
+import { useAuthPatchMutation } from '@/api/patch.api';
+import { useAuthPostMutation } from '@/api/post.api';
+import TelegramSubscription from '@/components/Profile/TelegramSubscription';
 import Button from '@/components/UI/Button/Button';
 import { Input } from '@/components/UI/Form';
 import Loader from '@/components/UI/Loader/Loader';
 import { ITourist, useAuthStore } from '@/store';
-import { AvatarUpload } from '../AvatarUpload';
-import { useAuthPatchMutation, usePatchMutation } from '@/api/patch.api';
-import { PhoneInputComp } from '../../UI';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../UI/Tabs';
+import { useSnackStore } from '@/store/useSnackStore';
 import { authAxiosInstance } from '@/utils/axios';
-import TelegramSubscription from '@/components/Profile/TelegramSubscription';
+import { PasswordChangeFormType, passwordChangeSchema, ProfileEditFormType, profileEditSchema } from '@/validation/profileEditSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { PhoneInputComp } from '../../UI';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../UI/Tabs';
+import { AvatarUpload } from '../AvatarUpload';
 
 type ProfileUpdateResponse = {
     user: ITourist;
@@ -94,7 +94,7 @@ export const ProfileEditForm = () => {
             if (result.user) {
                 setUser(result.user);
             }
-        } catch (error) {
+        } catch {
             setAvatarError(t('profile.avatarUploadError') || 'Ошибка загрузки аватара');
         } finally {
             setIsUploadingAvatar(false);

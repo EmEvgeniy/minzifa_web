@@ -12,7 +12,7 @@ import { AdventureUser } from '@/types/adventures';
 // Profile form schema
 const profileSchema = z.object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
-    email: z.string().email('Invalid email address'),
+    email: z.email('Invalid email address'),
 });
 
 // Password change schema
@@ -28,11 +28,7 @@ const passwordSchema = z.object({
 type ProfileFormData = z.infer<typeof profileSchema>;
 type PasswordFormData = z.infer<typeof passwordSchema>;
 
-interface ProfilePageProps {
-    locale: string;
-}
-
-export default function ProfilePage({ locale }: ProfilePageProps) {
+export default function ProfilePage() {
     const { data: user, isLoading } = useCurrentUser();
     const [activeTab, setActiveTab] = useState<'profile' | 'password'>('profile');
 
@@ -126,9 +122,9 @@ function ProfileForm({ user }: { user: AdventureUser | undefined }) {
         try {
             await updateProfile.mutateAsync(data);
             toast.success('Profile updated successfully!');
-        } catch (error: any) {
-            const errorMessage = error?.response?.data?.message || 'Failed to update profile';
-            toast.error(errorMessage);
+        } catch (error: unknown) {
+            console.error(error);
+            toast.error('Failed to update profile');
         } finally {
             setIsSubmitting(false);
         }
@@ -250,9 +246,9 @@ function PasswordChangeForm() {
             await changePassword.mutateAsync(data);
             toast.success('Password changed successfully!');
             reset();
-        } catch (error: any) {
-            const errorMessage = error?.response?.data?.message || 'Failed to change password';
-            toast.error(errorMessage);
+        } catch (error: unknown) {
+            console.log(error);
+            toast.error('Failed to change password');
         } finally {
             setIsSubmitting(false);
         }

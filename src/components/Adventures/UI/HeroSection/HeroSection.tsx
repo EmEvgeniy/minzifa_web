@@ -45,9 +45,13 @@ export default function HeroSection({ articles }: HeroSectionProps) {
                 <div className="container w-full pb-12 lg:pb-16">
                     <div className="max-w-2xl">
                         {/* Category */}
-                        <span className="inline-block px-3 py-1 bg-foreground text-white text-xs font-medium rounded-full mb-4">
-                            {currentArticle?.categories?.[0]?.name}
-                        </span>
+                        {currentArticle?.categories?.[0] && (
+                            <span className="inline-block px-3 py-1 bg-foreground text-white text-xs font-medium rounded-full mb-4">
+                                {typeof currentArticle.categories[0] === 'object'
+                                    ? currentArticle.categories[0].name
+                                    : ''}
+                            </span>
+                        )}
 
                         {/* Title */}
                         <h1 className="text-white text-3xl lg:text-5xl font-title leading-tight mb-4">

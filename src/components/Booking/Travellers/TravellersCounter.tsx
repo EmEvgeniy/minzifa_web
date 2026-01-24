@@ -5,12 +5,7 @@ import { UseFormSetValue } from 'react-hook-form';
 
 function TravellersCounter({ bookingData, setValue }: { bookingData: BookingFormType; setValue: UseFormSetValue<BookingFormType> }) {
   const handleCount = (value: number) => {
-    const isDecreasing = value < (bookingData?.travellers_count || 0);
     setValue('travellers_count', value);
-
-    // Trigger room_types reset if decreasing
-    if (isDecreasing) {
-    }
   };
 
   return (

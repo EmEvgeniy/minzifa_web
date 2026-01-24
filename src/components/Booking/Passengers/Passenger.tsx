@@ -152,7 +152,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                 maxDate={new Date()}
                 dropdownMode="select"
                 customInput={<Input
-                  error={errors.passengers?.[index]?.birth_date as any}
+                  error={errors.passengers?.[index]?.birth_date}
                 />}
               />
             )}

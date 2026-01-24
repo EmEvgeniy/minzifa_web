@@ -11,7 +11,7 @@ import { ArticleCard } from '@/components/Adventures/Admin/UI/ArticleCard';
 import { SearchBar } from '@/components/Adventures/Admin/UI/SearchBar';
 import { FilterPills, type FilterOption } from '@/components/Adventures/Admin/UI/FilterPills';
 import { useAdventuresAuthStore } from '@/store/adventures/useAdventuresAuthStore';
-import { AdventureUser, ArticleStatuses } from '@/types/adventures';
+import { AdventureUser, Article, ArticleStatuses, Category } from '@/types/adventures';
 
 interface ArticlesListProps {
     locale: string;
@@ -40,13 +40,11 @@ export default function ArticlesList({ locale }: ArticlesListProps) {
         return articles.map(article => ({
             ...article,
             categories: article.categories
-                ?.map((catId: any) => {
-                    if (typeof catId === 'number') {
-                        return categories.find(c => c.id === catId);
-                    }
-                    return catId;
+                ?.map((category) => {
+                    const categoryId = typeof category === 'number' ? category : category.id;
+                    return categories.find(c => c.id === categoryId);
                 })
-                .filter(Boolean),
+                .filter(Boolean) as Category[],
             user: users.find(u => u.id === article.userId) || article.user
         }));
     }, [articles, categories, users]);
@@ -91,7 +89,7 @@ export default function ArticlesList({ locale }: ArticlesListProps) {
         }
     };
 
-    const handleMoveToDraft = async (article: any) => {
+    const handleMoveToDraft = async (article: Article) => {
         if (!confirm('Move this article to draft? It will no longer be visible to the public.')) return;
 
         try {
@@ -100,8 +98,8 @@ export default function ArticlesList({ locale }: ArticlesListProps) {
                 data: {
                     status: ArticleStatuses.DRAFT,
                     image: article.image,
-                    categories: article.categories?.map((c: any) => c.id || c)
-                } as any
+                    categories: article.categories?.map((c) => typeof c === 'number' ? c : c.id)
+                }
             });
             toast.success('Article moved to drafts');
         } catch (error) {

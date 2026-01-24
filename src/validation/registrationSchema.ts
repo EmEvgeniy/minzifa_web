@@ -11,6 +11,7 @@ export const registrationSchema = (t: (key: string) => string) =>
         /^(?=.{8,})(?=.*\p{L})(?=.*\p{N})(?=.*[^\p{L}\p{N}]).*$/u,
         t('errors.password_invalid'),
       ),
+    phone: z.string().min(10, t('errors.phone_invalid')),
     recaptchaToken: z.string().optional(),
   });
 

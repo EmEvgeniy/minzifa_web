@@ -40,5 +40,5 @@ export default function EditCategoryPage() {
         seo: category.seo || { title: '', description: '', keywords: '' }
     };
 
-    return <CategoryForm locale={locale} mode="edit" initialData={initialData as any} />;
+    return <CategoryForm locale={locale} mode="edit" initialData={initialData} />;
 }

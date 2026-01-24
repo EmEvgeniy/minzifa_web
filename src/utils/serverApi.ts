@@ -18,7 +18,9 @@ export class ApiError<T = unknown> extends Error {
 }
 
 function buildApiUrl(endpoint: string): string {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || 'http://localhost/api/v1';
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL
+    ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
+    : 'http://localhost/api/v1';
   return endpoint.startsWith('http') ? endpoint : `${baseUrl}/${endpoint.replace(/^\/+/, '')}`;
 }
 

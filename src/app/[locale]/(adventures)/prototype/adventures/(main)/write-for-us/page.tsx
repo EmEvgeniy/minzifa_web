@@ -1,35 +1,13 @@
 "use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { FiUser, FiMail, FiCheckCircle, FiArrowRight, FiEdit3, FiHeart, FiMap, FiCamera } from 'react-icons/fi';
+import Image from 'next/image';
+import { FiCamera, FiEdit3, FiHeart, FiMap } from 'react-icons/fi';
 
-const formSchema = z.object({
-    name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
-    email: z.string().email({ message: 'Invalid email address' }),
-});
-
-type FormValues = z.infer<typeof formSchema>;
 
 export default function WriteForUsPage() {
     const t = useTranslations('adventures.writeForUs');
-    const tCommon = useTranslations('adventures.becomeAnAuthor');
-
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
-    });
 
     return (
         <div className="bg-[#FDFDFB] min-h-screen">

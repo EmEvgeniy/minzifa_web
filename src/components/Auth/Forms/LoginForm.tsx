@@ -2,12 +2,12 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { useAuthPostMutation } from '@/api/post.api';
 import { useSnackStore } from '@/store/useSnackStore';
 import { loginSchema, LoginFormType } from '@/validation/loginSchema';
 import Button from '@/components/UI/Button/Button';
-import { Checkbox, Input } from '@/components/UI/Form';
+import { Input } from '@/components/UI/Form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Loader from "@/components/UI/Loader/Loader";
 import { useState } from "react";
@@ -23,9 +23,9 @@ export const LoginForm = ({ step, setStep }: { step: AuthStep, setStep: (step: A
     const { setMessage, setError } = useSnackStore();
     const [showPassword, setShowPassword] = useState(false);
 
-    const { email, setEmail, setUser, setAuthPopup } = useAuthStore();
+    const { email, setEmail, setAuthPopup } = useAuthStore();
 
-    const { register, clearErrors, formState: { errors, isLoading }, handleSubmit, watch } = useForm<LoginFormType>({
+    const { register, clearErrors, formState: { errors, isLoading }, handleSubmit } = useForm<LoginFormType>({
         resolver: zodResolver(loginSchema(t)),
         mode: 'onSubmit',
         defaultValues: {

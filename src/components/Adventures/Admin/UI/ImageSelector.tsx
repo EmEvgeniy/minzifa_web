@@ -30,9 +30,9 @@ export const ImageSelector = ({ value, onChange, label = "Image", description }:
             if (response.data && Array.isArray(response.data) && response.data.length > 0) {
                 // Old format: { data: [{ url: "..." }] }
                 uploadedUrl = response.data[0].url;
-            } else if ((response as any).file?.url) {
+            } else if (response.file?.url) {
                 // New format: { file: { url: "/uploads/..." } }
-                const relativeUrl = (response as any).file.url;
+                const relativeUrl = response.file.url;
                 // Build full URL from relative path
                 const baseUrl = process.env.NEXT_PUBLIC_ARTICLES_API_URL || 'https://articles.minzifatravel.com';
                 uploadedUrl = relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
@@ -45,10 +45,9 @@ export const ImageSelector = ({ value, onChange, label = "Image", description }:
             } else {
                 throw new Error('Invalid response format');
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Upload error:', error);
-            const msg = error?.response?.data?.message || 'Failed to upload image';
-            toast.error(msg);
+            toast.error('Failed to upload image');
         }
     }, [mediaUpload, onChange]);
 

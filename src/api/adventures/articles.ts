@@ -7,11 +7,11 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { adventuresAxiosInstance, authAdventuresAxiosInstance } from '@/utils/adventures/axios';
-import type { Article, ArticlePayload } from '@/types/adventures';
+import type { Article, ArticlePayload, ArticleQueryParams } from '@/types/adventures';
 
 import { PaginatedData } from '@/types/common';
 
-export const useArticles = (params?: any): UseQueryResult<Article[], AxiosError> => {
+export const useArticles = (params?: ArticleQueryParams): UseQueryResult<Article[], AxiosError> => {
   return useQuery<Article[], AxiosError>({
     queryKey: ['articles', params],
     queryFn: async () => {
@@ -27,7 +27,7 @@ export const useArticle = (idOrSlug: string): UseQueryResult<Article, AxiosError
   return useQuery<Article, AxiosError>({
     queryKey: ['articles', idOrSlug],
     queryFn: async () => {
-      const response = await adventuresAxiosInstance.get<{ success: Boolean; data: Article }>(
+      const response = await adventuresAxiosInstance.get<{ success: boolean; data: Article }>(
         `/articles/${idOrSlug}`,
       );
       return response.data.data;
@@ -44,8 +44,8 @@ export const useCreateArticle = (): UseMutationResult<Article, AxiosError, Artic
       try {
         const response = await authAdventuresAxiosInstance.post<Article>('/articles', article);
         return response.data;
-      } catch (error: any) {
-        console.error('Create Article Error:', error.response?.data);
+      } catch (error) {
+        console.error('Create Article Error:', error);
         throw error;
       }
     },

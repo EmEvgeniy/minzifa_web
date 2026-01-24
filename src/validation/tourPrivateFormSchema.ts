@@ -8,6 +8,6 @@ export const tourPrivateFormSchema = (t: (k: string) => string) =>
     wishes: z.string(),
     name: z.string().min(2, t('errors.name_min')),
     email: z.email(t('errors.email_invalid')),
-    phone: z.string().min(5, t('errors.phone_required')),
+    phone: z.string().min(10, t('errors.phone_required')),
     recaptchaToken: z.string().optional(),
   });

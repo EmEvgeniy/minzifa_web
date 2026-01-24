@@ -1,16 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
+import { FormNameEnum } from '@/constants';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useMetricsStore } from '@/store/useMetricsStore';
-import { chatPopupFormSchema, ChatPopupFormType } from '@/validation/chatPopupFormSchema';
 import { useSnackStore } from '@/store/useSnackStore';
-import { IMessage } from '@/types';
-import { useRecaptcha } from './useRecaptcha';
+import { chatPopupFormSchema, ChatPopupFormType } from '@/validation/chatPopupFormSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useChats } from './useChats';
 import { useFormSubmit } from './useFormSubmit';
-import { FormNameEnum } from '@/constants';
+import { useRecaptcha } from './useRecaptcha';
 
 export const useChatPopup = () => {
   const t = useTranslations();
@@ -19,9 +18,7 @@ export const useChatPopup = () => {
   const { setMessage, setError } = useSnackStore();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isChatMode, setIsChatMode] = useState(false);
   const [messageInput, setMessageInput] = useState('');
-  const [messages, setMessages] = useState<IMessage[]>([]);
 
   const { token, getToken } = useRecaptcha();
 
@@ -54,21 +51,12 @@ export const useChatPopup = () => {
     }
   }, [isAuthenticated, user, setValue]);
 
-  const { handleChatSelect, initializeWebSocket } = useChats();
-
   const { submitForm, isSubmitting } = useFormSubmit({
-    onSuccess(data) {
+    onSuccess() {
       setMessage(t('chatPopup.formSent'));
-      if (data?.chats && data.chats.length > 0) {
-        const chat = data.chats[0];
-        handleChatSelect(chat);
-        initializeWebSocket();
-        setIsChatMode(true);
-      } else {
-        setTimeout(() => {
-          setIsOpen(false);
-        }, 3000);
-      }
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 3000);
       reset();
     },
     onError(error) {
@@ -93,10 +81,8 @@ export const useChatPopup = () => {
   return {
     isOpen,
     setIsOpen,
-    isChatMode,
     messageInput,
     setMessageInput,
-    messages,
     register,
     handleSubmit,
     errors,

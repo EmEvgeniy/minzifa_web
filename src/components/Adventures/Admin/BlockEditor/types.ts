@@ -110,7 +110,7 @@ export interface CodeBlock extends BaseBlock {
 
 export interface SeparatorBlock extends BaseBlock {
   type: 'separator';
-  data: {};
+  data: object;
 }
 
 export type Block =

@@ -10,33 +10,43 @@ import { usePrivateTourFormStore } from '@/store/privateTourFormStore';
 export default function MobileBtn({ locale, tour }: { locale: string; tour: Tour }) {
   const t = useTranslations('tourDetail');
 
-  const { selectedPrice, handleBooking } = useGroupTourBooking({ tour, locale });
+  const { selectedPrice, totalPrice, handleBooking } = useGroupTourBooking({ tour, locale });
 
   const { setPopup } = usePrivateTourFormStore();
 
-  const price =
-    tour?.tour_type === 'group'
-      ? selectedPrice?.price_for_double
-      : tour?.prices?.price_for_3_hotels;
+  const isGroup = tour?.tour_type === 'group';
+
+  const price = isGroup
+    ? (totalPrice || selectedPrice?.price_for_double || tour?.prices?.data?.[0]?.price_for_double)
+    : (tour?.prices?.price_for_3_hotels || tour?.prices?.price_for_4_hotels || tour?.prices?.price_for_5_hotels);
+
+  const handleClick = () => {
+    if (isGroup) {
+      handleBooking();
+    } else {
+      setPopup(true);
+    }
+  };
 
   return (
     <div className="container  bg-[#16372D] sticky bottom-0 z-50 text-white py-5 w-full hidden items-center justify-between max-[920px]:flex gap-5">
       <div className="text-base w-full flex flex-col">
-        <FormattedPrice
-          price={price}
-          currency={tour?.prices?.valute || 'UZS'}
-          className="text-[16px] font-semibold"
-          as={'span'}
-        />
+        {!!price && (
+          <FormattedPrice
+            price={price}
+            currency={tour?.prices?.valute || 'UZS'}
+            className="text-[16px] font-semibold"
+            as={'span'}
+          />
+        )}
         {t('booking.per_person')}
       </div>
       <Button
-        to={`/${locale}/booking/${tour?.slug}`}
         color='primary'
         className='w-full'
-        onClick={tour?.tour_type === 'group' ? () => handleBooking() : () => setPopup(true)}
+        onClick={handleClick}
       >
-        {t('booking.button', { count: 1 })}
+        {isGroup ? t('booking.button', { count: 1 }) : t('privateTour.freeConsultation')}
       </Button>
     </div>
   );

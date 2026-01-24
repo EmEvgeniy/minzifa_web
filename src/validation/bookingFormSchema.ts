@@ -142,6 +142,14 @@ export const bookingFormSchema = (t: (key: string) => string) =>
             input: firstPassenger.main_address?.postal_code,
           });
         }
+        if (!firstPassenger.phone || firstPassenger.phone.length < 10) {
+          issues.push({
+            code: 'custom',
+            message: t('errors.phone_invalid'),
+            path: ['passengers', 0, 'phone'],
+            input: firstPassenger.phone,
+          });
+        }
       }
     });
 

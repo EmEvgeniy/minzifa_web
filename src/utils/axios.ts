@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosError } from 'axios';
 import { getApiUrl } from './config';
 import { useAuthStore } from '@/store/useAuthStore';
 import { PROTECTED_ROUTES } from '@/constants';
@@ -32,7 +32,7 @@ authAxiosInstance.interceptors.request.use(
 );
 
 // Перехватчик ответов для обработки 401
-const handleAuthError = (error: any) => {
+const handleAuthError = (error: AxiosError) => {
   const status = error?.response?.status;
 
   if (status === 401 || status === 419) {

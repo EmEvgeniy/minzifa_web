@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import Image from 'next/image';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaExpand, FaXmark } from 'react-icons/fa6';
 
 interface ArticleGridGalleryProps {
@@ -12,7 +12,7 @@ const ArticleGridGallery: React.FC<ArticleGridGalleryProps> = ({ images }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    if (!images || images.length === 0) return null;
+
 
     const openLightbox = (index: number) => {
         setCurrentIndex(index);
@@ -25,18 +25,18 @@ const ArticleGridGallery: React.FC<ArticleGridGalleryProps> = ({ images }) => {
         document.body.style.overflow = 'unset'; // Restore scrolling
     };
 
-    const handleNext = (e?: React.MouseEvent) => {
+    const handleNext = useCallback((e?: React.MouseEvent) => {
         e?.stopPropagation();
         setCurrentIndex((prev) => (prev + 1) % images.length);
-    };
+    }, [images.length]);
 
-    const handlePrev = (e?: React.MouseEvent) => {
+    const handlePrev = useCallback((e?: React.MouseEvent) => {
         e?.stopPropagation();
         setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-    };
+    }, [images.length]);
 
     // Keyboard navigation
-    React.useEffect(() => {
+    useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!isOpen) return;
             if (e.key === 'Escape') closeLightbox();
@@ -46,7 +46,9 @@ const ArticleGridGallery: React.FC<ArticleGridGalleryProps> = ({ images }) => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen]);
+    }, [isOpen, handleNext, handlePrev]);
+
+    if (!images || images.length === 0) return null;
 
     return (
         <div className="my-12">

@@ -1,12 +1,11 @@
-import Image from 'next/image';
-import { notFound } from 'next/navigation';
-import { adventuresAxiosInstance } from '@/utils/adventures/axios';
-import type { Article, Category } from '@/types/adventures';
-import ArticleHeader from '@/components/Adventures/Article/ArticleHeader';
 import ArticleContent from '@/components/Adventures/Article/ArticleContent';
+import ArticleHeader from '@/components/Adventures/Article/ArticleHeader';
 import ArticleRelated from '@/components/Adventures/Article/ArticleRelated';
+import type { Article, Category } from '@/types/adventures';
 import { PaginatedData } from '@/types/common';
+import { adventuresAxiosInstance } from '@/utils/adventures/axios';
 import { getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 
 interface ArticlePageProps {
     params: Promise<{ article: string, locale: string }>;
@@ -34,6 +33,7 @@ export async function generateStaticParams() {
 
         return paths;
     } catch (error) {
+        console.error('Failed to generate static params:', error);
         return [];
     }
 }
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: ArticlePageProps) {
     const { article } = await params;
 
     try {
-        const response = await adventuresAxiosInstance.get<{ success: Boolean; data: Article }>(`/articles/${article}`);
+        const response = await adventuresAxiosInstance.get<{ success: boolean; data: Article }>(`/articles/${article}`);
         const articleData = response.data.data;
 
         return {
@@ -50,6 +50,7 @@ export async function generateMetadata({ params }: ArticlePageProps) {
             description: articleData.seo?.description,
         };
     } catch (error) {
+        console.error('Failed to fetch article metadata:', error);
         notFound();
     }
 }
@@ -68,7 +69,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
         categories = Array.isArray(categoriesResponse.data) ? categoriesResponse.data : [];
 
         // Fetch article
-        const response = await adventuresAxiosInstance.get<{ success: Boolean; data: Article }>(`/articles/${article}`);
+        const response = await adventuresAxiosInstance.get<{ success: boolean; data: Article }>(`/articles/${article}`);
 
         if (response.data.success) {
             articleData = response.data.data;
@@ -76,7 +77,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
             // Map category IDs to category objects
             if (articleData && Array.isArray(articleData.categories)) {
                 articleData.categories = articleData.categories
-                    .map((catId: any) => {
+                    .map((catId: Category | number) => {
                         if (typeof catId === 'number') {
                             return categories.find(c => c.id === catId);
                         }
@@ -95,7 +96,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
             const articlesWithCategories = allArticles.map(a => {
                 if (Array.isArray(a.categories)) {
                     a.categories = a.categories
-                        .map((catId: any) => {
+                        .map((catId: Category | number) => {
                             if (typeof catId === 'number') {
                                 return categories.find(c => c.id === catId);
                             }
@@ -107,12 +108,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
             });
 
             relatedArticles = articlesWithCategories
-                .filter(a => a.id !== articleData?.id && a.categories?.[0]?.id === articleData?.categories?.[0]?.id)
+                .filter(a => {
+                    const articleFirstCat = a.categories?.[0];
+                    const currentFirstCat = articleData?.categories?.[0];
+
+                    const articleFirstCatId = typeof articleFirstCat === 'object' ? articleFirstCat.id : articleFirstCat;
+                    const currentFirstCatId = typeof currentFirstCat === 'object' ? currentFirstCat.id : currentFirstCat;
+
+                    return a.id !== articleData?.id && articleFirstCatId === currentFirstCatId;
+                })
                 .slice(0, 4);
         } catch (relError) {
             console.error('Failed to fetch related articles:', relError);
         }
     } catch (error) {
+        console.error('Failed to fetch article:', error);
         notFound();
     }
 
@@ -120,12 +130,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ articl
     const tComponents = await getTranslations('adventures.components');
 
     if (!articleData) {
+        console.error('Article not found');
         notFound();
     }
 
+    const firstCategory = articleData?.categories?.[0] as Category | undefined;
     const breadcrumbItems = [
         { label: t('home'), href: '/prototype/adventures' },
-        { label: articleData?.categories?.[0]?.name || 'Category', href: `/prototype/adventures/category/${articleData?.categories?.[0]?.slug || ''}` },
+        { label: firstCategory?.name || 'Category', href: `/prototype/adventures/category/${firstCategory?.slug || ''}` },
         { label: articleData.title }
     ];
 

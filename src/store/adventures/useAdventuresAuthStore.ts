@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AdventureUser } from '@/types/adventures';
 import { ADV_AUTH_TOKEN_NAME } from '@/constants';
-import { adventuresAxiosInstance } from '@/utils/adventures/axios';
 
 export interface AdventuresAuthState {
   // State
