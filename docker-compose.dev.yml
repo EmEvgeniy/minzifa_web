@@ -1,0 +1,18 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: client-nginx-dev
+    ports:
+      - '443:443'
+    volumes:
+      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    restart: unless-stopped
+    networks:
+      - dev-network
+
+networks:
+  dev-network:
+    driver: bridge

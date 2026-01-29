@@ -8,7 +8,12 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint src --ext .ts,.tsx",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "dev:docker": "npm run ssl:generate && docker-compose -f docker-compose.dev.yml up -d && next dev --turbopack",
+    "dev:docker:stop": "docker-compose -f docker-compose.dev.yml down",
+    "hosts:enable": "bash scripts/enable-local-domain.sh",
+    "hosts:disable": "bash scripts/disable-local-domain.sh",
+    "ssl:generate": "bash scripts/generate-ssl-cert.sh"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
