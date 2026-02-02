@@ -18,10 +18,22 @@ export class ApiError<T = unknown> extends Error {
 }
 
 function buildApiUrl(endpoint: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL
+  let baseUrl = process.env.NEXT_PUBLIC_API_URL
     ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
     : 'http://localhost/api/v1';
-  return endpoint.startsWith('http') ? endpoint : `${baseUrl}/${endpoint.replace(/^\/+/, '')}`;
+
+  // В серверном контексте (SSR или билд) используем http://localhost напрямую,
+  // если работаем с локальным доменом, чтобы избежать проблем с SSL (self-signed).
+  if (typeof window === 'undefined') {
+    if (baseUrl.includes('minzifatravel.com') || process.env.NODE_ENV === 'development') {
+      baseUrl = 'http://localhost/api/v1';
+    }
+  }
+
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const fullUrl = `${baseUrl}${cleanEndpoint}`;
+
+  return endpoint.startsWith('http') ? endpoint : fullUrl;
 }
 
 type ApiRequestOptions<B = unknown> = Omit<RequestInit, 'body' | 'method'> & {

@@ -16,6 +16,7 @@ import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallba
 import Button from '@/components/UI/Button/Button';
 import { BookingFormType } from '@/validation/bookingFormSchema';
 import { Checkbox } from '@/components/UI/Form/Checkbox/Checkbox';
+import { HiOutlineBanknotes } from 'react-icons/hi2';
 import { useFormSubmit } from '@/hooks';
 import { FormNameEnum } from '@/constants';
 
@@ -126,20 +127,34 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
           </span>
           <span>{bookingData?.travellers_count}</span>
         </div>
+        <div className="flex items-center justify-between pt-2">
+          <span className="text-gray-600 flex items-center gap-2">
+            <HiOutlineBanknotes size={20} />
+            {t('bookingInfo.perPerson')}
+          </span>
+          <FormattedPrice
+            price={bookingData?.tour_price ?? 0}
+            currency={bookingData?.currency || 'USD'}
+            className="font-medium"
+          />
+        </div>
       </div>
 
       <hr className="border-gray-300 max-[1024px]:hidden" />
 
-      <div className="flex justify-between items-center max-[1024px]:hidden">
-        <span className="text-xl">{t('bookingInfo.deposit')}</span>
-        <FormattedPrice
-          price={bookingData?.deposit ?? 0}
-          currency={bookingData?.currency || 'USD'}
-          className="text-xl"
-        />
-      </div>
-
-      <hr className="border-gray-300 my-4 max-[1024px]:hidden" />
+      {!(bookingData?.payment_method === 'payworld' && bookingData?.payment_option === 'full') && (
+        <>
+          <div className="flex justify-between items-center max-[1024px]:hidden">
+            <span className="text-xl">Deposit 20%</span>
+            <FormattedPrice
+              price={bookingData?.deposit ?? 0}
+              currency={bookingData?.currency || 'USD'}
+              className="text-xl"
+            />
+          </div>
+          <hr className="border-gray-300 my-4 max-[1024px]:hidden" />
+        </>
+      )}
 
       <div className="flex justify-between items-center max-[1024px]:hidden">
         <span className="text-lg">Total (USD)</span>

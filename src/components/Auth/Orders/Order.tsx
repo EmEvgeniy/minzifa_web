@@ -2,24 +2,73 @@
 
 import { IOrder } from "@/types";
 import { getStatusColor } from "@/utils/utils";
-import { formatDate } from "date-fns";
+import { format } from "date-fns";
 import { useTranslations } from "next-intl";
-import { useParams, useRouter } from "next/navigation";
+import { cn } from "@/utils";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
 import Loader from "@/components/UI/Loader/Loader";
 import Button from "@/components/UI/Button/Button";
-import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaSync } from "react-icons/fa";
 import { useAuthGetQuery } from "@/api/get.api";
+import { authAxiosInstance } from "@/utils/axios";
+import { toast } from "react-toastify";
 
 export const Order = () => {
     const t = useTranslations();
     const params = useParams();
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+    const [isStatusUpdating, setIsStatusUpdating] = useState(false);
 
-    const { data: order, isFetched, isLoading } = useAuthGetQuery<IOrder>({
+    const { data: order, isFetched, isLoading, refetch } = useAuthGetQuery<IOrder>({
         key: ['order'],
         url: `/auth/orders/${params.id}`,
         withLocale: false,
     });
+
+    const invoice = order?.invoice;
+
+    // Функция синхронизации статуса платежа
+    const handleStatusSync = useCallback(async (silent = false) => {
+        if (!invoice?.id) return;
+
+        if (!silent) setIsStatusUpdating(true);
+        try {
+            // Относительный путь для стабильной работы через прокси
+            let apiUrl = `${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1`;
+            if (typeof window !== 'undefined' && window.location.hostname === 'minzifatravel.com') {
+                apiUrl = '/api/v1';
+            }
+
+            const response = await authAxiosInstance.get(`${apiUrl}/payments/payworld/status/${invoice.id}`);
+            const data = response.data;
+
+            if (data.status === 'ok') {
+                if (!silent) toast.success(t('order.status_updated'));
+                await refetch();
+            }
+        } catch (error) {
+            console.error('Status sync error:', error);
+            if (!silent) toast.error(t('order.status_check_error'));
+        } finally {
+            if (!silent) setIsStatusUpdating(false);
+        }
+    }, [invoice?.id, refetch, t]);
+
+    // Обработка статуса оплаты из URL
+    useEffect(() => {
+        const paymentStatus = searchParams.get('payment');
+        if (paymentStatus === 'failed') {
+            toast.error(t('order.payment_failed_message'));
+            router.replace(`/orders/${params.id}`, { scroll: false });
+        } else if (paymentStatus === 'success') {
+            // Если оплата успешна, принудительно синхронизируем статус
+            handleStatusSync(true);
+            router.replace(`/orders/${params.id}`, { scroll: false });
+        }
+    }, [searchParams, params.id, router, t, handleStatusSync]);
 
     if (isLoading) {
         return (
@@ -33,7 +82,6 @@ export const Order = () => {
     const tourDetail = order?.tour_detail;
     const tourist = order?.tourist;
     const manager = order?.manager;
-    const invoice = order?.invoice;
     const chatId = order?.chat_id;
     const formName = order?.form_name;
 
@@ -45,6 +93,34 @@ export const Order = () => {
         const diffTime = Math.abs(end.getTime() - start.getTime());
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays;
+    };
+
+    // Функция инициализации оплаты
+    const handlePaymentInit = async () => {
+        setIsPaymentLoading(true);
+        const targetId = invoice?.id || order?.id;
+
+        try {
+            // Относительный путь для стабильной работы через прокси
+            let apiUrl = `${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1`;
+            if (typeof window !== 'undefined' && window.location.hostname === 'minzifatravel.com') {
+                apiUrl = '/api/v1';
+            }
+
+            const response = await authAxiosInstance.post(`${apiUrl}/payments/payworld/init/${targetId}`);
+            const data = response.data;
+
+            if (data.status === 'ok' && data.payment_url) {
+                window.location.href = data.payment_url;
+            } else {
+                toast.error(t('order.payment_link_error'));
+            }
+        } catch (error) {
+            console.error('Payment initialization error:', error);
+            toast.error(t('order.payment_link_error'));
+        } finally {
+            setIsPaymentLoading(false);
+        }
     };
 
     const tourDays = calculateDays();
@@ -68,7 +144,7 @@ export const Order = () => {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                     <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+                            <h1 className={`text-2xl md:text-3xl font-bold text-foreground `}>
                                 {t('order.title', { order: order.order_name })}
                             </h1>
                             {tourDays && (
@@ -89,7 +165,7 @@ export const Order = () => {
                         )}
                     </div>
                     <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
-                        {t(`order_statuses.${order.status}`)}
+                        {t(`orderStatuses.${order.status}`)}
                     </div>
                 </div>
 
@@ -98,7 +174,7 @@ export const Order = () => {
                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        {t('orders.created')}: {formatDate(order.created_at, 'dd.MM.yyyy HH:mm')}
+                        {t('orders.created')}: {format(new Date(order.created_at), 'dd.MM.yyyy HH:mm')}
                     </div>
 
                     {/* Кнопка "Написать менеджеру" */}
@@ -136,10 +212,10 @@ export const Order = () => {
                                 <div>
                                     <p className="text-xs text-gray-500 mb-1">{t('orders.tour_dates')}</p>
                                     <p className="text-sm font-medium text-gray-900">
-                                        {formatDate(new Date(tourDetail.tour_start), 'dd.MM.yyyy')}
+                                        {format(new Date(tourDetail.tour_start), 'dd.MM.yyyy')}
                                     </p>
                                     <p className="text-sm text-gray-600">
-                                        {formatDate(new Date(tourDetail.tour_end), 'dd.MM.yyyy')}
+                                        {format(new Date(tourDetail.tour_end), 'dd.MM.yyyy')}
                                     </p>
                                 </div>
                             )}
@@ -261,63 +337,114 @@ export const Order = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {invoice.invoice_number && (
+                        {invoice?.invoice_data?.invoice_number && (
                             <div>
                                 <p className="text-xs text-gray-500 mb-1">{t('order.invoice_number')}</p>
-                                <p className="text-sm font-medium text-gray-900">{invoice.invoice_number}</p>
+                                <p className="text-sm font-medium text-gray-900">{invoice?.invoice_data.invoice_number}</p>
                             </div>
                         )}
 
-                        {invoice.total !== undefined && (
+                        {invoice?.invoice_data?.total !== undefined && (
                             <div>
                                 <p className="text-xs text-gray-500 mb-1">{t('order.total_amount')}</p>
-                                <p className="text-sm font-medium text-gray-900">${invoice.total.toLocaleString()}</p>
+                                <p className="text-sm font-medium text-gray-900">${invoice?.invoice_data.total?.toLocaleString()}</p>
                             </div>
                         )}
 
-                        {invoice.paid !== undefined && (
+                        {invoice?.invoice_data?.paid !== undefined && (
                             <div>
                                 <p className="text-xs text-gray-500 mb-1">{t('order.paid_amount')}</p>
-                                <p className="text-sm font-medium text-green-600">${invoice.paid.toLocaleString()}</p>
+                                <p className="text-sm font-medium text-green-600">${invoice?.invoice_data.paid?.toLocaleString()}</p>
                             </div>
                         )}
 
-                        {invoice.balance !== undefined && (
+                        {invoice?.invoice_data?.balance !== undefined && (
                             <div>
                                 <p className="text-xs text-gray-500 mb-1">{t('order.balance')}</p>
-                                <p className={`text-sm font-bold ${invoice.balance > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                                    ${invoice.balance.toLocaleString()}
+                                <p className={`text-sm font-bold ${invoice?.invoice_data.balance > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                                    ${invoice?.invoice_data.balance?.toLocaleString()}
                                 </p>
                             </div>
                         )}
                     </div>
 
-                    {invoice.payment_status && (
-                        <div className="mt-6 pt-6 border-t border-gray-100">
-                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                                <div>
-                                    <p className="text-xs text-gray-500 mb-1">{t('order.payment_status')}</p>
-                                    <p className="text-sm font-medium text-gray-900">
-                                        {t(`payment_statuses.${invoice.payment_status}`)}
-                                    </p>
+                    {invoice?.invoice_data?.payment_status && (
+                        <div className="mt-8 pt-6 border-t border-gray-100">
+                            <div className="flex flex-wrap items-center justify-between gap-6">
+                                <div className="space-y-4">
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+                                        <div className="flex items-center gap-3">
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('order.payment_status')}</p>
+                                            <div className="flex items-center gap-2">
+                                                <span className={cn(
+                                                    "inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold shadow-sm",
+                                                    invoice?.invoice_data?.payment_status === 'paid'
+                                                        ? "bg-green-50 text-green-700 border border-green-100"
+                                                        : "bg-yellow-50 text-yellow-700 border border-yellow-100"
+                                                )}>
+                                                    {t(`paymentStatuses.${invoice?.invoice_data?.payment_status || 'pending'}`)}
+                                                </span>
+
+                                                {invoice?.invoice_data?.payment_method === 'payworld' && (
+                                                    <button
+                                                        onClick={() => handleStatusSync()}
+                                                        disabled={isStatusUpdating}
+                                                        className={cn(
+                                                            "p-1.5 rounded-lg transition-all duration-200",
+                                                            "hover:bg-gray-100 active:scale-95",
+                                                            "disabled:opacity-50 disabled:cursor-not-allowed",
+                                                            isStatusUpdating && "text-green-600 bg-green-50"
+                                                        )}
+                                                        title={t('order.refresh_status')}
+                                                    >
+                                                        <FaSync className={cn("w-3.5 h-3.5", isStatusUpdating && "animate-spin")} />
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {invoice?.invoice_data?.payment_method && (
+                                            <div className="flex items-center gap-3 border-l-0 sm:border-l sm:pl-6 border-gray-200">
+                                                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('order.payment_method')}</p>
+                                                <p className="text-sm font-bold text-gray-800">
+                                                    {t(`paymentMethods.${invoice?.invoice_data.payment_method}`)}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {invoice?.invoice_data?.payment_date && (
+                                        <div className="flex items-center gap-3">
+                                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('order.payment_date')}</p>
+                                            <p className="text-sm font-medium text-gray-600">
+                                                {format(new Date(invoice?.invoice_data?.payment_date), 'dd MMMM yyyy')}
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
 
-                                {invoice.payment_method && (
-                                    <div>
-                                        <p className="text-xs text-gray-500 mb-1">{t('order.payment_method')}</p>
-                                        <p className="text-sm font-medium text-gray-900">
-                                            {t(`payment_methods.${invoice.payment_method}`)}
-                                        </p>
-                                    </div>
-                                )}
-
-                                {invoice.payment_date && (
-                                    <div>
-                                        <p className="text-xs text-gray-500 mb-1">{t('order.payment_date')}</p>
-                                        <p className="text-sm font-medium text-gray-900">
-                                            {formatDate(new Date(invoice.payment_date), 'dd.MM.yyyy')}
-                                        </p>
-                                    </div>
+                                {/* Кнопка оплаты для Payworld с остатком */}
+                                {invoice?.invoice_data?.payment_method === 'payworld' && invoice?.invoice_data?.balance > 0 && (
+                                    <Button
+                                        color="primary"
+                                        disabled={isPaymentLoading}
+                                        onClick={handlePaymentInit}
+                                        className="shadow-lg shadow-green-100 min-w-[200px]"
+                                    >
+                                        {isPaymentLoading ? (
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                <span>{t('order.processing')}</span>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center gap-2">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                </svg>
+                                                <span className="font-bold">{t('order.pay_now')} (${invoice?.invoice_data?.balance?.toLocaleString()})</span>
+                                            </div>
+                                        )}
+                                    </Button>
                                 )}
                             </div>
                         </div>

@@ -46,6 +46,8 @@ export const bookingFormSchema = (t: (key: string) => string) =>
       deposit: z.number().optional(),
       total_price: z.number().optional(),
       payment_type: z.string().optional(),
+      payment_method: z.enum(['bank_transfer', 'cash', 'payworld']).default('cash'),
+      payment_option: z.enum(['deposit', 'full']).optional(),
       payment_status: z.string().optional(),
       single_price: z.coerce.number().optional(),
       currency: z.string().optional(),

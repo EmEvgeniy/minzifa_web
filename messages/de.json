@@ -1453,7 +1453,10 @@
     "balance": "Balance",
     "payment_status": "Payment status",
     "payment_method": "Payment method",
-    "payment_date": "Payment date"
+    "payment_date": "Payment date",
+    "payment_failed_message": "Payment failed or was cancelled. Please try again.",
+    "payment_link_error": "Error creating payment link",
+    "pay_now": "Pay now"
   },
   "paymentStatuses": {
     "pending": "Pending",
@@ -1467,7 +1470,8 @@
     "cash": "Cash",
     "credit_card": "Credit card",
     "stripe": "Stripe",
-    "paypal": "PayPal"
+    "paypal": "PayPal",
+    "payworld": "Payworld"
   },
   "reviewsPage": {
     "title": "Traveler Reviews & Video Stories"

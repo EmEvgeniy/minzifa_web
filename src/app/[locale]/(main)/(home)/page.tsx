@@ -23,9 +23,16 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}`;
 
-  const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
-    `pages/?page=${encodeURIComponent(pagePath)}`,
-  );
+  let data: { seo_metadata?: ISeoMetadata } | undefined;
+
+  try {
+    data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
+      `pages?page=${encodeURIComponent(pagePath)}`,
+    );
+  } catch (error) {
+    console.error('Failed to fetch page metadata:', error);
+    // Игнорируем ошибку и используем дефолтные метаданные
+  }
 
   const title = data?.seo_metadata?.title || 'Minzifa Travel - Best Travel Agency in Central Asia';
   const description =

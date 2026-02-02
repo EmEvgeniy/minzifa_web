@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GroupPrice, Tour } from '@/components/Tour/_types';
 import { createBookingParams } from '@/components/Tour/TourBooking/bookingUtils';
+import { useAuthStore } from '@/store';
 
 interface UseGroupTourBookingProps {
   tour: Tour;
@@ -12,6 +13,7 @@ export const useGroupTourBooking = ({ tour, locale }: UseGroupTourBookingProps) 
   const prices = tour?.prices;
 
   const router = useRouter();
+  const { isAuthenticated, setAuthPopup } = useAuthStore();
 
   const [travellers, setTravellers] = useState(1);
   const [selectedPrice, setSelectedPrice] = useState<GroupPrice | undefined>();
@@ -46,6 +48,12 @@ export const useGroupTourBooking = ({ tour, locale }: UseGroupTourBookingProps) 
   // 3️⃣ Обработка бронирования
   const handleBooking = () => {
     if (!tour || !selectedPrice) return;
+
+    // IF NOT AUTHENTICATED -> SHOW POPUP
+    if (!isAuthenticated) {
+      setAuthPopup(true);
+      return;
+    }
 
     // const bookingData = createBookingData(tour, selectedPrice, totalPrice, travellers, locale);
     // setBookingData(bookingData);

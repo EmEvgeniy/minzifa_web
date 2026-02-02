@@ -59,8 +59,18 @@ export interface IInvoiceData {
   paid: number;
   balance: number;
   payment_status: PaymentStatusEnum;
-  payment_method: PaymentTypeEnum;
+  payment_method: PaymentTypeEnum | 'payworld';
   payment_date: string | null;
+  // Deposit fields
+  payment_option?: 'deposit' | 'full';
+  deposit_amount?: number;
+  amount_to_pay?: number;
+  // Payworld fields
+  payworld_id?: string;
+  payworld_payment_url?: string;
+  payworld_link_expires_at?: string;
+  payworld_registered_at?: string;
+  payworld_last_status?: string;
 }
 
 export interface IInvoice {
@@ -76,11 +86,11 @@ export interface IOrder {
   status: OrderStatusEnum;
   notes?: INote;
   chat_id?: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   tour_detail: IOrderTourDetailData;
   tourist: import('./auth').ITourist;
   manager: import('@/components/Auth/_types').IManager;
-  invoice?: IInvoiceData;
+  invoice?: IInvoice;
   form_name?: string;
 }
