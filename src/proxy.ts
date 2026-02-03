@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AUTH_TOKEN_NAME, PROTECTED_ROUTES } from './constants';
 
 const intlMiddleware = createMiddleware({
-  locales: ['en', 'de', 'ru'],
+  locales: ['en', 'ru'],
   defaultLocale: 'en',
   localeDetection: false,
 });
@@ -29,9 +29,9 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     '/((?!api|_next|_vercel|.*\\..*).*)',
-    '/(en|de|ru)/profile/:path*',
-    '/(en|de|ru)/chats/:path*',
-    '/(en|de|ru)/dashboard/:path*',
-    '/(en|de|ru)/orders/:path*',
+    '/(en|ru)/profile/:path*',
+    '/(en|ru)/chats/:path*',
+    '/(en|ru)/dashboard/:path*',
+    '/(en|ru)/orders/:path*',
   ],
 };
