@@ -8,7 +8,7 @@ import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 export const revalidate = 300;
-
+// s
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
 };
@@ -69,16 +69,15 @@ export default async function Tour({ params }: Props) {
 
   return (
     <div className="w-full min-h-[200vh]">
-      <div className={"container !px-0 pt-[150px] flex flex-col gap-10 max-[920px]:pt-[56px]"}>
+      <div className={'container !px-0 pt-[150px] flex flex-col gap-10 max-[920px]:pt-[56px]'}>
         <Breadcrumbs
           locale={locale}
           link={{ title: t('allTours'), link: `/${locale}/tours` }}
           link2={{ title: tourData.name, link: '' }}
-          className='hidden md:block'
+          className="hidden md:block"
         />
         <TourWrapper locale={locale} tourData={tourData} />
       </div>
     </div>
-  )
-
+  );
 }
