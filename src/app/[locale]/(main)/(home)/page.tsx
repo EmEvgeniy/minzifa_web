@@ -84,7 +84,8 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 }
 
 export default async function HomePage({ params }: DefaultPageProps) {
-  const { locale } = await params;
+  const rawLocale = (await params).locale;
+  const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
 
   return (
     <>
