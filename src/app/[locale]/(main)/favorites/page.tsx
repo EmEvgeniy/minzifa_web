@@ -10,7 +10,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
-  const locale = (await params).locale;
+  const rawLocale = (await params).locale;
+  const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
 
   return {
     title:
@@ -36,7 +37,9 @@ export default async function page({ params }: DefaultPageProps) {
           locale={locale}
           link={{ title: locale === 'en' ? 'Favorites' : 'Избранные', link: '' }}
         />
-        <h1 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('common.favorites.button')}</h1>
+        <h1 className="text-[42px] [@media(max-width:768px)]:text-[24px]">
+          {t('common.favorites.button')}
+        </h1>
         <Favorites locale={locale} />
       </div>
       <Carousel locale={locale} />

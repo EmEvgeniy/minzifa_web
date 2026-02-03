@@ -18,7 +18,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
-  const locale = (await params).locale;
+  const rawLocale = (await params).locale;
+  const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
   const pagePath = `/${locale}/term-and-conditions-of-booking-tours`;
 
   const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {

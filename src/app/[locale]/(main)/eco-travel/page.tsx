@@ -7,22 +7,31 @@ import { getTranslations } from 'next-intl/server';
 
 const HeroSection = dynamic(() => import('@/components/Eco-travel/HeroSection/HeroSection'));
 const TeamSection = dynamic(() => import('@/components/Eco-travel/TeamSection/TeamSection'));
-const MissionSection = dynamic(() => import('@/components/Eco-travel/MissionSection/MissionSection'));
+const MissionSection = dynamic(
+  () => import('@/components/Eco-travel/MissionSection/MissionSection'),
+);
 // const EnvironmentCircle = dynamic(() => import('@/components/Eco-travel/EnvironmentCircle/EnvironmentCircle'));
 // const MobileSlider = dynamic(() => import('@/components/Eco-travel/MobileSlider/MobileSlider'));
 const Environment = dynamic(() => import('@/components/Eco-travel/Environment/Environment'));
-const EnvironmentSection = dynamic(() => import('@/components/Eco-travel/EnvironmentSection/EnvironmentSection'));
-const ChildrenSection = dynamic(() => import('@/components/Eco-travel/ChildrenSection/ChildrenSection'));
+const EnvironmentSection = dynamic(
+  () => import('@/components/Eco-travel/EnvironmentSection/EnvironmentSection'),
+);
+const ChildrenSection = dynamic(
+  () => import('@/components/Eco-travel/ChildrenSection/ChildrenSection'),
+);
 const AnimalSection = dynamic(() => import('@/components/Eco-travel/AnimalSection/AnimalSection'));
 const Economy = dynamic(() => import('@/components/Eco-travel/Economy/Economy'));
-const FreeConsultationForm = dynamic(() => import('@/components/UI/FreeConsultationForm/FreeConsultationForm'));
+const FreeConsultationForm = dynamic(
+  () => import('@/components/UI/FreeConsultationForm/FreeConsultationForm'),
+);
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
-  const locale = (await params).locale;
+  const rawLocale = (await params).locale;
+  const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
   const pagePath = `/${locale}/eco-travel`;
 
   const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(

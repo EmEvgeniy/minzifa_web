@@ -20,7 +20,8 @@ async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300):
 }
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
-  const locale = (await params).locale;
+  const rawLocale = (await params).locale;
+  const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
   const safeLocale = ['en', 'ru'].includes(locale) ? locale : 'en';
   const pagePath = `/${safeLocale}/video-reviews`;
 
