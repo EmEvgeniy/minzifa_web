@@ -28,7 +28,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const locale = (await params).locale;
+  const rawLocale = (await params).locale;
+  const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
 
   return {
     title: locale === 'en' ? 'Booking' : 'Бронирование',

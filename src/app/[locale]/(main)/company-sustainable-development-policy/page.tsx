@@ -21,7 +21,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const locale = (await params).locale;
+  const rawLocale = (await params).locale;
+  const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
   const pagePath = `/${locale}/company-sustainable-development-policy`;
 
   const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
