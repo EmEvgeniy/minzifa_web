@@ -1,6 +1,6 @@
 import { Tour } from '@/components/Tour/_types';
 import { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { apiGet } from '../../../../../utils/serverApi';
 import { getTranslations } from 'next-intl/server';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
