@@ -37,21 +37,25 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tour: slug, locale } = await params;
 
-  try {
-    const tour = await apiGet<TourData>(`tours/${slug}?locale=${locale}`);
-    return {
-      title: tour?.seo_metadata?.title,
-      description: tour?.seo_metadata?.description,
-      keywords: tour?.seo_metadata?.keywords,
-    };
-  } catch (error) {
-    console.error('Error generating metadata for tour:', slug, error);
-
-    return {
-      title: 'Tour - Minzifa Travel',
-      description: 'Discover amazing tours with Minzifa Travel',
-    };
+  if (slug.endsWith('.htm')) {
+    notFound();
   }
+
+  let tour: TourData;
+
+  try {
+    tour = await apiGet<TourData>(`tours/${slug}?locale=${locale}`, {
+      next: { revalidate }, // ⬅️ decay
+    });
+  } catch {
+    notFound(); // 🔥 КЛЮЧЕВАЯ СТРОКА
+  }
+
+  return {
+    title: tour.seo_metadata?.title ?? tour.name,
+    description: tour.seo_metadata?.description,
+    keywords: tour.seo_metadata?.keywords,
+  };
 }
 
 export default async function Tour({ params }: Props) {

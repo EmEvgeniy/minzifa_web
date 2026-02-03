@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 import { DefaultPageProps, ISeoMetadata } from '@/types';
 import { apiGet } from '@/utils/serverApi';
+import { notFound } from 'next/navigation';
 
 const Hero = dynamic(() => import('@/components/Home/Hero/Hero'));
 const Info = dynamic(() => import('@/components/Home/Info/Info'));
@@ -23,20 +24,29 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}`;
 
-  const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
-    `pages/?page=${encodeURIComponent(pagePath)}`,
-  );
+  const res = await apiGet<{
+    status: number;
+    seo_metadata?: ISeoMetadata;
+  }>(`pages/?page=${encodeURIComponent(pagePath)}`);
 
-  const title = data?.seo_metadata?.title || 'Minzifa Travel - Best Travel Agency in Central Asia';
+  if (res.status === 404) {
+    notFound();
+  }
+
+  if (!['/en', '/ru'].includes(pagePath)) {
+    notFound();
+  }
+
+  const title = res?.seo_metadata?.title || 'Minzifa Travel - Best Travel Agency in Central Asia';
   const description =
-    data?.seo_metadata?.description ||
+    res?.seo_metadata?.description ||
     'Discover amazing tours and adventures in Central Asia with Minzifa Travel. Explore Uzbekistan, Kyrgyzstan, Tajikistan, Kazakhstan and Turkmenistan.';
 
   return {
     title,
     description,
     keywords:
-      data?.seo_metadata?.keywords ||
+      res?.seo_metadata?.keywords ||
       'tourism, travel, Central Asia, Uzbekistan, Kyrgyzstan, Tajikistan',
     alternates: {
       canonical: `https://minzifatravel.com/${locale}`,

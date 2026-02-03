@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import type { Metadata } from 'next';
 import { DestinationData } from './_types';
 import Hero from '@/components/Destination/Hero/Hero';
@@ -11,6 +9,7 @@ import { apiGet } from '../../../../../utils/serverApi';
 import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_types';
 import { DestinationCard } from '@/components/Home/Destinations/_types';
 import { PaginatedData } from '@/types';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 300;
 
@@ -40,23 +39,37 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
 
-  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`)) as DestinationData;
+  let destination: DestinationData;
+
+  try {
+    destination = await apiGet(`destinations/${slug}?locale=${locale}`);
+  } catch {
+    notFound();
+  }
 
   return {
-    title: destination?.seo_metadata?.title,
-    description: destination?.seo_metadata?.description,
-    keywords: destination?.seo_metadata?.keywords,
+    title: destination.seo_metadata?.title ?? destination.name,
+    description: destination.seo_metadata?.description,
+    keywords: destination.seo_metadata?.keywords,
   };
 }
 
 export default async function page({ params }: Props) {
   const { slug, locale } = await params;
 
+  if (!/^[a-z0-9-]+$/.test(slug)) notFound();
+
   const destination = (await apiGet(`destinations/${slug}?locale=${locale}`)) as DestinationData;
 
-  const initTours = (await apiGet(`tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`)) as PaginatedData<AllToursCardType>;
+  if (!destination?.id) notFound();
 
-  const initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`)) as DestinationCard[];
+  const initTours = (await apiGet(
+    `tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`,
+  )) as PaginatedData<AllToursCardType>;
+
+  const initDestinations = (await apiGet(
+    `destinations?locale=${locale}&all=1`,
+  )) as DestinationCard[];
 
   const initTourTypes = (await apiGet(`types?locale=${locale}&all=1`)) as TourType[];
 
