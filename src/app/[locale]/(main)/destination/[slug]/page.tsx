@@ -23,8 +23,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
 
+  // ✅ Валидация locale
+  const allowedLocales = ['en', 'ru'];
+  const safeLocale = allowedLocales.includes(locale) ? locale : 'en';
+
   try {
-    const destination = await apiGet<DestinationData>(`destinations/${slug}?locale=${locale}`);
+    const destination = await apiGet<DestinationData>(`destinations/${slug}?locale=${safeLocale}`);
     if (!destination?.id)
       return {
         title: 'Destination - Minzifa Travel',
@@ -49,9 +53,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DestinationPage({ params }: Props) {
   const { slug, locale } = await params;
 
+  // ✅ Валидация locale
+  const allowedLocales = ['en', 'ru'];
+  const safeLocale = allowedLocales.includes(locale) ? locale : 'en';
+
   let destination: DestinationData | null = null;
   try {
-    destination = await apiGet<DestinationData>(`destinations/${slug}?locale=${locale}`);
+    destination = await apiGet<DestinationData>(`destinations/${slug}?locale=${safeLocale}`);
   } catch (err) {
     console.error('Failed to fetch destination:', slug, err);
   }
@@ -79,30 +87,36 @@ export default async function DestinationPage({ params }: Props) {
 
   try {
     initTours = await apiGet(
-      `tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`,
+      `tours?locale=${safeLocale}&perPage=10&destinations[]=${destination.name}`,
     );
-  } catch (err) {
-    console.warn('Failed to fetch tours for destination:', destination.name, err);
+  } catch (err: any) {
+    console.warn(
+      'Failed to fetch tours for destination:',
+      destination.name,
+      err?.status,
+      err?.statusText,
+      err?.url,
+    );
   }
 
   try {
-    initDestinations = await apiGet(`destinations?locale=${locale}&all=1`);
-  } catch (err) {
-    console.warn('Failed to fetch all destinations', err);
+    initDestinations = await apiGet(`destinations?locale=${safeLocale}&all=1`);
+  } catch (err: any) {
+    console.warn('Failed to fetch all destinations', err?.status, err?.statusText, err?.url);
   }
 
   try {
-    initTourTypes = await apiGet(`types?locale=${locale}&all=1`);
-  } catch (err) {
-    console.warn('Failed to fetch tour types', err);
+    initTourTypes = await apiGet(`types?locale=${safeLocale}&all=1`);
+  } catch (err: any) {
+    console.warn('Failed to fetch tour types', err?.status, err?.statusText, err?.url);
   }
 
   return (
     <>
-      <Hero destination={destination} locale={locale} />
+      <Hero destination={destination} locale={safeLocale} />
       <div className="container py-[70px] w-full">
         <ToursSection
-          locale={locale}
+          locale={safeLocale}
           destination={destination}
           showFilter={['price', 'duration', 'seasons', 'hotels', 'tourType']}
           initTours={initTours}
@@ -111,8 +125,8 @@ export default async function DestinationPage({ params }: Props) {
         />
       </div>
       <Reviews />
-      <Articles locale={locale} />
-      <MobileMenu locale={locale} />
+      <Articles locale={safeLocale} />
+      <MobileMenu locale={safeLocale} />
     </>
   );
 }

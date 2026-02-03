@@ -15,7 +15,11 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
   const { locale } = await params;
-  const pagePath = `/${locale}/tours`;
+
+  const allowedLocales = ['en', 'ru'];
+  const safeLocale = allowedLocales.includes(locale) ? locale : 'en';
+
+  const pagePath = `/${safeLocale}/tours`;
 
   let data: any = {};
   try {
@@ -42,7 +46,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
     description,
     keywords,
     alternates: {
-      canonical: `https://minzifatravel.com/${locale}/tours`,
+      canonical: `https://minzifatravel.com/${safeLocale}/tours`,
       languages: {
         en: `https://minzifatravel.com/en/tours`,
         ru: `https://minzifatravel.com/ru/tours`,
@@ -51,7 +55,7 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
     openGraph: {
       title,
       description,
-      url: `https://minzifatravel.com/${locale}/tours`,
+      url: `https://minzifatravel.com/${safeLocale}/tours`,
       siteName: 'Minzifa Travel',
       type: 'website',
     },
@@ -69,6 +73,10 @@ export default async function Tours({
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale } = await params;
+
+  // ✅ Валидация locale
+  const allowedLocales = ['en', 'ru'];
+  const safeLocale = allowedLocales.includes(locale) ? locale : 'en';
 
   // Инициализация данных с обработкой ошибок
   let initTours: PaginatedData<AllToursCardType> = {
@@ -91,39 +99,39 @@ export default async function Tours({
   let initTourTypes: TourType[] = [];
 
   try {
-    initTours = (await apiGet(`tours?locale=${locale}&perPage=10`, {
+    initTours = (await apiGet(`tours?locale=${safeLocale}&perPage=10`, {
       next: { revalidate: 60 * 20 },
     })) as PaginatedData<AllToursCardType>;
-  } catch (err) {
-    console.warn('Failed to fetch tours:', err);
+  } catch (err: any) {
+    console.warn('Failed to fetch tours:', err?.status, err?.statusText, err?.url);
   }
 
   try {
-    initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`, {
+    initDestinations = (await apiGet(`destinations?locale=${safeLocale}&all=1`, {
       next: { revalidate: 60 * 20 },
     })) as DestinationCard[];
-  } catch (err) {
-    console.warn('Failed to fetch destinations:', err);
+  } catch (err: any) {
+    console.warn('Failed to fetch destinations:', err?.status, err?.statusText, err?.url);
   }
 
   try {
-    initTourTypes = (await apiGet(`types?locale=${locale}&all=1`, {
+    initTourTypes = (await apiGet(`types?locale=${safeLocale}&all=1`, {
       next: { revalidate: 60 * 20 },
     })) as TourType[];
-  } catch (err) {
-    console.warn('Failed to fetch tour types:', err);
+  } catch (err: any) {
+    console.warn('Failed to fetch tour types:', err?.status, err?.statusText, err?.url);
   }
 
   return (
     <section className="w-full relative">
-      <Hero locale={locale} />
+      <Hero locale={safeLocale} />
       <MainSection
-        locale={locale}
+        locale={safeLocale}
         initTours={initTours}
         initDestinations={initDestinations}
         initTourTypes={initTourTypes}
       />
-      <MobileMenu locale={locale} />
+      <MobileMenu locale={safeLocale} />
     </section>
   );
 }

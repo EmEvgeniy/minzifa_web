@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
-
 import { Metadata } from 'next';
 import { DefaultPageProps, ISeoMetadata } from '@/types';
 import { apiGet } from '@/utils/serverApi';
 
+// Динамический импорт компонентов
 const Hero = dynamic(() => import('@/components/Home/Hero/Hero'));
 const Info = dynamic(() => import('@/components/Home/Info/Info'));
 const BestSellers = dynamic(() => import('@/components/Home/BestSellers/BestSellers'));
@@ -15,6 +15,16 @@ const ContactUs = dynamic(() => import('@/components/Home/ContactUs/ContactUs'))
 const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews'));
 const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
 
+// Универсальный безопасный запрос к API
+async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300): Promise<T> {
+  try {
+    return (await apiGet(url, { next: { revalidate: revalidateSeconds } })) as T;
+  } catch (err: any) {
+    console.warn(`Failed API GET: ${url}`, err?.status, err?.statusText, err?.url);
+    return fallback;
+  }
+}
+
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
 }
@@ -23,21 +33,24 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}`;
 
-  const data = await apiGet<{ seo_metadata?: ISeoMetadata }>(
+  // Безопасный запрос к API
+  const data = await safeApiGet<{ seo_metadata?: ISeoMetadata }>(
     `pages/?page=${encodeURIComponent(pagePath)}`,
+    {},
   );
 
   const title = data?.seo_metadata?.title || 'Minzifa Travel - Best Travel Agency in Central Asia';
   const description =
     data?.seo_metadata?.description ||
     'Discover amazing tours and adventures in Central Asia with Minzifa Travel. Explore Uzbekistan, Kyrgyzstan, Tajikistan, Kazakhstan and Turkmenistan.';
+  const keywords =
+    data?.seo_metadata?.keywords ||
+    'tourism, travel, Central Asia, Uzbekistan, Kyrgyzstan, Tajikistan';
 
   return {
     title,
     description,
-    keywords:
-      data?.seo_metadata?.keywords ||
-      'tourism, travel, Central Asia, Uzbekistan, Kyrgyzstan, Tajikistan',
+    keywords,
     alternates: {
       canonical: `https://minzifatravel.com/${locale}`,
       languages: {

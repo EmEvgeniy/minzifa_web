@@ -12,7 +12,6 @@ import { getTranslations } from 'next-intl/server';
 import { apiGet } from '../../../../../../utils/serverApi';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
 
-
 export const revalidate = 300;
 
 type ArticleData = {

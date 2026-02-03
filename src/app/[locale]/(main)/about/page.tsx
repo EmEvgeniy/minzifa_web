@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
 import { apiGet } from '@/utils/serverApi';
@@ -20,6 +19,16 @@ type PageData = {
   };
 };
 
+// Универсальная безопасная обертка для API
+async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300): Promise<T> {
+  try {
+    return (await apiGet(url, { next: { revalidate: revalidateSeconds } })) as T;
+  } catch (err: any) {
+    console.warn(`Failed API GET: ${url}`, err?.status, err?.statusText, err?.url);
+    return fallback;
+  }
+}
+
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
 }
@@ -28,14 +37,13 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const locale = (await params).locale;
   const pagePath = `/${locale}/about`;
 
-  const data = (await apiGet(`pages?page=${encodeURIComponent(pagePath)}`, {
-    next: { revalidate: 300 },
-  })) as PageData;
+  const data = await safeApiGet<PageData>(`pages?page=${encodeURIComponent(pagePath)}`, {});
 
   return {
-    title: data?.seo_metadata?.title,
-    description: data?.seo_metadata?.description,
-    keywords: data?.seo_metadata?.keywords,
+    title: data?.seo_metadata?.title || 'About Us - Minzifa Travel',
+    description:
+      data?.seo_metadata?.description || 'Learn more about Minzifa Travel and our mission.',
+    keywords: data?.seo_metadata?.keywords || 'about, minzifa travel, tours, mission',
   };
 }
 

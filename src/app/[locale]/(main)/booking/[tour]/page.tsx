@@ -9,6 +9,16 @@ import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import BookingHeader from '@/components/Booking/BookingHeader/BookingHeader';
 import FormWrapper from '@/components/Booking/FormWrapper/FormWrapper';
 
+// Универсальный безопасный запрос
+async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300): Promise<T> {
+  try {
+    return (await apiGet(url, { next: { revalidate: revalidateSeconds } })) as T;
+  } catch (err: any) {
+    console.warn(`Failed API GET: ${url}`, err?.status, err?.statusText, err?.url);
+    return fallback;
+  }
+}
+
 type Props = {
   params: Promise<{ locale: string; tour: string }>;
 };
@@ -31,17 +41,12 @@ export default async function Booking({ params }: Props) {
   const { tour, locale } = await params;
   const t = await getTranslations({ locale });
 
-  let tourData: Tour | null = null;
+  const tourData: Tour | null = await safeApiGet<Tour | null>(
+    `tours/${tour}?locale=${locale}`,
+    null,
+    60 * 20,
+  );
 
-  try {
-    tourData = await apiGet(`tours/${tour}?locale=${locale}`, {
-      next: { revalidate: 60 * 20 },
-    });
-  } catch (err) {
-    console.warn(`Failed to fetch tour ${tour}:`, err);
-  }
-
-  // Если данных нет — редирект на главную локали
   if (!tourData?.id) redirect(`/${locale}`);
 
   return (

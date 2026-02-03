@@ -1,6 +1,5 @@
 export const dynamic = 'force-dynamic';
 
-// import type { AllToursCardType } from '@/components/Tours/MainSection/_types';
 import type { Tour as TourData } from '@/components/Tour/_types';
 import type { Metadata } from 'next';
 import { apiGet } from '../../../../../../utils/serverApi';
@@ -15,29 +14,34 @@ type Props = {
   params: Promise<{ locale: string; tour: string }>;
 };
 
+// Универсальная безопасная обертка для API
+async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = revalidate): Promise<T> {
+  try {
+    return (await apiGet(url, { next: { revalidate: revalidateSeconds } })) as T;
+  } catch (err: any) {
+    console.warn(`Failed API GET: ${url}`, err?.status, err?.statusText, err?.url);
+    return fallback;
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tour: slug, locale } = await params;
 
-  try {
-    const tour = await apiGet<TourData>(`tours/${slug}?locale=${locale}`);
-    if (!tour?.id)
-      return {
-        title: 'Tour - Minzifa Travel',
-        description: 'Discover amazing tours with Minzifa Travel',
-      };
+  const tour = await safeApiGet<TourData>(`tours/${slug}?locale=${locale}`, {} as TourData);
 
-    return {
-      title: tour.seo_metadata?.title ?? tour.name,
-      description: tour.seo_metadata?.description ?? 'Discover amazing tours with Minzifa Travel',
-      keywords: tour.seo_metadata?.keywords ?? 'tours, travel, Minzifa',
-    };
-  } catch (error) {
-    console.error('Error generating metadata for tour:', slug, error);
+  if (!tour?.id) {
     return {
       title: 'Tour - Minzifa Travel',
       description: 'Discover amazing tours with Minzifa Travel',
+      keywords: 'tours, travel, Minzifa',
     };
   }
+
+  return {
+    title: tour.seo_metadata?.title ?? tour.name,
+    description: tour.seo_metadata?.description ?? 'Discover amazing tours with Minzifa Travel',
+    keywords: tour.seo_metadata?.keywords ?? 'tours, travel, Minzifa',
+  };
 }
 
 export default async function Tour({ params }: Props) {
@@ -45,12 +49,56 @@ export default async function Tour({ params }: Props) {
 
   const t = await getTranslations({ locale, namespace: 'breadcrumbs' });
 
-  let tourData: TourData | null = null;
-  try {
-    tourData = await apiGet<TourData>(`tours/${slug}?locale=${locale}`);
-  } catch (err) {
-    console.error('Failed to fetch tour data:', slug, err);
-  }
+  const tourData = await safeApiGet<TourData>(`tours/${slug}?locale=${locale}`, {
+    id: 0,
+    tour_type: '',
+    lang: '',
+    trip_code: '',
+    name: '',
+    subtitle: '',
+    description: '',
+    hightlights: {
+      title: '',
+      content: [],
+    },
+    facts: {
+      title: '',
+      content: {
+        duration: '',
+        group_size: '',
+        hotels: '',
+        transport: '',
+      },
+    },
+    seo_metadata: {
+      title: '',
+      description: '',
+      keywords: '',
+    },
+    slug: '',
+    photo: {
+      id: 0,
+      file: '',
+      alt_text: '',
+    },
+    gallery: [],
+    days: 0,
+    seasons: [],
+    destinations: [],
+    types: [],
+    itineraries: [],
+    prices: {
+      valute: '',
+    },
+    hotels: [],
+    includes: [],
+    reviews: [],
+    transports: {
+      one_two_people: '',
+      six_twelve_people: '',
+      three_five_people: '',
+    },
+  });
 
   if (!tourData?.id) return notFound();
 
