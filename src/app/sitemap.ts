@@ -33,11 +33,11 @@ export default async function generateSitemap(): Promise<MetadataRoute.Sitemap> 
 
   for (const locale of LOCALES) {
     const [tourRes, destinationRes, articleRes] = await Promise.all([
-      apiGet<AllToursCardType[]>(`tours?all=1&locale=${locale}`, { next: { revalidate: 300 } }),
+      apiGet<AllToursCardType[]>(`tours?all=1&locale=${locale}`, { next: { revalidate: 3600 } }),
       apiGet<DestinationData[]>(`destinations?all=1&locale=${locale}`, {
         next: { revalidate: 300 },
       }),
-      apiGet<ArticleCardType[]>(`articles?all=1&locale=${locale}`, { next: { revalidate: 300 } }),
+      apiGet<ArticleCardType[]>(`articles?all=1&locale=${locale}`, { next: { revalidate: 3600 } }),
     ]);
 
     toursByLocale[locale] = tourRes;
