@@ -11,54 +11,91 @@ import { apiGet } from '../../../../../utils/serverApi';
 import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_types';
 import { DestinationCard } from '@/components/Home/Destinations/_types';
 import { PaginatedData } from '@/types';
+import { notFound } from 'next/navigation';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
   searchParams: Promise<{ page?: string }>;
 };
 
-export async function generateStaticParams() {
-  const locales = ['en', 'ru'];
-  const paths = [];
-
-  for (const locale of locales) {
-    const destinations = await apiGet<DestinationData[]>(`destinations?all=1&locale=${locale}`);
-
-    for (const destination of destinations) {
-      paths.push({
-        locale,
-        slug: destination.slug,
-      });
-    }
-  }
-
-  return paths;
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, locale } = await params;
 
-  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`)) as DestinationData;
+  try {
+    const destination = await apiGet<DestinationData>(`destinations/${slug}?locale=${locale}`);
+    if (!destination?.id)
+      return {
+        title: 'Destination - Minzifa Travel',
+        description: 'Explore destinations with Minzifa Travel',
+      };
 
-  return {
-    title: destination?.seo_metadata?.title,
-    description: destination?.seo_metadata?.description,
-    keywords: destination?.seo_metadata?.keywords,
-  };
+    return {
+      title: destination.seo_metadata?.title ?? destination.name,
+      description:
+        destination.seo_metadata?.description ?? 'Explore destinations with Minzifa Travel',
+      keywords: destination.seo_metadata?.keywords ?? 'travel, tours, destinations',
+    };
+  } catch (err) {
+    console.error('Error fetching destination metadata:', slug, err);
+    return {
+      title: 'Destination - Minzifa Travel',
+      description: 'Explore destinations with Minzifa Travel',
+    };
+  }
 }
 
-export default async function page({ params }: Props) {
+export default async function DestinationPage({ params }: Props) {
   const { slug, locale } = await params;
 
-  const destination = (await apiGet(`destinations/${slug}?locale=${locale}`)) as DestinationData;
+  let destination: DestinationData | null = null;
+  try {
+    destination = await apiGet<DestinationData>(`destinations/${slug}?locale=${locale}`);
+  } catch (err) {
+    console.error('Failed to fetch destination:', slug, err);
+  }
 
-  const initTours = (await apiGet(`tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`)) as PaginatedData<AllToursCardType>;
+  if (!destination?.id) return notFound();
 
-  const initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`)) as DestinationCard[];
+  let initTours: PaginatedData<AllToursCardType> = {
+    data: [],
+    meta: {
+      current_page: 0,
+      first_page_url: '',
+      from: 0,
+      last_page: 0,
+      last_page_url: null,
+      next_page_url: null,
+      path: '',
+      per_page: 0,
+      prev_page_url: null,
+      to: 0,
+      total: 0,
+    },
+  };
+  let initDestinations: DestinationCard[] = [];
+  let initTourTypes: TourType[] = [];
 
-  const initTourTypes = (await apiGet(`types?locale=${locale}&all=1`)) as TourType[];
+  try {
+    initTours = await apiGet(
+      `tours?locale=${locale}&perPage=10&destinations[]=${destination.name}`,
+    );
+  } catch (err) {
+    console.warn('Failed to fetch tours for destination:', destination.name, err);
+  }
+
+  try {
+    initDestinations = await apiGet(`destinations?locale=${locale}&all=1`);
+  } catch (err) {
+    console.warn('Failed to fetch all destinations', err);
+  }
+
+  try {
+    initTourTypes = await apiGet(`types?locale=${locale}&all=1`);
+  } catch (err) {
+    console.warn('Failed to fetch tour types', err);
+  }
 
   return (
     <>

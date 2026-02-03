@@ -17,19 +17,30 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   const { locale } = await params;
   const pagePath = `/${locale}/tours`;
 
-  const data = await fetch(
-    `https://api.minzifatravel.com/api/v1/pages?page=${encodeURIComponent(pagePath)}`,
-  ).then((res) => res.json());
+  let data: any = {};
+  try {
+    const res = await fetch(
+      `https://api.minzifatravel.com/api/v1/pages?page=${encodeURIComponent(pagePath)}`,
+    );
+    if (res.ok) {
+      data = await res.json();
+    } else {
+      console.warn(`Failed to fetch metadata: HTTP ${res.status}`);
+    }
+  } catch (err) {
+    console.warn('Error fetching page metadata:', err);
+  }
 
   const title = data?.seo_metadata?.title || 'Tours - Minzifa Travel';
   const description =
     data?.seo_metadata?.description ||
     'Explore amazing tour packages to Central Asia. Group and private tours to Uzbekistan, Kyrgyzstan, Tajikistan, Kazakhstan and Turkmenistan.';
+  const keywords = data?.seo_metadata?.keywords || 'tours, travel packages, Central Asia tours';
 
   return {
     title,
     description,
-    keywords: data?.seo_metadata?.keywords || 'tours, travel packages, Central Asia tours',
+    keywords,
     alternates: {
       canonical: `https://minzifatravel.com/${locale}/tours`,
       languages: {
@@ -59,17 +70,49 @@ export default async function Tours({
 }) {
   const { locale } = await params;
 
-  const initTours = (await apiGet(`tours?locale=${locale}&perPage=10`, {
-    next: { revalidate: 60 * 20 },
-  })) as PaginatedData<AllToursCardType>;
+  // Инициализация данных с обработкой ошибок
+  let initTours: PaginatedData<AllToursCardType> = {
+    data: [],
+    meta: {
+      current_page: 0,
+      first_page_url: '',
+      from: 0,
+      last_page: 0,
+      last_page_url: null,
+      next_page_url: null,
+      path: '',
+      per_page: 0,
+      prev_page_url: null,
+      to: 0,
+      total: 0,
+    },
+  };
+  let initDestinations: DestinationCard[] = [];
+  let initTourTypes: TourType[] = [];
 
-  const initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`, {
-    next: { revalidate: 60 * 20 },
-  })) as DestinationCard[];
+  try {
+    initTours = (await apiGet(`tours?locale=${locale}&perPage=10`, {
+      next: { revalidate: 60 * 20 },
+    })) as PaginatedData<AllToursCardType>;
+  } catch (err) {
+    console.warn('Failed to fetch tours:', err);
+  }
 
-  const initTourTypes = (await apiGet(`types?locale=${locale}&all=1`, {
-    next: { revalidate: 60 * 20 },
-  })) as TourType[];
+  try {
+    initDestinations = (await apiGet(`destinations?locale=${locale}&all=1`, {
+      next: { revalidate: 60 * 20 },
+    })) as DestinationCard[];
+  } catch (err) {
+    console.warn('Failed to fetch destinations:', err);
+  }
+
+  try {
+    initTourTypes = (await apiGet(`types?locale=${locale}&all=1`, {
+      next: { revalidate: 60 * 20 },
+    })) as TourType[];
+  } catch (err) {
+    console.warn('Failed to fetch tour types:', err);
+  }
 
   return (
     <section className="w-full relative">

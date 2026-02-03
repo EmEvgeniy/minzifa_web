@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 import { Tour } from '@/components/Tour/_types';
 import { Metadata } from 'next';
@@ -31,15 +31,26 @@ export default async function Booking({ params }: Props) {
   const { tour, locale } = await params;
   const t = await getTranslations({ locale });
 
-  const tourData = (await apiGet(`tours/${tour}?locale=${locale}`, {
-    next: { revalidate: 60 * 20 },
-  })) as Tour;
+  let tourData: Tour | null = null;
 
+  try {
+    tourData = await apiGet(`tours/${tour}?locale=${locale}`, {
+      next: { revalidate: 60 * 20 },
+    });
+  } catch (err) {
+    console.warn(`Failed to fetch tour ${tour}:`, err);
+  }
+
+  // Если данных нет — редирект на главную локали
   if (!tourData?.id) redirect(`/${locale}`);
 
   return (
     <section className="relative pb-[0px] mt-[100px] md:mt-[150px] flex flex-col gap-5 min-h-[200px]">
-      <Breadcrumbs locale={locale} link={{ title: t('breadcrumbs.booking'), link: '' }} className={'container'} />
+      <Breadcrumbs
+        locale={locale}
+        link={{ title: t('breadcrumbs.booking'), link: '' }}
+        className="container"
+      />
       <BookingHeader tourData={tourData} />
       <FormWrapper locale={locale} tourData={tourData} />
     </section>
