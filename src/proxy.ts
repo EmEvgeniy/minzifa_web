@@ -9,9 +9,14 @@ const intlMiddleware = createMiddleware({
 });
 
 export function proxy(request: NextRequest) {
+  // Security: Block requests with suspicious extensions
+  const pathname = request.nextUrl.pathname;
+  if (/\.(htm|html|php|env|git|svn)$/i.test(pathname)) {
+    return new NextResponse(null, { status: 403, statusText: 'Forbidden' });
+  }
+
   const response = intlMiddleware(request);
 
-  const pathname = request.nextUrl.pathname;
   const token = request.cookies.get(AUTH_TOKEN_NAME)?.value;
 
   if (PROTECTED_ROUTES.some((route) => route.test(pathname))) {
@@ -29,6 +34,7 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     '/((?!api|_next|_vercel|.*\\..*).*)',
+    '/(.*)\\.(htm|html|php|env|git|svn)',
     '/(en|ru)/profile/:path*',
     '/(en|ru)/chats/:path*',
     '/(en|ru)/dashboard/:path*',
