@@ -1,8 +1,6 @@
-export const dynamic = "force-dynamic";
-
 import { Tour } from '@/components/Tour/_types';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { apiGet } from '../../../../../utils/serverApi';
 import { getTranslations } from 'next-intl/server';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
@@ -35,11 +33,21 @@ export default async function Booking({ params }: Props) {
     next: { revalidate: 60 * 20 },
   })) as Tour;
 
-  if (!tourData?.id) redirect(`/${locale}`);
+  if (!/^[a-z0-9-]+$/.test(tour)) {
+    notFound();
+  }
+
+  if (!tourData?.id) {
+    notFound();
+  }
 
   return (
     <section className="relative pb-[0px] mt-[100px] md:mt-[150px] flex flex-col gap-5 min-h-[200px]">
-      <Breadcrumbs locale={locale} link={{ title: t('breadcrumbs.booking'), link: '' }} className={'container'} />
+      <Breadcrumbs
+        locale={locale}
+        link={{ title: t('breadcrumbs.booking'), link: '' }}
+        className={'container'}
+      />
       <BookingHeader tourData={tourData} />
       <FormWrapper locale={locale} tourData={tourData} />
     </section>
