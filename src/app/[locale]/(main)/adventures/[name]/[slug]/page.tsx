@@ -1,17 +1,15 @@
-export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
 import Articles from '@/components/Home/Articles/Articles';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
 
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Content, { ArticleDetail } from '@/components/Adventure/Content/Content';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import { getTranslations } from 'next-intl/server';
 import { apiGet } from '../../../../../../utils/serverApi';
 import { ArticleCardType } from '@/components/UI/ArticleCard/_types';
-
 
 export const revalidate = 300;
 
@@ -46,17 +44,24 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: DefaultPageProps): Promise<Metadata> {
-  const slug = (await params).slug;
-  const locale = (await params).locale;
+  const { slug, locale } = await params;
 
-  const article = (await apiGet(`articles/${slug}?locale=${locale}`, {
-    next: { revalidate: revalidate },
-  })) as ArticleData;
+  if (slug?.endsWith('.htm')) notFound();
+
+  let article: ArticleData;
+
+  try {
+    article = await apiGet(`articles/${slug}?locale=${locale}`, {
+      next: { revalidate },
+    });
+  } catch {
+    notFound();
+  }
 
   return {
-    title: article?.seo_metadata?.title,
-    description: article?.seo_metadata?.description,
-    keywords: article?.seo_metadata?.keywords,
+    title: article.seo_metadata?.title ?? '',
+    description: article.seo_metadata?.description,
+    keywords: article.seo_metadata?.keywords,
   };
 }
 

@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { apiGet } from '@/api';
 import Hero from '@/components/Tours/Hero/Hero';
 import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_types';
@@ -8,6 +6,7 @@ import MobileMenu from '@/components/Tours/MobileMenu/MobileMenu';
 import { DefaultPageProps, PaginatedData } from '@/types';
 import { Metadata } from 'next';
 import { DestinationCard } from '@/components/Home/Destinations/_types';
+import { notFound } from 'next/navigation';
 
 export function generateStaticParams() {
   return ['en', 'ru'].map((locale) => ({ locale }));
@@ -19,7 +18,10 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
   const data = await fetch(
     `https://api.minzifatravel.com/api/v1/pages?page=${encodeURIComponent(pagePath)}`,
+    { next: { revalidate: 3600 } },
   ).then((res) => res.json());
+
+  if (!data.ok) notFound();
 
   const title = data?.seo_metadata?.title || 'Tours - Minzifa Travel';
   const description =
