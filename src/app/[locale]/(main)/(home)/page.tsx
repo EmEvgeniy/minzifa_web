@@ -19,8 +19,9 @@ const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
 async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300): Promise<T> {
   try {
     return (await apiGet(url, { next: { revalidate: revalidateSeconds } })) as T;
-  } catch (err: any) {
-    console.warn(`Failed API GET: ${url}`, err?.status, err?.statusText, err?.url);
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn(`Failed API GET: ${url}`, e?.status, e?.statusText, e?.url);
     return fallback;
   }
 }

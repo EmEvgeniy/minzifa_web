@@ -21,7 +21,8 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
 
   const pagePath = `/${safeLocale}/tours`;
 
-  let data: any = {};
+  type PageMeta = { seo_metadata?: { title?: string; description?: string; keywords?: string } };
+  let data: PageMeta = {};
   try {
     const res = await fetch(
       `https://api.minzifatravel.com/api/v1/pages?page=${encodeURIComponent(pagePath)}`,
@@ -102,24 +103,27 @@ export default async function Tours({
     initTours = (await apiGet(`tours?locale=${safeLocale}&perPage=10`, {
       next: { revalidate: 60 * 20 },
     })) as PaginatedData<AllToursCardType>;
-  } catch (err: any) {
-    console.warn('Failed to fetch tours:', err?.status, err?.statusText, err?.url);
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch tours:', e?.status, e?.statusText, e?.url);
   }
 
   try {
     initDestinations = (await apiGet(`destinations?locale=${safeLocale}&all=1`, {
       next: { revalidate: 60 * 20 },
     })) as DestinationCard[];
-  } catch (err: any) {
-    console.warn('Failed to fetch destinations:', err?.status, err?.statusText, err?.url);
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch destinations:', e?.status, e?.statusText, e?.url);
   }
 
   try {
     initTourTypes = (await apiGet(`types?locale=${safeLocale}&all=1`, {
       next: { revalidate: 60 * 20 },
     })) as TourType[];
-  } catch (err: any) {
-    console.warn('Failed to fetch tour types:', err?.status, err?.statusText, err?.url);
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch tour types:', e?.status, e?.statusText, e?.url);
   }
 
   return (
