@@ -5,7 +5,8 @@ import { cn } from '@/utils/utils';
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { usePostMutation } from '@/api/post.api';
+import { useFormSubmit } from '@/hooks';
+import { FormNameEnum } from '@/constants';
 import { useSnackStore } from '../../../store/useSnackStore';
 import { CreateYourTripFormProps, CreateYourTripFormRequest, QuestionData } from './_types';
 import { useRouter } from 'next/navigation';
@@ -153,12 +154,8 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
 
   const { setMessage, setError } = useSnackStore((state) => state);
 
-  const { mutate, isPending } = usePostMutation<
-    CreateYourTripFormRequest,
-    CreateYourTripFormRequest
-  >(
-    ['create-my-trip-quiz'],
-    () => {
+  const { submitForm, isSubmitting } = useFormSubmit({
+    onSuccess: () => {
       setMessage(locale == 'en' ? 'Your request was submitted!' : 'Ваш запрос был отправлен!');
       setFormData({
         destinations: [],
@@ -174,13 +171,13 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
       popupClose?.();
       router.push(`/${locale}/thank-you`);
     },
-    () => {
+    onError: () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
       setMessage('');
     },
-  );
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const { name, email, phone } = formData;
@@ -208,11 +205,8 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     }
 
     setErrors({});
-    if (!isPending) {
-      mutate({
-        obj: { ...formData, ...metrics },
-        endpoint: `forms/create-my-trip-quiz?locale=${locale}`,
-      });
+    if (!isSubmitting) {
+      await submitForm(FormNameEnum.CREATE_MY_TRIP_QUIZ, { ...formData, ...metrics });
     }
   };
 

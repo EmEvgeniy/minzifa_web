@@ -89,26 +89,29 @@ export default async function DestinationPage({ params }: Props) {
     initTours = await apiGet(
       `tours?locale=${safeLocale}&perPage=10&destinations[]=${destination.name}`,
     );
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
     console.warn(
       'Failed to fetch tours for destination:',
       destination.name,
-      err?.status,
-      err?.statusText,
-      err?.url,
+      e?.status,
+      e?.statusText,
+      e?.url,
     );
   }
 
   try {
     initDestinations = await apiGet(`destinations?locale=${safeLocale}&all=1`);
-  } catch (err: any) {
-    console.warn('Failed to fetch all destinations', err?.status, err?.statusText, err?.url);
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch all destinations', e?.status, e?.statusText, e?.url);
   }
 
   try {
     initTourTypes = await apiGet(`types?locale=${safeLocale}&all=1`);
-  } catch (err: any) {
-    console.warn('Failed to fetch tour types', err?.status, err?.statusText, err?.url);
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch tour types', e?.status, e?.statusText, e?.url);
   }
 
   return (
