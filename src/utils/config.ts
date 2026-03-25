@@ -8,6 +8,8 @@ export interface AppConfig {
   apiUrl: string;
   articlesApiUrl: string;
   appUrl: string;
+  /** Базовый origin CRM без завершающего слэша (лиды и т.д.) */
+  crmApiBaseUrl: string;
   environment: AppEnvironment;
   isDevelopment: boolean;
   isProduction: boolean;
@@ -24,6 +26,11 @@ export interface AppConfig {
 function getAppConfig(): AppConfig {
   const env = (process.env.NEXT_PUBLIC_APP_ENV as AppEnvironment) || 'development';
 
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const crmApiBaseUrl = process.env.NEXT_PUBLIC_CRM_API_URL
+    ? process.env.NEXT_PUBLIC_CRM_API_URL.replace(/\/$/, '')
+    : appUrl.replace(/\/$/, '');
+
   const config: AppConfig = {
     environment: env,
     isDevelopment: env === 'development',
@@ -34,7 +41,8 @@ function getAppConfig(): AppConfig {
     articlesApiUrl: process.env.NEXT_PUBLIC_ARTICLES_API_URL
       ? `${process.env.NEXT_PUBLIC_ARTICLES_API_URL}/api/v1`
       : 'https://articles.minzifatravel.com/api/v1',
-    appUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    appUrl,
+    crmApiBaseUrl,
     analytics: {
       gaId: process.env.NEXT_PUBLIC_GA_ID as string,
       yandexId: process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID as string,
@@ -60,6 +68,17 @@ export const getApiUrl = (endpoint?: string): string => {
 
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
   return `${baseUrl}${cleanEndpoint}`;
+};
+
+/**
+ * Полный URL создания лида в CRM (POST).
+ * База: NEXT_PUBLIC_CRM_API_URL или NEXT_PUBLIC_APP_URL (тот же origin, что и сайт).
+ */
+export const getCrmLeadsUrl = (): string => {
+  const base = appConfig.crmApiBaseUrl.endsWith('/')
+    ? appConfig.crmApiBaseUrl.slice(0, -1)
+    : appConfig.crmApiBaseUrl;
+  return `${base}/api/v1/leads`;
 };
 
 /**

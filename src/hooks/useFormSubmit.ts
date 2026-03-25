@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { axiosInstance } from '@/utils/axios';
-import { getApiUrl } from '@/utils/config';
+import { getApiUrl, getCrmLeadsUrl } from '@/utils/config';
 
 interface FormSubmitOptions {
   onSuccess?: (data: FormSubmitResult) => void;
@@ -16,6 +16,43 @@ interface FormSubmitResult {
     amocrm?: Error;
     order?: Error;
     googleRecaptcha?: Error;
+  };
+}
+
+export function buildCrmLeadPayload(
+  formName: string,
+  data: Record<string, unknown>,
+) {
+  return {
+    contact: {
+      name: typeof data.name === 'string' ? data.name : String(data.name ?? ''),
+      email: typeof data.email === 'string' ? data.email : String(data.email ?? ''),
+      phone: typeof data.phone === 'string' ? data.phone : String(data.phone ?? ''),
+    },
+    source: 'site',
+    channel: 'web',
+    formData: {
+      form_name: formName,
+      message: data.message,
+      page: data.page,
+      referrer: data.referrer,
+      tour_id: data.tour_id,
+      tour_name: data.tour_name,
+    },
+    marketingData: {
+      utmSource: data.utm_source,
+      utmMedium: data.utm_medium,
+      utmCampaign: data.utm_campaign,
+      utmContent: data.utm_content,
+      utmTerm: data.utm_term,
+      userAgent: data.user_agent,
+      ip: data.ip,
+      city: data.city,
+      region: data.region,
+      country: data.country,
+      acceptedLanguage: typeof navigator !== 'undefined' ? navigator.language : undefined,
+      timezone: typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : undefined,
+    },
   };
 }
 
@@ -58,12 +95,11 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
       errors: {},
     };
 
-    const formData = {
-      form_name: formName,
-      form_data: data,
-    };
+    const crmLeadPayload = buildCrmLeadPayload(formName, data);
 
     try {
+      const formData = { form_name: formName, form_data: data };
+
       // Шаг 0: Проверка Google ReCaptcha
       if (data.recaptchaToken) {
         try {
@@ -110,9 +146,19 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
 
       // Шаг 4: Добавление в нашу CRM
       try {
-        const orderUrl = getApiUrl('forms/orders/create');
-        const orderResponse = await axiosInstance.post(orderUrl, formData);
-        result.order = orderResponse.data;
+        const crmApiKey = process.env.NEXT_PUBLIC_CRM_API_KEY;
+        if (!crmApiKey) {
+          throw new Error('Missing NEXT_PUBLIC_CRM_API_KEY for CRM lead creation');
+        }
+        
+        const leadUrl = getCrmLeadsUrl();
+        const leadResponse = await axiosInstance.post(leadUrl, crmLeadPayload, {
+          headers: {
+            'x-api-key': crmApiKey,
+          },
+        });
+
+        result.order = leadResponse.data;
       } catch (error) {
         console.error('Order creation failed:', error);
         result.errors!.order = error as Error;

@@ -4,6 +4,7 @@
 export {
   appConfig,
   getApiUrl,
+  getCrmLeadsUrl,
   isDevelopment,
   isProduction,
   getAnalyticsConfig,
