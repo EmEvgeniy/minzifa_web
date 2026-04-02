@@ -94,7 +94,7 @@ export const contacts: ContactProps = {
         {
             name: 'WhatsApp',
             url: {
-                en: 'https://wa.me/998912444720',
+                en: 'https://wa.me/998936541653',
                 ru: 'https://wa.me/998912444721',
             },
             Icon: FaWhatsapp,
