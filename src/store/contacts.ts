@@ -46,8 +46,8 @@ export const contacts: ContactProps = {
     },
     phone: {
         en: {
-            name: '+998 91 244 47 20',
-            url: 'tel:+998912444720',
+            name: '+998 93 654 16 53',
+            url: 'tel:+998936541653',
         },
         ru: {
             name: '+7 931 107 38 01',
