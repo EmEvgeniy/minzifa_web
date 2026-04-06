@@ -30,6 +30,8 @@ export const TourMobileCard: FC<TourDescTopCardType> = ({
 }) => {
   const t = useTranslations('tourDetail');
   const locale = useLocale();
+  const soldOut = price.tour_total_seats <= 0;
+
   return (
     <motion.div
       key={price.date_start + index}
@@ -37,9 +39,16 @@ export const TourMobileCard: FC<TourDescTopCardType> = ({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="hidden grid-cols-1 items-center gap-[1px] max-[920px]:grid"
+      title={soldOut ? t('prices.unavailable_hint') : undefined}
+      className="hidden grid-cols-1 items-center gap-px max-[920px]:grid"
     >
-      <div className="bg-white p-5 rounded-[16px] min-h-[100px] flex flex-col items-center justify-center">
+      <div
+        className={`p-5 rounded-[16px] min-h-[100px] flex flex-col items-center justify-center ${
+          soldOut
+            ? 'border border-dashed border-neutral-300 bg-neutral-50 text-neutral-600'
+            : 'bg-white'
+        }`}
+      >
         {!!price.is_best_price && (
           <p className="text-sm text-[#16372D] bg-[#87EEC7] text-center p-2 rounded-[16px] w-full">
             {t('prices.best_price')}
@@ -66,15 +75,23 @@ export const TourMobileCard: FC<TourDescTopCardType> = ({
           </p>
         </div>
       </div>
-      <div className="bg-white p-5 rounded-[16px] min-h-[150px] gap-3 flex flex-col items-center justify-center">
+      <div
+        className={`p-5 rounded-[16px] min-h-[150px] gap-3 flex flex-col items-center justify-center ${
+          soldOut
+            ? 'border border-dashed border-neutral-300 bg-neutral-50 text-neutral-600'
+            : 'bg-white'
+        }`}
+      >
         <div className="flex items-center justify-between w-full">
           <p className="flex flex-col">
             <span className="text-gray-400 text-[12px]">
               {locale == 'en' ? 'Number of people' : 'Кол-во людей'}
             </span>
-            <span>{t('prices.seats', { count: price.tour_total_seats })}</span>
+            <span className={soldOut ? 'text-neutral-500' : ''}>
+              {t('prices.seats', { count: price.tour_total_seats })}
+            </span>
           </p>
-          <p className="flex flex-col">
+          <p className={`flex flex-col ${soldOut ? 'opacity-75' : ''}`}>
             <span className="line-through text-[14px] text-[#333333]/50 text-right">
               <FormattedPrice price={price.sale_price} currency={valute} />
             </span>
@@ -87,12 +104,19 @@ export const TourMobileCard: FC<TourDescTopCardType> = ({
             </span>
           </p>
         </div>
-        <button
-          onClick={() => handleBookingData(price, price.price_for_double, String(1))}
-          className="w-full rounded-4xl bg-[#27A430] text-white p-2 cursor-pointer text-[14px] transition-all duration-300 hover:bg-[#208B28]"
-        >
-          {t('booking.button', { count: 1 })}
-        </button>
+        {soldOut ? (
+          <p className="w-full text-center font-semibold text-neutral-500 py-2 text-[14px] select-none">
+            {t('prices.sold_out')}
+          </p>
+        ) : (
+          <button
+            type="button"
+            onClick={() => handleBookingData(price, price.price_for_double, String(1))}
+            className="w-full rounded-4xl bg-[#27A430] text-white p-2 cursor-pointer text-[14px] transition-all duration-300 hover:bg-[#208B28]"
+          >
+            {t('booking.button', { count: 1 })}
+          </button>
+        )}
       </div>
     </motion.div>
   );

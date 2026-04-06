@@ -965,7 +965,9 @@
       "seats": "{count} seats",
       "no_results": "No results",
       "show_all_dates": "View all dates",
-      "hide_all_dates": "Hide all dates"
+      "hide_all_dates": "Hide all dates",
+      "sold_out": "Ausverkauft",
+      "unavailable_hint": "Dieser Termin ist nicht verfügbar"
     },
     "by_request": {
       "text": "By request",

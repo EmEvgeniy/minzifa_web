@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import { useQueryClient } from '@tanstack/react-query';
 import { useGetQuery } from '@/api/get.api';
 import { useFilterSync } from '@/hooks/useFilterSync';
 import { useFilterStore } from '@/store/toursFilterStore';
@@ -40,20 +39,20 @@ export default function ToursSection({
 
   const { page, setPage } = useFilterStore();
   const { filterQuery } = useFilterSync();
-  const queryClient = useQueryClient();
 
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Инвалидация кэша при изменении страницы для корректной пагинации
-  useEffect(() => {
-    const currentPage = typeof page === 'string' ? parseInt(page) : page;
-    if (currentPage > 1) {
-      queryClient.invalidateQueries({
-        queryKey: ['tours_view', locale, destination?.name || 'all'],
-        exact: false,
-      });
-    }
-  }, [page, locale, destination?.name, queryClient]);
+  const pageNum = Math.max(1, Number.parseInt(String(page), 10) || 1);
+
+  /** page передаётся отдельно в useGetQuery; второй `page` из buildFilterQuery давал неверный порядок параметров у API */
+  const filterQueryForApi = useMemo(() => {
+    if (!filterQuery) return '';
+    const withoutPage = filterQuery
+      .split('&')
+      .filter((p) => p.length > 0 && !p.startsWith('page='))
+      .join('&');
+    return withoutPage ? `&${withoutPage}` : '';
+  }, [filterQuery]);
 
   const destinationParams = destination
     ? `&destinations[]=${encodeURIComponent(destination.name)}`
@@ -67,10 +66,17 @@ export default function ToursSection({
     perPage: '10',
     url: 'tours',
     searchItem: '',
-    additionalParam: `${filterQuery}${destinationParams}`,
+    additionalParam: `${filterQueryForApi}${destinationParams}`,
   });
 
-  const tours = response?.data ?? initTours?.data;
+  const tours =
+    response !== undefined
+      ? (response.data ?? [])
+      : pageNum === 1
+        ? (initTours?.data ?? [])
+        : [];
+
+  /** last_page / total при пагинации те же, что у первой страницы; без SSR-meta ломается totalPages и goToPage при загрузке */
   const meta = response?.meta ?? initTours?.meta;
   const totalPages = meta?.last_page as number;
   const totalItems = meta?.total;
@@ -95,7 +101,11 @@ export default function ToursSection({
         }
       }
 
-      if (page >= 1 && page <= totalPages) {
+      const max =
+        typeof totalPages === 'number' && Number.isFinite(totalPages) && totalPages >= 1
+          ? totalPages
+          : undefined;
+      if (page >= 1 && (max === undefined || page <= max)) {
         setPage(page);
       }
     },

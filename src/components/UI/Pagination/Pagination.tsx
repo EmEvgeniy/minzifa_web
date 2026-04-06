@@ -7,7 +7,8 @@ import {
 } from 'react-icons/fa';
 
 type PaginationProps = {
-  currentPage: number;
+  /** Store/URL may pass a string; normalize before arithmetic (`'1' + 1` must not become `'11'`). */
+  currentPage: number | string;
   totalPages: number;
   onPageChange: (page: number) => void;
   className?: string;
@@ -34,9 +35,13 @@ export default function Pagination({
 }: PaginationProps) {
   if (!totalPages || totalPages <= 1) return null;
 
-  const handlePageChange = (event: React.MouseEvent<HTMLButtonElement>, page: number) => {
+  const parsed = Number.parseInt(String(currentPage), 10);
+  const page =
+    Number.isFinite(parsed) && parsed >= 1 ? Math.min(parsed, totalPages) : 1;
+
+  const handlePageChange = (event: React.MouseEvent<HTMLButtonElement>, nextPage: number) => {
     event.preventDefault();
-    onPageChange(page);
+    onPageChange(nextPage);
   };
 
   const renderPageNumbers = () => {
@@ -48,12 +53,12 @@ export default function Pagination({
         pages.push(i);
       }
     } else {
-      if (currentPage <= 3) {
+      if (page <= 3) {
         pages.push(1, 2, 3, 4, 5);
-      } else if (currentPage >= totalPages - 2) {
+      } else if (page >= totalPages - 2) {
         pages.push(totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
       } else {
-        pages.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2);
+        pages.push(page - 2, page - 1, page, page + 1, page + 2);
       }
     }
 
@@ -63,7 +68,7 @@ export default function Pagination({
         type="button"
         onClick={(e) => handlePageChange(e, pageNum)}
         className={`cursor-pointer px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-          pageNum === currentPage
+          pageNum === page
             ? 'bg-[#16372D] text-white'
             : 'text-[#1D221B]/62 hover:bg-[#16372D] hover:text-white'
         }`}
@@ -79,7 +84,7 @@ export default function Pagination({
         <button
           type="button"
           onClick={(e) => handlePageChange(e, 1)}
-          disabled={currentPage === 1}
+          disabled={page === 1}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           title={labels?.first}
         >
@@ -90,8 +95,8 @@ export default function Pagination({
       {showPrevNext && (
         <button
           type="button"
-          onClick={(e) => handlePageChange(e, currentPage - 1)}
-          disabled={currentPage === 1}
+          onClick={(e) => handlePageChange(e, page - 1)}
+          disabled={page === 1}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           title={labels?.previous}
         >
@@ -104,8 +109,8 @@ export default function Pagination({
       {showFirstLast && (
         <button
           type="button"
-          onClick={(e) => handlePageChange(e, currentPage + 1)}
-          disabled={currentPage === totalPages}
+          onClick={(e) => handlePageChange(e, page + 1)}
+          disabled={page === totalPages}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           title={labels?.next}
         >
@@ -117,7 +122,7 @@ export default function Pagination({
         <button
           type="button"
           onClick={(e) => handlePageChange(e, totalPages)}
-          disabled={currentPage === totalPages}
+          disabled={page === totalPages}
           className="cursor-pointer p-2 text-[#1D221B]/62 rounded-md hover:bg-[#16372D] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
           title={labels?.last}
         >

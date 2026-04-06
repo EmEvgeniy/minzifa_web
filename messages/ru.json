@@ -1004,7 +1004,9 @@
       "seats": "{count} мест",
       "no_results": "Нет результатов",
       "show_all_dates": "Показать все даты",
-      "hide_all_dates": "Скрыть все даты"
+      "hide_all_dates": "Скрыть все даты",
+      "sold_out": "Распродано",
+      "unavailable_hint": "Эта дата недоступна"
     },
     "by_request": {
       "text": "По запросу",
