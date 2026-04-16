@@ -1004,9 +1004,7 @@
       "seats": "{count} мест",
       "no_results": "Нет результатов",
       "show_all_dates": "Показать все даты",
-      "hide_all_dates": "Скрыть все даты",
-      "sold_out": "Распродано",
-      "unavailable_hint": "Эта дата недоступна"
+      "hide_all_dates": "Скрыть все даты"
     },
     "by_request": {
       "text": "По запросу",
@@ -1079,15 +1077,21 @@
       "startTrip": "Начало поездки",
       "endTrip": "Конец поездки",
       "travellers": "Путешественники",
+      "perPerson": "Цена за человека",
       "deposit": "Депозит 20%",
       "total": "Всего",
       "accept": "Я принимаю Minzifa Travel <terms>Термины и условия</terms> и <privacy>Политику конфиденциальности</privacy>"
     },
     "paymentMethod": {
-      "title": "Выберите способ оплаты:",
-      "creditCard": "Оплата кредитной картой",
-      "bankTransfer": "Банковский перевод",
-      "acceptTerms": ["Я принимаю Minzifa Travel", "и"]
+      "title": "Способ оплаты",
+      "bank_transfer": "Банковский перевод",
+      "cash": "Оплата на месте",
+      "online": "Онлайн оплата",
+      "online_options": {
+        "title": "Вариант онлайн оплаты",
+        "deposit": "Частичная оплата (депозит)",
+        "full": "Полная оплата"
+      }
     },
     "successMessage": "Ваш тур был забронирован!",
     "errorMessage": "Произошла ошибка, пожалуйста, попробуйте ещё раз",
@@ -1477,7 +1481,13 @@
     "balance": "Остаток",
     "payment_status": "Статус оплаты",
     "payment_method": "Способ оплаты",
-    "payment_date": "Дата оплаты"
+    "payment_date": "Дата оплаты",
+    "payment_failed_message": "Оплата не прошла или была отменена. Пожалуйста, попробуйте снова.",
+    "payment_link_error": "Ошибка создания ссылки на оплату",
+    "pay_now": "Оплатить сейчас",
+    "refresh_status": "Обновить статус",
+    "status_updated": "Статус успешно обновлен",
+    "status_check_error": "Ошибка при проверке статуса"
   },
   "paymentStatuses": {
     "pending": "Ожидает оплаты",
@@ -1491,7 +1501,8 @@
     "cash": "Наличные",
     "credit_card": "Банковская карта",
     "stripe": "Stripe",
-    "paypal": "PayPal"
+    "paypal": "PayPal",
+    "payworld": "Payworld"
   },
   "freeConsultation": {
     "title": "Бесплатная консультация",

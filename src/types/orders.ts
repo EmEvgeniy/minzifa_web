@@ -22,6 +22,7 @@ export enum PaymentTypeEnum {
   CREDIT_CARD = 'credit_card',
   STRIPE = 'stripe',
   PAYPAL = 'paypal',
+  PAYWORLD = 'payworld',
 }
 
 export interface IOrderTourDetailData {
@@ -81,6 +82,6 @@ export interface IOrder {
   tour_detail: IOrderTourDetailData;
   tourist: import('./auth').ITourist;
   manager: import('@/components/Auth/_types').IManager;
-  invoice?: IInvoiceData;
+  invoice?: IInvoice;
   form_name?: string;
 }

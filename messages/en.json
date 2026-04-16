@@ -1002,9 +1002,7 @@
       "seats": "{count} seats",
       "no_results": "No results",
       "show_all_dates": "View all dates",
-      "hide_all_dates": "Hide all dates",
-      "sold_out": "Sold Out",
-      "unavailable_hint": "This departure is not available"
+      "hide_all_dates": "Hide all dates"
     },
     "by_request": {
       "text": "By request",
@@ -1074,15 +1072,21 @@
       "startTrip": "Start trip",
       "endTrip": "End trip",
       "travellers": "Travellers",
+      "perPerson": "Price per person",
       "deposit": "Deposit 20%",
       "total": "Total",
       "accept": "I accept Minzifa Travel <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>"
     },
     "paymentMethod": {
-      "title": "Select a payment method:",
-      "creditCard": "Payment by credit card",
-      "bankTransfer": "Bank transfer",
-      "acceptTerms": ["I accept Minzifa Travel", "and"]
+      "title": "Payment Method",
+      "bank_transfer": "Bank Transfer",
+      "cash": "Pay on arrival",
+      "online": "Online Payment",
+      "online_options": {
+        "title": "Online payment option",
+        "deposit": "Partial payment (deposit)",
+        "full": "Full payment"
+      }
     },
     "successMessage": "Your tour was booked!",
     "errorMessage": "Some error was happened, please try again",
@@ -1484,7 +1488,13 @@
     "balance": "Balance",
     "payment_status": "Payment status",
     "payment_method": "Payment method",
-    "payment_date": "Payment date"
+    "payment_date": "Payment date",
+    "payment_failed_message": "Payment failed or was cancelled. Please try again.",
+    "payment_link_error": "Error creating payment link",
+    "pay_now": "Pay now",
+    "refresh_status": "Refresh status",
+    "status_updated": "Status successfully updated",
+    "status_check_error": "Error during status check"
   },
   "paymentStatuses": {
     "pending": "Pending",
@@ -1498,7 +1508,8 @@
     "cash": "Cash",
     "credit_card": "Credit card",
     "stripe": "Stripe",
-    "paypal": "PayPal"
+    "paypal": "PayPal",
+    "payworld": "Payworld"
   },
   "reviewsPage": {
     "title": "Traveler Reviews & Video Stories",
