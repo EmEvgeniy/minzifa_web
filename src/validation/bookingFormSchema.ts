@@ -47,6 +47,8 @@ export const bookingFormSchema = (t: (key: string) => string) =>
       total_price: z.number().optional(),
       payment_type: z.string().optional(),
       payment_status: z.string().optional(),
+      payment_method: z.string().optional(),
+      payment_option: z.string().optional(),
       single_price: z.coerce.number().optional(),
       currency: z.string().optional(),
       total_seats: z.number().optional(),
