@@ -2,7 +2,7 @@
 
 import { Tour } from '@/components/Tour/_types';
 import { useFormSubmit, useRecaptcha } from '@/hooks';
-import { useMetricsStore } from '@/store';
+import { useAuthStore, useMetricsStore } from '@/store';
 import { useSnackStore } from '@/store/useSnackStore';
 import { bookingFormSchema, BookingFormType } from '@/validation/bookingFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,6 +17,7 @@ import Passengers from '../Passengers/Passengers';
 import BookingInfo from '../BookingInfo/BookingInfo';
 import BookingSubmit from '../BookingSubmit/BookingSubmit';
 import MobileStickyPrice from '../MobileStickyPrice/MobileStickyPrice';
+import { PaymentMethodSelector } from '../PaymentMethodSelector/PaymentMethodSelector';
 import { FormNameEnum } from '@/constants';
 import dayjs from 'dayjs';
 
@@ -31,10 +32,11 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     const searchParams = useSearchParams();
 
     const { metrics } = useMetricsStore();
+    const { user, isAuthenticated } = useAuthStore();
     const { setMessage, setError } = useSnackStore();
     const { token, getToken } = useRecaptcha();
 
-    const { handleSubmit, setValue, control, watch, formState: { errors } } = useForm<BookingFormType>({
+    const { handleSubmit, setValue, control, watch, register, formState: { errors } } = useForm<BookingFormType>({
         resolver: zodResolver(bookingFormSchema(t)),
         mode: 'onSubmit',
         defaultValues: {
@@ -48,6 +50,8 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
             deposit: Number(searchParams.get('deposit')) || 0,
             total_price: Number(searchParams.get('total_price')) || 0,
             payment_type: 'cash',
+            payment_method: 'cash',
+            payment_option: 'deposit',
             payment_status: 'pending',
             single_price: Number(searchParams.get('single_price')) || 0,
             currency: searchParams.get('currency') || 'USD',
@@ -55,6 +59,20 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
             recaptchaToken: '',
         }
     });
+
+    // Autofill user data for the first passenger
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            const nameParts = user.name?.split(' ') || [];
+            const firstName = nameParts[0] || '';
+            const lastName = nameParts.slice(1).join(' ') || '';
+
+            setValue('passengers.0.first_name', firstName);
+            setValue('passengers.0.last_name', lastName);
+            setValue('passengers.0.email', user.email || '');
+            setValue('passengers.0.phone', user.phone || '');
+        }
+    }, [isAuthenticated, user, setValue]);
 
     // Watch for changes in key fields
     const bookingData = watch();
@@ -67,6 +85,8 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
         const roomTypes = bookingData.room_types;
         const tourPrice = bookingData.tour_price || 0;
         const singlePrice = bookingData.single_price || 0;
+        const paymentMethod = bookingData.payment_method;
+        const paymentOption = bookingData.payment_option;
 
         const currentTravellers = travellersCount;
         const prevTravellers = prevTravellersRef.current;
@@ -75,8 +95,18 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
         const standartRooms = roomTypes?.standart || 0;
         const singleRooms = roomTypes?.single || 0;
 
-        const newDeposit = Number(tourPrice) * 0.15 * currentTravellers + Number(singlePrice) * singleRooms;
+        // Calculate total first
         const newTotalPrice = Number(tourPrice) * currentTravellers + Number(singlePrice) * singleRooms;
+
+        // Calculate deposit: 20% of tour base price + single supplement
+        // If payment method is payworld and option is full, deposit is 100%
+        let newDeposit = 0;
+        if (paymentMethod === 'payworld' && paymentOption === 'full') {
+            newDeposit = newTotalPrice;
+        } else {
+            // Default deposit is 20%
+            newDeposit = Number(tourPrice) * 0.20 * currentTravellers + Number(singlePrice) * singleRooms;
+        }
 
         setValue('deposit', newDeposit);
         setValue('total_price', newTotalPrice);
@@ -95,12 +125,29 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
         }
 
         prevTravellersRef.current = currentTravellers;
-    }, [bookingData.travellers_count, bookingData.room_types, bookingData.tour_price, bookingData.single_price, setValue]);
+    }, [
+        bookingData.travellers_count,
+        bookingData.room_types,
+        bookingData.tour_price,
+        bookingData.single_price,
+        bookingData.payment_method,
+        bookingData.payment_option,
+        setValue
+    ]);
 
     const { submitForm } = useFormSubmit({
-        onSuccess: () => {
+        onSuccess: (result) => {
             setMessage(locale == 'en' ? 'Your tour was booked!' : 'Ваш тур был забронирован!');
-            router.push(`/${locale}/thank-you`);
+
+            // Check for payment URL in order response
+            const orderData = result.order as { data?: { payment_url?: string }; payment_url?: string } | undefined;
+            const paymentUrl = orderData?.data?.payment_url || orderData?.payment_url;
+
+            if (paymentUrl) {
+                window.location.href = paymentUrl;
+            } else {
+                router.push(`/${locale}/thank-you`);
+            }
         },
         onError: () => {
             setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
@@ -110,6 +157,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     const onSubmit = async (data: BookingFormType) => {
         const formData = {
             ...data,
+            payment_type: data.payment_method === 'payworld' ? 'payworld' : data.payment_method,
             tour_start: dayjs(data.tour_start).format('YYYY-MM-DD'),
             tour_end: dayjs(data.tour_end).format('YYYY-MM-DD'),
             ...metrics,
@@ -130,6 +178,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
                     <Travellers bookingData={bookingData} setValue={setValue} />
                     <RoomTypes bookingData={bookingData} setValue={setValue} />
                     <Passengers bookingData={bookingData} errors={errors} control={control} />
+                    <PaymentMethodSelector control={control} register={register} />
                     <BookingSubmit token={token} getToken={getToken} />
                 </div>
 
