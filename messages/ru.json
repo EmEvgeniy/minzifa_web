@@ -1090,7 +1090,7 @@
       "onlinePayment": "Онлайн оплата",
       "onlinePaymentHint": "Оплата картой на сайте",
       "onSpotPayment": "Оплата на месте",
-      "onSpotPaymentHint": "Оплата при встрече",
+      "onSpotPaymentHint": "Оплата наличными при встрече",
       "processing": "Обработка заявки",
       "please_wait": "Пожалуйста, подождите..."
     },

@@ -1084,8 +1084,8 @@
       "bankPaymentHint": "Transfer to company account",
       "onlinePayment": "Online payment",
       "onlinePaymentHint": "Pay by card on website",
-      "onSpotPayment": "Pay on spot",
-      "onSpotPaymentHint": "Pay upon meeting",
+      "onSpotPayment": "Pay On Arrival",
+      "onSpotPaymentHint": "Pay cash upon meeting",
       "processing": "Processing request",
       "please_wait": "Please wait..."
     },
