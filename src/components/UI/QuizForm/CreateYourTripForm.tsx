@@ -7,10 +7,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useFormSubmit } from '@/hooks';
 import { FormNameEnum } from '@/constants';
+import { useAuthStore, useMetricsStore } from '@/store';
 import { useSnackStore } from '../../../store/useSnackStore';
 import { CreateYourTripFormProps, CreateYourTripFormRequest, QuestionData } from './_types';
 import { useRouter } from 'next/navigation';
-import { useMetricsStore } from '@/store/useMetricsStore';
 import { PhoneInputComp } from '../PhoneInput';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 
@@ -18,6 +18,7 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
   const t = useTranslations('createYourTripForm');
 
   const router = useRouter();
+  const { user, isAuthenticated } = useAuthStore();
   const { metrics } = useMetricsStore();
 
   const [formData, setFormData] = useState<CreateYourTripFormRequest>({
@@ -30,6 +31,18 @@ export const CreateYourTripForm = ({ className, popupClose, locale }: CreateYour
     email: '',
     phone: '',
   });
+
+  // Auto-fill form when user logs in after form initialization
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || '',
+        email: prev.email || '',
+        phone: prev.phone || '',
+      }));
+    }
+  }, [isAuthenticated, user]);
 
   const questions: QuestionData[] = useMemo(
     () => [

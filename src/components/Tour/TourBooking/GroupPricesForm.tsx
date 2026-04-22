@@ -10,6 +10,7 @@ import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallba
 import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 import Button from '@/components/UI/Button/Button';
 import { usePrivateTourFormStore } from '@/store/privateTourFormStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { FaInfoCircle } from 'react-icons/fa';
 
 type GroupPricesFormProps = {
@@ -33,6 +34,15 @@ const GroupPricesForm = ({ tour }: GroupPricesFormProps) => {
   } = useGroupTourBooking({ tour, locale });
 
   const { setPopup: setIsOpen } = usePrivateTourFormStore();
+  const { isAuthenticated, setAuthPopup } = useAuthStore();
+
+  const handleBookClick = () => {
+    if (!isAuthenticated) {
+      setAuthPopup(true);
+      return;
+    }
+    handleBooking();
+  };
 
   return (
     <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
@@ -74,14 +84,14 @@ const GroupPricesForm = ({ tour }: GroupPricesFormProps) => {
       />
 
       <button
-        onClick={() => handleBooking()}
+        onClick={handleBookClick}
         className="text-center w-full rounded-4xl bg-[#27A430] text-white p-4 cursor-pointer transition-all duration-300 hover:bg-[#208B28]"
       >
         {tour?.tour_type === 'individual' ? t('by_request.button') : t('booking.button')}
       </button>
       <hr className="border-1 border-gray-200" />
       <Button
-        onClick={() => setIsOpen(true)}
+        onClick={() => isAuthenticated ? setIsOpen(true) : setAuthPopup(true)}
         type="button"
         color="link"
         className="flex items-center text-green-700 hover:text-green-800"

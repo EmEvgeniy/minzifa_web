@@ -2,7 +2,7 @@
 
 import { Tour } from '@/components/Tour/_types';
 import { useFormSubmit, useRecaptcha } from '@/hooks';
-import { useMetricsStore } from '@/store';
+import { useAuthStore, useMetricsStore } from '@/store';
 import { useSnackStore } from '@/store/useSnackStore';
 import { bookingFormSchema, BookingFormType } from '@/validation/bookingFormSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,15 +30,30 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
+    const { user, isAuthenticated } = useAuthStore();
     const { metrics } = useMetricsStore();
     const { setMessage, setError } = useSnackStore();
     const { token, getToken } = useRecaptcha();
 
-    const { handleSubmit, setValue, control, watch, formState: { errors } } = useForm<BookingFormType>({
+    const defaultPassengers = user?.name || user?.email || user?.phone
+        ? [{
+            first_name: user?.name?.split(' ')[0] || '',
+            last_name: user?.name?.split(' ').slice(1).join(' ') || '',
+            email: user?.email || '',
+            phone: user?.phone || '',
+            date_of_birth: '',
+            nationality: '',
+            passport_number: '',
+            passport_expiry: '',
+            address: '',
+        }]
+        : [];
+
+    const { handleSubmit, setValue, control, watch, formState: { errors, isSubmitted } } = useForm<BookingFormType>({
         resolver: zodResolver(bookingFormSchema(t)),
         mode: 'onSubmit',
         defaultValues: {
-            passengers: [],
+            passengers: defaultPassengers,
             room_types: { standart: 1, single: 0 },
             tour_name: searchParams.get('tour_name') || '',
             tour_start: searchParams.get('tour_start') || '',
@@ -47,7 +62,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
             tour_price: Number(searchParams.get('tour_price')) || 1,
             deposit: Number(searchParams.get('deposit')) || 0,
             total_price: Number(searchParams.get('total_price')) || 0,
-            payment_type: 'cash',
+            payment_type: 'on_spot',
             payment_status: 'pending',
             single_price: Number(searchParams.get('single_price')) || 0,
             currency: searchParams.get('currency') || 'USD',
@@ -61,6 +76,27 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
 
     // Track previous travellers_count to detect decreases
     const prevTravellersRef = useRef<number>(bookingData.travellers_count || 1);
+
+    // Auto-fill passenger data when user logs in after form initialization
+    useEffect(() => {
+        if (isAuthenticated && user && !isSubmitted && bookingData.passengers?.length === 0) {
+            const userName = user.name || '';
+            const firstName = userName.split(' ')[0] || '';
+            const lastName = userName.split(' ').slice(1).join(' ') || '';
+            
+            setValue('passengers', [{
+                first_name: firstName,
+                last_name: lastName,
+                email: user.email || '',
+                phone: user.phone || '',
+                date_of_birth: '',
+                nationality: '',
+                passport_number: '',
+                passport_expiry: '',
+                address: '',
+            }]);
+        }
+    }, [isAuthenticated, user, isSubmitted, bookingData.passengers?.length, setValue]);
 
     useEffect(() => {
         const travellersCount = bookingData.travellers_count || 1;
@@ -134,7 +170,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
                 </div>
 
                 <div className="w-full max-w-[450px] h-screen max-[1024px]:w-full max-[1024px]:h-full">
-                    <BookingInfo bookingData={bookingData} tour={tourData} token={token} getToken={getToken} />
+                    <BookingInfo bookingData={bookingData} tour={tourData} token={token} getToken={getToken} setValue={setValue} />
                 </div>
             </div>
 

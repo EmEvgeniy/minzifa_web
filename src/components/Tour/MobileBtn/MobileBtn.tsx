@@ -6,6 +6,7 @@ import { useGroupTourBooking } from '@/hooks/useGroupTourBooking';
 import { useTranslations } from 'next-intl';
 import Button from '@/components/UI/Button/Button';
 import { usePrivateTourFormStore } from '@/store/privateTourFormStore';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function MobileBtn({ locale, tour }: { locale: string; tour: Tour }) {
   const t = useTranslations('tourDetail');
@@ -13,6 +14,7 @@ export default function MobileBtn({ locale, tour }: { locale: string; tour: Tour
   const { selectedPrice, totalPrice, handleBooking } = useGroupTourBooking({ tour, locale });
 
   const { setPopup } = usePrivateTourFormStore();
+  const { isAuthenticated, setAuthPopup } = useAuthStore();
 
   const isGroup = tour?.tour_type === 'group';
 
@@ -21,6 +23,10 @@ export default function MobileBtn({ locale, tour }: { locale: string; tour: Tour
     : (tour?.prices?.price_for_3_hotels || tour?.prices?.price_for_4_hotels || tour?.prices?.price_for_5_hotels);
 
   const handleClick = () => {
+    if (!isAuthenticated) {
+      setAuthPopup(true);
+      return;
+    }
     if (isGroup) {
       handleBooking();
     } else {

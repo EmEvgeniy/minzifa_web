@@ -45,11 +45,10 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
           authPopup: false,
         });
-        // Устанавливаем куку для middleware (proxy.ts)
         const expires = new Date(Date.now() + 86400 * 1000).toUTCString();
         document.cookie = `auth-token=${encodeURIComponent(
           token,
-        )}; path=/; expires=${expires}; SameSite=Lax`;
+        )}; path=/; expires=${expires}; SameSite=Lax; Secure`;
       },
 
       logout: async (onSuccess) => {

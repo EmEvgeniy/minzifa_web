@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { PhoneInputComp } from '../PhoneInput';
 import { useMetricsStore } from '@/store/useMetricsStore';
 import { Controller, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRecaptcha } from '@/hooks/useRecaptcha';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
@@ -32,7 +33,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
   const { metrics } = useMetricsStore();
   const { setMessage, setError } = useSnackStore((state) => state);
   const { getToken, token } = useRecaptcha();
-  const { user } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
   const schema = freeConsultationFormSchema(t);
 
   const { additionalFormData } = useOrderTourDetailStore();
@@ -41,6 +42,8 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
+    getValues,
   } = useForm<FreeConsultationFormType>({
     resolver: zodResolver(schema),
     mode: 'onSubmit',
@@ -52,6 +55,25 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
       recaptchaToken: '',
     },
   });
+
+  // Auto-fill form when user logs in after form initialization
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const currentName = getValues('name');
+      const currentEmail = getValues('email');
+      const currentPhone = getValues('phone');
+      
+      if (!currentName && user.name) {
+        setValue('name', user.name);
+      }
+      if (!currentEmail && user.email) {
+        setValue('email', user.email);
+      }
+      if (!currentPhone && user.phone) {
+        setValue('phone', user.phone);
+      }
+    }
+  }, [isAuthenticated, user, setValue, getValues]);
 
   const { submitForm, isSubmitting } = useFormSubmit({
     onSuccess: () => {

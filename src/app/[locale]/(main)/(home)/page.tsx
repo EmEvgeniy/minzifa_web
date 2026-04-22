@@ -1,19 +1,16 @@
-import dynamic from 'next/dynamic';
 import { Metadata } from 'next';
 import { DefaultPageProps, ISeoMetadata } from '@/types';
 import { apiGet } from '@/utils/serverApi';
 
-// Динамический импорт компонентов
-const Hero = dynamic(() => import('@/components/Home/Hero/Hero'));
-const Info = dynamic(() => import('@/components/Home/Info/Info'));
-const BestSellers = dynamic(() => import('@/components/Home/BestSellers/BestSellers'));
-const Destinations = dynamic(() => import('@/components/Home/Destinations/Destinations'));
-const HowToBook = dynamic(() => import('@/components/Home/HowToBook/HowToBook'));
-const Adventure = dynamic(() => import('@/components/Home/Adventure/Adventure'));
-const CreateYourTrip = dynamic(() => import('@/components/Home/CreateYourTrip/CreateYourTrip'));
-const ContactUs = dynamic(() => import('@/components/Home/ContactUs/ContactUs'));
-const Reviews = dynamic(() => import('@/components/UI/Reviews/Reviews'));
-const Articles = dynamic(() => import('@/components/Home/Articles/Articles'));
+import Hero from '@/components/Home/Hero/Hero';
+import Info from '@/components/Home/Info/Info';
+import BestSellers from '@/components/Home/BestSellers/BestSellers';
+import Destinations from '@/components/Home/Destinations/Destinations';
+import HowToBook from '@/components/Home/HowToBook/HowToBook';
+import Adventure from '@/components/Home/Adventure/Adventure';
+import CreateYourTrip from '@/components/Home/CreateYourTrip/CreateYourTrip';
+import ContactUs from '@/components/Home/ContactUs/ContactUs';
+import Reviews from '@/components/UI/Reviews/Reviews';
 
 // Универсальный безопасный запрос к API
 async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300): Promise<T> {
@@ -100,7 +97,6 @@ export default async function HomePage({ params }: DefaultPageProps) {
       <CreateYourTrip locale={locale} />
       <ContactUs locale={locale} />
       <Reviews />
-      <Articles locale={locale} />
     </>
   );
 }

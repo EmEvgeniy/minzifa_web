@@ -13,10 +13,12 @@ import IconInfo from '../../../assets/icons/booking/exclamationmark.circle.svg';
 import { months } from '@/components/Tour/TourPrices/components/group/months';
 import { TourDesktopCard } from './components/group/TourDesktopCard';
 import { TourMobileCard } from './components/group/TourMobileCard';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function TourGroupPrices({ tour }: { tour: Tour }) {
   const t = useTranslations('tourDetail');
   const locale = useLocale();
+  const { isAuthenticated, setAuthPopup } = useAuthStore();
 
   const router = useRouter();
 
@@ -41,6 +43,10 @@ export default function TourGroupPrices({ tour }: { tour: Tour }) {
     travellers: string,
   ) => {
     if (!tour || !selectedPrice) return;
+    if (!isAuthenticated) {
+      setAuthPopup(true);
+      return;
+    }
     // setBookingData({
     //   passengers: [],
     //   tour_name: tour.name,

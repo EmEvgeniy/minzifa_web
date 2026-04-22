@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useChats } from './useChats';
 import { useFormSubmit } from './useFormSubmit';
 import { useRecaptcha } from './useRecaptcha';
 
@@ -18,7 +17,6 @@ export const useChatPopup = () => {
   const { setMessage, setError } = useSnackStore();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [messageInput, setMessageInput] = useState('');
 
   const { token, getToken } = useRecaptcha();
 
@@ -76,13 +74,9 @@ export const useChatPopup = () => {
     await submitForm(FormNameEnum.CHAT_POPUP, formData);
   };
 
-  const { handleSendMessage } = useChats();
-
   return {
     isOpen,
     setIsOpen,
-    messageInput,
-    setMessageInput,
     register,
     handleSubmit,
     errors,
@@ -91,7 +85,6 @@ export const useChatPopup = () => {
     onSubmit,
     t,
     isAuthenticated,
-    handleSendMessage,
     token,
     handleRecaptcha,
     isSubmitting,

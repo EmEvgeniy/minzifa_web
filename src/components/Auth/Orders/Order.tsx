@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from "react";
 import { IOrder } from "@/types";
 import { getStatusColor } from "@/utils/utils";
 import { formatDate } from "date-fns";
@@ -7,19 +8,49 @@ import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import Loader from "@/components/UI/Loader/Loader";
 import Button from "@/components/UI/Button/Button";
-import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaCreditCard } from "react-icons/fa";
 import { useAuthGetQuery } from "@/api/get.api";
+import { useAuthPostMutation } from "@/api/post.api";
+import { useSnackStore } from "@/store/useSnackStore";
+import { MdClose } from "react-icons/md";
 
 export const Order = () => {
     const t = useTranslations();
     const params = useParams();
     const router = useRouter();
+    const { setError } = useSnackStore();
+
+    const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+    const [isGeneratingPaymentUrl, setIsGeneratingPaymentUrl] = useState(false);
 
     const { data: order, isFetched, isLoading } = useAuthGetQuery<IOrder>({
         key: ['order'],
         url: `/auth/orders/${params.id}`,
         withLocale: false,
     });
+
+    const paymentUrlMutation = useAuthPostMutation<{ data?: { payment_url: string } }, { type: string }>(
+        ['generate-payment-url'],
+        (response) => {
+            if (response.data?.payment_url) {
+                window.open(response.data.payment_url, '_blank');
+            }
+            setIsGeneratingPaymentUrl(false);
+            setShowPaymentPopup(false);
+        },
+        (error) => {
+            setError(error?.message || t('order.payment_failed'));
+            setIsGeneratingPaymentUrl(false);
+        }
+    );
+
+    const handlePayOnline = () => {
+        setIsGeneratingPaymentUrl(true);
+        paymentUrlMutation.mutate({
+            obj: { type: 'deposit' },
+            endpoint: `auth/orders/${params.id}/payment-url`,
+        });
+    };
 
     if (isLoading) {
         return (
@@ -282,12 +313,21 @@ export const Order = () => {
                             </div>
                         )}
 
-                        {invoice.balance !== undefined && (
-                            <div>
-                                <p className="text-xs text-gray-500 mb-1">{t('order.balance')}</p>
-                                <p className={`text-sm font-bold ${invoice.balance > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                                    ${invoice.balance.toLocaleString()}
-                                </p>
+                        {invoice.balance !== undefined && invoice.balance > 0 && (
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-xs text-gray-500 mb-1">{t('order.balance')}</p>
+                                    <p className="text-sm font-bold text-red-600">
+                                        ${invoice.balance.toLocaleString()}
+                                    </p>
+                                </div>
+                                <Button
+                                    onClick={() => setShowPaymentPopup(true)}
+                                    className="flex items-center gap-2"
+                                >
+                                    <FaCreditCard size={16} />
+                                    {t('order.pay_now')}
+                                </Button>
                             </div>
                         )}
                     </div>
@@ -322,6 +362,60 @@ export const Order = () => {
                             </div>
                         </div>
                     )}
+                </div>
+            )}
+
+            {showPaymentPopup && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+                        <div className="bg-gradient-to-r from-[#16372d] via-[#1a3d32] to-[#16372d] text-white p-6 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <FaCreditCard size={24} />
+                                <h3 className="text-xl font-bold">{t('order.payment_popup_title')}</h3>
+                            </div>
+                            <button
+                                onClick={() => !isGeneratingPaymentUrl && setShowPaymentPopup(false)}
+                                className="text-white hover:text-gray-300 transition-colors"
+                                disabled={isGeneratingPaymentUrl}
+                            >
+                                <MdClose size={24} />
+                            </button>
+                        </div>
+
+                        {isGeneratingPaymentUrl ? (
+                            <div className="p-12 flex flex-col items-center justify-center">
+                                <Loader className="w-12 h-12 mb-4" />
+                                <p className="text-lg font-medium text-gray-700 text-center">
+                                    {t('order.generating_payment_url')}
+                                </p>
+                                <p className="text-sm text-gray-500 text-center mt-2">
+                                    {t('order.please_wait')}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="p-6">
+                                <p className="text-gray-600 mb-6">
+                                    {t('order.payment_description')}
+                                </p>
+
+                                <div className="flex gap-3">
+                                    <Button
+                                        color="gray"
+                                        onClick={() => setShowPaymentPopup(false)}
+                                        className="flex-1"
+                                    >
+                                        {t('common.cancel')}
+                                    </Button>
+                                    <Button
+                                        onClick={handlePayOnline}
+                                        className="flex-1"
+                                    >
+                                        {t('order.proceed_to_payment')}
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>

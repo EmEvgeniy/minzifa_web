@@ -8,6 +8,7 @@ import FormattedPrice from '@/components/UI/FormattedPrice/FormattedPrice';
 import { cn } from '@/utils';
 import { useEffect } from 'react';
 import Button from '@/components/UI/Button/Button';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type PrivatePriceFormProps = {
   tour: Tour;
@@ -17,6 +18,7 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
   const t = useTranslations('tourDetail');
 
   const { formData, setFormData, setPopup } = usePrivateTourFormStore();
+  const { isAuthenticated, setAuthPopup } = useAuthStore();
 
   useEffect(() => {
     setFormData({ price: tour?.prices?.price_for_3_hotels });
@@ -75,7 +77,7 @@ const PrivatePriceForm = ({ tour }: PrivatePriceFormProps) => {
       ))}
 
       <Button
-        onClick={() => setPopup(true)}
+        onClick={() => isAuthenticated ? setPopup(true) : setAuthPopup(true)}
         color='primary'
         className="w-full px-6 py-4 rounded-4xl"
       >

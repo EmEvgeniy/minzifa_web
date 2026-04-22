@@ -18,15 +18,18 @@ import { BookingFormType } from '@/validation/bookingFormSchema';
 import { Checkbox } from '@/components/UI/Form/Checkbox/Checkbox';
 import { useFormSubmit } from '@/hooks';
 import { FormNameEnum } from '@/constants';
+import Loader from '@/components/UI/Loader/Loader';
+import { FaCheck } from 'react-icons/fa';
 
 type BookingInfoProps = {
   bookingData: BookingFormType,
   tour: Tour,
   getToken: (formName: FormNameEnum) => Promise<void>,
-  token: string
+  token: string,
+  setValue?: (name: 'payment_type', value: string) => void
 };
 
-export default function BookingInfo({ bookingData, tour, getToken, token }: BookingInfoProps) {
+export default function BookingInfo({ bookingData, tour, getToken, token, setValue }: BookingInfoProps) {
   const t = useTranslations('booking');
   const tGlobal = useTranslations();
   const locale = useLocale();
@@ -37,6 +40,13 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
 
   return (
     <div className="sticky top-[150px] rounded-2xl space-y-4 bg-white p-5 shadow-xl max-[1024px]:relative max-[1024px]:top-0">
+      {isSubmitting && (
+        <div className="absolute inset-0 bg-white/80 flex flex-col items-center justify-center z-10 rounded-2xl">
+          <Loader className="w-10 h-10 mb-3" />
+          <p className="text-sm font-medium text-gray-700">{t('bookingInfo.processing')}</p>
+          <p className="text-xs text-gray-500">{t('bookingInfo.please_wait')}</p>
+        </div>
+      )}
       <hr className="border-gray-300" />
 
       <div className="bg-[#87EEC7] text-center text-sm rounded-lg px-2.5 py-5 flex flex-row items-center justify-center gap-2">
@@ -151,6 +161,82 @@ export default function BookingInfo({ bookingData, tour, getToken, token }: Book
       </div>
 
       <hr className="border-gray-300 my-4 max-[1024px]:hidden" />
+
+      {/* Payment method selection */}
+      <div className="space-y-2">
+        <p className="text-sm font-semibold">{t('bookingInfo.paymentMethod')}</p>
+        
+        <label
+          className={`flex items-center p-2 border-2 rounded-lg cursor-pointer transition-all ${
+            bookingData?.payment_type === 'bank'
+              ? 'border-[#27A430] bg-green-50'
+              : 'border-gray-200 hover:border-gray-300'
+          }`}
+        >
+          <input
+            type="radio"
+            name="payment_type"
+            value="bank"
+            checked={bookingData?.payment_type === 'bank'}
+            onChange={() => setValue?.('payment_type', 'bank')}
+            className="w-4 h-4 text-[#27A430]"
+          />
+          <div className="ml-2 flex-1">
+            <span className="text-sm text-gray-900">{t('bookingInfo.bankPayment')}</span>
+          </div>
+          {bookingData?.payment_type === 'bank' && (
+            <FaCheck className="text-[#27A430] ml-2" size={16} />
+          )}
+        </label>
+
+        <label
+          className={`flex items-center p-2 border-2 rounded-lg cursor-pointer transition-all ${
+            bookingData?.payment_type === 'online'
+              ? 'border-[#27A430] bg-green-50'
+              : 'border-gray-200 hover:border-gray-300'
+          }`}
+        >
+          <input
+            type="radio"
+            name="payment_type"
+            value="online"
+            checked={bookingData?.payment_type === 'online'}
+            onChange={() => setValue?.('payment_type', 'online')}
+            className="w-4 h-4 text-[#27A430]"
+          />
+          <div className="ml-2 flex-1">
+            <span className="text-sm text-gray-900">{t('bookingInfo.onlinePayment')}</span>
+          </div>
+          {bookingData?.payment_type === 'online' && (
+            <FaCheck className="text-[#27A430] ml-2" size={16} />
+          )}
+        </label>
+
+        <label
+          className={`flex items-center p-2 border-2 rounded-lg cursor-pointer transition-all ${
+            bookingData?.payment_type === 'on_spot' || !bookingData?.payment_type
+              ? 'border-[#27A430] bg-green-50'
+              : 'border-gray-200 hover:border-gray-300'
+          }`}
+        >
+          <input
+            type="radio"
+            name="payment_type"
+            value="on_spot"
+            checked={bookingData?.payment_type === 'on_spot' || !bookingData?.payment_type}
+            onChange={() => setValue?.('payment_type', 'on_spot')}
+            className="w-4 h-4 text-[#27A430]"
+          />
+          <div className="ml-2 flex-1">
+            <span className="text-sm text-gray-900">{t('bookingInfo.onSpotPayment')}</span>
+          </div>
+          {(bookingData?.payment_type === 'on_spot' || !bookingData?.payment_type) && (
+            <FaCheck className="text-[#27A430] ml-2" size={16} />
+          )}
+        </label>
+      </div>
+
+      <hr className="border-gray-300 my-4" />
 
       {/* Terms and conditions */}
       <div className="text-sm max-[1024px]:hidden">

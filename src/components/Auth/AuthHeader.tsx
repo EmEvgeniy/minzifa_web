@@ -21,10 +21,6 @@ const menu = [
         title: 'auth.nav.orders',
         href: 'orders',
     },
-    {
-        title: 'auth.nav.chats',
-        href: 'chats',
-    },
 ]
 
 export default function AuthHeader() {

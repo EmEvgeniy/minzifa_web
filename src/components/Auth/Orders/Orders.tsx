@@ -1,25 +1,47 @@
 'use client';
 
-import { IOrder, PaginatedData } from "@/types";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { getStatusColor } from "@/utils/utils";
 import Pagination from "@/components/UI/Pagination";
 import { useState } from "react";
 import Loader from "@/components/UI/Loader/Loader";
 import { useAuthGetQuery } from "@/api/get.api";
+
+interface IForm {
+    id: number;
+    form_name: string;
+    form_data: {
+        tour_name?: string;
+        tour_start?: string;
+        tour_end?: string;
+        travellers_count?: number;
+        total_price?: number;
+        payment_status?: string;
+        client_ref?: string;
+        passengers?: Array<{ first_name?: string; last_name?: string; email?: string }>;
+    };
+    created_at: string;
+}
+
+interface PaginatedForms {
+    data: IForm[];
+    meta: {
+        current_page: number;
+        last_page: number;
+        total: number;
+    };
+}
 
 export const Orders = () => {
     const t = useTranslations();
 
     const [page, setPage] = useState("1");
 
-    const { data: orders, isFetched, isLoading } = useAuthGetQuery<PaginatedData<IOrder>>({
+    const { data: forms, isFetched, isLoading } = useAuthGetQuery<PaginatedForms>({
         key: ['orders'],
         page: page,
-        perPage: '5',
-        url: 'auth/orders',
-        searchItem: "&sort=newest",
+        perPage: '10',
+        url: 'auth/forms',
         withLocale: false,
     });
 
@@ -28,57 +50,82 @@ export const Orders = () => {
             <div className="container mt-[200px] mb-[50px] mx-auto h-[calc(100vh-200px-50px)] flex items-center justify-center">
                 <Loader />
             </div>
-        )
+        );
     }
+
+    const getStatusColor = (status?: string) => {
+        switch (status) {
+            case 'paid':
+                return 'bg-green-100 text-green-800';
+            case 'pending':
+                return 'bg-yellow-100 text-yellow-800';
+            case 'cancelled':
+                return 'bg-red-100 text-red-800';
+            case 'failed':
+                return 'bg-red-100 text-red-800';
+            case 'refunded':
+                return 'bg-gray-100 text-gray-800';
+            default:
+                return 'bg-blue-100 text-blue-800';
+        }
+    };
+
+    const getPaymentStatusLabel = (status?: string) => {
+        switch (status) {
+            case 'paid':
+                return t('paymentStatuses.paid');
+            case 'pending':
+                return t('paymentStatuses.pending');
+            case 'cancelled':
+                return t('paymentStatuses.cancelled');
+            case 'failed':
+                return t('paymentStatuses.failed');
+            case 'refunded':
+                return t('paymentStatuses.refunded');
+            default:
+                return status || 'Unknown';
+        }
+    };
+
+    const calculateDays = (start?: string, end?: string) => {
+        if (!start || !end) return null;
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    };
 
     return isFetched && (
         <div className="container mt-[150px] md:mt-[200px] mb-[50px] mx-auto px-4">
-            {/* Заголовок */}
             <div className="mb-8">
                 <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
                     {t('orders.title')}
                 </h1>
                 <p className="text-gray-600 text-sm md:text-base">
-                    {t('orders.subtitle', { count: orders?.meta?.total || 0 })}
+                    {t('orders.subtitle', { count: forms?.meta?.total || 0 })}
                 </p>
             </div>
 
-            {/* Список заказов */}
-            {orders?.data && orders.data.length > 0 ? (
+            {forms?.data && forms.data.length > 0 ? (
                 <div className="space-y-4">
-                    {orders.data.map((order) => {
-                        // Безопасное извлечение данных тура
-                        const tourName = order?.tour_detail?.tour_name;
-                        const tourStart = order?.tour_detail?.tour_start;
-                        const tourEnd = order?.tour_detail?.tour_end;
-                        const touristCount = order?.tour_detail?.count;
-                        const totalPrice = order?.tour_detail?.total_price;
-
-                        // Вычисление количества дней
-                        const calculateDays = () => {
-                            if (!tourStart || !tourEnd) return null;
-                            const start = new Date(tourStart);
-                            const end = new Date(tourEnd);
-                            const diffTime = Math.abs(end.getTime() - start.getTime());
-                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                            return diffDays;
-                        };
-
-                        const tourDays = calculateDays();
+                    {forms.data.map((form) => {
+                        const formData = form.form_data;
+                        const tourDays = calculateDays(formData.tour_start, formData.tour_end);
+                        const mainPassenger = formData.passengers?.[0];
 
                         return (
                             <Link
-                                href={`/orders/${order.id}`}
-                                key={order.id}
+                                href={`/orders/${form.id}`}
+                                key={form.id}
                                 className="block"
                             >
                                 <div className="bg-white rounded-xl shadow-md border border-gray-100 p-5 md:p-6 transition-all duration-300 hover:shadow-xl hover:border-green-200 hover:-translate-y-1">
-                                    {/* Заголовок карточки */}
                                     <div className="flex justify-between items-start mb-4 pb-4 border-b border-gray-100">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-2">
                                                 <h3 className="font-bold text-lg md:text-xl text-foreground">
-                                                    {t('orders.order_name', { orderName: order.order_name })}
+                                                    {formData.client_ref || `Booking #${form.id}`}
                                                 </h3>
                                                 {tourDays && (
                                                     <span className="inline-flex items-center px-2 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-medium">
@@ -86,21 +133,19 @@ export const Orders = () => {
                                                     </span>
                                                 )}
                                             </div>
-                                            {tourName && (
+                                            {formData.tour_name && (
                                                 <p className="text-gray-600 text-sm md:text-base font-medium">
-                                                    {tourName}
+                                                    {formData.tour_name}
                                                 </p>
                                             )}
                                         </div>
-                                        <div className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                                            {t(`order_statuses.${order.status}`)}
+                                        <div className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${getStatusColor(formData.payment_status)}`}>
+                                            {getPaymentStatusLabel(formData.payment_status)}
                                         </div>
                                     </div>
 
-                                    {/* Основная информация */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                        {/* Даты тура */}
-                                        {tourStart && tourEnd && (
+                                        {formData.tour_start && formData.tour_end && (
                                             <div className="flex items-start gap-3">
                                                 <div className="flex-shrink-0 w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
                                                     <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,17 +155,16 @@ export const Orders = () => {
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-xs text-gray-500 mb-1">{t('orders.tour_dates')}</p>
                                                     <p className="text-sm font-medium text-gray-900 truncate">
-                                                        {new Date(tourStart).toLocaleDateString()}
+                                                        {new Date(formData.tour_start).toLocaleDateString()}
                                                     </p>
                                                     <p className="text-xs text-gray-600">
-                                                        {new Date(tourEnd).toLocaleDateString()}
+                                                        {new Date(formData.tour_end).toLocaleDateString()}
                                                     </p>
                                                 </div>
                                             </div>
                                         )}
 
-                                        {/* Количество туристов */}
-                                        {touristCount && (
+                                        {formData.travellers_count && (
                                             <div className="flex items-start gap-3">
                                                 <div className="flex-shrink-0 w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
                                                     <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,13 +174,12 @@ export const Orders = () => {
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-xs text-gray-500 mb-1">{t('orders.tourists')}</p>
                                                     <p className="text-sm font-medium text-gray-900">
-                                                        {touristCount} {t('orders.people')}
+                                                        {formData.travellers_count} {t('orders.people')}
                                                     </p>
                                                 </div>
                                             </div>
                                         )}
 
-                                        {/* Менеджер */}
                                         <div className="flex items-start gap-3">
                                             <div className="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
                                                 <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,15 +187,14 @@ export const Orders = () => {
                                                 </svg>
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="text-xs text-gray-500 mb-1">{t('orders.table.manager')}</p>
+                                                <p className="text-xs text-gray-500 mb-1">{t('profile.name')}</p>
                                                 <p className="text-sm font-medium text-gray-900 truncate">
-                                                    {order?.manager?.name || t('orders.no_manager')}
+                                                    {mainPassenger ? `${mainPassenger.first_name || ''} ${mainPassenger.last_name || ''}`.trim() : '-'}
                                                 </p>
                                             </div>
                                         </div>
 
-                                        {/* Общая стоимость */}
-                                        {totalPrice && (
+                                        {formData.total_price && (
                                             <div className="flex items-start gap-3">
                                                 <div className="flex-shrink-0 w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
                                                     <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,20 +204,19 @@ export const Orders = () => {
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-xs text-gray-500 mb-1">{t('orders.total_price')}</p>
                                                     <p className="text-sm font-bold text-gray-900">
-                                                        ${totalPrice.toLocaleString()}
+                                                        ${formData.total_price.toLocaleString()}
                                                     </p>
                                                 </div>
                                             </div>
                                         )}
                                     </div>
 
-                                    {/* Дата создания заказа */}
                                     <div className="mt-4 pt-4 border-t border-gray-100">
                                         <div className="flex items-center text-xs text-gray-500">
                                             <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
-                                            {t('orders.created')}: {new Date(order.created_at).toLocaleDateString()} {new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            {t('orders.created')}: {new Date(form.created_at).toLocaleDateString()} {new Date(form.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </div>
                                     </div>
                                 </div>
@@ -193,12 +234,11 @@ export const Orders = () => {
                 </div>
             )}
 
-            {/* Пагинация */}
-            {orders?.data && orders.data.length > 0 && (
+            {forms?.data && forms.data.length > 0 && (
                 <div className="mt-8">
                     <Pagination
-                        currentPage={orders?.meta?.current_page as number}
-                        totalPages={orders?.meta?.last_page as number}
+                        currentPage={forms?.meta?.current_page as number}
+                        totalPages={forms?.meta?.last_page as number}
                         onPageChange={(page) => setPage(page.toString())}
                     />
                 </div>

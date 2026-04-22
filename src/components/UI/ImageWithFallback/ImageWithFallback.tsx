@@ -15,17 +15,20 @@ export const ImageWithFallback = ({
   fallbackSrc,
   ...props
 }: ImageWithFallbackProps) => {
-  const [currentSrc, setCurrentSrc] = useState<string | StaticImageData>(src);
+  const [currentSrc, setCurrentSrc] = useState<string | StaticImageData>(
+    src || fallbackSrc || Fallback_Image,
+  );
 
   const imgRef = useRef<HTMLImageElement | null>(null);
   const previousSrcRef = useRef(src);
 
   useEffect(() => {
+    const validSrc = src || fallbackSrc || Fallback_Image;
     if (previousSrcRef.current !== src) {
       previousSrcRef.current = src;
-      setCurrentSrc(src);
+      setCurrentSrc(validSrc);
     }
-  }, [src]);
+  }, [src, fallbackSrc]);
 
   const handleError = () => {
     if (currentSrc !== fallbackSrc) {

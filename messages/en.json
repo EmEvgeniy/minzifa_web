@@ -96,6 +96,8 @@
     "nothingFound": "Nothing found",
     "viewItinerary": "View itinerary",
     "seeAllTrips": "See all trips",
+    "cancel": "Cancel",
+    "back": "Back",
     "favorites": {
       "button": "Your favorites",
       "notFound": "There are no favorites tours! Choose some tours or take a free consultations"
@@ -1076,7 +1078,16 @@
       "travellers": "Travellers",
       "deposit": "Deposit 20%",
       "total": "Total",
-      "accept": "I accept Minzifa Travel <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>"
+      "accept": "I accept Minzifa Travel <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>",
+      "paymentMethod": "Payment method",
+      "bankPayment": "Bank transfer",
+      "bankPaymentHint": "Transfer to company account",
+      "onlinePayment": "Online payment",
+      "onlinePaymentHint": "Pay by card on website",
+      "onSpotPayment": "Pay on spot",
+      "onSpotPaymentHint": "Pay upon meeting",
+      "processing": "Processing request",
+      "please_wait": "Please wait..."
     },
     "paymentMethod": {
       "title": "Select a payment method:",
@@ -1484,14 +1495,45 @@
     "balance": "Balance",
     "payment_status": "Payment status",
     "payment_method": "Payment method",
-    "payment_date": "Payment date"
+    "payment_date": "Payment date",
+    "pay_now": "Pay Now",
+    "pay_deposit": "Pay Deposit",
+    "pay_full": "Pay Full",
+    "cancel_order": "Cancel Order",
+    "deposit_amount": "Deposit Amount",
+    "amount_to_pay": "Amount to Pay",
+    "payment_popup_title": "Make Payment",
+    "generating_payment_url": "Creating payment link",
+    "please_wait": "Please wait...",
+    "payment_description": "You will be redirected to the payment page. Please complete the payment within the specified time.",
+    "proceed_to_payment": "Proceed to payment",
+    "pay_now": "Pay now",
+    "payment_failed": "Failed to create payment link",
+    "payment_deposit_description": "Complete your deposit payment to secure your booking. You can pay the remaining amount later.",
+    "payment_full_description": "Complete your full payment to confirm your booking.",
+    "payment_redirect_note": "You will be redirected to the payment page. Please complete the payment within the specified time.",
+    "proceed_to_payment": "Proceed to Payment",
+    "choose_payment_type": "Choose payment type",
+    "deposit_payment": "Deposit Payment",
+    "deposit_hint": "Secure your booking with a deposit",
+    "full_payment": "Full Payment",
+    "full_payment_hint": "Pay the complete amount at once",
+    "payment_failed": "Failed to generate payment link",
+    "cancel_popup_title": "Cancel Order",
+    "cancel_warning": "Are you sure you want to cancel this order? This action cannot be undone.",
+    "cancel_reason_label": "Reason for cancellation",
+    "cancel_reason_placeholder": "Please provide a reason for cancellation...",
+    "cancel_reason_required": "Please provide a reason for cancellation",
+    "confirm_cancel": "Confirm Cancellation",
+    "cancelled_success": "Order cancelled successfully"
   },
   "paymentStatuses": {
     "pending": "Pending",
     "paid": "Paid",
     "partially_paid": "Partially paid",
     "failed": "Failed",
-    "refunded": "Refunded"
+    "refunded": "Refunded",
+    "cancelled": "Cancelled"
   },
   "paymentMethods": {
     "bank_transfer": "Bank transfer",
@@ -1722,5 +1764,10 @@
         "noData": "No data found"
       }
     }
+  }
+,
+  "notFound": {
+    "subtitle": "Oops, page not found",
+    "backButton": "Back to the main page"
   }
 }

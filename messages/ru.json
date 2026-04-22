@@ -66,6 +66,8 @@
     "nothingFound": "Ничего не найдено",
     "viewItinerary": "Посмотреть маршрут",
     "seeAllTrips": "Смотреть все",
+    "cancel": "Отмена",
+    "back": "Назад",
     "favorites": {
       "button": "Ваши избранные",
       "notFound": "Нет избранных туров! Выберите несколько туров или получите бесплатную консультацию."
@@ -1081,7 +1083,16 @@
       "travellers": "Путешественники",
       "deposit": "Депозит 20%",
       "total": "Всего",
-      "accept": "Я принимаю Minzifa Travel <terms>Термины и условия</terms> и <privacy>Политику конфиденциальности</privacy>"
+      "accept": "Я принимаю Minzifa Travel <terms>Термины и условия</terms> и <privacy>Политику конфиденциальности</privacy>",
+      "paymentMethod": "Способ оплаты",
+      "bankPayment": "Банковский перевод",
+      "bankPaymentHint": "Перевод на счет компании",
+      "onlinePayment": "Онлайн оплата",
+      "onlinePaymentHint": "Оплата картой на сайте",
+      "onSpotPayment": "Оплата на месте",
+      "onSpotPaymentHint": "Оплата при встрече",
+      "processing": "Обработка заявки",
+      "please_wait": "Пожалуйста, подождите..."
     },
     "paymentMethod": {
       "title": "Выберите способ оплаты:",
@@ -1477,14 +1488,41 @@
     "balance": "Остаток",
     "payment_status": "Статус оплаты",
     "payment_method": "Способ оплаты",
-    "payment_date": "Дата оплаты"
+    "payment_date": "Дата оплаты",
+    "pay_now": "Оплатить сейчас",
+    "pay_deposit": "Оплатить депозит",
+    "pay_full": "Оплатить полностью",
+    "cancel_order": "Отменить заказ",
+    "deposit_amount": "Сумма депозита",
+    "amount_to_pay": "К оплате",
+    "payment_popup_title": "Оплата",
+    "generating_payment_url": "Создание ссылки для оплаты",
+    "please_wait": "Пожалуйста, подождите...",
+    "payment_description": "Вы будете перенаправлены на страницу оплаты. Пожалуйста, завершите оплату в течение указанного времени.",
+    "proceed_to_payment": "Перейти к оплате",
+    "pay_now": "Оплатить",
+    "payment_failed": "Не удалось создать ссылку для оплаты",
+    "choose_payment_type": "Выберите тип оплаты",
+    "deposit_payment": "Оплата депозита",
+    "deposit_hint": "Забронируйте место, оплатив депозит",
+    "full_payment": "Полная оплата",
+    "full_payment_hint": "Оплатите всю сумму сразу",
+    "payment_failed": "Не удалось создать ссылку для оплаты",
+    "cancel_popup_title": "Отмена заказа",
+    "cancel_warning": "Вы уверены, что хотите отменить этот заказ? Это действие нельзя отменить.",
+    "cancel_reason_label": "Причина отмены",
+    "cancel_reason_placeholder": "Пожалуйста, укажите причину отмены...",
+    "cancel_reason_required": "Пожалуйста, укажите причину отмены",
+    "confirm_cancel": "Подтвердить отмену",
+    "cancelled_success": "Заказ успешно отменен"
   },
   "paymentStatuses": {
     "pending": "Ожидает оплаты",
     "paid": "Оплачено",
     "partially_paid": "Частично оплачено",
     "failed": "Ошибка оплаты",
-    "refunded": "Возвращено"
+    "refunded": "Возвращено",
+    "cancelled": "Отменен"
   },
   "paymentMethods": {
     "bank_transfer": "Банковский перевод",
@@ -1499,5 +1537,10 @@
     "email": "Ваш email",
     "wishes": "Ваши пожелания",
     "button": "Отправить заявку"
+  }
+,
+  "notFound": {
+    "subtitle": "Упс, страница не найдена",
+    "backButton": "Вернуться на главную страницу"
   }
 }

@@ -3,7 +3,7 @@
 import { cn } from '@/utils/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLocale, useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSnackStore } from '../../../store/useSnackStore';
 import { useFormSubmit } from '@/hooks';
 import { FormNameEnum } from '@/constants';
@@ -11,7 +11,7 @@ import { FormNameEnum } from '@/constants';
 import { useRouter } from 'next/navigation';
 import { ConsultationQuizFormProps, ConsultationQuizFormRequest } from './_types';
 import { questions } from './questionsStore';
-import { useMetricsStore } from '@/store/useMetricsStore';
+import { useAuthStore, useMetricsStore } from '@/store';
 
 export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
   const t = useTranslations('createYourTripForm');
@@ -19,6 +19,7 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
 
   const router = useRouter();
 
+  const { user, isAuthenticated } = useAuthStore();
   const { metrics } = useMetricsStore();
 
   const [formData, setFormData] = useState<ConsultationQuizFormRequest>({
@@ -30,6 +31,18 @@ export function ConsultationQuiz({ popupClose }: ConsultationQuizFormProps) {
     email: '',
     phone: '',
   });
+
+  // Auto-fill form when user logs in after form initialization
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || '',
+        email: prev.email || '',
+        phone: prev.phone || '',
+      }));
+    }
+  }, [isAuthenticated, user]);
 
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(1);

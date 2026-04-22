@@ -3,6 +3,7 @@
 import Button from '@/components/UI/Button/Button';
 import { CustomDatepicker } from '@/components/UI/CustomDatepicker/CustomDatepicker';
 import { usePrivateTourFormStore } from '@/store/privateTourFormStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { useLocale, useTranslations } from 'next-intl';
 import { Tour } from '../_types';
 import { useEffect } from 'react';
@@ -15,6 +16,7 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
   const locale = useLocale();
 
   const { formData, setFormData, setPopup } = usePrivateTourFormStore();
+  const { isAuthenticated, setAuthPopup } = useAuthStore();
 
   const handleDateChange = (newValue: [Date | null, Date | null], days: number) => {
     if (newValue && newValue[0] && !newValue[1] && days) {
@@ -51,7 +53,7 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
           wrapperClassName='pt-5'
         />
         <div className="p-5 w-full">
-          <Button type="button" onClick={() => setPopup(true)} className='w-full'>
+          <Button type="button" onClick={() => isAuthenticated ? setPopup(true) : setAuthPopup(true)} className='w-full'>
             {t('privateTour.freeConsultation')}
           </Button>
         </div>
