@@ -8,6 +8,7 @@ import { getTranslations } from 'next-intl/server';
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
 import BookingHeader from '@/components/Booking/BookingHeader/BookingHeader';
 import FormWrapper from '@/components/Booking/FormWrapper/FormWrapper';
+import BookingGuard from '@/components/Booking/BookingGuard/BookingGuard';
 
 // Универсальный безопасный запрос
 async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300): Promise<T> {
@@ -59,7 +60,9 @@ export default async function Booking({ params }: Props) {
         className="container"
       />
       <BookingHeader tourData={tourData} />
-      <FormWrapper locale={locale} tourData={tourData} />
+      <BookingGuard locale={locale}>
+        <FormWrapper locale={locale} tourData={tourData} />
+      </BookingGuard>
     </section>
   );
 }
