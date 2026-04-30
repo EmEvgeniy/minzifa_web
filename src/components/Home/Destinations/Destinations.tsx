@@ -6,9 +6,15 @@ import Wrapper from './Wrapper';
 export default async function Destinations({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
-  const data = (await apiGet(`destinations?main_page=1&locale=${locale}`, {
-    next: { revalidate: 60 * 5 },
-  })) as DestinationCard[];
+  let data: DestinationCard[] = [];
+  try {
+    data = (await apiGet(`destinations?main_page=1&locale=${locale}`, {
+      next: { revalidate: 60 * 5 },
+    })) as DestinationCard[];
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch home destinations section:', e?.status, e?.statusText, e?.url);
+  }
 
   return (
     <section className="mb-[70px] md:mb-[112px]">

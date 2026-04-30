@@ -7,9 +7,15 @@ import Wrapper from './Wrapper';
 export default async function Adventure({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
-  const data = (await apiGet(`types?show_in_main=1&locale=${locale}`, {
-    next: { revalidate: 60 * 5 },
-  })) as AdventureCardType[];
+  let data: AdventureCardType[] = [];
+  try {
+    data = (await apiGet(`types?show_in_main=1&locale=${locale}`, {
+      next: { revalidate: 60 * 5 },
+    })) as AdventureCardType[];
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch home adventures:', e?.status, e?.statusText, e?.url);
+  }
 
   if (!data.length) return null;
 

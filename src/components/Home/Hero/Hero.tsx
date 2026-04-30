@@ -6,13 +6,26 @@ import HeroSlider from './HeroSlider';
 import { Banner } from './types';
 
 export default async function Hero({ locale }: { locale: string }) {
-  const destinations = await apiGet<DestinationCard[]>(`destinations?all=1&locale=${locale}`, {
-    next: { revalidate: 60 * 5 },
-  });
+  let destinations: DestinationCard[] = [];
+  let banners: Banner[] = [];
 
-  const banners = await apiGet<Banner[]>(`banners?location=home`, {
-    next: { revalidate: 60 * 5 },
-  });
+  try {
+    destinations = await apiGet<DestinationCard[]>(`destinations?all=1&locale=${locale}`, {
+      next: { revalidate: 60 * 5 },
+    });
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch home destinations:', e?.status, e?.statusText, e?.url);
+  }
+
+  try {
+    banners = await apiGet<Banner[]>(`banners?location=home`, {
+      next: { revalidate: 60 * 5 },
+    });
+  } catch (err: unknown) {
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch home banners:', e?.status, e?.statusText, e?.url);
+  }
 
   return (
     <section
