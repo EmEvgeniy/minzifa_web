@@ -10,23 +10,22 @@ interface FormSubmitOptions {
 interface FormSubmitResult {
   form_id?: number;
   form?: Record<string, unknown>;
-  order_id?: number;
   errors?: {
     form?: Error;
     telegram?: Error;
     email?: Error;
-    amocrm?: Error;
-    order?: Error;
     googleRecaptcha?: Error;
   };
 }
 
 /**
- * Универсальный хук для отправки форм
+ * Универсальный хок для отправки форм
  *
  * Выполняет цепочку запросов последовательно для мониторинга каждой операции:
- * 1. Telegram уведомление (Job, не блокирует)
- * 2. Email уведомления (Job)
+ * 1. Проверка reCAPTCHA токена
+ * 2. Сохранение формы в БД
+ * 3. Telegram уведомление (Job, не блокирует)
+ * 4. Email уведомления (Job)
  *
  * @example
  * const { submitForm, isSubmitting } = useFormSubmit({
@@ -58,24 +57,28 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
 
     try {
       const formData = { form_name: formName, form_data: data };
-      //       token: data.recaptchaToken,
-      //       action: formName,
-      //     });
 
-      //     delete formData.form_data?.recaptchaToken;
-      //   } catch (error) {
-      //     console.error('Google ReCaptcha check failed:', error);
+      // Шаг 0: Проверка Google ReCaptcha
+      if (data.recaptchaToken) {
+        try {
+          await axiosInstance.post(getApiUrl('forms/check-recaptcha'), {
+            token: data.recaptchaToken,
+            action: formName,
+          });
 
-      //     result.errors!.googleRecaptcha = error as Error;
+          delete formData.form_data?.recaptchaToken;
+        } catch (error) {
+          console.error('Google ReCaptcha check failed:', error);
 
-      //     // Завершаем выполнение — дальше не продолжаем
-      //     options?.onError?.(error as Error);
-      //     return result;
-      //   }
-      // }
-      delete formData.form_data?.recaptchaToken;
+          result.errors!.googleRecaptcha = error as Error;
 
-      // Шаг 0: Сохраняем форму в БД (с авторизацией если есть токен)
+          // Завершаем выполнение — дальше не продолжаем
+          options?.onError?.(error as Error);
+          return result;
+        }
+      }
+
+      // Шаг 1: Сохраняем форму в БД (с авторизацией если есть токен)
       try {
         const formResponse = await authAxiosInstance.post(getApiUrl('forms/store'), formData);
         result.form_id = formResponse.data.form_id;
@@ -85,7 +88,7 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
         throw error; // Останавливаем выполнение если форма не сохранилась
       }
 
-      // Шаг 1: Telegram
+      // Шаг 2: Telegram
       try {
         await axiosInstance.post(getApiUrl('forms/notifications/telegram'), formData);
       } catch (error) {
@@ -93,7 +96,7 @@ export const useFormSubmit = (options?: FormSubmitOptions) => {
         result.errors!.telegram = error as Error;
       }
 
-      // Шаг 2: Email
+      // Шаг 3: Email
       try {
         await axiosInstance.post(getApiUrl('forms/notifications/email'), formData);
       } catch (error) {

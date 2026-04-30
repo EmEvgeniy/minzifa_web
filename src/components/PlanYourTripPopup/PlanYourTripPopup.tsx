@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LiaTimesSolid } from 'react-icons/lia';
 import { cn } from '@/utils';
+import { useRouter } from 'next/navigation';
 
 export default function PlanYourTripPopup() {
   const t = useTranslations('PlanYourTripPopup');
@@ -27,6 +28,8 @@ export default function PlanYourTripPopup() {
   const { metrics } = useMetricsStore();
 
   const schema = planYourTripFormSchema(t);
+
+  const router = useRouter();
 
   const {
     watch,
@@ -49,6 +52,7 @@ export default function PlanYourTripPopup() {
     onSuccess: () => {
       setMessage(locale == 'en' ? 'You was subscribed!' : 'Вы были подписаны!');
       reset();
+      router.push(`/${locale}/thank-you`);
     },
     onError: () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
@@ -89,9 +93,11 @@ export default function PlanYourTripPopup() {
           </Button>
 
           <div className="flex flex-col items-center gap-1 mb-[32px]">
-            <h2 className={cn(
-              'font-title text-foreground font-bold text-[32px] leading-100 tracking-zero',
-            )}>
+            <h2
+              className={cn(
+                'font-title text-foreground font-bold text-[32px] leading-100 tracking-zero',
+              )}
+            >
               {t('title')}
             </h2>
             <p className="text-content text-sm leading-100 tracking-zero">{t('subtitle')}</p>
