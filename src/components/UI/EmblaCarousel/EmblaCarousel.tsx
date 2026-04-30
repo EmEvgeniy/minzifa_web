@@ -51,7 +51,7 @@ const EmblaCarousel = <T,>({ slides, renderSlide, options, onInit, className, pr
           'flex touch-pan-y will-change-transform',
           className
         )}>
-          {slides.map((slide, index) => renderSlide(slide, index))}
+          {slides?.map((slide, index) => renderSlide(slide, index))}
         </div>
         {prevIcon}
         {nextIcon}
