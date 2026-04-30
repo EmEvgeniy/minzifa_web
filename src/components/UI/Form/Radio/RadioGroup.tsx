@@ -4,7 +4,6 @@ import { ReactNode } from 'react';
 import { Radio } from './Radio';
 import { cn } from '@/utils/utils';
 import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWraper';
-import { FieldError } from 'react-hook-form';
 
 export interface RadioOption {
     label: string | ReactNode;
@@ -23,7 +22,8 @@ interface RadioGroupProps {
     gap?: string;
     children?: ReactNode;
     className?: string;
-    error?: FieldError;
+    wrapperClassName?: string;
+    error?: boolean;
 }
 
 export const RadioGroup = ({
@@ -36,17 +36,17 @@ export const RadioGroup = ({
     gap = 'gap-3',
     children,
     className,
+    wrapperClassName,
     error,
 }: RadioGroupProps) => {
-    // Extract the specific error for this field if it's a FieldErrors object
-    const fieldError = error && typeof error === 'object' && 'message' in error ? error : undefined;
     const handleChange = (newVal: string) => {
         onChange?.(newVal);
     };
 
     return (
         <FormFieldWrapper
-            error={fieldError}
+            error={error}
+            className={wrapperClassName}
         >
             <div
                 className={cn(

@@ -2,17 +2,17 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { QueryProvider } from '@/providers/QueryProvider';
-import { Inter, Unbounded } from 'next/font/google';
+import { Inter, Manrope } from 'next/font/google';
 import './(main)/globals.css';
 
-const TitleFont = Unbounded({
+const TitleFont = Manrope({
   subsets: ['latin', 'cyrillic'],
-  weight: '400',
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 const TextFont = Inter({
   subsets: ['latin', 'cyrillic'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
 
 const LOCALES = ['en', 'ru'] as const;

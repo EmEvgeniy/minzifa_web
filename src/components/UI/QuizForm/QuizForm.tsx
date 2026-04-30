@@ -168,7 +168,7 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
     <form className={cn('w-full', className)} onSubmit={handleSubmit(onSubmit)}>
       <div className="grid grid-cols-[300px_1fr] gap-4 max-[920px]:grid-cols-1 max-[920px]:gap-0">
         {/* Левая часть */}
-        <div className="relative rounded-2xl overflow-hidden min-h-[540px] bg-gray-200 max-[920px]:rounded-b-[0px] max-[920px]:min-h-[180px]">
+        <div className="relative rounded-2xl overflow-hidden min-h-[540px] bg-gray-200 max-[920px]:rounded-b-none max-[920px]:min-h-[180px]">
           <ImageWithFallback
             src={anna}
             alt="Minzifa Travel"
@@ -177,7 +177,7 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
             className="object-cover"
           />
           {/* Облачко */}
-          <div className="bg-white absolute top-[50px] left-1/2 -translate-x-1/2 rounded-[300px] p-5 w-[calc(100%-40px)] max-w-[250px] shadow max-[920px]:left-2 max-[920px]:-translate-x-0 max-[550px]:max-w-[150px] max-[400px]:max-w-[130px] max-[920px]:top-2 max-[920px]:rounded-t-[30px] max-[920px]:rounded-l-[30px] max-[920px]:rounded-br-[0px]">
+          <div className="bg-white absolute top-[50px] left-1/2 -translate-x-1/2 rounded-[300px] p-5 w-[calc(100%-40px)] max-w-[250px] shadow max-[920px]:left-2 max-[920px]:translate-x-0 max-[550px]:max-w-[150px] max-[400px]:max-w-[130px] max-[920px]:top-2 max-[920px]:rounded-t-[30px] max-[920px]:rounded-l-[30px] max-[920px]:rounded-br-none">
             <p className="text-sm max-[550px]:text-[10px]">{steps[currentStep].bubbleText}</p>
             <span className="absolute bg-white w-[20px] h-[20px] bottom-[-28px] right-5 rounded-full max-[920px]:hidden" />
             <span className="absolute bg-white w-[10px] h-[10px] bottom-[-40px] right-10 rounded-full max-[920px]:hidden" />
@@ -192,7 +192,7 @@ export default function QuizForm({ className, popupClose, locale }: QuizFormProp
         {/* Правая часть */}
         <div
           className={
-            'bg-white rounded-2xl min-w-[320px] min-h-[670px] md:w-[616px] md:min-h-[540px] p-5 flex flex-col justify-between max-[920px]:flex-col-reverse gap-5 max-[920px]:min-h-full max-[920px]:rounded-b-[16px] max-[920px]:rounded-t-[0px] max-[920px]:bg-white max-[650px]:px-2.5'
+            'bg-white rounded-2xl min-w-[320px] min-h-[670px] md:w-[616px] md:min-h-[540px] p-5 flex flex-col justify-between max-[920px]:flex-col-reverse gap-5 max-[920px]:min-h-full max-[920px]:rounded-b-[16px] max-[920px]:rounded-t-none max-[920px]:bg-white max-[650px]:px-2.5'
           }
         >
           {/* Прогресс-бар */}

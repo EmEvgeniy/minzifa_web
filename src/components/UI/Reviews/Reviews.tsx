@@ -1,58 +1,50 @@
 'use client';
 
-import { TravelChoice_Black } from '@/assets/img';
-import { FaStar } from 'react-icons/fa6';
+import { FaTripadvisor } from 'react-icons/fa';
 import ReviewsInner from './ReviewsInner';
-import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
+import { FcGoogle } from 'react-icons/fc';
+import { cn } from '@/utils';
 import { useTranslations } from 'next-intl';
 
 export default function Reviews() {
   const t = useTranslations('home.reviews');
 
-  const rating = 5.0;
-  const fullStars = Math.floor(rating);
-  const starsArray = Array.from({ length: 5 }, (_, i) => (
-    <FaStar
-      key={i}
-      size={27}
-      className={
-        i < fullStars ? 'text-[#009F65] max-[1024px]:size-4' : 'text-[#ccc] max-[1024px]:size-4'
-      }
-    />
-  ));
-
   return (
-    <section className="relative container">
-      <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
-        <div>
-          <h2
-            className="text-4xl font-semibold mb-4 max-[1024px]:text-[35px] max-[550px]:text-[24px]"
-            aria-label={t('title')}
-          >
-            {t('title')}
-          </h2>
-          <div className="flex flex-row items-center gap-5">
-            <p className="font-title text-[56px] max-[1024px]:text-[35px] max-[768px]:text-[30px]">
-              {rating.toFixed(1)}
+    <section className={cn('container px-2.5 mb-[65px]', 'md:mb-[112px] md:mx-auto')}>
+      <div
+        className={cn(
+          'bg-white px-4 py-6 rounded-3xl flex flex-col gap-4 shadow-[0_0_32px_0_#B9B9B940]',
+          'md:bg-transparent md:shadow-none md:p-0 md:rounded-none md:gap-8',
+        )}
+      >
+        <div className={cn('flex justify-between flex-col', 'md:flex-row')}>
+          <div className="w-full md:max-w-[579px]">
+            <h4 className="text-foreground text-[32px] font-title font-bold [@media(max-width:768px)]:text-[24px] w-full max-w-[300px]">
+              {t('title')}
+            </h4>
+          </div>
+
+          <div className="flex flex-col gap-3 w-full">
+            <p className="font-title text-[72px] text-primary font-bold leading-100 tracking-[-8%]">
+              {'5.0'}
             </p>
-            <div>
-              <div className="flex flex-row gap-3">{starsArray}</div>
-              <div className="text-2xl text-[#666666] font-normal max-[1024px]:text-[20px]">
-                {t('count', { count: 456 })}
+
+            <div className="flex flex-row gap-3">
+              <div className="font-title font-medium text-base leading-100 tracking-[-2%] flex flex-row items-center gap-2">
+                <FaTripadvisor size={28} />
+                {t('count', { count: 479 })}
+              </div>
+
+              <div className="font-title font-medium text-base leading-100 tracking-[-2%] flex flex-row items-center gap-2">
+                <FcGoogle size={24} />
+                {t('count', { count: 29 })}
               </div>
             </div>
           </div>
         </div>
-        <ImageWithFallback
-          src={TravelChoice_Black}
-          alt="info_img"
-          width={611}
-          height={97}
 
-        />
+        <ReviewsInner />
       </div>
-
-      <ReviewsInner />
     </section>
   );
 }

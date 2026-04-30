@@ -36,7 +36,7 @@ export const DestinationsSection = memo(({
                     name="destinations"
                     control={control}
                     render={({ field }) => (
-                        <FormFieldWrapper error={errors.destinations}>
+                        <FormFieldWrapper error={!!errors.destinations}>
                             <DestinationsSelect
                                 destinations={destinations}
                                 selectedDestinations={field.value}

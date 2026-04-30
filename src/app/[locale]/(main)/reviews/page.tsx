@@ -54,7 +54,7 @@ export default async function page() {
         <ImageWithFallback
           src={contact_us}
           alt="contact_us"
-          preload
+          priority
           className=" object-cover absolute top-0 z-10"
         />
         <div className="w-full absolute top-0 h-full bg-[rgba(22,55,45,0.7)] backdrop-blur-[1px] z-20" />

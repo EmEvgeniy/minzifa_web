@@ -104,13 +104,13 @@ export default async function Tour({ params }: Props) {
   if (!tourData?.id) return notFound();
 
   return (
-    <div className="w-full min-h-[200vh]">
-      <div className="container !px-0 pt-[150px] flex flex-col gap-10 max-[920px]:pt-[56px]">
+    <div className="w-full relative">
+      <div className="flex flex-col gap-10">
         <Breadcrumbs
           locale={locale}
           link={{ title: t('allTours'), link: `/${locale}/tours` }}
           link2={{ title: tourData.name, link: '' }}
-          className="hidden md:block"
+          className="hidden md:block container px-2.5 mt-[30px] md:mt-[50px]"
         />
         <TourWrapper locale={locale} tourData={tourData} />
       </div>

@@ -8,7 +8,7 @@ const TourIndividualPrice = dynamic(
 
 export default function TourPricesContainer({ tour }: { tour: Tour }) {
   return (
-    <div className="relative container md:!px-0">
+    <div className="relative container px-2.5 md:px-0!">
       {tour.tour_type === 'group' ? <TourGroupPrices tour={tour} /> : <TourIndividualPrice tour={tour} />}
     </div>
   );

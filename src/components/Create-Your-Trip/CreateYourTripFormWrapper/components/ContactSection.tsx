@@ -33,7 +33,7 @@ export const ContactSection = memo(({
                     render={({ field }) => (
                         <Input
                             {...field}
-                            error={errors.first_name}
+                            error={!!errors.first_name}
                             placeholder={t('form2.contact.firstName')}
                             startIcon={<FaUser size={16} />}
                         />
@@ -45,7 +45,7 @@ export const ContactSection = memo(({
                     render={({ field }) => (
                         <Input
                             {...field}
-                            error={errors.last_name}
+                            error={!!errors.last_name}
                             placeholder={t('form2.contact.lastName')}
                             startIcon={<FaUser size={16} />}
                         />
@@ -61,7 +61,7 @@ export const ContactSection = memo(({
                         <Input
                             {...field}
                             type="email"
-                            error={errors.email}
+                            error={!!errors.email}
                             placeholder={t('form2.contact.email')}
                             startIcon={<FaEnvelope size={16} />}
                         />
@@ -73,7 +73,7 @@ export const ContactSection = memo(({
                     render={({ field }) => (
                         <PhoneInputComp
                             {...field}
-                            error={errors.phone}
+                            error={!!errors.phone}
                         />
                     )}
                 />

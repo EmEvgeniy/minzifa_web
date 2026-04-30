@@ -1,11 +1,10 @@
+import { IMediaData } from "@/types";
+
 export type AdventureCardType = {
   id: number;
   name: string;
-  media: {
-    id: number;
-    file: string;
-    alt_text: string;
-  };
+  media: IMediaData;
+  icon?: IMediaData;
   tours_count: number;
   slug: string;
 };

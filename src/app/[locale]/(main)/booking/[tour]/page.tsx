@@ -53,7 +53,7 @@ export default async function Booking({ params }: Props) {
   if (!tourData?.id) redirect(`/${locale}`);
 
   return (
-    <section className="relative pb-[0px] mt-[100px] md:mt-[150px] flex flex-col gap-5 min-h-[200px]">
+    <section className="relative pb-0 mt-[100px] md:mt-[150px] flex flex-col gap-5 min-h-[200px]">
       <Breadcrumbs
         locale={locale}
         link={{ title: t('breadcrumbs.booking'), link: '' }}

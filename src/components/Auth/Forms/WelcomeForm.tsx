@@ -71,7 +71,7 @@ export default function WelcomeForm({ step, setStep }: { step: AuthStep, setStep
                         <Button
                             type="button"
                             onClick={handleCheckEmail}
-                            className="w-full px-3 py-2"
+                            className="w-full px-6 py-3"
                             disabled={email === '' || isPending}
                         >
                             {isPending ? <Loader /> : t('auth.login.emailFormBtn')}

@@ -1,14 +1,10 @@
-import dynamic from 'next/dynamic';
-
-import { getTranslations } from 'next-intl/server';
 import { getApiUrl } from '@/utils/config';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
-const Wrapper = dynamic(() => import('./Wrapper'));
+import Wrapper from './Wrapper';
 
-export default async function BestSellers({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale });
-
+export default async function ({ locale }: { locale: string }) {
   let data: BestSellersPackagesCardType[] | null;
+
   try {
     data = await fetch(getApiUrl(`tours?main_page=1&locale=${locale}`), {
       next: { revalidate: 60 * 5 },
@@ -18,8 +14,7 @@ export default async function BestSellers({ locale }: { locale: string }) {
   }
 
   return (
-    <section className="container flex flex-col gap-5">
-      <h3 className="text-[42px] [@media(max-width:768px)]:text-[24px]">{t('home.bestTitle')}</h3>
+    <section className="container px-2.5 flex flex-col gap-5 mb-[75px] md:mb-[88px]">
       <Wrapper data={data} locale={locale} />
     </section>
   );

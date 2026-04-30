@@ -23,6 +23,8 @@ export const useFilterSync = () => {
     destinations,
     sort,
     page,
+    dateFrom,
+    dateTo,
     setPrices,
     setDurations,
     setSeasons,
@@ -32,6 +34,7 @@ export const useFilterSync = () => {
     setDestinations,
     setSort,
     setPage,
+    setDateRange,
     buildFilterQuery,
   } = useFilterStore();
 
@@ -49,6 +52,8 @@ export const useFilterSync = () => {
       const urlDestinations = params.getAll('destinations[]');
       const urlSort = params.get('sort');
       const urlPage = params.get('page');
+      const urlDateFrom = params.get('date_from');
+      const urlDateTo = params.get('date_to');
 
       return {
         prices: urlPrices.length >= 2 ? urlPrices : [0, 20000],
@@ -60,6 +65,8 @@ export const useFilterSync = () => {
         destinations: urlDestinations,
         sort: urlSort || 'newest',
         page: urlPage || '1',
+        dateFrom: urlDateFrom,
+        dateTo: urlDateTo,
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -146,6 +153,8 @@ export const useFilterSync = () => {
       destinations,
       sort,
       page,
+      dateFrom,
+      dateTo,
     };
     const needsUpdate = hasFilterStateChanged(currentState, urlFilters, page);
 
@@ -166,6 +175,10 @@ export const useFilterSync = () => {
       if (urlFilters.page !== (typeof page === 'string' ? page : page.toString())) {
         setPage(urlFilters.page);
       }
+
+      if (urlFilters.dateFrom || urlFilters.dateTo) {
+        setDateRange(urlFilters.dateFrom, urlFilters.dateTo, false);
+      }
     }
 
     initializedRef.current = true;
@@ -183,8 +196,10 @@ export const useFilterSync = () => {
       destinations,
       sort,
       page,
+      dateFrom,
+      dateTo,
     }),
-    [prices, durations, seasons, hotels, tourType, tourTypes, destinations, sort, page],
+    [prices, durations, seasons, hotels, tourType, tourTypes, destinations, sort, page, dateFrom, dateTo],
   );
 
   const debouncedFilterParams = useDebouncedValue(filterParams, 100);
@@ -230,6 +245,8 @@ export const useFilterSync = () => {
       destinations,
       sort,
       page,
+      dateFrom: null,
+      dateTo: null,
     };
     return calculateActiveFiltersCount(currentState) > 0;
   }, [prices, durations, seasons, hotels, tourType, tourTypes, destinations, sort, page]);

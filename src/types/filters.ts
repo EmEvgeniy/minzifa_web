@@ -10,6 +10,8 @@ export type FilterState = {
   destinations: string[];
   sort: string;
   page: string | number;
+  dateFrom: string | null;
+  dateTo: string | null;
 };
 
 export const DEFAULT_FILTERS = {
@@ -17,4 +19,6 @@ export const DEFAULT_FILTERS = {
   durations: [1, 31] as const,
   sort: 'newest',
   page: '1',
+  dateFrom: null,
+  dateTo: null,
 } as const;

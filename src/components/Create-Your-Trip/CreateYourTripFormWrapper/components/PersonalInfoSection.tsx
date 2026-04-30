@@ -88,7 +88,7 @@ export const PersonalInfoSection = memo(({
                 name="date"
                 control={control}
                 render={({ field }) => (
-                    <FormFieldWrapper error={errors.date}>
+                    <FormFieldWrapper error={!!errors.date}>
                         <CustomDatepicker
                             locale={lang}
                             selected={field.value ? new Date(field.value) : null}
@@ -109,7 +109,7 @@ export const PersonalInfoSection = memo(({
 
             {/* Appeal Select */}
             <SectionHeader icon={FaUser} title={t('form2.appeal.title')} />
-            <FormFieldWrapper error={errors.appeals}>
+            <FormFieldWrapper error={!!errors.appeals}>
                 <div className="w-full flex items-center justify-start gap-4 flex-wrap">
                     {appealOptions.map((el) => (
                         <label

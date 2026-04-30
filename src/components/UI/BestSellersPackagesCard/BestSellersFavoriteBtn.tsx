@@ -2,8 +2,8 @@
 
 import { FaHeart } from 'react-icons/fa';
 import { useFavoriteStore } from '../FavoriteBtn/store';
-import { cn } from '@/utils/utils';
 import { BestSellersPackagesCardType } from './_types';
+import { FaRegHeart } from 'react-icons/fa6';
 
 type Props = {
   tour: BestSellersPackagesCardType;
@@ -32,9 +32,13 @@ function BestSellersFavoriteBtn({ tour }: Props) {
       type="button"
       aria-label="Toggle favorite"
       onClick={handleToggle}
-      className="absolute top-3 right-3 z-20 cursor-pointer"
+      className="absolute top-3 right-3 z-20 cursor-pointer bg-white rounded-full p-2.5"
     >
-      <FaHeart className={cn('text-white text-[30px]', isFavorite && 'text-red-600')} />
+      {isFavorite ? (
+        <FaHeart size={20} className="text-red-600" />
+      ) : (
+        <FaRegHeart size={20} className={'text-foreground'} />
+      )}
     </button>
   );
 }

@@ -1,27 +1,38 @@
-import dynamic from 'next/dynamic';
 import { getTranslations } from 'next-intl/server';
 import { AdventureCardType } from '@/components/UI/AdventureCard/_types';
 import { apiGet } from '@/utils/serverApi';
-const AdventureCard = dynamic(() => import('@/components/UI/AdventureCard/AdventureCard'));
+import AdventureCard from '@/components/UI/AdventureCard/AdventureCard';
+import Wrapper from './Wrapper';
 
 export default async function Adventure({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
-  const data = (await apiGet(`types?main_page=1&limit=12&page=1&perPage=12&locale=${locale}`, {
+  const data = (await apiGet(`types?show_in_main=1&locale=${locale}`, {
     next: { revalidate: 60 * 5 },
   })) as AdventureCardType[];
 
   if (!data.length) return null;
 
   return (
-    <section className="container my-[70px] flex flex-col gap-5 [@media(max-width:768px)]:my-[40px]">
-      <h5 className="text-[42px] [@media(max-width:768px)]:text-[24px] font-semibold">
-        {t('adventureTitle')}
-      </h5>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 [@media(max-width:1024px)]:grid-cols-3 [@media(max-width:768px)]:grid-cols-2">
-        {data?.slice(0, 8).map((type: AdventureCardType) => (
-          <AdventureCard key={type.id} type={type} locale={locale} />
-        ))}
+    <section className="mb-[70px] md:mb-[112px]">
+      <div className="container px-2.5 flex flex-col gap-8">
+        <h4 className="text-foreground text-[32px] font-title font-bold [@media(max-width:768px)]:text-[24px] w-full">
+          {t('adventureTitle')}
+        </h4>
+        <div className="hidden lg:grid lg:gap-6 lg:grid-cols-4">
+          {data?.slice(0, 7).map((type: AdventureCardType, index: number) => (
+            <AdventureCard
+              key={type.id}
+              type={type}
+              locale={locale}
+              className={index === 0 ? 'row-span-2' : ''}
+            />
+          ))}
+        </div>
+
+        <div className="block md:hidden">
+          <Wrapper data={data} />
+        </div>
       </div>
     </section>
   );

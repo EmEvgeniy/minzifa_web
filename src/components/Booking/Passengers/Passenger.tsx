@@ -68,7 +68,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
               control={control}
               render={({ field }) => (
                 <RadioGroup
-                  error={errors.passengers?.[index]?.salutation}
+                  error={!!errors.passengers?.[index]?.salutation}
                   direction="horizontal"
                   name={`salutation_${index}`}
                   value={field.value ?? ''}
@@ -90,7 +90,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                 type="text"
                 {...field}
                 placeholder={t('passenger.first_name')}
-                error={errors.passengers?.[index]?.first_name}
+                error={!!errors.passengers?.[index]?.first_name}
               />
             )}
           />
@@ -102,7 +102,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                 type="text"
                 {...field}
                 placeholder={t('passenger.last_name')}
-                error={errors.passengers?.[index]?.last_name}
+                error={!!errors.passengers?.[index]?.last_name}
               />
             )}
           />
@@ -118,7 +118,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                 type="email"
                 {...field}
                 placeholder={t('passenger.email')}
-                error={errors.passengers?.[index]?.email}
+                error={!!errors.passengers?.[index]?.email}
               />
             )}
           />
@@ -128,7 +128,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
             render={({ field }) => (
               <PhoneInputComp
                 {...field}
-                error={errors.passengers?.[index]?.phone}
+                error={!!errors.passengers?.[index]?.phone}
               />
             )}
           />
@@ -152,7 +152,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                 maxDate={new Date()}
                 dropdownMode="select"
                 customInput={<Input
-                  error={errors.passengers?.[index]?.birth_date}
+                  error={!!errors.passengers?.[index]?.birth_date}
                 />}
               />
             )}
@@ -166,7 +166,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
             control={control}
             render={({ field }) => (
               <RadioGroup
-                error={errors.passengers?.[index]?.gender}
+                error={!!errors.passengers?.[index]?.gender}
                 direction="horizontal"
                 name={`gender_${index}`}
                 value={field.value}
@@ -195,7 +195,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                     type="text"
                     {...field}
                     placeholder={t('passenger.adress_line', { number: 1 })}
-                    error={errors.passengers?.[index]?.main_address?.address}
+                    error={!!errors.passengers?.[index]?.main_address?.address}
                   />
                 )}
               />
@@ -207,7 +207,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                     type="text"
                     {...field}
                     placeholder={t('passenger.adress_line', { number: 2 })}
-                    error={errors.passengers?.[index]?.main_address?.address2}
+                    error={!!errors.passengers?.[index]?.main_address?.address2}
                   />
                 )}
               />
@@ -223,7 +223,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                     type="text"
                     {...field}
                     placeholder={t('passenger.province')}
-                    error={errors.passengers?.[index]?.main_address?.province}
+                    error={!!errors.passengers?.[index]?.main_address?.province}
                   />
                 )}
               />
@@ -235,7 +235,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                     type="text"
                     {...field}
                     placeholder={t('passenger.state')}
-                    error={errors.passengers?.[index]?.main_address?.state}
+                    error={!!errors.passengers?.[index]?.main_address?.state}
                   />
                 )}
               />
@@ -248,7 +248,7 @@ export const Passenger = ({ index, hints, errors, control }: IPassengerProps) =>
                   type="text"
                   {...field}
                   placeholder={t('passenger.zip')}
-                  error={errors.passengers?.[index]?.main_address?.postal_code}
+                  error={!!errors.passengers?.[index]?.main_address?.postal_code}
                 />
               )}
             />

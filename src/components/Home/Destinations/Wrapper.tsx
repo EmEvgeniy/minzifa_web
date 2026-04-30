@@ -1,45 +1,55 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DestinationCard } from './_types';
 import Link from 'next/link';
 import { EmblaCarouselType } from 'embla-carousel';
 import EmblaCarousel from '@/components/UI/EmblaCarousel/EmblaCarousel';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { ECArrowWrapper } from '@/components/UI/EmblaCarousel/EmblaCarouselArrowButtons';
+import { cn } from '@/utils';
 
 export default function Wrapper({ data, locale }: { data: DestinationCard[]; locale: string }) {
   const [emblaApi, setEmblaApi] = useState<EmblaCarouselType | undefined>(undefined);
 
   return (
-    <>
-      <div className="container-right">
-        <EmblaCarousel<DestinationCard>
-          slides={data}
-          onInit={setEmblaApi}
-          className="gap-2.5 lg:gap-5"
-          renderSlide={(slide: DestinationCard) => (
-            <Link href={`/${locale}/destination/${slide.slug}`} className="flex-1" key={slide?.id}>
-              <div className="w-[170px] h-[234px] lg:w-[275px] lg:h-[275px] rounded-2xl text-center flex flex-col items-center justify-center text-xl font-semibold [@media(max-width:768px)]:min-h-[200px] relative overflow-hidden">
-                {slide?.media?.file && (
-                  <ImageWithFallback
-                    src={slide?.media?.file}
-                    alt={slide?.media?.alt_text || ''}
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-                <h2 className="text-lg font-normal absolute px-5 py-2 bg-white rounded-tr-2xl bottom-0 left-0">
-                  {slide?.name}
-                </h2>
-              </div>
+    <div className="relative flex flex-col items-center justify-center">
+      <EmblaCarousel<DestinationCard>
+        slides={data}
+        onInit={setEmblaApi}
+        className="gap-3"
+        renderSlide={(slide: DestinationCard) => (
+          <div
+            key={slide?.id}
+            className="flex-[0_0_280px] sm:flex-[0_0_50%] md:flex-[0_0_19.31%] relative flex flex-col items-center justify-center rounded-2xl w-full h-full overflow-hidden"
+            style={{ willChange: 'transform' }}
+          >
+            <Link href={`/${locale}/destination/${slide.slug}`}>
+              <div className="absolute inset-0 z-10" />
             </Link>
-          )}
-        />
 
-        <ECArrowWrapper emblaApi={emblaApi} />
-      </div>
-    </>
+            <ImageWithFallback
+              src={slide?.media?.file as string}
+              alt={slide?.media?.alt_text || ''}
+              width={200}
+              height={200}
+              sizes="(max-width: 768px) 90vw, (max-width: 1024px) 50vw, 200px"
+              className="aspect-[3/3.46] object-cover"
+            />
+            <div className="absolute inset-0 bg-black/30 z-0" />
+
+            <h4 className="text-lg font-normal absolute px-5 py-2 bg-white rounded-[30px]">
+              {slide?.name}
+            </h4>
+          </div>
+        )}
+      />
+
+      <ECArrowWrapper
+        emblaApi={emblaApi}
+        className={cn('mt-0 absolute w-full justify-between hidden', 'md:flex')}
+        variant="dark"
+      />
+    </div>
   );
 }

@@ -1,8 +1,6 @@
-import { FieldError } from 'react-hook-form';
-
 export interface DropdownFieldProps<T extends Record<string, unknown>> {
   label?: string;
-  error?: FieldError;
+  error?: boolean;
   helperText?: string;
   placeholder?: string;
   options?: T[];

@@ -44,7 +44,7 @@ export const TripBasicsSection = memo(({
                             name="days"
                             control={control}
                             render={({ field }) => (
-                                <FormFieldWrapper error={errors.days}>
+                                <FormFieldWrapper error={!!errors.days}>
                                     <div className="relative group">
                                         <input
                                             {...field}
@@ -72,7 +72,7 @@ export const TripBasicsSection = memo(({
                         name="hotel_type"
                         control={control}
                         render={({ field }) => (
-                            <FormFieldWrapper error={errors.hotel_type}>
+                            <FormFieldWrapper error={!!errors.hotel_type}>
                                 <HotelStarsSelect
                                     value={field.value}
                                     onChange={field.onChange}

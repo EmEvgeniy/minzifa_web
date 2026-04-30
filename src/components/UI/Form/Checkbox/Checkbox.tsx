@@ -1,106 +1,103 @@
 'use client';
 
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { cn } from '@/utils/utils';
-import { FaCheck } from 'react-icons/fa6';
 
-export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  label?: ReactNode | string;
-  labelClassName?: string;
-  wrapperClassName?: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'outline';
+type CheckboxVariant = 'square';
+
+const variantStyles: Record<CheckboxVariant, string> = {
+  square: 'w-5 h-5 rounded cursor-pointer border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors'
+};
+
+const checkedStyles = 'bg-gray-800 border-gray-800';
+const disabledStyles = 'opacity-50 cursor-not-allowed';
+
+interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  variant?: CheckboxVariant;
+  label?: ReactNode;
+  subtitle?: string;
+  detail?: ReactNode;
   withBadge?: boolean;
-  badge?: ReactNode | string;
+  badge?: string;
+  className?: string;
+  wrapperClassName?: string;
+  labelClassName?: string;
+  subtitleClassName?: string;
+  detailClassName?: string;
 }
-
-const sizeClasses = {
-  sm: 'w-4 h-4',
-  md: 'w-5 h-5',
-  lg: 'w-6 h-6',
-};
-
-const iconSizes = {
-  sm: 'w-2.5 h-2.5',
-  md: 'w-3 h-3',
-  lg: 'w-4 h-4',
-};
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   (
-    { label, size = 'md', variant = 'default', className, disabled, withBadge, badge, labelClassName, wrapperClassName, ...props },
-    ref,
-  ) => {
-    const checkboxClasses = cn(
-      // Базовые стили
-      'relative',
-      sizeClasses[size],
-      'appearance-none border-2 rounded cursor-pointer transition-all duration-200',
-      'focus:outline-none focus:ring-2 focus:ring-offset-0',
-      // Варианты стиля
-      variant === 'default' && [
-        'bg-white border-gray-300',
-        'checked:bg-[#27A430]',
-        'focus:ring-gray-300',
-        'disabled:bg-gray-100 disabled:border-gray-200 disabled:cursor-not-allowed',
-      ],
-      variant === 'outline' && [
-        'bg-transparent border-[#27A430] hover:bg-[#27A430]/10',
-        'checked:bg-[#27A430] checked:border-[#27A430]',
-        'focus:ring-[#27A430]',
-        'disabled:bg-gray-50 disabled:border-gray-200 disabled:cursor-not-allowed',
-      ],
-      // Состояния
-      disabled && 'opacity-50 cursor-not-allowed',
+    {
+      variant = 'square',
+      label,
+      subtitle,
+      detail,
+      withBadge,
+      badge,
       className,
+      wrapperClassName,
+      labelClassName,
+      subtitleClassName,
+      detailClassName,
+      disabled,
+      checked,
+      ...props
+    },
+    ref
+  ) => {
+    const checkboxStyles = cn(
+      variantStyles[variant],
+      checked && checkedStyles,
+      disabled && disabledStyles,
+      className
     );
 
     return (
-      <label className={cn("flex items-center gap-3 cursor-pointer group", wrapperClassName)}>
-        <div className="relative flex items-center justify-center">
-          <input
-            type="checkbox"
-            ref={ref}
-            disabled={disabled}
-            className={checkboxClasses}
-            {...props}
-          />
-          <FaCheck
-            className={cn(
-              'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white pointer-events-none',
-              iconSizes[size],
-              !props.checked && 'hidden',
-            )}
-          />
-        </div>
-        {label && (
-          <span
-            className={cn(
-              'text-base font-normal text-gray-900 select-none w-full flex items-center',
-              'group-hover:text-gray-700 transition-colors duration-200',
-              labelClassName,
-              disabled && 'text-gray-400 cursor-not-allowed',
-              size === 'sm' && 'text-xs',
-              size === 'lg' && 'text-base',
-              withBadge && 'justify-between',
-            )}
-          >
-            {label}
-            {withBadge &&
-              (typeof badge !== 'string' ? (
-                badge
-              ) : (
-                <span className="text-xs text-white bg-[#27A430] py-0.5 px-2 rounded-full font-medium ml-2">
+      <label
+        className={cn(
+          'flex items-start gap-3 text-xs leading-[20px] tracking-zero',
+          'lg:text-sm',
+          disabled && 'cursor-not-allowed',
+          wrapperClassName
+        )}
+      >
+        <input
+          ref={ref}
+          type="checkbox"
+          className={checkboxStyles}
+          disabled={disabled}
+          checked={checked}
+          {...props}
+        />
+        <div className="flex-1">
+          {label && (
+            <span className={cn('block font-medium text-gray-900', labelClassName)}>
+              {label}
+              {withBadge && badge && (
+                <span className="ml-2 px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">
                   {badge}
                 </span>
-              ))}
+              )}
+            </span>
+          )}
+          {subtitle && (
+            <span className={cn('block text-sm text-gray-600', subtitleClassName)}>
+              {subtitle}
+            </span>
+          )}
+        </div>
+        {detail && (
+          <span className={cn('text-gray-500 text-sm pt-0.5', detailClassName)}>
+            {detail}
           </span>
         )}
       </label>
     );
-  },
+  }
 );
 
 Checkbox.displayName = 'Checkbox';
 
 export { Checkbox };
+export default Checkbox;

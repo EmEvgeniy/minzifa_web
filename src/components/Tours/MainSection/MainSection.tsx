@@ -7,6 +7,7 @@ import { AllToursCardType, TourType } from './_types';
 import { DestinationCard } from '@/components/Home/Destinations/_types';
 
 const filters: availableFilters[] = [
+  'date',
   'price',
   'duration',
   'seasons',

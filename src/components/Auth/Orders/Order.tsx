@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { IOrder } from "@/types";
+import { IBookingForm } from "@/types";
 import { getStatusColor } from "@/utils/utils";
 import { formatDate } from "date-fns";
 import { useTranslations } from "next-intl";
@@ -23,9 +23,9 @@ export const Order = () => {
     const [showPaymentPopup, setShowPaymentPopup] = useState(false);
     const [isGeneratingPaymentUrl, setIsGeneratingPaymentUrl] = useState(false);
 
-    const { data: order, isFetched, isLoading } = useAuthGetQuery<IOrder>({
-        key: ['order'],
-        url: `/auth/orders/${params.id}`,
+    const { data: form, isFetched, isLoading } = useAuthGetQuery<IBookingForm>({
+        key: ['form', params.id as string],
+        url: `auth/forms/${params.id as string}`,
         withLocale: false,
     });
 
@@ -48,7 +48,7 @@ export const Order = () => {
         setIsGeneratingPaymentUrl(true);
         paymentUrlMutation.mutate({
             obj: { type: 'deposit' },
-            endpoint: `auth/orders/${params.id}/payment-url`,
+            endpoint: `auth/forms/${params.id}/payment-url`,
         });
     };
 
@@ -60,27 +60,55 @@ export const Order = () => {
         )
     }
 
-    // Безопасное извлечение данных
-    const tourDetail = order?.tour_detail;
-    const tourist = order?.tourist;
-    const manager = order?.manager;
-    const invoice = order?.invoice;
-    const chatId = order?.chat_id;
-    const formName = order?.form_name;
+    // Маппинг данных из form_data
+    const fd = form?.form_data ?? {};
+    const formRef = form ? `FRM-${form.id}` : '';
+    const formName = form?.form_name ?? null;
+    const currency = fd.currency ?? 'USD';
 
-    // Вычисление количества дней
-    const calculateDays = () => {
-        if (!tourDetail?.tour_start || !tourDetail?.tour_end) return null;
-        const start = new Date(tourDetail.tour_start);
-        const end = new Date(tourDetail.tour_end);
-        const diffTime = Math.abs(end.getTime() - start.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
+    const tourDetail = {
+        tour_name: fd.tour_name,
+        tour_start: fd.tour_start,
+        tour_end: fd.tour_end,
+        count: fd.travellers_count,
+        price: fd.tour_price,
+        total_price: fd.total_price,
     };
 
-    const tourDays = calculateDays();
+    const mainPassenger = fd.passengers?.[0];
+    const tourist = mainPassenger ? {
+        name: [mainPassenger.first_name, mainPassenger.last_name].filter(Boolean).join(' ') || null,
+        email: mainPassenger.email ?? null,
+        phone: mainPassenger.phone ?? null,
+    } : null;
 
-    return isFetched && order && (
+    const total = fd.total_price ?? 0;
+    const deposit = fd.deposit ?? fd.deposit_amount ?? 0;
+    const paymentStatus = fd.payment_status ?? 'pending';
+    const paymentMethod = fd.payment_type ?? null;
+    const paid = paymentStatus === 'paid' ? total : 0;
+    const invoice = total > 0 ? {
+        invoice_number: formRef + '-INV',
+        total,
+        deposit,
+        paid,
+        balance: total - paid,
+        payment_status: paymentStatus,
+        payment_method: paymentMethod,
+        payment_date: null,
+        currency,
+    } : null;
+
+    // Вычисление количества дней
+    const tourDays = (() => {
+        if (!tourDetail.tour_start || !tourDetail.tour_end) return null;
+        const start = new Date(tourDetail.tour_start);
+        const end = new Date(tourDetail.tour_end);
+        const diffDays = Math.ceil(Math.abs(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+        return diffDays || null;
+    })();
+
+    return isFetched && form && (
         <div className="container mx-auto mt-[150px] md:mt-[200px] mb-[50px] px-4">
             {/* Кнопка назад */}
             <div className="mb-6">
@@ -100,7 +128,7 @@ export const Order = () => {
                     <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
                             <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-                                {t('order.title', { order: order.order_name })}
+                                {t('order.title', { order: formRef })}
                             </h1>
                             {tourDays && (
                                 <span className="inline-flex items-center px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-sm font-medium">
@@ -108,7 +136,7 @@ export const Order = () => {
                                 </span>
                             )}
                         </div>
-                        {tourDetail?.tour_name && (
+                        {tourDetail.tour_name && (
                             <p className="text-gray-600 text-lg font-medium">
                                 {tourDetail.tour_name}
                             </p>
@@ -119,8 +147,8 @@ export const Order = () => {
                             </p>
                         )}
                     </div>
-                    <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
-                        {t(`order_statuses.${order.status}`)}
+                    <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${getStatusColor(paymentStatus)}`}>
+                        {t(`paymentStatuses.${paymentStatus}`, { defaultValue: paymentStatus })}
                     </div>
                 </div>
 
@@ -129,22 +157,9 @@ export const Order = () => {
                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        {t('orders.created')}: {formatDate(order.created_at, 'dd.MM.yyyy HH:mm')}
+                        {t('orders.created')}: {formatDate(new Date(form.created_at), 'dd.MM.yyyy HH:mm')}
                     </div>
 
-                    {/* Кнопка "Написать менеджеру" */}
-                    {chatId && (
-                        <Button
-                            to={`/chats?id=${chatId}`}
-                            color="primary"
-                            className="flex items-center gap-2"
-                        >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                            {t('order.contact_manager')}
-                        </Button>
-                    )}
                 </div>
             </div>
 
@@ -188,7 +203,7 @@ export const Order = () => {
                                 <div>
                                     <p className="text-xs text-gray-500 mb-1">{t('order.price_per_person')}</p>
                                     <p className="text-sm font-medium text-gray-900">
-                                        ${tourDetail.price.toLocaleString()}
+                                        {tourDetail.price?.toLocaleString()} {currency}
                                     </p>
                                 </div>
                             )}
@@ -197,7 +212,7 @@ export const Order = () => {
                                 <div className="pt-3 border-t border-gray-100">
                                     <p className="text-xs text-gray-500 mb-1">{t('orders.total_price')}</p>
                                     <p className="text-xl font-bold text-green-600">
-                                        ${tourDetail.total_price.toLocaleString()}
+                                        {tourDetail.total_price?.toLocaleString()} {currency}
                                     </p>
                                 </div>
                             )}
@@ -242,41 +257,6 @@ export const Order = () => {
                     </div>
                 )}
 
-                {/* Информация о менеджере */}
-                <div className="bg-white rounded-xl shadow-md border border-gray-100 p-6">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-                            <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-lg font-bold text-foreground">{t('order.manager_info')}</h2>
-                    </div>
-
-                    <div className="space-y-3">
-                        {manager ? (
-                            <>
-                                {manager.name && (
-                                    <div>
-                                        <p className="text-xs text-gray-500 mb-1">{t('profile.name')}</p>
-                                        <p className="text-sm font-medium text-gray-900">{manager.name}</p>
-                                    </div>
-                                )}
-
-                                {manager.email && (
-                                    <div>
-                                        <p className="text-xs text-gray-500 mb-1">{t('profile.email')}</p>
-                                        <p className="text-sm font-medium text-gray-900 break-all">{manager.email}</p>
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <div className="text-center py-4">
-                                <p className="text-sm text-gray-500">{t('orders.no_manager')}</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
             </div>
 
             {/* Информация об оплате */}
@@ -299,17 +279,24 @@ export const Order = () => {
                             </div>
                         )}
 
-                        {invoice.total !== undefined && (
+                        {invoice.deposit !== undefined && invoice.deposit > 0 && (
                             <div>
-                                <p className="text-xs text-gray-500 mb-1">{t('order.total_amount')}</p>
-                                <p className="text-sm font-medium text-gray-900">${invoice.total.toLocaleString()}</p>
+                                <p className="text-xs text-gray-500 mb-1">{t('order.deposit_amount')}</p>
+                                <p className="text-sm font-medium text-gray-900">{invoice.deposit.toLocaleString()} {invoice.currency}</p>
                             </div>
                         )}
 
-                        {invoice.paid !== undefined && (
+                        {invoice.total !== undefined && (
+                            <div>
+                                <p className="text-xs text-gray-500 mb-1">{t('order.total_amount')}</p>
+                                <p className="text-sm font-medium text-gray-900">{invoice.total.toLocaleString()} {invoice.currency}</p>
+                            </div>
+                        )}
+
+                        {invoice.paid !== undefined && invoice.paid > 0 && (
                             <div>
                                 <p className="text-xs text-gray-500 mb-1">{t('order.paid_amount')}</p>
-                                <p className="text-sm font-medium text-green-600">${invoice.paid.toLocaleString()}</p>
+                                <p className="text-sm font-medium text-green-600">{invoice.paid.toLocaleString()} {invoice.currency}</p>
                             </div>
                         )}
 
@@ -318,16 +305,9 @@ export const Order = () => {
                                 <div>
                                     <p className="text-xs text-gray-500 mb-1">{t('order.balance')}</p>
                                     <p className="text-sm font-bold text-red-600">
-                                        ${invoice.balance.toLocaleString()}
+                                        {invoice.balance.toLocaleString()} {invoice.currency}
                                     </p>
                                 </div>
-                                <Button
-                                    onClick={() => setShowPaymentPopup(true)}
-                                    className="flex items-center gap-2"
-                                >
-                                    <FaCreditCard size={16} />
-                                    {t('order.pay_now')}
-                                </Button>
                             </div>
                         )}
                     </div>
@@ -338,7 +318,7 @@ export const Order = () => {
                                 <div>
                                     <p className="text-xs text-gray-500 mb-1">{t('order.payment_status')}</p>
                                     <p className="text-sm font-medium text-gray-900">
-                                        {t(`payment_statuses.${invoice.payment_status}`)}
+                                        {t(`paymentStatuses.${invoice.payment_status}`)}
                                     </p>
                                 </div>
 
@@ -346,7 +326,7 @@ export const Order = () => {
                                     <div>
                                         <p className="text-xs text-gray-500 mb-1">{t('order.payment_method')}</p>
                                         <p className="text-sm font-medium text-gray-900">
-                                            {t(`payment_methods.${invoice.payment_method}`)}
+                                            {t(`paymentMethods.${invoice.payment_method}`)}
                                         </p>
                                     </div>
                                 )}
@@ -368,7 +348,7 @@ export const Order = () => {
             {showPaymentPopup && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-                        <div className="bg-gradient-to-r from-[#16372d] via-[#1a3d32] to-[#16372d] text-white p-6 flex items-center justify-between">
+                        <div className="bg-linear-to-r from-[#16372d] via-[#1a3d32] to-[#16372d] text-white p-6 flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <FaCreditCard size={24} />
                                 <h3 className="text-xl font-bold">{t('order.payment_popup_title')}</h3>

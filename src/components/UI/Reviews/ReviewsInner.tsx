@@ -24,7 +24,7 @@ function ReviewsInner() {
 
     widgetRef.current?.appendChild(script);
   }, []);
-  return <div ref={widgetRef} className="mt-10 w-full" />;
+  return <div ref={widgetRef} className="w-full" />;
 }
 
 export default ReviewsInner;

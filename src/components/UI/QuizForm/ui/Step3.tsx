@@ -32,7 +32,7 @@ const Step3 = ({ control, errors, setValue, watch }: StepProps) => {
             <Input
               value={field.value}
               onChange={field.onChange}
-              error={errors?.budget}
+              error={!!errors?.budget}
               wrapperClassName='max-w-[350px]'
               placeholder="Enter your budget (e.g. 1000 / 8000+)"
             />

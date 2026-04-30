@@ -35,7 +35,7 @@ export default function MobileBtn({ locale, tour }: { locale: string; tour: Tour
   };
 
   return (
-    <div className="container  bg-[#16372D] sticky bottom-0 z-50 text-white py-5 w-full hidden items-center justify-between max-[920px]:flex gap-5">
+    <div className="container bg-foreground/80 backdrop-blur-2xl fixed bottom-0 z-50 text-white px-2.5 py-5 w-full hidden items-center justify-between max-[920px]:flex gap-5">
       <div className="text-base w-full flex flex-col">
         {!!price && (
           <FormattedPrice

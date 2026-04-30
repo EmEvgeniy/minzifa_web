@@ -13,8 +13,10 @@ interface ImageWithFallbackProps extends Omit<ImageProps, 'src'> {
 export const ImageWithFallback = ({
   src,
   fallbackSrc,
+  priority,
+  preload,
   ...props
-}: ImageWithFallbackProps) => {
+}: ImageWithFallbackProps & { preload?: boolean }) => {
   const [currentSrc, setCurrentSrc] = useState<string | StaticImageData>(
     src || fallbackSrc || Fallback_Image,
   );
@@ -36,6 +38,10 @@ export const ImageWithFallback = ({
     }
   };
 
+  const loading = priority ? 'eager' : 'lazy';
+  const quality = props.quality || (priority ? 85 : 75);
+  const sizes = props.sizes || (priority ? '100vw' : undefined);
+
   return (
     <Image
       {...props}
@@ -43,11 +49,11 @@ export const ImageWithFallback = ({
       src={currentSrc}
       alt={props.alt || 'Minzifa Travel'}
       onError={handleError}
-      className={cn(
-        'object-cover w-full h-full transition-opacity duration-300',
-        props.className,
-      )}
-      quality={props.quality || 75}
+      loading={loading}
+      quality={quality}
+      sizes={sizes}
+      preload={preload}
+      className={cn('object-cover w-full h-full transition-opacity duration-300', props.className)}
     />
   );
 };

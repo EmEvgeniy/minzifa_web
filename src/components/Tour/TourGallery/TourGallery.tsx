@@ -20,7 +20,7 @@ export default function TourGallery({ images }: TourGalleryProps) {
   if (!images) return null;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 mb-5">
       <div
         className={`relative grid min-h-[460px] max-h-[460px] w-full gap-6 max-[920px]:grid-cols-1 max-[550px]:min-h-[524px] ${images?.length === 1
           ? 'grid-cols-1 md:grid-rows-1'

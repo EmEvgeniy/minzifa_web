@@ -17,10 +17,10 @@ import Transport from './Transport/Transport';
 import TourPricesContainer from './TourPrices/TourPricesContainer';
 import Reviews from '../UI/Reviews/Reviews';
 import QuizForm from '../UI/QuizForm/QuizForm';
-import MobileBtn from './MobileBtn/MobileBtn';
 import TourPrivateModal from './TourPrivateModal/TourPrivateModal';
 import { useEffect, useMemo } from 'react';
 import { useOrderTourDetailStore } from '@/store/orderTourDetailStore';
+import MobileBtn from './MobileBtn/MobileBtn';
 
 export default function TourWrapper({ locale, tourData }: { locale: string; tourData: TourData }) {
   if (!tourData?.id) redirect(`/${locale}`);
@@ -45,16 +45,20 @@ export default function TourWrapper({ locale, tourData }: { locale: string; tour
   }, [tourData?.id, tourData?.name, setAdditionalFormData]);
 
   return (
-    <>
-      <div className="w-full block max-[920px]:hidden">
+    <div className="container md:px-2.5">
+      <div className="w-full hidden md:block">
         <TourTitle title={tourData?.name} />
       </div>
       <TourGallery images={gallery} />
-      <div className="w-full hidden container max-[920px]:block">
+      <div className="w-full hidden container px-2.5 max-[920px]:block">
         <TourTitle title={tourData?.name} />
       </div>
-      <div className={"container md:!px-0 md:grid md:grid-flow-row-dense md:grid-cols-[720px_370px] md:justify-between md:gap-5"}>
-        <div className="flex flex-col gap-5 w-full h-full">
+      <div
+        className={
+          'container md:px-0! md:grid md:grid-flow-row-dense md:grid-cols-[1fr_370px] md:justify-between md:gap-5 w-full h-full'
+        }
+      >
+        <div className="flex flex-col gap-5 w-full h-full px-2.5 md:px-0">
           <TourFacts facts={tourData?.facts} tour_type={tourData?.tour_type} />
           <TourDescription
             subtitle={tourData?.subtitle}
@@ -62,7 +66,7 @@ export default function TourWrapper({ locale, tourData }: { locale: string; tour
             className="md:col-start-1 max-[920px]:gap-5 max-[920px]:py-5"
           />
         </div>
-        <div className='md:hidden'>
+        <div className="md:hidden">
           <TourBookingWrapper tour={tourData} />
         </div>
         <TourHighlights highlights={tourData?.hightlights} />
@@ -78,8 +82,10 @@ export default function TourWrapper({ locale, tourData }: { locale: string; tour
         <Transport locale={locale} transports={tourData?.transports} />
       </div>
       <TourPricesContainer tour={tourData} />
-      <Reviews />
-      <div className='container'>
+      <div className="my-10">
+        <Reviews />
+      </div>
+      <div className="container">
         {locale === 'en' ? (
           <QuizForm className="mb-10 flex justify-center" locale="en" />
         ) : (
@@ -88,6 +94,6 @@ export default function TourWrapper({ locale, tourData }: { locale: string; tour
       </div>
       <MobileBtn locale={locale} tour={tourData} />
       <TourPrivateModal locale={locale} tour={tourData} />
-    </>
+    </div>
   );
 }

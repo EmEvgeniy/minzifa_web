@@ -31,7 +31,7 @@ const Step4 = ({ errors, setValue, watch, token, getToken }: StepProps) => {
               setValue?.('name', e.target.value);
             }}
             placeholder="First Name*"
-            error={errors?.name}
+            error={!!errors?.name}
           />
 
           <Input
@@ -40,7 +40,7 @@ const Step4 = ({ errors, setValue, watch, token, getToken }: StepProps) => {
               setValue?.('email', e.target.value);
             }}
             placeholder="Email*"
-            error={errors?.email}
+            error={!!errors?.email}
           />
 
           <PhoneInputComp
@@ -48,7 +48,7 @@ const Step4 = ({ errors, setValue, watch, token, getToken }: StepProps) => {
             onChange={(value) => {
               setValue?.('phone', value);
             }}
-            error={errors?.phone}
+            error={!!errors?.phone}
           />
 
           <Checkbox

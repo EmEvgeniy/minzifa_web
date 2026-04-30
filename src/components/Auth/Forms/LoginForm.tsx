@@ -107,7 +107,7 @@ export const LoginForm = ({ step, setStep }: { step: AuthStep, setStep: (step: A
                         {...register('password')}
                         type={showPassword ? 'text' : 'password'}
                         placeholder={t('auth.login.password')}
-                        error={errors.password}
+                        error={!!errors.password}
                         endIcon={
                             <Button
                                 type="button"
@@ -129,7 +129,7 @@ export const LoginForm = ({ step, setStep }: { step: AuthStep, setStep: (step: A
                         {t('auth.forgotPassword.title')}?
                     </Button>
 
-                    <Button type="submit" className="w-full px-3 py-2" disabled={isLoading || isPending}>
+                    <Button type="submit" className="w-full px-6 py-3" disabled={isLoading || isPending}>
                         {isLoading || isPending ? <Loader /> : t('auth.login.signIn')}
                     </Button>
                 </form>

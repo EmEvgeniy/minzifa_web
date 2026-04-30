@@ -1,8 +1,14 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #e4eeeb;
-  --foreground: #16372d;
+  --background: #f9f8f6;
+  --foreground: #022b1b;
+  --secondary: #454746;
+  --elevated: #ffffff;
+  --neutral: #022b1b1f;
+  --primary: #00d37f;
+  --link: #454745;
+  --content: #6a6d6c;
 }
 
 .icon-white {
@@ -10,18 +16,28 @@
 }
 
 @theme {
-  --font-title: 'Unbounded';
+  --font-title: 'Manrope';
   --font-text: 'Inter';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-elevated: var(--elevated);
+  --color-neutral: var(--neutral);
+  --color-primary: var(--primary);
+  --color-link: var(--link);
+  --color-content: var(--content);
+  --radius-5xl: 2.5rem;
+  --tracking-zero: 0;
+  --leading-100: 100%;
+  --leading-120: 120%;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --font-title: 'Unbounded';
+    --font-title: 'Manrope';
     --font-text: 'Inter';
-    --background: #e4eeeb;
-    --foreground: #16372d;
+    --background: #f9f8f6;
+    --foreground: #022b1b;
   }
 }
 
@@ -44,7 +60,11 @@ body {
 }
 
 .container {
-  @apply max-w-[1200px] px-[15px] w-full mx-auto;
+  @apply max-w-[1440px] w-full mx-auto;
+}
+
+.container-none {
+  @apply max-w-full w-full;
 }
 
 #nprogress .bar {
@@ -61,4 +81,8 @@ body {
   100% {
     background-position: -200% 0;
   }
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
 }

@@ -5,7 +5,6 @@ import { DestinationData } from './_types';
 import Hero from '@/components/Destination/Hero/Hero';
 import ToursSection from '@/components/Tours/ToursSection/ToursSection';
 import Reviews from '@/components/UI/Reviews/Reviews';
-import Articles from '@/components/Home/Articles/Articles';
 import MobileMenu from '@/components/Tours/MobileMenu/MobileMenu';
 import { apiGet } from '../../../../../utils/serverApi';
 import { AllToursCardType, TourType } from '@/components/Tours/MainSection/_types';
@@ -128,7 +127,6 @@ export default async function DestinationPage({ params }: Props) {
         />
       </div>
       <Reviews />
-      <Articles locale={safeLocale} />
       <MobileMenu locale={safeLocale} />
     </>
   );

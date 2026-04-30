@@ -15,6 +15,8 @@ type FilterStoreData = {
   isLoading: boolean;
   expandedFilters: Record<string, boolean>;
   activeFiltersCount: number;
+  dateFrom: string | null;
+  dateTo: string | null;
   setPrices: (prices: number[], resetPage?: boolean) => void;
   setDurations: (durations: number[], resetPage?: boolean) => void;
   setSeasons: (season: string, resetPage?: boolean) => void;
@@ -23,6 +25,7 @@ type FilterStoreData = {
   setTourTypes: (type: string, resetPage?: boolean) => void;
   setDestinations: (destination: string, resetPage?: boolean) => void;
   setCurrentDestination: (destination: string | null, resetPage?: boolean) => void;
+  setDateRange: (dateFrom: string | null, dateTo: string | null, resetPage?: boolean) => void;
   setSort: (sort: string, resetPage?: boolean) => void;
   setPage: (page: number | string) => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -76,6 +79,8 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
   isLoading: true,
   expandedFilters: {},
   activeFiltersCount: 0,
+  dateFrom: null,
+  dateTo: null,
   setPrices: (prices, resetPage = true) =>
     set((state) => {
       const newPrices = prices;
@@ -125,6 +130,24 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
       currentDestination: destination,
       ...(resetPage && { page: 1 }),
     })),
+  setDateRange: (dateFrom: string | null, dateTo: string | null, resetPage = true) =>
+    set((state) => {
+      const hasDateChanged = dateFrom !== state.dateFrom || dateTo !== state.dateTo;
+      if (!hasDateChanged && resetPage) {
+        return { page: 1 };
+      }
+
+      const newActiveFiltersCount = hasDateChanged
+        ? calculateActiveFiltersCount({ ...state, dateFrom, dateTo })
+        : state.activeFiltersCount;
+
+      return {
+        dateFrom,
+        dateTo,
+        ...(resetPage && { page: 1 }),
+        ...(hasDateChanged && { activeFiltersCount: newActiveFiltersCount }),
+      };
+    }),
   setSort: (sort: string, resetPage = true) =>
     set(() => ({
       sort: sort,
@@ -157,6 +180,8 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
       page: 1,
       isLoading: false,
       activeFiltersCount: 0,
+      dateFrom: null,
+      dateTo: null,
     }),
   buildFilterQuery: () => {
     const {
@@ -170,6 +195,8 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
       currentDestination,
       sort,
       page,
+      dateFrom,
+      dateTo,
     } = get();
 
     const params = new URLSearchParams();
@@ -212,6 +239,14 @@ export const useFilterStore = create<FilterStoreData>()((set, get) => ({
 
     if (sort !== 'newest') {
       params.append('sort', sort);
+    }
+
+    if (dateFrom) {
+      params.append('date_from', dateFrom);
+    }
+
+    if (dateTo) {
+      params.append('date_to', dateTo);
     }
 
     if (page !== '1' && page !== 1) {

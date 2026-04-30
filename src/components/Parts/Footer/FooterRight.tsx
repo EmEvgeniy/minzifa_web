@@ -1,106 +1,35 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { useSnackStore } from '../../../store/useSnackStore';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { footerSubscribeSchema, FooterSubscribeFormType } from '@/validation/footerSubscribeSchema';
-import { useRecaptcha } from '@/hooks/useRecaptcha';
-import { useMetricsStore } from '@/store/useMetricsStore';
-import { Checkbox, Input } from '../../UI/Form';
-import Button from '../../UI/Button/Button';
-import { useFormSubmit } from '@/hooks';
 import Link from 'next/link';
-import { FormNameEnum } from '@/constants';
 
 export const FooterRight = () => {
   const t = useTranslations();
   const locale = useLocale();
-  const { setMessage, setError } = useSnackStore((state) => state);
-  const { token, getToken } = useRecaptcha();
-  const { metrics } = useMetricsStore();
-
-  const schema = footerSubscribeSchema(t);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FooterSubscribeFormType>({
-    resolver: zodResolver(schema),
-    mode: 'onChange',
-    defaultValues: {
-      email: '',
-      recaptchaToken: '',
-    },
-  });
-
-  const { isSubmitting, submitForm } = useFormSubmit({
-    onSuccess: () => {
-      setMessage(locale == 'en' ? 'You was subscribed!' : 'Вы были подписаны!');
-      reset();
-    },
-    onError: () => {
-      setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
-    },
-  });
-
-  const handleRecaptcha = async () => await getToken(FormNameEnum.SUBSCRIBES);
-
-  const onSubmit = async (data: FooterSubscribeFormType) => {
-    const formData = {
-      ...data,
-      recaptchaToken: token,
-      ...metrics
-    };
-
-    await submitForm(FormNameEnum.SUBSCRIBES, formData);
-  };
 
   return (
-    <div className="flex flex-col gap-3 w-full">
-      <p className="text-xl font-bold">{t('footer.formTitle')}</p>
-      <p className="text-sm">{t('footer.formText')}</p>
+    <div className=" flex flex-col lg:items-end justify-between gap-3 w-full text-white">
+      <div className="flex flex-row justify-between gap-6">
+        <div className="text-base text-white flex flex-col gap-1">
+          <span className="text-sm text-white/70 leading-100">Certificate</span> 00 67
+          84
+        </div>
+        <div className="text-base text-white flex flex-col gap-1">
+          <span className="text-sm text-white/70 leading-100">License</span> T-0087
+        </div>
+      </div>
 
-      <form className="flex flex-col items-start justify-between gap-2.5 w-full" onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          {...register('email')}
-          type="email"
-          placeholder={t('footer.formPl')}
-          error={errors.email}
-        />
-        <Checkbox
-          label={t.rich('common.termsAcceptance', {
-            terms: (chunks) => (
-              <Link
-                href={`/${locale}/term-and-conditions-of-booking-tours`}
-                className="text-[#009F65] hover:underline"
-                target='_blank'
-              >
-                {chunks}
-              </Link>
-            ),
-            privacy: (chunks) => (
-              <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
-                {chunks}
-              </Link>
-            ),
-          })}
-          checked={!!token}
-          onChange={handleRecaptcha}
-          labelClassName='flex-wrap gap-x-1 text-sm text-white/80 hover:text-white'
-        />
-
-        <Button
-          type="submit"
-          disabled={isSubmitting || !token}
-          className={"px-4 py-3"}
-        >
-          {t('footer.formBtn')}
-        </Button>
-      </form>
-
+      <div className="flex flex-row justify-between w-full gap-[30px]">
+        <Link href={`${locale}/`} className="text-base text-white/70 underline leading-100">
+          {t('common.terms')}
+        </Link>
+        <Link href={`${locale}/`} className="text-base text-white/70 underline leading-100">
+          {t('common.privacyPolicy')}
+        </Link>
+        <Link href={`${locale}/`} className="text-base text-white/70 underline leading-100">
+          {t('common.cockie')}
+        </Link>
+      </div>
     </div>
   );
 };

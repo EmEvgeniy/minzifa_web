@@ -1,5 +1,4 @@
 import { forwardRef } from 'react';
-import { FieldError } from 'react-hook-form';
 import { FaChevronDown } from 'react-icons/fa';
 import { cn } from '@/utils';
 
@@ -11,12 +10,17 @@ interface SelectOption {
 
 interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'value'> {
   label?: string;
-  error?: FieldError;
+  error?: boolean | { message?: string };
   helperText?: string;
   options: SelectOption[];
   placeholder?: string;
   fullWidth?: boolean;
   value?: string | number;
+  wrapperClassName?: string;
+  labelClassName?: string;
+  selectWrapperClassName?: string;
+  errorClassName?: string;
+  helperTextClassName?: string;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
@@ -28,6 +32,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       options,
       placeholder = 'Выберите опцию',
       className,
+      wrapperClassName,
+      labelClassName,
+      selectWrapperClassName,
+      errorClassName,
+      helperTextClassName,
       fullWidth = true,
       ...props
     },
@@ -44,10 +53,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     );
 
     return (
-      <div className={cn('flex flex-col gap-1', fullWidth && 'w-full')}>
-        {label && <label className="text-sm font-medium text-gray-700">{label}</label>}
+      <div className={cn('flex flex-col gap-1', fullWidth && 'w-full', wrapperClassName)}>
+        {label && <label className={cn('text-sm font-medium text-gray-700', labelClassName)}>{label}</label>}
 
-        <div className="relative">
+        <div className={cn('relative', selectWrapperClassName)}>
           <select ref={ref} className={selectClasses} {...props}>
             {placeholder && (
               <option value="" disabled>
@@ -64,9 +73,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           <FaChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none w-4 h-4" />
         </div>
 
-        {error && <p className="text-sm text-red-500">{error.message}</p>}
+        {error && <p className={cn('text-sm text-red-500', errorClassName)}>{typeof error === 'object' ? error.message : 'Error'}</p>}
 
-        {helperText && !error && <p className="text-sm text-gray-500">{helperText}</p>}
+        {helperText && !error && <p className={cn('text-sm text-gray-500', helperTextClassName)}>{helperText}</p>}
       </div>
     );
   },

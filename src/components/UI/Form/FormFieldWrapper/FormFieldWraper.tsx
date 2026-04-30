@@ -5,7 +5,7 @@ import { cn } from '@/utils';
 
 interface FormFieldWrapperProps {
     label?: string;
-    error?: { message?: string };
+    error?: boolean;
     helperText?: string;
     fullWidth?: boolean;
     className?: string;
@@ -40,8 +40,8 @@ export const FormFieldWrapper = ({
             </div>
 
             {/* helper / error */}
-            {error ? (
-                <p className="mt-2 text-xs text-red-500">{error.message}</p>
+            {error && helperText ? (
+                <p className="mt-2 text-xs text-red-500">{helperText}</p>
             ) : helperText ? (
                 <p className="mt-2 text-xs text-gray-500">{helperText}</p>
             ) : null}

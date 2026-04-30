@@ -21,7 +21,7 @@ function FilterTypes({ initTourTypes }: { initTourTypes?: TourType[] }) {
               checked={tourTypes.includes(el.name)}
               onChange={() => setTourTypes(el.name)}
               withBadge
-              badge={el.tours_count.toString()}
+              badge={(el.tours_count ?? 0).toString()}
             />
           ))}
       </div>

@@ -19,7 +19,7 @@ type WrapperProps = {
 };
 
 const baseButtonStyles =
-  'cursor-pointer flex items-center justify-center p-3 rounded-full transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
+  'cursor-pointer flex items-center justify-center p-4.5 rounded-full transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
 
 const variants = {
   light: 'text-black bg-white hover:bg-gray-100',
@@ -33,7 +33,7 @@ export const PrevButton: React.FC<PropType> = ({
   ...rest
 }) => (
   <button type="button" {...rest} className={cn(baseButtonStyles, variants[variant], className)}>
-    <FaChevronLeft />
+    <FaChevronLeft size={24} />
     {children}
   </button>
 );
@@ -45,7 +45,7 @@ export const NextButton: React.FC<PropType> = ({
   ...rest
 }) => (
   <button type="button" {...rest} className={cn(baseButtonStyles, variants[variant], className)}>
-    <FaChevronRight />
+    <FaChevronRight size={24} />
     {children}
   </button>
 );
@@ -69,14 +69,20 @@ export const ECArrowWrapper = ({
       <PrevButton
         {...prevBtnRest}
         variant={prevVariant}
-        disabled={prevBtnDisabled}
         onClick={onPrevButtonClick}
+        className={cn(
+          prevBtnDisabled ? 'opacity-0' : 'opacity-100',
+          'transition-opacity duration-500 ease-in-out',
+        )}
       />
       <NextButton
         {...nextBtnRest}
         variant={nextVariant}
-        disabled={nextBtnDisabled}
         onClick={onNextButtonClick}
+        className={cn(
+          nextBtnDisabled ? 'opacity-0' : 'opacity-100',
+          'transition-opacity duration-500 ease-in-out',
+        )}
       />
     </div>
   );

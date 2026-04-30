@@ -58,11 +58,14 @@ export interface DropdownSummaryProps {
 /**
  * Контейнер с выпадающим списком (Details)
  */
+export type DropdownPosition = 'left' | 'right' | 'full';
+
 export interface DropdownDetailsProps {
   children:
     | ReactNode
     | ((args: { isOpen: boolean; toggle: (state?: boolean) => void }) => ReactNode);
   className?: string;
+  position?: DropdownPosition;
 }
 
 /**

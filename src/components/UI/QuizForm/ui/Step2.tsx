@@ -89,7 +89,7 @@ const Step2 = ({ control, errors, setValue }: StepProps) => {
             <Input
               value={field.value}
               onChange={field.onChange}
-              error={errors?.howManyDays}
+              error={!!errors?.howManyDays}
               placeholder="For how many days?"
               wrapperClassName="max-w-[300px]"
             />

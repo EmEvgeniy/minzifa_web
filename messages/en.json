@@ -32,6 +32,21 @@
         "text": "We are committed to providing high quality services, carefully crafting every detail of the trip to achieve complete satisfaction of our clients."
       }
     ],
+    "hero_search": {
+      "where": "Where to?",
+      "date": "Start date - End date",
+      "popular_destinations": "Popular destinations",
+      "recent_searches": "Recent searches",
+      "tours": "Tours",
+      "tour": "Tour",
+      "destination": "Destination"
+    },
+    "main_filter": {
+      "best_selling": "Best-selling",
+      "private_tour": "Private Tour",
+      "groud_tour": "Group Tour",
+      "view_all": "View all tours"
+    },
     "adventureTitle": "Adventure time",
     "contactUsTitle": "Contact Us",
     "contactUsText": " Contact us - we will help you find a tour, clarify the details and book everything for you.",
@@ -54,8 +69,98 @@
       "phone": "Call us"
     },
     "reviews": {
-      "title": "Ratings & Reviews",
-      "count": "{count}+ reviews"
+      "title": "Why travelers trust Minzifa Travel?",
+      "count": "{count} reviews"
+    },
+    "stats": {
+      "title": "Why Choose Minzifa Travel",
+      "items": [
+        {
+          "value": "14",
+          "label": "years",
+          "description": "years experience"
+        },
+        {
+          "value": "12,890+",
+          "label": "Planned",
+          "description": "private and group journeys"
+        },
+        {
+          "value": "463+",
+          "label": "Verified",
+          "description": "reviews"
+        },
+        {
+          "value": "24/7",
+          "label": "Support",
+          "description": "24/7 support"
+        }
+      ]
+    },
+    "newsletter": {
+      "title": "Sign up for our newsletter",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "Your email",
+      "subscribeButton": "Subscribe to emails",
+      "subscribing": "Subscribing...",
+      "checkboxText": "By clicking the 'Subscribe to emails' button, you accept the Data Transfer Terms and",
+      "privacyPolicy": "Privacy Policy",
+      "validation": {
+        "fillAll": "Please fill in all fields",
+        "acceptTerms": "Please accept the terms"
+      },
+      "success": "Thank you for subscribing!",
+      "error": "Failed to subscribe. Please try again.",
+      "errorNetwork": "An error occurred. Please try again.",
+      "termsAcceptance": "By clicking the \"Subscribe to emails\" button, you accept the <terms>Data Transfer Terms</terms> and agree to the <privacy>Privacy Policy</privacy>",
+      "errors": {
+        "email_invalid": "Invalid email address"
+      }
+    },
+    "newsletterCTA": {
+      "title": "Get expert travel ideas and a $50 welcome credit",
+      "description": "Subscribe to receive handpicked tour ideas, practical tips, and special offers for Uzbekistan and Central Asia. New subscribers get a $50 credit toward their first booking.",
+      "button": "Subscribe & Save $50",
+      "placeholder": "Enter your email"
+    },
+    "whyUs": {
+      "title": "What makes us different",
+      "subtitle": "For over a decade, we've been connecting travelers with authentic experiences across Central Asia. Our commitment to quality, safety, and cultural respect sets us apart.",
+      "features": [
+        {
+          "title": "Certified Local Guides",
+          "description": "The best in the region – passionate, knowledgeable guides who know every corner of Central Asia."
+        },
+        {
+          "title": "Tried & Tested Itineraries",
+          "description": "Every route is refined to perfection. Our itineraries are crafted from years of experience."
+        },
+        {
+          "title": "Comfortable Transfers",
+          "description": "Professional drivers, air-conditioned vehicles, and reliable transportation for your peace of mind."
+        },
+        {
+          "title": "Your Safety, Our Priority",
+          "description": "We put your wellbeing first. Our tours include comprehensive safety measures and support."
+        }
+      ],
+      "aboutButton": "About us"
+    }
+  },
+  "PlanYourTripPopup": {
+    "title": "Plan your trip",
+    "subtitle": "Expert help with route, dates, and travel style.",
+    "form": {
+      "name": "Your name",
+      "email": "Your email",
+      "phone": "Your phone",
+      "button": "Start planning",
+      "terms": "By clicking the \"Start planning\" button, you accept the <terms>Data Transfer Terms</terms> and agree to the <privacy>Privacy Policy</privacy>"
+    },
+    "errors": {
+      "name_min": "Name is too short (minimum 2 characters)",
+      "email_invalid": "Invalid email address",
+      "phone_invalid": "Enter a valid phone number"
     }
   },
   "Filters": "Filters",
@@ -64,25 +169,21 @@
   "navigation": {
     "nav": [
       {
-        "link": "tours",
-        "title": "All tours"
-      },
-      {
         "link": "destination",
         "title": "Destinations",
         "inner": "true"
       },
       {
-        "link": "eco-travel",
-        "title": "Eco Travel"
+        "link": "tours",
+        "title": "Tours"
+      },
+      {
+        "link": "tours",
+        "title": "Private Tours"
       },
       {
         "link": "about",
-        "title": "About us"
-      },
-      {
-        "link": "contact",
-        "title": "Contact us"
+        "title": "Why Minzifa"
       },
       {
         "link": "reviews",
@@ -91,8 +192,9 @@
     ]
   },
   "common": {
+    "search": "Search",
+    "plan_trip": "Plan my trip",
     "filters": "Filters",
-    "search": "Search destinations",
     "nothingFound": "Nothing found",
     "viewItinerary": "View itinerary",
     "seeAllTrips": "See all trips",
@@ -107,18 +209,21 @@
       "group": "Group tour"
     },
     "currencies": {
-      "USD": "$",
+      "USD": "USD $",
       "EUR": "€",
       "RUB": "₽",
       "CNY": "¥"
     },
     "tourCard": {
       "days": "days",
-      "from": "from",
-      "byRequest": "by request"
+      "from": "From",
+      "byRequest": "by request",
+      "pp": "per person"
     },
     "lang": ["en", "ru"],
+    "terms": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
+    "cockie": "Cookie",
     "termsAcceptance": "I accept Minzifa Travel <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>"
   },
   "footer": {
@@ -126,7 +231,7 @@
     "text": "Minzifa Travel offers expertly crafted tours across Uzbekistan and Central Asia, created by travel professionals with over 20 years of experience.",
     "text2": "We warmly welcome you to discover the magic, colors, and unforgettable beauty of the Great Silk Road.",
     "text3": "Ready to plan your next adventure? Contact us today — we’d love to discuss the details!",
-    "menuTitle": "Company",
+    "menuTitle": "Navigation",
     "menu": [
       {
         "title": "Tours",
@@ -156,20 +261,16 @@
         "link": "adventures"
       },
       {
-        "title": "Tour Booking Rules",
+        "title": "Booking conditions",
         "link": "term-and-conditions-of-booking-tours"
-      },
-      {
-        "title": "Hotel Booking Rules",
-        "link": "hotel-booking-rules"
       },
       {
         "title": "Eco Travel",
         "link": "eco-travel"
       },
       {
-        "title": "Company's sustainable development policy",
-        "link": "company-sustainable-development-policy"
+        "title": "FAQ",
+        "link": "faq"
       }
     ],
     "formTitle": "Sign up for our newsletter,",
@@ -699,7 +800,7 @@
         "text": "Click the button below to request a custom tour"
       },
       "showAll": "Show all {count} tours",
-      "orContinue": "Or continue filling out the form for a custom tour \u2193"
+      "orContinue": "Or continue filling out the form for a custom tour ↓"
     }
   },
   "article": {
@@ -1180,7 +1281,6 @@
     "subtitle": "We have received your request and have already started processing it.",
     "text": "One of our travel experts will contact you within 24 hours via your preferred method — phone or email — to discuss the details of your trip and offer the best options tailored to your wishes."
   },
-
   "auth": {
     "title": "Sign in / Register",
     "advantages": ["Membership rewards", "Manage bookings with ease"],
@@ -1394,7 +1494,6 @@
   "loginPage": {
     "title": "Login Page"
   },
-
   "errors": {
     "name_min": "Name is too short (minimum 2 characters)",
     "email_invalid": "Invalid email address",
@@ -1433,7 +1532,6 @@
     "file_type_invalid": "Invalid file type (only images are allowed)",
     "travellers_min": "Minimum 1 traveler"
   },
-
   "orders": {
     "title": "My Orders",
     "metadata": {
@@ -1496,7 +1594,7 @@
     "payment_status": "Payment status",
     "payment_method": "Payment method",
     "payment_date": "Payment date",
-    "pay_now": "Pay Now",
+    "pay_now": "Pay now",
     "pay_deposit": "Pay Deposit",
     "pay_full": "Pay Full",
     "cancel_order": "Cancel Order",
@@ -1506,19 +1604,16 @@
     "generating_payment_url": "Creating payment link",
     "please_wait": "Please wait...",
     "payment_description": "You will be redirected to the payment page. Please complete the payment within the specified time.",
-    "proceed_to_payment": "Proceed to payment",
-    "pay_now": "Pay now",
-    "payment_failed": "Failed to create payment link",
+    "proceed_to_payment": "Proceed to Payment",
+    "payment_failed": "Failed to generate payment link",
     "payment_deposit_description": "Complete your deposit payment to secure your booking. You can pay the remaining amount later.",
     "payment_full_description": "Complete your full payment to confirm your booking.",
     "payment_redirect_note": "You will be redirected to the payment page. Please complete the payment within the specified time.",
-    "proceed_to_payment": "Proceed to Payment",
     "choose_payment_type": "Choose payment type",
     "deposit_payment": "Deposit Payment",
     "deposit_hint": "Secure your booking with a deposit",
     "full_payment": "Full Payment",
     "full_payment_hint": "Pay the complete amount at once",
-    "payment_failed": "Failed to generate payment link",
     "cancel_popup_title": "Cancel Order",
     "cancel_warning": "Are you sure you want to cancel this order? This action cannot be undone.",
     "cancel_reason_label": "Reason for cancellation",
@@ -1553,7 +1648,6 @@
     "wishes": "Your wishes",
     "button": "Send request"
   },
-
   "adventures": {
     "header": {
       "findTrips": "Find Trips",
@@ -1764,8 +1858,7 @@
         "noData": "No data found"
       }
     }
-  }
-,
+  },
   "notFound": {
     "subtitle": "Oops, page not found",
     "backButton": "Back to the main page"

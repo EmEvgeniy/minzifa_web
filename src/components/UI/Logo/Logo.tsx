@@ -4,23 +4,21 @@ import Link from 'next/link';
 import { logo } from '@/assets/icons';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
 import { cn } from '@/utils';
+import { ImageProps } from 'next/image';
 
-export default function Logo({
-  locale,
-  wrapperClassName,
-  className,
-}: {
+interface LogoProps extends Omit<ImageProps, 'src'> {
   locale: string;
   wrapperClassName?: string;
   className?: string;
-}) {
+}
+
+export default function Logo({ locale, wrapperClassName, className, ...props }: LogoProps) {
   return (
     <Link href={`/${locale}`} className={cn('cursor-pointer', wrapperClassName)}>
       <ImageWithFallback
+        {...props}
+        alt={props.alt ?? 'Minzifa Travel'}
         src={logo}
-        alt="Minzifa Travel"
-        width={160}
-        height={30}
         className={className}
       />
     </Link>

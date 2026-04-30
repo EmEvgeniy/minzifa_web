@@ -134,7 +134,7 @@ export const ProfileEditForm = () => {
                         type="text"
                         label={t('profile.name')}
                         placeholder={t('profile.name')}
-                        error={errors.name}
+                        error={!!errors.name}
                     />
 
                     <Input
@@ -142,7 +142,7 @@ export const ProfileEditForm = () => {
                         type="email"
                         label={t('profile.email')}
                         placeholder={t('profile.email')}
-                        error={errors.email}
+                        error={!!errors.email}
                     />
 
                     <Controller
@@ -153,7 +153,7 @@ export const ProfileEditForm = () => {
                                 {...field}
                                 label={t('profile.phone')}
                                 placeholder={t('profile.phone')}
-                                error={errors.phone}
+                                error={!!errors.phone}
                             />
                         )}
                     />
@@ -180,16 +180,16 @@ export const ProfileEditForm = () => {
                             type="password"
                             label={t('profile.currentPassword')}
                             placeholder={t('profile.currentPassword')}
-                            error={passwordErrors.current_password}
+                            error={!!passwordErrors.current_password}
                             className="text-base md:text-sm"
                         />
 
                         <Input
-                            {...registerPassword('new_password')}
+                            {...registerPassword('confirm_new_password')}
                             type="password"
-                            label={t('profile.newPassword')}
-                            placeholder={t('profile.newPassword')}
-                            error={passwordErrors.new_password}
+                            label={t('profile.confirmPassword')}
+                            placeholder={t('profile.confirmPassword')}
+                            error={!!passwordErrors.confirm_new_password}
                             className="text-base md:text-sm"
                         />
 
@@ -198,7 +198,7 @@ export const ProfileEditForm = () => {
                             type="password"
                             label={t('profile.confirmNewPassword')}
                             placeholder={t('profile.confirmNewPassword')}
-                            error={passwordErrors.confirm_new_password}
+                            error={!!passwordErrors.confirm_new_password}
                             className="text-base md:text-sm"
                         />
 

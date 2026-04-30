@@ -129,7 +129,7 @@ const Step1 = ({ control, errors, setValue }: StepProps) => {
               onChange={(value) => field.onChange(value)}
               options={monthOptions as { label: string }[]}
               icon={<IoIosCalendar size={24} />}
-              error={errors?.whenGo}
+              error={!!errors?.whenGo}
               className='max-w-[350px]'
               labelKey='label'
               valueKey='label'

@@ -6,3 +6,6 @@ export * from './Loader';
 export * from './Popup';
 export * from './PhoneInput';
 export * from './Tabs';
+export * from './CheckCircles';
+export * from './Switch';
+export * from './Skeleton';

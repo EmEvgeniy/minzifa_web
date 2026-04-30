@@ -102,7 +102,7 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
                 type="text"
                 label={t('profile.name')}
                 placeholder={t('profile.name')}
-                error={errors.name}
+                error={!!errors.name}
                 className="text-base md:text-sm"
             />
 
@@ -111,7 +111,7 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
                 type="email"
                 label={t('profile.email')}
                 placeholder={t('profile.email')}
-                error={errors.email}
+                error={!!errors.email}
                 className="text-base md:text-sm"
             />
 
@@ -123,7 +123,7 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
                         {...field}
                         label={t('profile.phone')}
                         placeholder={t('profile.phone')}
-                        error={errors.phone}
+                        error={!!errors.phone}
                     />
                 )}
             />

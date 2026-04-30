@@ -2,25 +2,17 @@
 
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import { FormNameEnum } from '@/constants';
 import { Checkbox } from '@/components/UI/Form';
 import Button from '@/components/UI/Button/Button';
 import { useFormSubmit } from '@/hooks';
 import Loader from '@/components/UI/Loader/Loader';
 
-type BookingSubmitProps = {
-    token: string;
-    getToken: (formName: FormNameEnum) => Promise<void>;
-};
-
-export default function BookingSubmit({ token, getToken }: BookingSubmitProps) {
+export default function BookingSubmit() {
     const t = useTranslations('booking');
     const tGlobal = useTranslations();
     const locale = useLocale();
 
     const { isSubmitting } = useFormSubmit();
-
-    const handleRecaptcha = async () => await getToken(FormNameEnum.BOOKING);
 
     return (
         <div className="lg:hidden flex flex-col gap-4 mt-6">
@@ -43,8 +35,8 @@ export default function BookingSubmit({ token, getToken }: BookingSubmitProps) {
                             </Link>
                         ),
                     })}
-                    checked={!!token}
-                    onChange={handleRecaptcha}
+                    checked={true}
+                    onChange={() => {}}
                     labelClassName='flex-wrap gap-x-1 text-sm text-gray-500'
                 />
             </div>
@@ -53,7 +45,7 @@ export default function BookingSubmit({ token, getToken }: BookingSubmitProps) {
                 form="booking-form"
                 type="submit"
                 className="w-full"
-                disabled={isSubmitting || !token}
+                disabled={isSubmitting}
             >
                 {isSubmitting ? <Loader /> : <span>{t('button')}</span>}
             </Button>

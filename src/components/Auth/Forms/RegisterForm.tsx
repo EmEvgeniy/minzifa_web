@@ -108,7 +108,7 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
                         {...register('email')}
                         type="email"
                         placeholder={t('auth.login.email')}
-                        error={errors.email}
+                        error={!!errors.email}
                         startIcon={<FaEnvelope size={16} />}
                         wrapperClassName="mb-2"
                         disabled={!!email}
@@ -118,7 +118,7 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
                         {...register('password')}
                         type={showPassword ? 'text' : 'password'}
                         placeholder={t('auth.login.createPassword')}
-                        error={errors.password}
+                        error={!!errors.password}
                         endIcon={
                             <Button
                                 type="button"
@@ -139,7 +139,7 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
                         render={({ field }) => (
                             <PhoneInputComp
                                 {...field}
-                                error={errors.phone}
+                                error={!!errors.phone}
                                 wrapperClassName="mb-2"
                             />
                         )}
@@ -162,7 +162,6 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
                                 </Link>
                             ),
                         })}
-                        size="sm"
                         checked={!!token}
                         onChange={handleRecaptcha}
                         labelClassName='flex-wrap gap-x-1 text-xs text-gray-500 hover:text-gray-700'

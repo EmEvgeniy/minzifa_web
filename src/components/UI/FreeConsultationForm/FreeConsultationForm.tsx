@@ -138,7 +138,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
             render={({ field }) => (
               <Input
                 {...field}
-                error={errors.name}
+                error={!!errors.name}
                 placeholder={t('freeConsultation.name')}
                 className='px-5 py-4'
               />
@@ -150,7 +150,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
             render={({ field }) => (
               <Input
                 {...field}
-                error={errors.email}
+                error={!!errors.email}
                 placeholder={t('freeConsultation.email')}
                 className='px-5 py-4'
               />
@@ -162,7 +162,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
             render={({ field }) => (
               <PhoneInputComp
                 {...field}
-                error={errors.phone}
+                error={!!errors.phone}
                 inputClass='!px-5 !py-4 !pl-10'
               />
             )}
@@ -173,7 +173,7 @@ export default function FreeConsultationForm({ className }: FreeConsultationForm
             render={({ field }) => (
               <Textarea
                 {...field}
-                error={errors.message}
+                error={!!errors.message}
                 className='px-5 py-4'
                 placeholder={t('freeConsultation.wishes')}
               />

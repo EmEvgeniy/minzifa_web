@@ -1,7 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { Metadata } from 'next';
 import { DefaultPageProps } from '@/types';
-import Articles from '@/components/Home/Articles/Articles';
 import FreeConsultationForm from '@/components/UI/FreeConsultationForm/FreeConsultationForm';
 
 import Breadcrumbs from '@/components/UI/Breadcrumbs/Breadcrumbs';
@@ -92,7 +91,7 @@ export default async function page({ params }: DefaultPageProps) {
   if (!article?.id) redirect(`/${locale}`);
 
   return (
-    <section className="pt-[150px] min-h-[100svh] max-[1200px]:pt-[120px] max-[550px]:pt-[100px]">
+    <section className="pt-[150px] min-h-svh max-[1200px]:pt-[120px] max-[550px]:pt-[100px]">
       <div className="container">
         <Breadcrumbs
           locale={locale}
@@ -101,8 +100,6 @@ export default async function page({ params }: DefaultPageProps) {
         />
         <Content locale={locale} articleDetail={article} tours={tours} />
       </div>
-
-      <Articles locale={locale} />
 
       <div className="container">
         <FreeConsultationForm />

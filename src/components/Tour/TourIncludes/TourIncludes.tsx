@@ -28,7 +28,7 @@ export default function TourIncludes({ includes }: { includes: Include[] | undef
   if (!includes) return null;
 
   return (
-    <div className="flex flex-col gap-5 md:col-start-1 mb-5">
+    <div className="flex flex-col gap-5 md:col-start-1 mb-5 px-2.5 md:px-0">
       <h2 className="text-4xl font-semibold text-black max-[920px]:text-[30px] max-[550px]:text-[24px]">
         {t('includes.title')}
       </h2>

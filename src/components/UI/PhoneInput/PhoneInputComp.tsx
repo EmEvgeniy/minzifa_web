@@ -9,18 +9,7 @@ import { PhoneInputCompProp } from './_types';
 import './style.scss';
 
 export const PhoneInputComp: FC<PhoneInputCompProp> = memo(
-  (
-    {
-      value,
-      onChange,
-      label,
-      error,
-      helperText,
-      fullWidth = true,
-      wrapperClassName,
-      ...props
-    }
-  ) => {
+  ({ value, onChange, label, error, helperText, fullWidth = true, wrapperClassName, ...props }) => {
     const countryCode = useDetectCountry();
     const id = useId();
 
@@ -53,17 +42,14 @@ export const PhoneInputComp: FC<PhoneInputCompProp> = memo(
               'aria-invalid': !!error,
               'aria-describedby': helperText ? `${id}-helper` : undefined,
             }}
-            inputClass={cn(
-              label && 'with-label',
-              props.inputClass
-            )}
-            buttonClass={label && 'with-label'}
+            inputClass={cn(label && 'with-label', props.inputClass)}
+            buttonClass={cn(label && 'with-label', '')}
             {...props}
           />
         </div>
       </FormFieldWrapper>
     );
-  });
-
+  },
+);
 
 PhoneInputComp.displayName = 'PhoneInputComp';

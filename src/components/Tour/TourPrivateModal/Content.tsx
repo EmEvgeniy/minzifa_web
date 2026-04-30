@@ -205,7 +205,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
                     field.onChange(e);
                     setFormData(prev => ({ ...prev, travellers: e.target.value || "1" }));
                   }}
-                  error={errors.travellers}
+                  error={!!errors.travellers}
                 />
               )}
             />
@@ -224,7 +224,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
                     field.onChange(value);
                     setFormData(prev => ({ ...prev, price: value }));
                   }}
-                  error={errors.price}
+                  error={!!errors.price}
 
                 />
               )}
@@ -261,7 +261,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
                     field.onChange(e);
                     setFormData(prev => ({ ...prev, name: e.target.value }));
                   }}
-                  error={errors.name}
+                  error={!!errors.name}
                 />
               )}
             />
@@ -277,7 +277,7 @@ export const Content = ({ tour }: { tour: Tour }) => {
                     field.onChange(e);
                     setFormData(prev => ({ ...prev, email: e.target.value }));
                   }}
-                  error={errors.email}
+                  error={!!errors.email}
                 />
               )}
             />

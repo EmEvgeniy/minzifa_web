@@ -89,7 +89,7 @@ const GroupPricesForm = ({ tour }: GroupPricesFormProps) => {
       >
         {tour?.tour_type === 'individual' ? t('by_request.button') : t('booking.button')}
       </button>
-      <hr className="border-1 border-gray-200" />
+      <hr className="border border-gray-200" />
       <Button
         onClick={() => isAuthenticated ? setIsOpen(true) : setAuthPopup(true)}
         type="button"

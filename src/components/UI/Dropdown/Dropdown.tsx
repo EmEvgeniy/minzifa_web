@@ -172,7 +172,7 @@ export const DropdownSummary = ({ children, className }: DropdownSummaryProps) =
 };
 
 
-export const DropdownDetails = ({ children, className }: DropdownDetailsProps) => {
+export const DropdownDetails = ({ children, className, position = 'left' }: DropdownDetailsProps) => {
   const context = useContext(DropdownContext);
   if (!context) throw new Error('DropdownDetails must be used within a Dropdown');
 
@@ -182,6 +182,12 @@ export const DropdownDetails = ({ children, className }: DropdownDetailsProps) =
     }
     return children;
   }, [children, context.isOpen, context.toggle]);
+
+  const positionClass = {
+    left: 'left-0',
+    right: 'right-0',
+    full: 'left-0 right-0',
+  }[position];
 
   return (
     <AnimatePresence>
@@ -194,7 +200,8 @@ export const DropdownDetails = ({ children, className }: DropdownDetailsProps) =
           transition={{ duration: 0.25, ease: 'easeInOut' }}
           role="menu"
           className={cn(
-            'absolute left-0 mt-2 rounded-md bg-white shadow-lg border border-gray-200 z-30',
+            'absolute mt-2 rounded-md bg-white shadow-lg border border-gray-200 z-30',
+            positionClass,
             className,
           )}
         >

@@ -235,3 +235,28 @@ export const useAuthGetInfiniteQuery = <T = unknown>({
 };
 
 export const getCsrfToken = async () => await authAxiosInstance.get('/sanctum/csrf-cookie');
+
+export const useSearchToursQuery = (search: string, locale: string) => {
+  return useQuery<TourSearchResult>({
+    queryKey: ['tours_search', search, locale],
+    enabled: !!search && search.length >= 2,
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      params.append('locale', locale);
+      params.append('name', search);
+      params.append('perPage', '5');
+      params.append('all', '1');
+
+      const response = await axiosInstance.get(`tours?${params.toString()}`);
+      return response.data;
+    },
+  });
+};
+
+export interface TourSearchResult {
+  data: Array<{
+    id: number;
+    name: string;
+    slug: string;
+  }>;
+}

@@ -5,12 +5,12 @@ import { apiGet } from '@/utils/serverApi';
 import Hero from '@/components/Home/Hero/Hero';
 import Info from '@/components/Home/Info/Info';
 import BestSellers from '@/components/Home/BestSellers/BestSellers';
+import NewsletterCTA from '@/components/Home/NewsletterCTA/NewsletterCTA';
 import Destinations from '@/components/Home/Destinations/Destinations';
-import HowToBook from '@/components/Home/HowToBook/HowToBook';
+import WhyUs from '@/components/Home/WhyUs/WhyUs';
 import Adventure from '@/components/Home/Adventure/Adventure';
-import CreateYourTrip from '@/components/Home/CreateYourTrip/CreateYourTrip';
-import ContactUs from '@/components/Home/ContactUs/ContactUs';
 import Reviews from '@/components/UI/Reviews/Reviews';
+import NewsletterSignup from '@/components/Home/NewsletterSignup/NewsletterSignup';
 
 // Универсальный безопасный запрос к API
 async function safeApiGet<T>(url: string, fallback: T, revalidateSeconds = 300): Promise<T> {
@@ -87,16 +87,16 @@ export default async function HomePage({ params }: DefaultPageProps) {
   const locale = ['en', 'ru'].includes(rawLocale) ? rawLocale : 'en';
 
   return (
-    <>
+    <div className="flex flex-col">
       <Hero locale={locale} />
       <Info locale={locale} />
       <BestSellers locale={locale} />
+      <NewsletterCTA />
       <Destinations locale={locale} />
-      <HowToBook locale={locale} />
+      <WhyUs locale={locale} />
       <Adventure locale={locale} />
-      <CreateYourTrip locale={locale} />
-      <ContactUs locale={locale} />
       <Reviews />
-    </>
+      <NewsletterSignup />
+    </div>
   );
 }

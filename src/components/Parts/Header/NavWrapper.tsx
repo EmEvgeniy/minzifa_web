@@ -1,4 +1,5 @@
 'use client';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavStore } from './store';
 import { useGetQuery } from '@/api/get.api';
@@ -25,7 +26,7 @@ export const NavWrapper = ({ children }: { children: React.ReactNode }) => {
     <div
       onMouseEnter={() => index !== null && setActiveIndex(index)}
       onMouseLeave={() => setActiveIndex(null)}
-      className="relative"
+      className="relative flex flex-row items-center justify-start w-full"
     >
       {children}
       <AnimatePresence>

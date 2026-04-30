@@ -18,6 +18,7 @@ export enum FormNameEnum {
   CHAT_POPUP = 'Chat Popup',
   PRIVATE_TOUR_FORM = 'Private tour form',
   ADVENTURES_SUBSCRIBE = 'Adventures subscribe',
+  PLAN_YOUR_TRIP = 'Plan Your Trip',
 }
 
 export const PROTECTED_ROUTES = [

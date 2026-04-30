@@ -56,11 +56,13 @@ export interface INote {
 export interface IInvoiceData {
   invoice_number: string;
   total: number;
+  deposit: number;
   paid: number;
   balance: number;
-  payment_status: PaymentStatusEnum;
-  payment_method: PaymentTypeEnum;
+  payment_status: PaymentStatusEnum | string;
+  payment_method: PaymentTypeEnum | string | null;
   payment_date: string | null;
+  currency: string;
 }
 
 export interface IInvoice {
@@ -83,4 +85,33 @@ export interface IOrder {
   manager: import('@/components/Auth/_types').IManager;
   invoice?: IInvoiceData;
   form_name?: string;
+}
+
+export interface IBookingFormData {
+  tour_name?: string;
+  tour_start?: string;
+  tour_end?: string;
+  travellers_count?: number;
+  tour_price?: number;
+  total_price?: number;
+  deposit?: number;
+  deposit_amount?: number;
+  currency?: string;
+  payment_type?: string;
+  payment_status?: string;
+  passengers?: Array<{
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone?: string;
+  }>;
+}
+
+export interface IBookingForm {
+  id: number;
+  user_id: number | null;
+  form_name: string;
+  form_data: IBookingFormData;
+  created_at: string;
+  updated_at: string;
 }

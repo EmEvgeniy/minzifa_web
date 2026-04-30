@@ -5,4 +5,5 @@ export type availableFilters =
   | 'hotels'
   | 'tourType'
   | 'tourTypes'
-  | 'destinations';
+  | 'destinations'
+  | 'date';

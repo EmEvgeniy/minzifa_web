@@ -1,13 +1,11 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { Tour } from '../_types';
 import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
 import { PrivatePriceIcon } from '@/assets/img';
 import { useTranslations } from 'next-intl';
-
-const GroupPricesForm = dynamic(() => import('./GroupPricesForm'));
-const PrivatePriceForm = dynamic(() => import('./PrivatePriceForm'));
+import GroupPricesForm from './GroupPricesForm';
+import PrivatePriceForm from './PrivatePriceForm';
 
 interface TourBookingWrapperProps {
   tour: Tour;

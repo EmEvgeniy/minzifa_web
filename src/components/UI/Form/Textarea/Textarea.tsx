@@ -6,10 +6,12 @@ import { FormFieldWrapper } from '../FormFieldWrapper/FormFieldWraper';
 
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
-  error?: { message?: string };
+  error?: boolean;
   helperText?: string;
   fullWidth?: boolean;
   maxRows?: number;
+  wrapperClassName?: string;
+  innerWrapperClassName?: string;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -19,6 +21,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       error,
       helperText,
       className,
+      wrapperClassName,
+      innerWrapperClassName,
       fullWidth = true,
       rows = 1,
       maxRows = 4,
@@ -55,7 +59,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }, [value, maxRows]);
 
     return (
-      <FormFieldWrapper label={label} error={error} helperText={helperText} fullWidth={fullWidth}>
+      <FormFieldWrapper label={label} error={error} helperText={helperText} fullWidth={fullWidth} className={wrapperClassName}>
         <div
           className={cn(
             'relative flex rounded-xl border transition-all duration-200 bg-white',
@@ -63,6 +67,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
               ? 'border-red-500 focus-within:ring-red-200'
               : 'border-gray-300 hover:border-gray-400 focus-within:border-[#27A430] focus-within:ring-2 focus-within:ring-[#27A430]/20',
             'disabled:bg-gray-50 disabled:cursor-not-allowed',
+            innerWrapperClassName,
           )}
         >
           <textarea

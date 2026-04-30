@@ -13,7 +13,12 @@ const nextConfig: NextConfig = {
     inlineCss: true,
   },
   images: {
+    unoptimized: process.env.NODE_ENV === 'development',
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.minzifatravel.com',
+      },
       {
         protocol: 'https',
         hostname: 'api.minzifatravel.com',
@@ -25,6 +30,20 @@ const nextConfig: NextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
+        port: '8081',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '8081',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
       },
       {
         protocol: 'https',

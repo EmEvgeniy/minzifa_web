@@ -53,7 +53,7 @@ export const ContactForm = () => {
       const currentName = getValues('name');
       const currentEmail = getValues('email');
       const currentPhone = getValues('phone');
-      
+
       if (!currentName && user.name) {
         setValue('name', user.name);
       }
@@ -68,7 +68,11 @@ export const ContactForm = () => {
 
   const { submitForm, isSubmitting } = useFormSubmit({
     onSuccess: () => {
-      setMessage(lang === 'en' ? 'Your request has been successfully sent.' : 'Ваша заявка была успешно отправлена');
+      setMessage(
+        lang === 'en'
+          ? 'Your request has been successfully sent.'
+          : 'Ваша заявка была успешно отправлена',
+      );
       router.push(`/${lang}/thank-you`);
     },
     onError: () => {
@@ -82,7 +86,7 @@ export const ContactForm = () => {
     const formData = {
       ...data,
       recaptchaToken: token,
-      ...metrics
+      ...metrics,
     };
 
     await submitForm(FormNameEnum.CONTACT_US, formData);
@@ -98,32 +102,32 @@ export const ContactForm = () => {
         {/* Имя */}
         <Input
           {...register('name')}
-          error={errors.name}
+          error={!!errors.name}
           placeholder={t('contactUs.pl')}
-          className='px-5 py-4'
+          className="px-5 py-4"
         />
 
         {/* Email */}
         <Input
           {...register('email')}
           type="email"
-          error={errors.email}
+          error={!!errors.email}
           placeholder={t('contactUs.pl2')}
-          className='px-5 py-4'
+          className="px-5 py-4"
         />
 
         {/* Телефон */}
         <PhoneInputComp
           value={watch('phone')}
           onChange={(value) => setValue('phone', value, { shouldValidate: true })}
-          error={errors.phone}
+          error={!!errors.phone}
         />
 
         {/* Сообщение */}
         <Textarea
           {...register('message')}
           rows={4}
-          error={errors.message}
+          error={!!errors.message}
           placeholder={t('contactUs.pl4')}
           className="resize-none"
         />
@@ -131,27 +135,32 @@ export const ContactForm = () => {
         {/* Checkbox */}
 
         <Checkbox
-          label={t.rich('common.termsAcceptance', {
-            terms: (chunks) => (
-              <Link
-                href={`/${locale}/term-and-conditions-of-booking-tours`}
-                className="text-[#009F65] hover:underline"
-                target='_blank'
-              >
-                {chunks}
-              </Link>
-            ),
-            privacy: (chunks) => (
-              <Link href={`/${locale}/privacy-policy`} className="text-[#009F65] hover:underline" target='_blank'>
-                {chunks}
-              </Link>
-            ),
-          })}
+          label={
+            t.rich('common.termsAcceptance', {
+              terms: (chunks) => (
+                <Link
+                  href={`/${locale}/term-and-conditions-of-booking-tours`}
+                  className="text-[#009F65] hover:underline"
+                  target="_blank"
+                >
+                  {chunks}
+                </Link>
+              ),
+              privacy: (chunks) => (
+                <Link
+                  href={`/${locale}/privacy-policy`}
+                  className="text-[#009F65] hover:underline"
+                  target="_blank"
+                >
+                  {chunks}
+                </Link>
+              ),
+            }) as string
+          }
           checked={!!token}
           onChange={() => handleRecaptcha()}
-          labelClassName='flex-wrap gap-x-1 text-sm text-white/80 hover:text-white'
+          labelClassName="flex-wrap gap-x-1 text-sm text-white/80 hover:text-white"
         />
-
 
         {/* Кнопка */}
         <Button

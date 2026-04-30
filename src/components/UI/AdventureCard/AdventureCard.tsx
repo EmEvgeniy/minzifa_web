@@ -1,38 +1,47 @@
+'use client';
+
 import type { AdventureCardType } from './_types';
 import Link from 'next/link';
 import ImageWithFallback from '../ImageWithFallback/ImageWithFallback';
+import { cn } from '@/utils';
+import Image from 'next/image';
 
 type Props = {
   type: AdventureCardType;
   locale: string;
+  className?: string;
 };
 
-export default async function AdventureCard({ type, locale }: Props) {
+export default function AdventureCard({ type, locale, className }: Props) {
   return (
-    <Link
-      href={`/${locale}/tours`}
-      className="rounded-[16px] bg-cover bg-center w-full aspect-square bg-white shadow-sm flex flex-col justify-center items-center relative overflow-hidden cursor-pointer"
+    <div
+      className={cn('relative flex flex-col gap-4', className)}
+      style={{ willChange: 'transform' }}
     >
-      {type?.media?.file && (
+      <Link href={`/${locale}/tours?types[]=${type.name}`}>
+        <div className="absolute inset-0 z-10" />
+      </Link>
+      <div className="relative w-full h-full rounded-2xl overflow-hidden">
         <ImageWithFallback
-          src={type?.media?.file}
-          className="absolute  w-full h-full  object-cover"
+          src={type?.media?.file as string}
           alt={type?.media?.alt_text || 'adventure'}
-          fill
-          loading="lazy"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          width={400}
+          height={300}
+          sizes="(max-width: 768px) 40vw, (max-width: 1024px) 30vw, 400px"
+          className="aspect-3/4 lg:aspect-[3/2.18] object-cover"
         />
-      )}
-      <div className="absolute inset-0 bg-black opacity-30 z-0" />
-      <div className="p-5 text-center relative z-1">
-        <p className="mb-[10px] font-normal text-2xl text-white [@media(max-width:425px)]:text-[15px]">
-          {type.name}
-        </p>
-        <span className="mb-3 font-normal text-base text-custom-green-900 rounded-full bg-[#CFDFD9] opacity-70  px-2 py-1 [@media(max-width:425px)]:text-[12px]">
-          {type.tours_count}{' '}
-          {locale === 'en' ? (type.tours_count === 1 ? 'tour' : 'tours') : 'туров'}
-        </span>
+        <Image
+          src={type?.icon?.file as string}
+          alt={'icon'}
+          width={100}
+          height={100}
+          className="absolute bottom-3 w-[42px] h-[42px] left-3 object-contain text-white z-20"
+          />
+        <div className="absolute inset-0 bg-black/30 z-0" />
       </div>
-    </Link>
+      <h5 className="text-[20px] text-foreground font-semibold leading-100 tracking-normal">
+        {type.name}
+      </h5>
+    </div>
   );
 }

@@ -4,7 +4,6 @@ import React, { forwardRef } from 'react';
 import DatePicker, { DatePickerProps } from 'react-datepicker';
 import { ru, enGB } from 'date-fns/locale';
 import './CustomDatepicker.scss';
-import { FieldError } from 'react-hook-form';
 import { cn } from '@/utils';
 import { FormFieldWrapper } from '../Form/FormFieldWrapper/FormFieldWraper';
 
@@ -12,7 +11,7 @@ type Props = {
   locale: string;
   label?: string;
   icon?: React.ReactNode;
-  error?: FieldError;
+  error?: boolean;
   helperText?: string;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;

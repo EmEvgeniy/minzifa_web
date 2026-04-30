@@ -7,6 +7,9 @@ export interface RadioProps
     extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
     label?: ReactNode | string;
     labelClassName?: string;
+    wrapperClassName?: string;
+    badgeClassName?: string;
+    dotClassName?: string;
     size?: 'sm' | 'md' | 'lg';
     withBadge?: boolean;
     badge?: ReactNode | string;
@@ -33,6 +36,9 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
             withBadge,
             badge,
             labelClassName,
+            wrapperClassName,
+            badgeClassName,
+            dotClassName,
             className,
             ...props
         },
@@ -46,7 +52,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
                 htmlFor={radioID}
                 className={cn(
                     'flex items-center gap-3 cursor-pointer select-none group',
-                    disabled && 'opacity-50 cursor-not-allowed'
+                    disabled && 'opacity-50 cursor-not-allowed',
+                    wrapperClassName
                 )}
             >
                 <input
@@ -77,7 +84,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
                         className={cn(
                             'rounded-full bg-[#27A430] transition-transform duration-200 scale-100',
                             dotMap[size],
-                            'peer-checked:scale-100'
+                            'peer-checked:scale-100',
+                            dotClassName
                         )}
                     />}
                 </span>
@@ -94,7 +102,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
                         {label}
                         {withBadge && (
                             typeof badge === 'string' ? (
-                                <span className="ml-2 text-xs px-2 py-[2px] rounded-full bg-[#27A430] text-white font-medium">
+                                <span className={cn('ml-2 text-xs px-2 py-[2px] rounded-full bg-[#27A430] text-white font-medium', badgeClassName)}>
                                     {badge}
                                 </span>
                             ) : (

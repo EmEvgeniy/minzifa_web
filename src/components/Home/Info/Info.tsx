@@ -1,47 +1,40 @@
-import { TravelChoice_Black, VerticalTravelChoice_Black, lr } from '@/assets/img';
-import ImageWithFallback from '@/components/UI/ImageWithFallback/ImageWithFallback';
+import { cn } from '@/utils';
 import { getTranslations } from 'next-intl/server';
+import { Fragment } from 'react';
+
+interface StatItem {
+  value: string;
+  label: string;
+  description: string;
+}
 
 export default async function Info({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: 'home' });
 
+  const stats = (t.raw('stats.items') as StatItem[]) || [];
+
   return (
-    <section className="container">
-      <div className="flex flex-col items-center justify-center gap-5 text-center px-[172px] my-[70px] [@media(max-width:1024px)]:my-[30px] bg-[#16372D1A] backdrop-blur-[3px]  py-[39px] rounded-[16px] [@media(max-width:1024px)]:px-[20px] relative w-full overflow-hidden">
-        <ImageWithFallback
-          src={lr}
-          alt="lr"
-          width={500}
-          height={500}
-          className="w-auto h-full absolute top-0 -left-1/2 pointer-events-none block object-cover [@media(max-width:768px)]:hidden"
-        />
-        <ImageWithFallback
-          src={lr}
-          alt="lr"
-          width={500}
-          height={500}
-          className="w-auto h-full absolute bottom-0 -right-1/2 rotate-180 pointer-events-none block object-cover [@media(max-width:768px)]:hidden"
-        />
-        <h2 className="z-10 text-[42px] text-center max-w-full [@media(max-width:1024px)]:text-[24px] [@media(max-width:1024px)]:text-left">
-          {t('infoTitle')}
-        </h2>
-        <p className="z-10 text-[18px] [@media(max-width:1024px)]:text-[16px] [@media(max-width:1024px)]:text-left">
-          {t('infoText')}
-        </p>
-        <ImageWithFallback
-          src={TravelChoice_Black}
-          alt="info_img"
-          width={611}
-          height={97}
-          className="object-cover block [@media(max-width:768px)]:hidden"
-        />
-        <ImageWithFallback
-          src={VerticalTravelChoice_Black}
-          alt="info_img"
-          width={250}
-          height={97}
-          className="object-cover hidden [@media(max-width:768px)]:block"
-        />
+    <section className={cn('max-w-[1100px] px-2.5 py-16 mb-[45px]', 'md:mb-[64px] md:mx-auto md:p-0')}>
+      <div className="flex flex-col gap-8">
+        {/* Stats Row */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {stats.map((stat, index) => (
+            <Fragment key={index}>
+              <div className="flex flex-col items-center">
+                <div className="font-title text-[42px] [@media(max-width:768px)]:text-[28px] font-semibold text-[#16372D] mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-[13px] text-[#16372D]/80 font-medium leading-tight">
+                  <div>{stat.label}</div>
+                  <div className="text-[12px] text-[#16372D]/60">{stat.description}</div>
+                </div>
+              </div>
+              {index === 1 && (
+                <hr className="w-full border border-foreground/12 col-span-2 block md:hidden" />
+              )}
+            </Fragment>
+          ))}
+        </div>
       </div>
     </section>
   );

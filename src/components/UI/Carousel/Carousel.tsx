@@ -17,7 +17,7 @@ async function Carousel({ locale }: { locale: string }) {
     <div className="w-full overflow-hidden py-6 mt-[50px]">
       <ul className="carousel-track flex gap-4 w-max animate-carousel">
         {duplicated
-          .filter((el) => el.photo.file)
+          .filter((el) => el.photo && el.photo.file)
           .map((product: BestSellersPackagesCardType, i: number) => (
             <li
               key={`${product.name}${i}`}

@@ -67,7 +67,7 @@ export const ForgotPasswordForm = ({ setStep }: { setStep: (step: AuthStep) => v
                     {...register('password')}
                     type={showPassword ? 'text' : 'password'}
                     placeholder={t('auth.resetPassword.password')}
-                    error={errors.password}
+                    error={!!errors.password}
                     endIcon={
                         <Button
                             type="button"

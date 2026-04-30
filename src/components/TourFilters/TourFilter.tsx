@@ -11,6 +11,7 @@ const FilterHotels = dynamic(() => import('./FilterHotels'));
 const FilterType = dynamic(() => import('./FilterType'));
 const FilterTypes = dynamic(() => import('./FilterTypes'));
 const FilterDestinations = dynamic(() => import('./FilterDestinations'));
+const FilterDateRange = dynamic(() => import('./FilterDateRange'));
 
 interface FilterProps {
   showFilter?: availableFilters[];
@@ -23,6 +24,7 @@ export default function TourFilters({ showFilter, initDestinations, initTourType
     <div className="max-w-[350px] w-full min-h-[700px] flex flex-col gap-5 items-start justify-start [@media(max-width:1024px)]:max-w-full">
       <FilterResetBtn />
       <div className="bg-white rounded-2xl w-full">
+        {showFilter?.includes('date') && <FilterDateRange />}
         {showFilter?.includes('price') && <FilterPriceSlider />}
         {showFilter?.includes('duration') && <FilterDurationSlider />}
         {showFilter?.includes('seasons') && <FilterSeasons />}

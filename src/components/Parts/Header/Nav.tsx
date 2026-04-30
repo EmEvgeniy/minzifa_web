@@ -10,18 +10,18 @@ export const Nav = ({ menu, locale }: { menu: NavItemType[]; locale: string }) =
   const setActiveIndex = useNavStore((state) => state.setIndex);
 
   return (
-    <nav className="text-white list-none flex items-center w-full justify-end gap-5">
+    <nav className="text-white list-none flex items-center w-full gap-5">
       {menu.map((el, i) => (
         <li
           key={i}
-          onMouseOver={() => (i == 1 ? setActiveIndex(i) : null)}
+          onMouseOver={() => (i == 0 ? setActiveIndex(i) : null)}
           onMouseLeave={() => setActiveIndex(null)}
         >
           <Link
             href={`/${locale}/${el.link}`}
             className="flex items-center justify-center gap-2 hover:text-green-500 transition-all"
           >
-            <span className=" text-nowrap text-[18px]">{el.title}</span>
+            <span className=" text-nowrap text-base">{el.title}</span>
             {el.inner && (
               <FaChevronDown
                 className={`transition-transform duration-200 ${

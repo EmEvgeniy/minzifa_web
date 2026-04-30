@@ -23,6 +23,7 @@ export const calculateActiveFiltersCount = (state: FilterState) => {
   if (isArrayFilterActive(state.tourTypes)) count++;
   if (isArrayFilterActive(state.destinations)) count++;
   if (isSortActive(state.sort)) count++;
+  if (state.dateFrom || state.dateTo) count++;
   return count;
 };
 
@@ -52,6 +53,8 @@ export const hasFilterStateChanged = (
         JSON.stringify(urlState.destinations.sort())) ||
     (urlState.sort && currentState.sort !== urlState.sort) ||
     (urlState.page &&
-      (typeof currentPage === 'string' ? currentPage : currentPage.toString()) !== urlState.page)
+      (typeof currentPage === 'string' ? currentPage : currentPage.toString()) !== urlState.page) ||
+    (urlState.dateFrom && currentState.dateFrom !== urlState.dateFrom) ||
+    (urlState.dateTo && currentState.dateTo !== urlState.dateTo)
   );
 };

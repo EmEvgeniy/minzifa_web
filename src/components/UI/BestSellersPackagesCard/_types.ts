@@ -1,3 +1,5 @@
+import { IMediaData } from '@/types';
+
 export type BestSellersPackagesCardType = {
   id: number;
   name: string;
@@ -8,11 +10,7 @@ export type BestSellersPackagesCardType = {
   };
   destinations: string;
   full_slug?: string;
-  photo: {
-    id: number;
-    file: string;
-    alt_text: string | null;
-  };
+  photo: IMediaData | null;
   price: number;
   rating: number;
   slug: string;
