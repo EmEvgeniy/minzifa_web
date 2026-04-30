@@ -27,12 +27,18 @@ export default async function Hero({ locale }: { locale: string }) {
     console.warn('Failed to fetch home banners:', e?.status, e?.statusText, e?.url);
   }
 
+  const normalizedBanners = banners.filter(
+    (banner) =>
+      Boolean(banner?.link && typeof banner.link === 'string' && banner.link.trim()) &&
+      Boolean(banner?.media?.file),
+  );
+
   return (
     <section
       className={cn('flex flex-col gap-[28px] mt-[21px] mb-[43px]', 'md:gap-[42px] md:mb-[64px]')}
     >
       <HeroSearch data={destinations} />
-      <HeroSlider banners={banners} />
+      <HeroSlider banners={normalizedBanners} />
     </section>
   );
 }

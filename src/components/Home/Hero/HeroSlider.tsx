@@ -45,9 +45,15 @@ export default function HeroSlider({ banners }: { banners: Banner[] }) {
               >
                 {slide.name}
               </h2>
-              <Link href={slide.link} className="flex flex-row gap-1 items-center text-white">
-                {slide.link_title} <FaChevronRight />
-              </Link>
+              {slide.link ? (
+                <Link href={slide.link} className="flex flex-row gap-1 items-center text-white">
+                  {slide.link_title || 'Read more'} <FaChevronRight />
+                </Link>
+              ) : (
+                <span className="flex flex-row gap-1 items-center text-white/80">
+                  {slide.link_title || 'Read more'} <FaChevronRight />
+                </span>
+              )}
             </div>
           </div>
         )}
