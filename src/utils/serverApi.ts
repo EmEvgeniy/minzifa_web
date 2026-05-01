@@ -42,17 +42,11 @@ async function apiRequest<TResponse, TBody = unknown>(
 
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
-  if (!apiKey) {
-    console.warn('[serverApi] API_KEY not found in environment');
-  }
-
   const requestHeaders = {
     'Content-Type': 'application/json',
     ...(apiKey && { 'X-API-Key': apiKey }),
     ...headers,
   };
-
-  console.log(`[serverApi] ${method} ${endpoint} - X-API-Key: ${apiKey ? 'present' : 'missing'}`);
 
   const response = await fetch(url, {
     method,
