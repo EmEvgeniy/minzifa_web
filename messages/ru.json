@@ -299,6 +299,9 @@
   "allTours": {
     "title": "Все туры",
     "resetFilterBtn": "Сбросить все фильтры",
+    "filterDateTitle": "Даты тура",
+    "dateRangePlaceholder": "Дата начала - Дата окончания",
+    "dateRangeHint": "Доступно только для групповых туров",
     "filterPriceTitle": "Цена",
     "filterDurationTitle": "Длительность",
     "filterSeasonTitle": "Времена года:",

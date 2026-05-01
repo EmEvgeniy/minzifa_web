@@ -60,7 +60,7 @@ export default function Accordion({
       <div
         className={cn(
           `transition-all duration-300 ease-in-out overflow-hidden ${
-            expanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+            expanded ? 'max-h-[900px] opacity-100' : 'max-h-0 opacity-0'
           }`,
         )}
       >

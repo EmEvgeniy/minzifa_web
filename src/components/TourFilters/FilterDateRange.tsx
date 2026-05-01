@@ -6,14 +6,20 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '@/components/UI/CustomDatepicker/CustomDatepicker.scss';
 import { useFilterStore } from '@/store';
+import { useTranslations } from 'next-intl';
+import Accordion from '@/components/UI/Accordion';
 import { FaCalendarAlt } from 'react-icons/fa';
 
 export default function FilterDateRange() {
   const locale = useLocale();
-  const { dateFrom, dateTo, setDateRange } = useFilterStore();
+  const t = useTranslations('allTours');
+  const { dateFrom, dateTo, setDateRange, expandedFilters, setExpandedFilter } = useFilterStore();
 
   const [localFrom, setLocalFrom] = useState<Date | null>(dateFrom ? new Date(dateFrom) : null);
   const [localTo, setLocalTo] = useState<Date | null>(dateTo ? new Date(dateTo) : null);
+
+  const accordionKey = 'date';
+  const isExpanded = expandedFilters[accordionKey] ?? true;
 
   const dateFormat = locale === 'en' ? 'yyyy-MM-dd' : 'dd.MM.yyyy';
 
@@ -51,28 +57,40 @@ export default function FilterDateRange() {
   }, [localFrom, localTo, locale]);
 
   return (
-    <div className="relative flex items-center rounded-2xl transition-all duration-200 bg-white border border-gray-300 hover:border-gray-400 focus-within:border-[#27A430] focus-within:ring-2 focus-within:ring-[#27A430]/20">
-      <div className="absolute left-4 text-gray-400 pointer-events-none z-10">
-        <FaCalendarAlt />
+    <Accordion
+      title={t('filterDateTitle')}
+      isExpanded={isExpanded}
+      onToggle={(expanded) => setExpandedFilter(accordionKey, expanded)}
+    >
+      <div className="relative">
+        <DatePicker
+          selectsRange
+          startDate={localFrom}
+          endDate={localTo}
+          onChange={handleChange}
+          minDate={new Date()}
+          monthsShown={2}
+          dateFormat={dateFormat}
+          popperPlacement="bottom-start"
+          popperClassName="!z-50"
+          popperProps={{
+            strategy: 'fixed',
+          }}
+          customInput={
+            <div className="relative flex items-center rounded-2xl border border-gray-300 hover:border-gray-400 focus-within:border-[#27A430] focus-within:ring-2 focus-within:ring-[#27A430]/20 bg-white transition-all duration-200">
+              <div className="absolute left-4 text-gray-400 pointer-events-none z-10">
+                <FaCalendarAlt size={14} />
+              </div>
+              <input
+                value={displayValue}
+                placeholder={t('dateRangePlaceholder') || 'Start date - End date'}
+                className="w-full bg-transparent outline-none text-gray-900 text-base placeholder-gray-400 px-4 py-3 pl-12 rounded-2xl disabled:text-gray-400"
+                readOnly
+              />
+            </div>
+          }
+        />
       </div>
-      <DatePicker
-        selectsRange
-        startDate={localFrom}
-        endDate={localTo}
-        onChange={handleChange}
-        minDate={new Date()}
-        monthsShown={2}
-        dateFormat={dateFormat}
-        className="w-full"
-        customInput={
-          <input
-            value={displayValue}
-            placeholder="Start date - End date"
-            className="w-full h-full bg-transparent outline-none text-gray-900 text-base placeholder-gray-400 rounded-md disabled:text-gray-400 px-4 py-3 pl-12"
-            readOnly
-          />
-        }
-      />
-    </div>
+    </Accordion>
   );
 }

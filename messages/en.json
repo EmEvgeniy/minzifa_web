@@ -286,6 +286,9 @@
   "allTours": {
     "title": "All tours",
     "resetFilterBtn": "Reset all filters",
+    "filterDateTitle": "Tour dates",
+    "dateRangePlaceholder": "Start date - End date",
+    "dateRangeHint": "Available for group tours only",
     "filterPriceTitle": "Price",
     "filterDurationTitle": "Duration",
     "filterSeasonTitle": "Seasons:",
