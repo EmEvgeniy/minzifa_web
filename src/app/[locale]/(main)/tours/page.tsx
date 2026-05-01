@@ -24,16 +24,12 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   type PageMeta = { seo_metadata?: { title?: string; description?: string; keywords?: string } };
   let data: PageMeta = {};
   try {
-    const res = await fetch(
+    data = await apiGet(
       `https://api.minzifatravel.com/api/v1/pages?page=${encodeURIComponent(pagePath)}`,
     );
-    if (res.ok) {
-      data = await res.json();
-    } else {
-      console.warn(`Failed to fetch metadata: HTTP ${res.status}`);
-    }
   } catch (err) {
-    console.warn('Error fetching page metadata:', err);
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch home destinations section:', e?.status, e?.statusText, e?.url);
   }
 
   const title = data?.seo_metadata?.title || 'Tours - Minzifa Travel';

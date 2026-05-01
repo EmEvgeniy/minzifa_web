@@ -1,25 +1,18 @@
 import { getApiUrl } from '@/utils/config';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import Wrapper from './Wrapper';
+import { apiGet } from '@/api';
 
 export default async function ({ locale }: { locale: string }) {
   let data: BestSellersPackagesCardType[] = [];
 
   try {
-    const response = await fetch(getApiUrl(`tours?main_page=1&locale=${locale}`), {
+    data = await apiGet(getApiUrl(`tours?main_page=1&locale=${locale}`), {
       next: { revalidate: 60 * 5 },
     });
-
-    if (!response.ok) {
-      console.warn(`Failed to fetch home bestsellers: HTTP ${response.status}`);
-    } else {
-      const payload = (await response.json()) as unknown;
-      data = Array.isArray(payload) ? (payload as BestSellersPackagesCardType[]) : [];
-    }
   } catch (err: unknown) {
-    const e = err as { message?: string };
-    console.warn('Failed to fetch home bestsellers:', e?.message);
-    data = [];
+    const e = err as { status?: number; statusText?: string; url?: string };
+    console.warn('Failed to fetch home best sellers section:', e?.status, e?.statusText, e?.url);
   }
 
   return (
