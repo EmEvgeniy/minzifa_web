@@ -40,11 +40,14 @@ async function apiRequest<TResponse, TBody = unknown>(
   const url = buildApiUrl(endpoint);
   const { body, headers, revalidate, ...rest } = options ?? {};
 
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+
   const response = await fetch(url, {
     method,
     next: revalidate !== undefined ? { revalidate } : undefined,
     headers: {
       'Content-Type': 'application/json',
+      ...(apiKey && { 'X-API-Key': apiKey }),
       ...headers,
     },
     body: body ? JSON.stringify(body) : undefined,
