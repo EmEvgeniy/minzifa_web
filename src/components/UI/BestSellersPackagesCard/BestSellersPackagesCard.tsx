@@ -19,12 +19,11 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
       style={{ willChange: 'transform' }}
     >
       <div className="bg-white rounded-t-[12px] rounded-b-[16px] overflow-hidden md:shadow-xl shadow-[0_0_20px_rgba(0,0,0,0.08)] flex flex-col h-full">
+        <Link href={href}>
+          <div className="absolute inset-0 z-10" />
+        </Link>
         {/* Image Block */}
         <div className="relative w-full shrink-0">
-          <Link href={href}>
-            <div className="absolute inset-0 z-10" />
-          </Link>
-
           <BestSellersFavoriteBtn tour={tour} />
 
           <ImageWithFallback
@@ -52,13 +51,13 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
             </p>
           </div>
           <div className="flex flex-col items-end self-end">
-                <span className="text-base font-medium leading-100 text-content">
-                  {t('common.tourCard.from')}
-                </span>
+            <span className="text-base font-medium leading-100 text-content">
+              {t('common.tourCard.from')}
+            </span>
             <span className="font-semibold text-[20px] leading-100 text-foreground">
               {(tour?.valute && t(`common.currencies.${tour?.valute}`)) || tour?.valute}{' '}
               {tour?.price}{' '}
-            <span className="text-base font-medium leading-100 text-content">
+              <span className="text-base font-medium leading-100 text-content">
                 {t('common.tourCard.pp')}
               </span>
             </span>
