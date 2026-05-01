@@ -41,19 +41,33 @@ authAxiosInstance.interceptors.request.use(
 );
 
 // Перехватчик ответов для обработки 401
+let isLoggingOut = false;
+
 const handleAuthError = (error: AxiosError) => {
   const status = error?.response?.status;
+  const requestUrl = error?.config?.url || '';
+  const method = error?.config?.method || '';
+
+  console.log(`[API Error] ${status} ${method.toUpperCase()} ${requestUrl}`);
 
   if (status === 401 || status === 419) {
-    // Prevent recursive logout calls - don't call logout if the failed request was already a logout request
-    const requestUrl = error?.config?.url || '';
+    // Prevent recursive logout calls
     const isLogoutRequest = requestUrl.includes('/auth/logout') || requestUrl.includes('/logout');
 
+    if (isLoggingOut) {
+      console.log('[Auth] Already logging out, preventing recursive call');
+      return Promise.reject(error);
+    }
+
     if (!isLogoutRequest) {
+      console.log('[Auth] 401 on non-logout request, initiating logout');
+      isLoggingOut = true;
       const { logout } = useAuthStore.getState();
-      logout();
+      logout().finally(() => {
+        isLoggingOut = false;
+      });
     } else {
-      // If logout itself failed, just clear auth state directly without recursive call
+      console.log('[Auth] 401 on logout request, clearing state directly');
       const { setUser, setToken, setIsAuthenticated, setAuthPopup } = useAuthStore.getState();
       setUser(null);
       setToken(null);
@@ -68,6 +82,7 @@ const handleAuthError = (error: AxiosError) => {
     const isProtected = PROTECTED_ROUTES.some((route) => route.test(pathname));
 
     if (isProtected) {
+      console.log('[Auth] On protected route, redirecting to login');
       window.location.href = '/?require-auth=1';
     }
   }
