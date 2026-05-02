@@ -96,8 +96,10 @@ export default function Wrapper({ data, locale }: Props) {
 
         <ECArrowWrapper
           emblaApi={emblaApi}
-          className="mt-0 absolute w-full justify-between hidden lg:flex"
+          className="mt-0 w-full justify-between hidden lg:flex"
           variant="dark"
+          prevBtnRest={{ className: 'absolute left-1 top-1/2 -translate-y-1/2' }}
+          nextBtnRest={{ className: 'absolute right-1 top-1/2 -translate-y-1/2' }}
         />
       </div>
 

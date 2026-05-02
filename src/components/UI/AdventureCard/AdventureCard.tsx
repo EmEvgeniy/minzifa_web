@@ -30,13 +30,15 @@ export default function AdventureCard({ type, locale, className }: Props) {
           sizes="(max-width: 768px) 40vw, (max-width: 1024px) 30vw, 400px"
           className="aspect-3/4 lg:aspect-[3/2.18] object-cover"
         />
-        <Image
-          src={type?.icon?.file as string}
-          alt={'icon'}
-          width={100}
-          height={100}
-          className="absolute bottom-3 w-[42px] h-[42px] left-3 object-contain text-white z-20"
+        {type?.icon?.file && (
+          <Image
+            src={type?.icon?.file as string}
+            alt={'icon'}
+            width={100}
+            height={100}
+            className="absolute bottom-3 w-[42px] h-[42px] left-3 object-contain text-white z-20"
           />
+        )}
         <div className="absolute inset-0 bg-black/30 z-0" />
       </div>
       <h5 className="text-[20px] text-foreground font-semibold leading-100 tracking-normal">

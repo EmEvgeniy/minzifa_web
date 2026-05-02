@@ -47,8 +47,10 @@ export default function Wrapper({ data, locale }: { data: DestinationCard[]; loc
 
       <ECArrowWrapper
         emblaApi={emblaApi}
-        className={cn('mt-0 absolute w-full justify-between hidden', 'md:flex')}
+        className={cn('mt-0 w-full justify-between hidden', 'md:flex')}
         variant="dark"
+        prevBtnRest={{ className: 'absolute left-1 top-1/2 -translate-y-1/2' }}
+        nextBtnRest={{ className: 'absolute right-1 top-1/2 -translate-y-1/2' }}
       />
     </div>
   );

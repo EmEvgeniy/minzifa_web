@@ -72,6 +72,7 @@ export const ECArrowWrapper = ({
         onClick={onPrevButtonClick}
         className={cn(
           prevBtnDisabled ? 'opacity-0' : 'opacity-100',
+          prevBtnRest?.className,
           'transition-opacity duration-500 ease-in-out',
         )}
       />
@@ -81,6 +82,7 @@ export const ECArrowWrapper = ({
         onClick={onNextButtonClick}
         className={cn(
           nextBtnDisabled ? 'opacity-0' : 'opacity-100',
+          nextBtnRest?.className,
           'transition-opacity duration-500 ease-in-out',
         )}
       />
