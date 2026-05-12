@@ -2,7 +2,7 @@ import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useLocale } from 'next-intl';
 import { getApiUrl } from '@/utils/config';
 import { PaginatedData } from '@/types';
-import { axiosInstance, authAxiosInstance } from '@/utils/axios';
+import { api, authApi } from '@/utils/http';
 
 type GetQueryType = {
   key: string[];
@@ -53,9 +53,7 @@ export const useGetQuery = <T = unknown>({
         : '';
 
       const finalUrl = `${getApiUrl(endpoint)}?${params.toString()}${extra}`;
-      const response = await axiosInstance.get(finalUrl);
-
-      return response.data;
+      return api<T>(finalUrl);
     },
   });
 };
@@ -98,9 +96,7 @@ export const useAuthGetQuery = <T = unknown>({
         : '';
 
       const finalUrl = `${endpoint}?${params.toString()}${extra}`;
-      const response = await authAxiosInstance.get(finalUrl);
-
-      return response.data;
+      return authApi<T>(finalUrl);
     },
   });
 };
@@ -126,7 +122,7 @@ export const useGetInfiniteQuery = <T = unknown>({
 
   const queryKey = [...key, perPage, searchItem, additionalParam];
   if (withLocale) {
-    queryKey.push(lang); // <--- теперь всегда string
+    queryKey.push(lang);
   }
 
   return useInfiniteQuery<
@@ -160,9 +156,7 @@ export const useGetInfiniteQuery = <T = unknown>({
         : '';
 
       const finalUrl = `${getApiUrl(endpoint)}?${params.toString()}${extra}`;
-      const response = await axiosInstance.get(finalUrl);
-
-      return response.data;
+      return api<PaginatedData<T>>(finalUrl);
     },
 
     getNextPageParam: (lastPage) => {
@@ -220,9 +214,7 @@ export const useAuthGetInfiniteQuery = <T = unknown>({
         : '';
 
       const finalUrl = `${endpoint}?${params.toString()}${extra}`;
-      const response = await authAxiosInstance.get(finalUrl);
-
-      return response.data;
+      return authApi<PaginatedData<T>>(finalUrl);
     },
 
     getNextPageParam: (lastPage) => {
@@ -233,8 +225,6 @@ export const useAuthGetInfiniteQuery = <T = unknown>({
     },
   });
 };
-
-export const getCsrfToken = async () => await authAxiosInstance.get('/sanctum/csrf-cookie');
 
 export const useSearchToursQuery = (search: string, locale: string) => {
   return useQuery<TourSearchResult>({
@@ -247,8 +237,7 @@ export const useSearchToursQuery = (search: string, locale: string) => {
       params.append('perPage', '5');
       params.append('all', '1');
 
-      const response = await axiosInstance.get(`tours?${params.toString()}`);
-      return response.data;
+      return api<TourSearchResult>(`tours?${params.toString()}`);
     },
   });
 };

@@ -15,8 +15,8 @@ export function GoogleLoginButton() {
 
     const onGoogleLogin = async () => {
         try {
-            const { user, token } = await handleGoogleLogin();
-            login(user, token);
+            const user = await handleGoogleLogin();
+            login(user);
             setMessage(t("success"), "success");
             router.refresh();
         } catch (err) {

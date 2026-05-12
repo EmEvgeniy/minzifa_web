@@ -34,7 +34,8 @@ export default async function Footer({ locale }: { locale: string }) {
         height={1000}
         quality={70}
         alt="footer img"
-        className="absolute bottom-0 right-0 pointer-events-none hidden lg:block"
+        loading="eager"
+        className="absolute bottom-0 right-0 pointer-events-none hidden lg:block w-auto h-full"
       />
     </footer>
   );

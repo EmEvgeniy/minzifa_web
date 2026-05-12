@@ -29,15 +29,25 @@ export async function generateMetadata({ params }: DefaultPageProps): Promise<Me
   };
 }
 
-export default async function page({ params }: DefaultPageProps) {
+export default async function page({ params, searchParams }: DefaultPageProps & { searchParams: Promise<{ status?: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'thankYou' });
+  const resolvedSearchParams = await searchParams;
+  const status = resolvedSearchParams.status;
+
+  const title = status === 'failed'
+    ? (locale === 'en' ? 'Payment Failed' : 'Оплата не прошла')
+    : t('title');
+
+  const subtitle = status === 'failed'
+    ? (locale === 'en' ? 'Unfortunately, your payment was not processed. Please try again or contact support.' : 'К сожалению, ваш платеж не был обработан. Пожалуйста, попробуйте еще раз или обратитесь в службу поддержки.')
+    : t('subtitle');
 
   return (
     <section className="h-screen">
       <div className="container h-full flex flex-col gap-5 items-center justify-center text-center">
-        <h1 className="text-4xl font-bold">{t('title')}</h1>
-        <h2>{t('subtitle')}</h2>
+        <h1 className="text-4xl font-bold">{title}</h1>
+        <h2>{subtitle}</h2>
         <p>{t('text')}</p>
       </div>
     </section>

@@ -49,7 +49,7 @@ export default function AuthHeader() {
     <Dropdown className="w-auto">
       <DropdownSummary>
         <Button color="link" className="p-0">
-          <UserAvatar src={user?.avatar?.file as string} name={user?.name as string} />
+          <UserAvatar src={user?.avatar?.file ?? undefined} name={user?.name ?? ''} />
         </Button>
       </DropdownSummary>
       <DropdownDetails position='right'>

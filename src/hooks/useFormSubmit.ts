@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { axiosInstance, authAxiosInstance } from '@/utils/axios';
+import { authApi } from '@/utils/http';
 import { getApiUrl } from '@/utils/config';
+import { FormNameEnum } from '@/constants';
 
 interface FormSubmitOptions {
   onSuccess?: (data: FormSubmitResult) => void;
@@ -8,101 +9,31 @@ interface FormSubmitOptions {
 }
 
 interface FormSubmitResult {
-  form_id?: number;
-  form?: Record<string, unknown>;
-  errors?: {
-    form?: Error;
-    telegram?: Error;
-    email?: Error;
-    googleRecaptcha?: Error;
-  };
+  form_id: number;
+  success: boolean;
+  payment_url?: string;
 }
 
-/**
- * Универсальный хок для отправки форм
- *
- * Выполняет цепочку запросов последовательно для мониторинга каждой операции:
- * 1. Проверка reCAPTCHA токена
- * 2. Сохранение формы в БД
- * 3. Telegram уведомление (Job, не блокирует)
- * 4. Email уведомления (Job)
- *
- * @example
- * const { submitForm, isSubmitting } = useFormSubmit({
- *   onSuccess: (result) => console.log('Success!', result),
- *   onError: (error) => console.error('Error:', error),
- * });
- *
- * await submitForm('forms/free-consultation', formData);
- */
 export const useFormSubmit = (options?: FormSubmitOptions) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  /**
-   * Отправляет форму и выполняет цепочку запросов
-   *
-   * @param formName - Название формы
-   * @param formData - Данные формы
-   * @returns Результат отправки
-   */
   const submitForm = async (
-    formName: string,
+    formName: FormNameEnum,
     data: Record<string, unknown>,
   ): Promise<FormSubmitResult> => {
     setIsSubmitting(true);
 
-    const result: FormSubmitResult = {
-      errors: {},
-    };
+    const { recaptchaToken, ...formData } = data;
 
     try {
-      const formData = { form_name: formName, form_data: data };
-
-      // Шаг 0: Проверка Google ReCaptcha
-      if (data.recaptchaToken) {
-        try {
-          await axiosInstance.post(getApiUrl('forms/check-recaptcha'), {
-            token: data.recaptchaToken,
-            action: formName,
-          });
-
-          delete formData.form_data?.recaptchaToken;
-        } catch (error) {
-          console.error('Google ReCaptcha check failed:', error);
-
-          result.errors!.googleRecaptcha = error as Error;
-
-          // Завершаем выполнение — дальше не продолжаем
-          options?.onError?.(error as Error);
-          return result;
-        }
-      }
-
-      // Шаг 1: Сохраняем форму в БД (с авторизацией если есть токен)
-      try {
-        const formResponse = await authAxiosInstance.post(getApiUrl('forms/store'), formData);
-        result.form_id = formResponse.data.form_id;
-      } catch (error) {
-        console.error('Form save failed:', error);
-        result.errors!.form = error as Error;
-        throw error; // Останавливаем выполнение если форма не сохранилась
-      }
-
-      // Шаг 2: Telegram
-      try {
-        await axiosInstance.post(getApiUrl('forms/notifications/telegram'), formData);
-      } catch (error) {
-        console.warn('Telegram queuing failed (non-critical):', error);
-        result.errors!.telegram = error as Error;
-      }
-
-      // Шаг 3: Email
-      try {
-        await axiosInstance.post(getApiUrl('forms/notifications/email'), formData);
-      } catch (error) {
-        console.error('Email notification failed:', error);
-        result.errors!.email = error as Error;
-      }
+      const result = await authApi<FormSubmitResult>(getApiUrl('forms/submit'), {
+        method: 'POST',
+        body: {
+          form_name: formName,
+          form_data: formData,
+          recaptcha_token: recaptchaToken,
+        },
+      });
 
       options?.onSuccess?.(result);
       return result;

@@ -34,11 +34,11 @@ export const LoginForm = ({ step, setStep }: { step: AuthStep, setStep: (step: A
         },
     });
 
-    const { mutate: loginMutate, isPending, reset } = useAuthPostMutation<{ user: ITourist, token: string }, Record<string, unknown>>(
+    const { mutate: loginMutate, isPending, reset } = useAuthPostMutation<{ user: ITourist }, Record<string, unknown>>(
         ['auth.login'],
         async (data) => {
             const { login } = useAuthStore.getState();
-            login(data.user, data.token);
+            login(data.user);
             setAuthPopup(false);
             setMessage(t('auth.login.success'));
             setStep('welcome');

@@ -27,7 +27,6 @@ RUN apk add --no-cache libc6-compat
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
@@ -36,3 +35,21 @@ COPY --from=builder /app/next.config.* ./
 
 EXPOSE 3000
 CMD ["npm", "run", "start"]
+
+
+FROM node:22-alpine AS dev
+WORKDIR /app
+
+RUN apk add --no-cache libc6-compat
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV WATCHPACK_POLLING=true
+
+EXPOSE 3000
+CMD ["npm", "run", "dev"]

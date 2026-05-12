@@ -7,7 +7,12 @@ import Button from '@/components/UI/Button/Button';
 import { useFormSubmit } from '@/hooks';
 import Loader from '@/components/UI/Loader/Loader';
 
-export default function BookingSubmit() {
+type BookingSubmitProps = {
+    token: string;
+    handleRecaptcha: () => Promise<void>;
+};
+
+export default function BookingSubmit({ token, handleRecaptcha }: BookingSubmitProps) {
     const t = useTranslations('booking');
     const tGlobal = useTranslations();
     const locale = useLocale();
@@ -35,9 +40,9 @@ export default function BookingSubmit() {
                             </Link>
                         ),
                     })}
-                    checked={true}
-                    onChange={() => {}}
-                    labelClassName='flex-wrap gap-x-1 text-sm text-gray-500'
+                    checked={!!token}
+                    onChange={() => handleRecaptcha()}
+                    labelClassName='flex-wrap gap-x-1 text-sm text-gray-500 hover:text-gray-700'
                 />
             </div>
 
@@ -45,7 +50,7 @@ export default function BookingSubmit() {
                 form="booking-form"
                 type="submit"
                 className="w-full"
-                disabled={isSubmitting}
+                disabled={!token || isSubmitting}
             >
                 {isSubmitting ? <Loader /> : <span>{t('button')}</span>}
             </Button>

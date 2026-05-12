@@ -1,4 +1,3 @@
-import { getApiUrl } from '@/utils/config';
 import { BestSellersPackagesCardType } from '@/components/UI/BestSellersPackagesCard/_types';
 import Wrapper from './Wrapper';
 import { apiGet } from '@/api';
@@ -7,7 +6,7 @@ export default async function ({ locale }: { locale: string }) {
   let data: BestSellersPackagesCardType[] = [];
 
   try {
-    data = await apiGet(getApiUrl(`tours?main_page=1&locale=${locale}`), {
+    data = await apiGet(`tours?main_page=1&locale=${locale}`, {
       next: { revalidate: 60 * 5 },
     });
   } catch (err: unknown) {

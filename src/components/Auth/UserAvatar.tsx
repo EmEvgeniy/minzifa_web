@@ -11,6 +11,10 @@ interface UserAvatarProps {
 
 const UserAvatar: React.FC<UserAvatarProps> = ({ src, name, size = 'md' }) => {
   const getInitials = (name: string): string => {
+    if (!name || typeof name !== 'string') {
+      return '?';
+    }
+
     return name
       .split(/\s+/)
       .map((n) => n[0])
@@ -30,7 +34,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ src, name, size = 'md' }) => {
     <Avatar.Root
       className={`inline-flex select-none items-center justify-center overflow-hidden rounded-full align-middle bg-slate-200 ${sizeClasses[size]}`}
     >
-      <Avatar.Image className="h-full w-full rounded-[inherit] object-cover" src={src} alt={name} />
+      <Avatar.Image className="h-full w-full rounded-[inherit] object-cover" src={src} alt={name ?? ''} />
       <Avatar.Fallback
         className="flex h-full w-full items-center justify-center bg-primary font-medium text-foreground"
         delayMs={600}

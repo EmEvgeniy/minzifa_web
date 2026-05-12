@@ -46,9 +46,9 @@ export default function GoogleOneTap() {
 
     const { mutateAsync } = useAuthPostMutation(
         ['auth.google.one-tap'],
-        (data: { success: boolean; user: ITourist; token: string }) => {
-            if (data.success && data.user && data.token) {
-                login(data.user, data.token);
+        (data: { success: boolean; user: ITourist }) => {
+            if (data.success && data.user) {
+                login(data.user);
                 setMessage(t('auth.login.success'));
                 router.refresh();
             }

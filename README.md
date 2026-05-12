@@ -20,10 +20,10 @@ clean and maintainable codebase.
 
 ## 🛠 Tech Stack
 
-- **Framework**: Next.js (React + TypeScript)
+- **Framework**: Next.js 16 (React 19 + TypeScript)
 - **Styling**: Tailwind CSS / CSS Modules
-- **Internationalization**: Next-i18next (or other i18n lib)
-- **State Management**: React Context / Zustand (optional)
+- **Internationalization**: next-intl (i18n en/ru)
+- **State Management**: Zustand (required)
 - **Linting & Formatting**: ESLint + Prettier
 - **Version Control**: Git + Husky (hooks)
 - **Commit Convention**: Conventional Commits with commitlint

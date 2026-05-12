@@ -9,6 +9,7 @@ import ImageWithFallback from '../UI/ImageWithFallback/ImageWithFallback';
 interface AvatarUploadProps {
     user: ITourist;
     onUpload: (file: File) => Promise<void>;
+    onDelete?: () => Promise<void>;
     isUploading?: boolean;
     error?: string;
     className?: string;
@@ -17,6 +18,7 @@ interface AvatarUploadProps {
 export const AvatarUpload = ({
     user,
     onUpload,
+    onDelete,
     isUploading = false,
     error,
     className = ''
@@ -55,6 +57,7 @@ export const AvatarUpload = ({
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
+        onDelete?.();
     };
 
     const handleClick = () => {

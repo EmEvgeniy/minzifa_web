@@ -1,5 +1,5 @@
 import { ITourist } from '@/types';
-import { authAxiosInstance } from '@/utils/axios';
+import { authApi } from '@/utils/http';
 import { useState } from 'react';
 
 interface GoogleAuthResponse {
@@ -17,14 +17,12 @@ export function useGoogleAuth() {
       setIsLoading(true);
       setError(null);
 
-      // 1. Получить URL для авторизации
-      const { data } = await authAxiosInstance.get<GoogleAuthResponse>('/auth/google/url');
+      const data = await authApi<GoogleAuthResponse>('/auth/google/url');
 
       if (!data.success || !data.auth_url) {
         throw new Error('Не удалось получить URL авторизации');
       }
 
-      // 2. Открыть popup окно для авторизации
       const width = 500;
       const height = 600;
       const left = window.screen.width / 2 - width / 2;
@@ -40,19 +38,22 @@ export function useGoogleAuth() {
         throw new Error('Не удалось открыть окно авторизации');
       }
 
-      // 3. Слушать сообщения от popup окна
-      return new Promise<{ user: ITourist; token: string }>((resolve, reject) => {
-        // Изменяем на const, так как мы сразу инициализируем интервал ниже, 
-        // либо оставляем let, но инициализируем сразу.
-        
-        const handleMessage = (event: MessageEvent) => {
+      return new Promise<ITourist>(async (resolve, reject) => {
+        const handleMessage = async (event: MessageEvent) => {
           if (event.origin !== window.location.origin) return;
 
           if (event.data.type === 'google-auth-success') {
             stopWatching();
             popup?.close();
-            setIsLoading(false);
-            resolve({ user: event.data.user, token: event.data.token });
+
+            try {
+              const user = await authApi<ITourist>('/auth/me');
+              setIsLoading(false);
+              resolve(user);
+            } catch (err) {
+              setIsLoading(false);
+              reject(new Error('Failed to fetch user data'));
+            }
           } else if (event.data.type === 'google-auth-error') {
             stopWatching();
             popup?.close();
@@ -74,7 +75,6 @@ export function useGoogleAuth() {
           }
         }, 500);
 
-        // Вспомогательная функция для очистки
         function stopWatching() {
           clearInterval(checkClosedInterval);
           window.removeEventListener('message', handleMessage);

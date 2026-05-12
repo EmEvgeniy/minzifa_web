@@ -46,11 +46,11 @@ export const RegisterForm = ({ setStep }: { setStep: (step: AuthStep) => void })
         },
     });
 
-    const { mutate: registerMutate, isPending } = useAuthPostMutation<{ user: ITourist, token: string }, RegistrationFormType>(
+    const { mutate: registerMutate, isPending } = useAuthPostMutation<{ user: ITourist }, RegistrationFormType>(
         ['auth.register'],
-        (data: { user: ITourist, token: string }) => {
+        (data: { user: ITourist }) => {
             const { login } = useAuthStore.getState();
-            login(data.user, data.token);
+            login(data.user);
             setAuthPopup(false);
             setMessage(t('auth.login.success'));
             setStep('welcome');

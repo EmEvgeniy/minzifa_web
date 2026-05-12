@@ -25,6 +25,8 @@ type BookingInfoProps = {
   tour: Tour;
   setValue?: (name: 'payment_type', value: string) => void;
   isSubmitting?: boolean;
+  token: string;
+  handleRecaptcha: () => Promise<void>;
 };
 
 export default function BookingInfo({
@@ -32,6 +34,8 @@ export default function BookingInfo({
   tour,
   setValue,
   isSubmitting: isFormSubmitting,
+  token,
+  handleRecaptcha,
 }: BookingInfoProps) {
   const t = useTranslations('booking');
   const tGlobal = useTranslations();
@@ -267,9 +271,9 @@ export default function BookingInfo({
               </Link>
             ),
           })}
-          checked={true}
-          onChange={() => {}}
-          labelClassName="flex-wrap gap-x-1 text-sm"
+          checked={!!token}
+          onChange={() => handleRecaptcha()}
+          labelClassName="flex-wrap gap-x-1 text-sm hover:text-gray-700"
         />
       </div>
 
@@ -277,7 +281,7 @@ export default function BookingInfo({
       <Button
         type="submit"
         className="hidden lg:block w-full"
-        disabled={isLoading}
+        disabled={!token || isLoading}
         form="booking-form"
       >
         {isLoading ? <Loader /> : t('button')}

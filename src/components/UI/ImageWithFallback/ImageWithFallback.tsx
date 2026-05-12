@@ -42,6 +42,13 @@ export const ImageWithFallback = ({
   const quality = props.quality || (priority ? 85 : 75);
   const sizes = props.sizes || (priority ? '100vw' : undefined);
 
+  // When fill is used, Next.js handles sizing via inline styles.
+  // Default w-full h-full would conflict, so skip them.
+  const isFill = (props as ImageProps).fill;
+  const defaultClasses = isFill
+    ? 'object-cover transition-opacity duration-300'
+    : 'object-cover w-full h-full transition-opacity duration-300';
+
   return (
     <Image
       {...props}
@@ -50,10 +57,11 @@ export const ImageWithFallback = ({
       alt={props.alt || 'Minzifa Travel'}
       onError={handleError}
       loading={loading}
+      priority={priority}
       quality={quality}
       sizes={sizes}
       preload={preload}
-      className={cn('object-cover w-full h-full transition-opacity duration-300', props.className)}
+      className={cn(defaultClasses, props.className)}
     />
   );
 };

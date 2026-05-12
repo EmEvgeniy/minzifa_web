@@ -6,7 +6,7 @@ import { Input } from '@/components/UI/Form';
 import Loader from '@/components/UI/Loader/Loader';
 import { ITourist, useAuthStore } from '@/store';
 import { useSnackStore } from '@/store/useSnackStore';
-import { authAxiosInstance } from '@/utils/axios';
+import { authApi } from '@/utils/http';
 import { ProfileEditFormType, profileEditSchema } from '@/validation/profileEditSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
@@ -39,6 +39,7 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
     });
 
     const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+    const [isDeletingAvatar, setIsDeletingAvatar] = useState(false);
     const [avatarError, setAvatarError] = useState<string | undefined>();
 
     const { mutate } = usePatchMutation<ProfileUpdateResponse, ProfileEditFormType>(
@@ -62,20 +63,37 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
             const formData = new FormData();
             formData.append('avatar', file);
 
-            const { data } = await authAxiosInstance.post('/auth/avatar/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            const response = await authApi<{ user: ITourist }>('/auth/avatar/upload', {
+                method: 'POST',
+                body: formData,
             });
 
-            // Update user data with new avatar
-            if (data.user) {
-                setUser(data.user);
+            if (response.user) {
+                setUser(response.user);
             }
         } catch {
             setAvatarError(t('profile.avatarUploadError') || 'Ошибка загрузки аватара');
         } finally {
             setIsUploadingAvatar(false);
+        }
+    };
+
+    const handleAvatarDelete = async () => {
+        setIsDeletingAvatar(true);
+        setAvatarError(undefined);
+
+        try {
+            const response = await authApi<{ user: ITourist }>('/auth/avatar/delete', {
+                method: 'DELETE',
+            });
+
+            if (response.user) {
+                setUser(response.user);
+            }
+        } catch {
+            setAvatarError(t('profile.avatarDeleteError') || 'Ошибка удаления аватара');
+        } finally {
+            setIsDeletingAvatar(false);
         }
     };
 
@@ -92,7 +110,8 @@ export const GeneralInfoTab = ({ onSuccess, onCancel, user }: GeneralInfoTabProp
                 <AvatarUpload
                     user={user!}
                     onUpload={handleAvatarUpload}
-                    isUploading={isUploadingAvatar}
+                    onDelete={handleAvatarDelete}
+                    isUploading={isUploadingAvatar || isDeletingAvatar}
                     error={avatarError}
                 />
             </div>

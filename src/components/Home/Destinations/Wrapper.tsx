@@ -31,10 +31,10 @@ export default function Wrapper({ data, locale }: { data: DestinationCard[]; loc
             <ImageWithFallback
               src={slide?.media?.file as string}
               alt={slide?.media?.alt_text || ''}
-              width={200}
-              height={200}
+              width={0}
+              height={0}
               sizes="(max-width: 768px) 90vw, (max-width: 1024px) 50vw, 200px"
-              className="aspect-[3/3.46] object-cover"
+              className="aspect-[3/3.46] object-cover w-full h-full"
             />
             <div className="absolute inset-0 bg-black/30 z-0" />
 

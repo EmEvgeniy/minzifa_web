@@ -25,7 +25,7 @@ export const Order = () => {
 
     const { data: form, isFetched, isLoading } = useAuthGetQuery<IBookingForm>({
         key: ['form', params.id as string],
-        url: `auth/forms/${params.id as string}`,
+        url: `auth/orders/${params.id as string}`,
         withLocale: false,
     });
 
@@ -48,13 +48,13 @@ export const Order = () => {
         setIsGeneratingPaymentUrl(true);
         paymentUrlMutation.mutate({
             obj: { type: 'deposit' },
-            endpoint: `auth/forms/${params.id}/payment-url`,
+            endpoint: `auth/orders/${params.id}/payment-url`,
         });
     };
 
     if (isLoading) {
         return (
-            <div className="container mt-[200px] mb-[50px] mx-auto h-[calc(100vh-200px-50px)] flex items-center justify-center">
+            <div className="container mb-[50px] mx-auto h-[calc(100vh-200px-50px)] flex items-center justify-center">
                 <Loader />
             </div>
         )
@@ -109,7 +109,7 @@ export const Order = () => {
     })();
 
     return isFetched && form && (
-        <div className="container mx-auto mt-[150px] md:mt-[200px] mb-[50px] px-4">
+        <div className="container mx-auto mb-[50px] px-4 py-8">
             {/* Кнопка назад */}
             <div className="mb-6">
                 <Button

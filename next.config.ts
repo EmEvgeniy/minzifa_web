@@ -8,12 +8,14 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ['minzifatravel.com'],
   experimental: {
     useCache: true,
     inlineCss: true,
   },
   images: {
     unoptimized: process.env.NODE_ENV === 'development',
+    qualities: [70, 75, 85, 100],
     remotePatterns: [
       {
         protocol: 'https',
@@ -26,24 +28,6 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'placehold.co',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '8081',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-      },
-      {
-        protocol: 'http',
-        hostname: '127.0.0.1',
-        port: '8081',
-      },
-      {
-        protocol: 'http',
-        hostname: '127.0.0.1',
       },
       {
         protocol: 'https',
@@ -63,12 +47,37 @@ const nextConfig: NextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   async rewrites() {
-    return [
+    const rewrites = [
       {
         source: '/.well-known/:path*',
         destination: '/404',
       },
     ];
+
+    if (process.env.NODE_ENV === 'development') {
+      const apiTarget = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+      rewrites.push(
+        {
+          source: '/auth/:path*',
+          destination: `${apiTarget}/auth/:path*`,
+        },
+        {
+          source: '/api/:path*',
+          destination: `${apiTarget}/api/:path*`,
+        },
+        {
+          source: '/sanctum/:path*',
+          destination: `${apiTarget}/sanctum/:path*`,
+        },
+        {
+          source: '/storage/:path*',
+          destination: `${apiTarget}/storage/:path*`,
+        },
+      );
+    }
+
+    return rewrites;
   },
 };
 

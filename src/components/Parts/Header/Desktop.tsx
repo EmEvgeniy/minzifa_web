@@ -25,7 +25,7 @@ export default function Desktop({ locale }: { locale: string }) {
           <Nav menu={navItems} locale={locale} />
         </NavWrapper>
 
-        <Logo locale={locale} alt={'Minzifa Travel'} width={222} height={34} />
+        <Logo locale={locale} alt={'Minzifa Travel'} width={222} height={34} priority />
 
         <div className="flex flex-row items-center justify-end w-full">
           <Button

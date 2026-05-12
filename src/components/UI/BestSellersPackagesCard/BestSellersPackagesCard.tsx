@@ -29,8 +29,8 @@ export default function BestSellersPackagesCard({ tour, locale }: Props) {
           <ImageWithFallback
             src={tour?.photo?.file as string}
             alt={tour?.photo?.alt_text || tour?.name || 'Minzifa Travel'}
-            width={400}
-            height={270}
+            width={0}
+            height={0}
             sizes="(max-width: 768px) 300px, (max-width: 1024px) 400px, 400px"
             className="w-[300px] h-[200px] lg:w-[400px] lg:h-[270px] rounded-[12px] overflow-hidden"
           />

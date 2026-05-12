@@ -1634,9 +1634,11 @@
     "cancelled": "Cancelled"
   },
   "paymentMethods": {
+    "bank": "Bank",
     "bank_transfer": "Bank transfer",
     "cash": "Cash",
     "credit_card": "Credit card",
+    "online": "Online",
     "stripe": "Stripe",
     "paypal": "PayPal"
   },

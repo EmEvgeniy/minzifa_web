@@ -25,8 +25,8 @@ export default function AdventureCard({ type, locale, className }: Props) {
         <ImageWithFallback
           src={type?.media?.file as string}
           alt={type?.media?.alt_text || 'adventure'}
-          width={400}
-          height={300}
+          width={0}
+          height={0}
           sizes="(max-width: 768px) 40vw, (max-width: 1024px) 30vw, 400px"
           className="aspect-3/4 lg:aspect-[3/2.18] object-cover"
         />

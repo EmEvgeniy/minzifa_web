@@ -1,7 +1,7 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { FetchError } from 'ofetch';
 import { getApiUrl } from '@/utils/config';
-import { axiosInstance, authAxiosInstance } from '@/utils/axios';
+import { api, authApi } from '@/utils/http';
 
 interface MutationParams<T> {
   obj: T;
@@ -11,7 +11,7 @@ interface MutationParams<T> {
 export function usePatchMutation<
   TData = unknown,
   TVariables = Record<string, unknown>,
-  TError = AxiosError,
+  TError = FetchError,
 >(
   key: (string | number)[],
   onSuccessCallback?: (data: TData) => void,
@@ -21,15 +21,7 @@ export function usePatchMutation<
     mutationKey: [...key],
     mutationFn: async ({ obj, endpoint }) => {
       const url = getApiUrl(endpoint);
-      try {
-        const response = await axiosInstance.patch<TData>(url, {
-          ...obj,
-        });
-        return response.data;
-      } catch (error) {
-        console.error('Patch request failed:', error);
-        throw error;
-      }
+      return api<TData>(url, { method: 'PATCH', body: obj as Record<string, unknown> });
     },
     onSuccess: (data) => {
       onSuccessCallback?.(data);
@@ -43,7 +35,7 @@ export function usePatchMutation<
 export function useAuthPatchMutation<
   TData = unknown,
   TVariables = Record<string, unknown>,
-  TError = AxiosError,
+  TError = FetchError,
 >(
   key: (string | number)[],
   onSuccessCallback?: (data: TData) => void,
@@ -52,15 +44,7 @@ export function useAuthPatchMutation<
   return useMutation<TData, TError, MutationParams<TVariables>>({
     mutationKey: [...key],
     mutationFn: async ({ obj, endpoint }) => {
-      try {
-        const response = await authAxiosInstance.patch<TData>(endpoint, {
-          ...obj,
-        });
-        return response.data;
-      } catch (error) {
-        console.error('Patch request failed:', error);
-        throw error;
-      }
+      return authApi<TData>(endpoint, { method: 'PATCH', body: obj as Record<string, unknown> });
     },
     onSuccess: (data) => {
       onSuccessCallback?.(data);

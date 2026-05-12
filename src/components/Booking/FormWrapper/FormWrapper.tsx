@@ -2,7 +2,7 @@
 
 import { Tour } from '@/components/Tour/_types';
 import { useFormSubmit } from '@/hooks';
-import { axiosInstance } from '@/utils/axios';
+import { useRecaptcha } from '@/hooks/useRecaptcha';
 import { useAuthStore, useMetricsStore } from '@/store';
 import { useSnackStore } from '@/store/useSnackStore';
 import { bookingFormSchema, BookingFormType } from '@/validation/bookingFormSchema';
@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Travellers from '../Travellers/Travellers';
 import RoomTypes from '../RoomTypes/RoomTypes';
 import Passengers from '../Passengers/Passengers';
@@ -34,6 +34,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
   const { user, isAuthenticated } = useAuthStore();
   const { metrics } = useMetricsStore();
   const { setMessage, setError } = useSnackStore();
+  const { getToken, token } = useRecaptcha();
 
   const defaultPassengers =
     user?.name || user?.email || user?.phone
@@ -147,15 +148,15 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
     setValue,
   ]);
 
-  const [isRedirecting, setIsRedirecting] = useState(false);
-
   const { submitForm, isSubmitting: isSubmitting } = useFormSubmit({
     onError: () => {
       setError(locale == 'en' ? 'Some error was happened' : 'Произошла ошибка');
     },
   });
 
-  const isLoading = isSubmitting || isRedirecting;
+  const isLoading = isSubmitting;
+
+  const handleRecaptcha = async () => await getToken(FormNameEnum.BOOKING);
 
   const onSubmit = async (data: BookingFormType) => {
     const formData = {
@@ -163,45 +164,18 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
       tour_start: dayjs(data.tour_start).format('YYYY-MM-DD'),
       tour_end: dayjs(data.tour_end).format('YYYY-MM-DD'),
       ...metrics,
+      recaptchaToken: token,
     };
 
     const result = await submitForm(FormNameEnum.BOOKING, formData);
 
-    // online - переход на страницу оплаты (undefined тоже = online, т.к. это дефолт)
-    // bank_transfer / on_spot - переход на thank-you
+    // online — редирект на внешнюю страницу оплаты
+    // bank_transfer / on_spot — переход на thank-you
     const isOnlinePayment = !data.payment_type || data.payment_type === 'online';
-    if (isOnlinePayment && result.form_id) {
-      setIsRedirecting(true);
-      try {
-        const paymentResponse = await axiosInstance.post(`forms/${result.form_id}/payment-url`, {
-          type: 'deposit',
-        });
-
-        if (!paymentResponse.data?.success) {
-          setIsRedirecting(false);
-          router.push(`/${locale}/thank-you`);
-          return;
-        }
-
-        const paymentUrl =
-          paymentResponse.data?.data?.payment_url || paymentResponse.data?.payment_url;
-
-        if (paymentUrl) {
-          // Редирект на внешнюю страницу оплаты — лоадер остаётся до ухода со страницы
-          setMessage(locale == 'en' ? 'Redirecting to payment...' : 'Перенаправление на оплату...');
-          window.location.href = paymentUrl;
-          return;
-        }
-
-        setIsRedirecting(false);
-        router.push(`/${locale}/thank-you`);
-        return;
-      } catch (paymentError) {
-        console.error('Payment generation failed:', paymentError);
-        setIsRedirecting(false);
-        router.push(`/${locale}/thank-you`);
-        return;
-      }
+    if (isOnlinePayment && result.payment_url) {
+      setMessage(locale == 'en' ? 'Redirecting to payment...' : 'Перенаправление на оплату...');
+      window.location.href = result.payment_url;
+      return;
     }
 
     // Переход на thank-you если НЕ выбрана онлайн-оплата
@@ -233,7 +207,7 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
           <Travellers bookingData={bookingData} setValue={setValue} />
           <RoomTypes bookingData={bookingData} setValue={setValue} />
           <Passengers bookingData={bookingData} errors={errors} control={control} />
-          <BookingSubmit />
+          <BookingSubmit token={token} handleRecaptcha={handleRecaptcha} />
         </div>
 
         <div className="w-full max-w-[450px] h-screen max-[1024px]:w-full max-[1024px]:h-full">
@@ -242,6 +216,8 @@ export default function FormWrapper({ locale, tourData }: FormWrapperProps) {
             tour={tourData}
             setValue={setValue}
             isSubmitting={isLoading}
+            token={token}
+            handleRecaptcha={handleRecaptcha}
           />
         </div>
       </div>

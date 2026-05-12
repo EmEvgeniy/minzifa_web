@@ -33,6 +33,7 @@ export default function HeroSlider({ banners }: { banners: Banner[] }) {
               alt={slide?.media?.alt_text as string}
               fill
               sizes="100vw"
+              priority={index === 0}
               className="object-cover"
             />
             <div className="bg-linear-to-t from-black to-black/0 to-50% w-full h-full absolute left-0 bottom-0 z-10" />

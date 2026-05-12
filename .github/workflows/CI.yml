@@ -9,7 +9,6 @@ env:
   NEXT_PUBLIC_API_URL: 'https://api.minzifatravel.com'
   NEXT_PUBLIC_ARTICLES_API_URL: 'https://articles.minzifatravel.com'
 
-  NEXT_PUBLIC_CENTRIFUGE_URL: 'wss://centrifugo.minzifatravel.com/connection/websocket'
   NEXT_PUBLIC_GOOGLE_CAPTCHA_KEY: '6LdlmvUrAAAAANvBU2OVEgyM7bHRwLCb-39VU5-z'
   NEXT_PUBLIC_GOOGLE_CLIENT_ID: '318070515673-49vkq4lf8g8cn7dktg00md7ap5ms5v33.apps.googleusercontent.com'
 

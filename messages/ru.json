@@ -1667,9 +1667,11 @@
     "cancelled": "Отменен"
   },
   "paymentMethods": {
+    "bank": "Банк",
     "bank_transfer": "Банковский перевод",
     "cash": "Наличные",
     "credit_card": "Банковская карта",
+    "online": "Онлайн",
     "stripe": "Stripe",
     "paypal": "PayPal"
   },
