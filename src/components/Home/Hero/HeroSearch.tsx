@@ -378,8 +378,8 @@ export default function HeroSearch({ data }: { data: DestinationCard[] }) {
             selectsRange
             startDate={startDate}
             endDate={endDate}
-            onChange={(dates) =>
-              setFormData((prev) => ({ ...prev, dateRange: dates as [Date | null, Date | null] }))
+            onChange={(dates: [Date | null, Date | null] | null) =>
+              setFormData((prev) => ({ ...prev, dateRange: dates ?? [null, null] }))
             }
             minDate={new Date()}
             monthsShown={2}

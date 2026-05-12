@@ -162,13 +162,12 @@ export const Content = ({ tour }: { tour: Tour }) => {
                   selectsRange
                   startDate={field.value?.[0]}
                   endDate={field.value?.[1]}
-                  onChange={(newValue) => {
-                    let modifiedValue = newValue;
-                    if (newValue && newValue[0] && !newValue[1] && tour?.days) {
-                      const startDate = newValue[0];
-                      const endDate = calculateEndDate(startDate, tour.days);
-                      modifiedValue = [startDate, endDate];
-                    }
+                  onChange={(newValue: [Date | null, Date | null] | null) => {
+                    const modifiedValue: [Date | null, Date | null] | undefined = newValue == null
+                      ? undefined
+                      : newValue[0] && !newValue[1] && tour?.days
+                        ? [newValue[0], calculateEndDate(newValue[0], tour.days)]
+                        : newValue;
                     field.onChange(modifiedValue);
                     setFormData(prev => ({ ...prev, dates: modifiedValue }));
                   }}

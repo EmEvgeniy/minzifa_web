@@ -18,13 +18,13 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
   const { formData, setFormData, setPopup } = usePrivateTourFormStore();
   const { isAuthenticated, setAuthPopup } = useAuthStore();
 
-  const handleDateChange = (newValue: [Date | null, Date | null], days: number) => {
-    if (newValue && newValue[0] && !newValue[1] && days) {
+  const handleDateChange = (newValue: [Date | null, Date | null] | null, days: number) => {
+    if (newValue?.[0] && !newValue[1] && days) {
       const startDate = newValue[0];
       const endDate = calculateEndDate(startDate, days);
 
       setFormData(prev => ({ ...prev, dates: [startDate, endDate] }));
-    } else {
+    } else if (newValue) {
       setFormData(prev => ({ ...prev, dates: newValue }));
     }
   };
@@ -44,7 +44,7 @@ export default function TourIndividualPrice({ tour }: { tour: Tour }) {
         <CustomDatepicker
           startDate={formData.dates[0]}
           endDate={formData.dates[1]}
-          onChange={(values) => handleDateChange(values, tour?.days)}
+          onChange={(values: [Date | null, Date | null] | null) => handleDateChange(values, tour?.days)}
           locale={locale}
           inline
           monthsShown={isMobile ? 1 : 2}

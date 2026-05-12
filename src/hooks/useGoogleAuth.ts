@@ -38,7 +38,7 @@ export function useGoogleAuth() {
         throw new Error('Не удалось открыть окно авторизации');
       }
 
-      return new Promise<ITourist>(async (resolve, reject) => {
+      return new Promise<ITourist>((resolve, reject) => {
         const handleMessage = async (event: MessageEvent) => {
           if (event.origin !== window.location.origin) return;
 
@@ -51,6 +51,7 @@ export function useGoogleAuth() {
               setIsLoading(false);
               resolve(user);
             } catch (err) {
+              console.log(err);
               setIsLoading(false);
               reject(new Error('Failed to fetch user data'));
             }
